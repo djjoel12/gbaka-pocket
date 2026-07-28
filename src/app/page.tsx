@@ -1,10 +1,33 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 
+const TransportMap = dynamic(
+  () => import("@/components/map/TransportMap"),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[400px] items-center justify-center rounded-2xl bg-gray-200">
+        <p className="text-sm text-gray-500">
+          Chargement de la carte...
+        </p>
+      </div>
+    ),
+  }
+);
+type GPSPoint = {
+  latitude: number;
+  longitude: number;
+  accuracy: number;
+  speed: number | null;
+  timestamp: number;
+};
+
 export default function Home() {
   const [route, setRoute] = useState("");
+  const [points, setPoints] = useState<GPSPoint[]>([]);
 
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-6">
@@ -58,9 +81,16 @@ export default function Home() {
           </select>
         </section>
 
+        {/* Carte */}
+        <section className="mb-4">
+          <TransportMap points={points} />
+        </section>
+
         {/* GPS */}
         {route ? (
-          <GpsRecorder />
+          <GpsRecorder
+            onPointsChange={setPoints}
+          />
         ) : (
           <div className="rounded-2xl bg-white p-5 text-center text-sm text-gray-500 shadow-sm">
             Sélectionnez une ligne pour commencer
