@@ -5,6 +5,7 @@ import {
   TileLayer,
   Marker,
   Polyline,
+  useMap,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -38,6 +39,20 @@ const defaultIcon = L.icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
+
+function MapFollower({
+  position,
+}: {
+  position: [number, number];
+}) {
+  const map = useMap();
+
+  map.setView(position, map.getZoom(), {
+    animate: true,
+  });
+
+  return null;
+}
 
 export default function TransportMap({
   points,
@@ -74,6 +89,8 @@ export default function TransportMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        <MapFollower position={currentPosition} />
+
         {lastPoint && (
           <Marker
             position={currentPosition}
@@ -86,6 +103,8 @@ export default function TransportMap({
             positions={routePositions}
           />
         )}
+
+        <MapFollower position={currentPosition} />
       </MapContainer>
     </div>
   );
