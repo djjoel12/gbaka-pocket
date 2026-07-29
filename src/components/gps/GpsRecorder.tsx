@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Dispatch, SetStateAction } from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -11,18 +11,24 @@ type GPSPoint = {
 };
 
 type GpsRecorderProps = {
+  status?: "idle" | "recording" | "paused";
+  setStatus?: Dispatch<SetStateAction<"idle" | "recording" | "paused">>;
   onPointsChange?: (points: GPSPoint[]) => void;
 };
 
 export default function GpsRecorder({
+  status = "idle",
+  setStatus,
   onPointsChange,
 }: GpsRecorderProps) {
-  const [isRecording, setIsRecording] = useState(false);
+  // derive recording state from the status prop
+  const isRecording = status === "recording";
+
   const [gpsStatus, setGpsStatus] = useState("En attente");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [error, setError] = useState("");
   const latestPoint = points[points.length - 1];
-  
+
   const watchIdRef = useRef<number | null>(null);
 
   const startRecording = () => {
@@ -39,7 +45,8 @@ export default function GpsRecorder({
 
     navigator.geolocation.getCurrentPosition(
       () => {
-        setIsRecording(true);
+        // Use the provided setStatus if available so the parent knows we're recording
+        setStatus?.("recording");
         setGpsStatus("Enregistrement en cours");
 
         const watchId = navigator.geolocation.watchPosition(
@@ -121,7 +128,8 @@ export default function GpsRecorder({
       watchIdRef.current = null;
     }
 
-    setIsRecording(false);
+    // Inform parent that recording stopped
+    setStatus?.("paused");
     setGpsStatus("Trajet terminé");
   };
 
@@ -171,7 +179,7 @@ export default function GpsRecorder({
       {!isRecording ? (
         <button
           onClick={startRecording}
-          className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-blue-600/40 active:scale-[0.98]"
+          className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02][...]"
         >
           <span className="flex items-center justify-center gap-2">
             <span className="text-xl">📍</span>
@@ -181,7 +189,7 @@ export default function GpsRecorder({
       ) : (
         <button
           onClick={stopRecording}
-          className="group w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-red-600/40 active:scale-[0.98]"
+          className="group w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-[1.02] ho[...]"
         >
           <span className="flex items-center justify-center gap-2">
             <span className="text-xl">⏹</span>
