@@ -206,4 +206,4 @@ onPointsChange={setPoints}
 
 );
 
-} ,,,  regarde si tout est bon
+} 
