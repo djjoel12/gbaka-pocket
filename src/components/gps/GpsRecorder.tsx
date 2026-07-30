@@ -16,7 +16,7 @@ type GpsRecorderProps = {
   onPointsChange?: (points: GPSPoint[]) => void;
 };
 
-// ---- Fonction de calcul de distance (AJOUTÉE) ----
+// ---- Fonction de calcul de distance ----
 function calculateDistance(
   lat1: number,
   lon1: number,
@@ -69,13 +69,13 @@ export default function GpsRecorder({
 
     navigator.geolocation.getCurrentPosition(
       () => {
-        // Use the provided setStatus if available so the parent knows we're recording
         setStatus?.("recording");
         setGpsStatus("Enregistrement en cours");
 
         const watchId = navigator.geolocation.watchPosition(
           (position) => {
-            if (position.coords.accuracy > 100) {
+            // ---- FILTRE PRÉCISION (abaissé à 50m) ----
+            if (position.coords.accuracy > 50) {
               console.log(`Point ignoré - précision: ${position.coords.accuracy}m`);
               return;
             }
@@ -88,10 +88,17 @@ export default function GpsRecorder({
               timestamp: position.timestamp,
             };
 
-            // ----- NOUVELLE LOGIQUE AVEC FILTRE DE DISTANCE -----
+            // ---- FILTRE VITESSE (max 40 m/s ≈ 144 km/h) ----
+            if (newPoint.speed !== null && newPoint.speed > 40) {
+              console.log(`Point ignoré - vitesse excessive: ${newPoint.speed} m/s`);
+              return;
+            }
+
+            // ---- MISE À JOUR DES POINTS AVEC DISTANCE + LISSAGE ----
             setPoints((previousPoints) => {
               const lastPoint = previousPoints[previousPoints.length - 1];
 
+              // Filtre de distance minimale (10m)
               if (lastPoint) {
                 const distance = calculateDistance(
                   lastPoint.latitude,
@@ -100,7 +107,7 @@ export default function GpsRecorder({
                   newPoint.longitude
                 );
 
-                if (distance < 5) {
+                if (distance < 10) {
                   console.log(
                     `Point ignoré : déplacement ${distance.toFixed(1)}m`
                   );
@@ -108,11 +115,26 @@ export default function GpsRecorder({
                 }
               }
 
-              const updatedPoints = [...previousPoints, newPoint];
+              // Ajout du nouveau point
+              let updatedPoints = [...previousPoints, newPoint];
+
+              // ---- LISSAGE PAR MOYENNE MOBILE (3 derniers points) ----
+              if (updatedPoints.length >= 3) {
+                const last3 = updatedPoints.slice(-3);
+                const avgLat = last3.reduce((s, p) => s + p.latitude, 0) / 3;
+                const avgLng = last3.reduce((s, p) => s + p.longitude, 0) / 3;
+                // On remplace le dernier point par la moyenne
+                const smoothed = {
+                  ...newPoint,
+                  latitude: avgLat,
+                  longitude: avgLng,
+                };
+                updatedPoints[updatedPoints.length - 1] = smoothed;
+              }
+
               onPointsChange?.(updatedPoints);
               return updatedPoints;
             });
-            // ----- FIN DE LA NOUVELLE LOGIQUE -----
           },
           (error) => {
             console.error("Erreur GPS :", error);
@@ -167,7 +189,6 @@ export default function GpsRecorder({
       watchIdRef.current = null;
     }
 
-    // Inform parent that recording stopped
     setStatus?.("paused");
     setGpsStatus("Trajet terminé");
   };
@@ -218,7 +239,7 @@ export default function GpsRecorder({
       {!isRecording ? (
         <button
           onClick={startRecording}
-          className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02][...]"
+          className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02]"
         >
           <span className="flex items-center justify-center gap-2">
             <span className="text-xl">📍</span>
@@ -228,7 +249,7 @@ export default function GpsRecorder({
       ) : (
         <button
           onClick={stopRecording}
-          className="group w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-[1.02] ho[...]"
+          className="group w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-[1.02]"
         >
           <span className="flex items-center justify-center gap-2">
             <span className="text-xl">⏹</span>
@@ -352,4 +373,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-    }
+      }
