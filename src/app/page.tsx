@@ -34,16 +34,17 @@ export default function Home() {
       {/* Carte en plein écran */}
       <TransportMap points={points} status={status} />
 
-      {/* Overlay des contrôles */}
+      {/* Overlay des contrôles - positionné par-dessus */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="pointer-events-auto mx-auto max-w-md px-4 py-6 h-full flex flex-col justify-between">
-          {/* En-tête */}
+          {/* En-tête compact */}
           <div className="text-center">
             <div className="inline-block rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white/90 tracking-wider border border-white/10">
               🚍 TRANSPORTTICKET.CI
             </div>
           </div>
 
+          {/* Zone du milieu (sélecteur + carte déjà en fond) */}
           <div className="flex-1" />
 
           {/* Panneau inférieur */}
