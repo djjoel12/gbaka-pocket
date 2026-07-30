@@ -23,7 +23,6 @@ type GpsRecorderProps = {
   onPointsChange?: (points: GPSPoint[]) => void;
 };
 
-// ---- FONCTION DE CALCUL DE DISTANCE ----
 function calculateDistance(
   lat1: number,
   lon1: number,
@@ -42,7 +41,6 @@ function calculateDistance(
   return R * c;
 }
 
-// ---- RÉCUPÉRATION DE L'ADRESSE (OpenStreetMap) ----
 async function fetchAddress(lat: number, lon: number) {
   try {
     const res = await fetch(
@@ -85,6 +83,9 @@ export default function GpsRecorder({
       return;
     }
 
+    setPoints([]);
+    onPointsChange?.([]);
+
     setGpsStatus("Recherche de votre position...");
 
     navigator.geolocation.getCurrentPosition(
@@ -94,7 +95,6 @@ export default function GpsRecorder({
 
         const watchId = navigator.geolocation.watchPosition(
           (position) => {
-            // Filtre précision (50m)
             if (position.coords.accuracy > 50) {
               console.log(`Point ignoré - précision: ${position.coords.accuracy}m`);
               return;
@@ -108,7 +108,6 @@ export default function GpsRecorder({
               timestamp: position.timestamp,
             };
 
-            // Filtre vitesse (max 40 m/s)
             if (newPoint.speed !== null && newPoint.speed > 40) {
               console.log(`Point ignoré - vitesse excessive: ${newPoint.speed} m/s`);
               return;
@@ -132,7 +131,6 @@ export default function GpsRecorder({
 
               let updatedPoints = [...previousPoints, newPoint];
 
-              // Lissage par moyenne mobile (3 derniers points)
               if (updatedPoints.length >= 3) {
                 const last3 = updatedPoints.slice(-3);
                 const avgLat = last3.reduce((s, p) => s + p.latitude, 0) / 3;
@@ -145,7 +143,6 @@ export default function GpsRecorder({
                 updatedPoints[updatedPoints.length - 1] = smoothed;
               }
 
-              // Récupération de l'adresse en arrière-plan
               const lastAdded = updatedPoints[updatedPoints.length - 1];
               if (lastAdded) {
                 fetchAddress(lastAdded.latitude, lastAdded.longitude)
@@ -209,8 +206,6 @@ export default function GpsRecorder({
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
-
-    // ---- CORRECTION : "idle" au lieu de "paused" ----
     setStatus?.("idle");
     setGpsStatus("Trajet terminé");
   };
@@ -225,7 +220,6 @@ export default function GpsRecorder({
 
   return (
     <div className="max-w-md mx-auto space-y-4 p-4">
-      {/* Statut GPS */}
       <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -242,7 +236,6 @@ export default function GpsRecorder({
         </div>
       </div>
 
-      {/* Erreur */}
       {error && (
         <div className="rounded-2xl bg-red-50/80 backdrop-blur-sm p-4 text-sm text-red-700 border border-red-200/50 shadow-sm animate-in slide-in-from-top-2">
           <div className="flex items-center gap-2">
@@ -252,7 +245,6 @@ export default function GpsRecorder({
         </div>
       )}
 
-      {/* Boutons */}
       {!isRecording ? (
         <button
           onClick={startRecording}
@@ -275,7 +267,6 @@ export default function GpsRecorder({
         </button>
       )}
 
-      {/* Informations GPS */}
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-4 shadow-lg border border-gray-100/50 transition-all duration-300 hover:shadow-xl">
           <div className="flex items-center gap-2">
@@ -304,7 +295,6 @@ export default function GpsRecorder({
         </div>
       </div>
 
-      {/* Dernière position GPS avec adresse */}
       {latestPoint && (
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
           <div className="flex items-center gap-2 mb-4">
@@ -388,4 +378,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-}
+              }
