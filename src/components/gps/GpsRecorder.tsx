@@ -361,4 +361,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-                }
+    }
