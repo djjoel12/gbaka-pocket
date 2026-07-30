@@ -5,7 +5,7 @@ import {
   TileLayer,
   Marker,
   Polyline,
-  useMap, // 👈 import ajouté
+  useMap,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -40,7 +40,6 @@ const defaultIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// 👇 Nouveau composant pour suivre la position
 function MapFollower({
   position,
 }: {
@@ -48,7 +47,6 @@ function MapFollower({
 }) {
   const map = useMap();
 
-  // Déplace la vue vers la nouvelle position avec animation
   map.setView(position, map.getZoom(), {
     animate: true,
   });
@@ -91,7 +89,6 @@ export default function TransportMap({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* 👇 Le suiveur est ajouté ici */}
         <MapFollower position={currentPosition} />
 
         {lastPoint && (
@@ -101,10 +98,30 @@ export default function TransportMap({
           />
         )}
 
+        {/* ---------- POLYLINE AMÉLIORÉE ---------- */}
         {routePositions.length > 1 && (
-          <Polyline
-            positions={routePositions}
-          />
+          <>
+            {/* Ombre blanche pour contraste */}
+            <Polyline
+              positions={routePositions}
+              pathOptions={{
+                color: "white",
+                weight: 10,
+                opacity: 0.6,
+                lineJoin: "round",
+              }}
+            />
+            {/* Ligne principale bleue */}
+            <Polyline
+              positions={routePositions}
+              pathOptions={{
+                color: "#2563eb",
+                weight: 5,
+                opacity: 1,
+                lineJoin: "round",
+              }}
+            />
+          </>
         )}
       </MapContainer>
     </div>
