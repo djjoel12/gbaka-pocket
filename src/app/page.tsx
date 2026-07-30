@@ -16,7 +16,6 @@ const TransportMap = dynamic(
   }
 );
 
-
 type GPSPoint = {
   latitude: number;
   longitude: number;
@@ -29,41 +28,50 @@ export default function Home() {
   const [route, setRoute] = useState("");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="flex h-screen flex-col bg-white relative">
-      {/* Carte */}
+      {/* Carte en arrière-plan */}
       <div className="flex-1 min-h-0">
         <TransportMap points={points} status={status} />
       </div>
 
-      {/* Panneau coulissant avec hauteur minimale = 10% */}
+      {/* Panneau accordéon */}
       <div
         className={`absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm rounded-t-3xl shadow-2xl border-t border-gray-200/80 transition-all duration-500 ease-in-out ${
-          isPanelOpen ? 'h-[80vh]' : 'h-[10vh]'
+          isOpen ? 'h-[70vh]' : 'h-[10vh]'
         }`}
       >
-        {/* Poignée */}
-        <div
-          className="flex justify-center items-center h-10 cursor-pointer select-none"
-          onClick={() => setIsPanelOpen(!isPanelOpen)}
-        >
-          <div className="w-12 h-1.5 bg-gray-400 rounded-full hover:bg-gray-500 transition" />
+        {/* Barre de contrôle (toujours visible) */}
+        <div className="flex items-center justify-between px-4 h-12 border-b border-gray-200/50">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🚍</span>
+            <span className="font-bold text-gray-800">TransportTicket.ci</span>
+          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-full hover:bg-gray-100 transition"
+          >
+            {isOpen ? (
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            )}
+          </button>
         </div>
 
-        {/* Contenu (visible seulement quand ouvert) */}
-        <div className={`px-4 pb-6 overflow-y-auto ${isPanelOpen ? 'h-[calc(100%-40px)]' : 'h-0 opacity-0'} transition-opacity duration-300`}>
-          <div className="max-w-lg mx-auto space-y-4">
-            {/* En-tête */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl">🚍</span>
-                <span className="font-bold text-gray-800">TransportTicket.ci</span>
-              </div>
-              <span className="text-xs font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Collecte</span>
-            </div>
-
+        {/* Contenu (visible seulement si ouvert) */}
+        <div
+          className={`overflow-y-auto px-4 pb-6 transition-opacity duration-300 ${
+            isOpen ? 'h-[calc(100%-3rem)] opacity-100' : 'h-0 opacity-0'
+          }`}
+        >
+          <div className="max-w-lg mx-auto space-y-4 pt-4">
             {/* Sélection de ligne */}
             <div>
               <label htmlFor="route" className="block text-sm font-medium text-gray-700 mb-1">
@@ -96,4 +104,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
+                }
