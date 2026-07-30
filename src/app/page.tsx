@@ -32,7 +32,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-6">
       <div className="mx-auto max-w-lg">
-        {/* En-tête amélioré */}
         <header className="mb-6 text-center">
           <div className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold text-blue-700 tracking-wider">
             🚍 TRANSPORTTICKET.CI
@@ -45,7 +44,6 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Sélection de ligne améliorée */}
         <section className="mb-4 rounded-2xl bg-white p-5 shadow-md border border-gray-100">
           <label htmlFor="route" className="mb-2 block text-sm font-semibold text-gray-700">
             Sélectionner une ligne
@@ -63,12 +61,11 @@ export default function Home() {
           </select>
         </section>
 
-        {/* Carte agrandie */}
+        {/* Carte avec le status */}
         <section className="mb-4">
-          <TransportMap points={points} />
+          <TransportMap points={points} status={status} />
         </section>
 
-        {/* GPS */}
         {route ? (
           <div className="rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 p-4">
             <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
@@ -82,4 +79,4 @@ export default function Home() {
       </div>
     </main>
   );
-      }
+}
