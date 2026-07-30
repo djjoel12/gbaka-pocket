@@ -9,7 +9,7 @@ const TransportMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[500px] items-center justify-center rounded-2xl bg-gray-200 animate-pulse">
+      <div className="h-screen w-full bg-gray-200 animate-pulse flex items-center justify-center">
         <p className="text-sm text-gray-500">Chargement de la carte...</p>
       </div>
     ),
@@ -30,52 +30,55 @@ export default function Home() {
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-6">
-      <div className="mx-auto max-w-lg">
-        <header className="mb-6 text-center">
-          <div className="inline-block rounded-full bg-blue-100 px-4 py-1.5 text-xs font-semibold text-blue-700 tracking-wider">
-            🚍 TRANSPORTTICKET.CI
-          </div>
-          <h1 className="mt-3 text-3xl font-extrabold text-gray-900">
-            Collecte de trajet
-          </h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Enregistrez le parcours réel d&apos;une ligne de transport
-          </p>
-        </header>
+    <main className="relative h-screen w-full overflow-hidden">
+      {/* Carte en plein écran */}
+      <TransportMap points={points} status={status} />
 
-        <section className="mb-4 rounded-2xl bg-white p-5 shadow-md border border-gray-100">
-          <label htmlFor="route" className="mb-2 block text-sm font-semibold text-gray-700">
-            Sélectionner une ligne
-          </label>
-          <select
-            id="route"
-            value={route}
-            onChange={(e) => setRoute(e.target.value)}
-            className="w-full rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-gray-900 outline-none transition focus:border-blue-400"
-          >
-            <option value="">Choisir une ligne</option>
-            <option value="yopougon-adjame">Yopougon Maroc → Adjamé</option>
-            <option value="abobo-adjame">Abobo → Adjamé</option>
-            <option value="cocody-plateau">Cocody → Plateau</option>
-          </select>
-        </section>
-
-        {/* Carte avec le status */}
-        <section className="mb-4">
-          <TransportMap points={points} status={status} />
-        </section>
-
-        {route ? (
-          <div className="rounded-2xl bg-white/90 backdrop-blur-sm shadow-md border border-gray-100 p-4">
-            <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
+      {/* Overlay des contrôles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="pointer-events-auto mx-auto max-w-md px-4 py-6 h-full flex flex-col justify-between">
+          {/* En-tête */}
+          <div className="text-center">
+            <div className="inline-block rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white/90 tracking-wider border border-white/10">
+              🚍 TRANSPORTTICKET.CI
+            </div>
           </div>
-        ) : (
-          <div className="rounded-2xl bg-white p-6 text-center text-sm text-gray-500 shadow-md border border-gray-100">
-            <span className="text-4xl block mb-2">📍</span>
-            Sélectionnez une ligne pour commencer l&apos;enregistrement.
+
+          <div className="flex-1" />
+
+          {/* Panneau inférieur */}
+          <div className="space-y-3">
+            {/* Sélection de ligne */}
+            <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
+              <label htmlFor="route" className="mb-1.5 block text-xs font-semibold text-white/80">
+                Ligne
+              </label>
+              <select
+                id="route"
+                value={route}
+                onChange={(e) => setRoute(e.target.value)}
+                className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-white text-sm outline-none focus:border-blue-400 transition"
+              >
+                <option value="" className="text-gray-900">Choisir une ligne</option>
+                <option value="yopougon-adjame" className="text-gray-900">Yopougon Maroc → Adjamé</option>
+                <option value="abobo-adjame" className="text-gray-900">Abobo → Adjamé</option>
+                <option value="cocody-plateau" className="text-gray-900">Cocody → Plateau</option>
+              </select>
+            </div>
+
+            {/* GPS Recorder */}
+            {route ? (
+              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
+                <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-5 text-center text-sm text-white/70 border border-white/10 shadow-2xl">
+                <span className="text-3xl block mb-1">📍</span>
+                Sélectionnez une ligne
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </main>
   );
