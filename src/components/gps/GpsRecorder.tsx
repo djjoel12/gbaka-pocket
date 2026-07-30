@@ -2,12 +2,20 @@
 
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from "react";
 
+// ---- Types enrichis avec adresse ----
 type GPSPoint = {
   latitude: number;
   longitude: number;
   accuracy: number;
   speed: number | null;
   timestamp: number;
+  address?: {
+    road?: string;
+    suburb?: string;
+    city?: string;
+    country?: string;
+    display_name?: string;
+  };
 };
 
 type GpsRecorderProps = {
@@ -16,7 +24,7 @@ type GpsRecorderProps = {
   onPointsChange?: (points: GPSPoint[]) => void;
 };
 
-// ---- Fonction de calcul de distance ----
+// ---- 1. FONCTION DE CALCUL DE DISTANCE ----
 function calculateDistance(
   lat1: number,
   lon1: number,
@@ -24,20 +32,34 @@ function calculateDistance(
   lon2: number
 ) {
   const R = 6371e3;
-
   const φ1 = (lat1 * Math.PI) / 180;
   const φ2 = (lat2 * Math.PI) / 180;
-
   const Δφ = ((lat2 - lat1) * Math.PI) / 180;
   const Δλ = ((lon2 - lon1) * Math.PI) / 180;
-
   const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-
+    Math.sin(Δφ / 2) ** 2 +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
   return R * c;
+}
+
+// ---- 2. RÉCUPÉRATION DU NOM DE LA RUE (OpenStreetMap) ----
+async function fetchAddress(lat: number, lon: number) {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=16&addressdetails=1`
+    );
+    const data = await res.json();
+    if (data && data.address) {
+      const { road, suburb, city, country } = data.address;
+      const display_name = data.display_name || "";
+      return { road, suburb, city, country, display_name };
+    }
+    return null;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'adresse :", error);
+    return null;
+  }
 }
 
 export default function GpsRecorder({
@@ -45,7 +67,6 @@ export default function GpsRecorder({
   setStatus,
   onPointsChange,
 }: GpsRecorderProps) {
-  // derive recording state from the status prop
   const isRecording = status === "recording";
 
   const [gpsStatus, setGpsStatus] = useState("En attente");
@@ -74,7 +95,7 @@ export default function GpsRecorder({
 
         const watchId = navigator.geolocation.watchPosition(
           (position) => {
-            // ---- FILTRE PRÉCISION (abaissé à 50m) ----
+            // ---- FILTRE PRÉCISION (50m) ----
             if (position.coords.accuracy > 50) {
               console.log(`Point ignoré - précision: ${position.coords.accuracy}m`);
               return;
@@ -94,11 +115,11 @@ export default function GpsRecorder({
               return;
             }
 
-            // ---- MISE À JOUR DES POINTS AVEC DISTANCE + LISSAGE ----
+            // ---- MISE À JOUR DES POINTS AVEC FILTRES + LISSAGE ----
             setPoints((previousPoints) => {
               const lastPoint = previousPoints[previousPoints.length - 1];
 
-              // Filtre de distance minimale (10m)
+              // Filtre distance minimale (10m)
               if (lastPoint) {
                 const distance = calculateDistance(
                   lastPoint.latitude,
@@ -106,11 +127,8 @@ export default function GpsRecorder({
                   newPoint.latitude,
                   newPoint.longitude
                 );
-
                 if (distance < 10) {
-                  console.log(
-                    `Point ignoré : déplacement ${distance.toFixed(1)}m`
-                  );
+                  console.log(`Point ignoré : déplacement ${distance.toFixed(1)}m`);
                   return previousPoints;
                 }
               }
@@ -123,7 +141,6 @@ export default function GpsRecorder({
                 const last3 = updatedPoints.slice(-3);
                 const avgLat = last3.reduce((s, p) => s + p.latitude, 0) / 3;
                 const avgLng = last3.reduce((s, p) => s + p.longitude, 0) / 3;
-                // On remplace le dernier point par la moyenne
                 const smoothed = {
                   ...newPoint,
                   latitude: avgLat,
@@ -132,17 +149,36 @@ export default function GpsRecorder({
                 updatedPoints[updatedPoints.length - 1] = smoothed;
               }
 
+              // ---- RÉCUPÉRATION DU NOM DE LA RUE (en arrière-plan) ----
+              const lastAdded = updatedPoints[updatedPoints.length - 1];
+              if (lastAdded) {
+                fetchAddress(lastAdded.latitude, lastAdded.longitude)
+                  .then((address) => {
+                    if (address) {
+                      setPoints((currentPoints) => {
+                        const newList = [...currentPoints];
+                        const index = newList.length - 1;
+                        if (index >= 0 && newList[index] === lastAdded) {
+                          newList[index] = { ...lastAdded, address };
+                          onPointsChange?.(newList);
+                        }
+                        return newList;
+                      });
+                    }
+                  })
+                  .catch((err) =>
+                    console.error("Erreur fetchAddress:", err)
+                  );
+              }
+
               onPointsChange?.(updatedPoints);
               return updatedPoints;
             });
           },
           (error) => {
             console.error("Erreur GPS :", error);
-
             setGpsStatus("Erreur GPS");
-            setError(
-              "Impossible de récupérer votre position GPS."
-            );
+            setError("Impossible de récupérer votre position GPS.");
           },
           {
             enableHighAccuracy: true,
@@ -155,21 +191,13 @@ export default function GpsRecorder({
       },
       (error) => {
         console.error("Permission GPS refusée :", error);
-
         setGpsStatus("GPS indisponible");
-
         if (error.code === 1) {
-          setError(
-            "Vous devez autoriser la localisation pour enregistrer un trajet."
-          );
+          setError("Vous devez autoriser la localisation pour enregistrer un trajet.");
         } else if (error.code === 2) {
-          setError(
-            "Votre position GPS est actuellement indisponible."
-          );
+          setError("Votre position GPS est actuellement indisponible.");
         } else {
-          setError(
-            "La récupération de votre position a pris trop de temps."
-          );
+          setError("La récupération de votre position a pris trop de temps.");
         }
       },
       {
@@ -182,13 +210,9 @@ export default function GpsRecorder({
 
   const stopRecording = () => {
     if (watchIdRef.current !== null) {
-      navigator.geolocation.clearWatch(
-        watchIdRef.current
-      );
-
+      navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
-
     setStatus?.("paused");
     setGpsStatus("Trajet terminé");
   };
@@ -196,9 +220,7 @@ export default function GpsRecorder({
   useEffect(() => {
     return () => {
       if (watchIdRef.current !== null) {
-        navigator.geolocation.clearWatch(
-          watchIdRef.current
-        );
+        navigator.geolocation.clearWatch(watchIdRef.current);
       }
     };
   }, []);
@@ -212,11 +234,8 @@ export default function GpsRecorder({
             <div className={`h-3 w-3 rounded-full animate-pulse ${
               isRecording ? "bg-green-500" : "bg-orange-500"
             }`} />
-            <span className="font-semibold text-gray-700">
-              Statut GPS
-            </span>
+            <span className="font-semibold text-gray-700">Statut GPS</span>
           </div>
-
           <span className={`text-sm font-medium ${
             isRecording ? "text-green-600" : "text-orange-600"
           }`}>
@@ -263,48 +282,36 @@ export default function GpsRecorder({
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-4 shadow-lg border border-gray-100/50 transition-all duration-300 hover:shadow-xl">
           <div className="flex items-center gap-2">
             <span className="text-lg">📊</span>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Points GPS
-            </p>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Points GPS</p>
           </div>
-          <p className="mt-2 text-2xl font-bold text-gray-900">
-            {points.length}
-          </p>
-          <p className="mt-1 text-xs text-gray-400">
-            {isRecording ? "En cours..." : "Total enregistrés"}
-          </p>
+          <p className="mt-2 text-2xl font-bold text-gray-900">{points.length}</p>
+          <p className="mt-1 text-xs text-gray-400">{isRecording ? "En cours..." : "Total enregistrés"}</p>
         </div>
 
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-4 shadow-lg border border-gray-100/50 transition-all duration-300 hover:shadow-xl">
           <div className="flex items-center gap-2">
             <span className="text-lg">🎯</span>
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Précision
-            </p>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Précision</p>
           </div>
           <p className="mt-2 text-2xl font-bold text-gray-900">
-            {latestPoint
-              ? `${Math.round(latestPoint.accuracy)} m`
-              : "--"}
+            {latestPoint ? `${Math.round(latestPoint.accuracy)} m` : "--"}
           </p>
           <p className="mt-1 text-xs text-gray-400">
-            {latestPoint && latestPoint.accuracy < 50 
-              ? "✅ Très bonne" 
-              : latestPoint && latestPoint.accuracy < 100 
-              ? "👍 Bonne" 
+            {latestPoint && latestPoint.accuracy < 50
+              ? "✅ Très bonne"
+              : latestPoint && latestPoint.accuracy < 100
+              ? "👍 Bonne"
               : "📡 En attente"}
           </p>
         </div>
       </div>
 
-      {/* Dernière position GPS */}
+      {/* ---- DERNIÈRE POSITION AVEC ADRESSE ---- */}
       {latestPoint && (
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-xl">🛰️</span>
-            <h2 className="font-bold text-gray-900">
-              Dernière position GPS
-            </h2>
+            <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
             {isRecording && (
               <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-green-600">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
@@ -312,6 +319,19 @@ export default function GpsRecorder({
               </span>
             )}
           </div>
+
+          {/* ---- AFFICHAGE DE L'ADRESSE (si disponible) ---- */}
+          {latestPoint.address && (
+            <div className="mb-3 p-3 bg-blue-50 rounded-xl text-sm">
+              <p className="font-semibold text-blue-800">
+                {latestPoint.address.display_name ||
+                  `${latestPoint.address.road || ""}, ${latestPoint.address.suburb || ""}, ${latestPoint.address.city || ""}`}
+              </p>
+              <p className="text-xs text-gray-500">
+                {latestPoint.address.country || ""}
+              </p>
+            </div>
+          )}
 
           <div className="space-y-3">
             <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
@@ -337,10 +357,10 @@ export default function GpsRecorder({
                 <span>🎯</span> Précision
               </span>
               <span className={`font-semibold text-sm ${
-                latestPoint.accuracy < 50 
-                  ? "text-green-600" 
-                  : latestPoint.accuracy < 100 
-                  ? "text-yellow-600" 
+                latestPoint.accuracy < 50
+                  ? "text-green-600"
+                  : latestPoint.accuracy < 100
+                  ? "text-yellow-600"
                   : "text-red-600"
               }`}>
                 {Math.round(latestPoint.accuracy)} mètres
@@ -363,9 +383,7 @@ export default function GpsRecorder({
                 <span>🕐</span> Dernière mise à jour
               </span>
               <span className="font-mono text-sm font-semibold text-gray-900">
-                {new Date(
-                  latestPoint.timestamp
-                ).toLocaleTimeString()}
+                {new Date(latestPoint.timestamp).toLocaleTimeString()}
               </span>
             </div>
           </div>
@@ -373,4 +391,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-      }
+                  }
