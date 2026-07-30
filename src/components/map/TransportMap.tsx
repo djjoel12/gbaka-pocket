@@ -181,4 +181,4 @@ export default function TransportMap({ points, status }: TransportMapProps) {
       </div>
     </div>
   );
-               }
+                                                                          }
