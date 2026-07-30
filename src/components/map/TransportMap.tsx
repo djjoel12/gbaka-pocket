@@ -26,33 +26,32 @@ type TransportMapProps = {
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
 
-// ---- Marqueurs ----
 const currentIcon = L.divIcon({
   className: "custom-marker current",
-  html: `<div style="background-color:#2563eb; width:18px; height:18px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(37,99,235,0.3); animation: pulse 1.5s infinite;"></div>`,
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
+  html: `<div style="background-color:#2563eb; width:20px; height:20px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 8px rgba(37,99,235,0.4); animation: pulse 1.5s infinite;"></div>`,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
 });
 
 const startIcon = L.divIcon({
   className: "custom-marker",
-  html: `<div style="background-color:#22c55e; width:20px; height:20px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 4px rgba(34,197,94,0.4);"></div>`,
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  html: `<div style="background-color:#22c55e; width:24px; height:24px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(34,197,94,0.4);"></div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
 });
 
 const endIcon = L.divIcon({
   className: "custom-marker",
-  html: `<div style="background-color:#ef4444; width:20px; height:20px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 4px rgba(239,68,68,0.4);"></div>`,
-  iconSize: [20, 20],
-  iconAnchor: [10, 10],
+  html: `<div style="background-color:#ef4444; width:24px; height:24px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(239,68,68,0.4);"></div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 12],
 });
 
 const pointIcon = L.divIcon({
   className: "custom-marker",
-  html: `<div style="background-color:#3b82f6; width:8px; height:8px; border-radius:50%; border:2px solid white; box-shadow:0 0 0 2px rgba(59,130,246,0.3);"></div>`,
-  iconSize: [8, 8],
-  iconAnchor: [4, 4],
+  html: `<div style="background-color:#3b82f6; width:10px; height:10px; border-radius:50%; border:2px solid white; box-shadow:0 0 0 3px rgba(59,130,246,0.3);"></div>`,
+  iconSize: [10, 10],
+  iconAnchor: [5, 5],
 });
 
 function MapFollower({ position }: { position: [number, number] }) {
@@ -105,7 +104,7 @@ export default function TransportMap({ points, status }: TransportMapProps) {
   const showEnd = status === "idle" && points.length > 0;
 
   return (
-    <div className="h-screen w-full">
+    <div className="h-full w-full">
       <style>{pulseStyle}</style>
 
       <MapContainer
@@ -147,4 +146,4 @@ export default function TransportMap({ points, status }: TransportMapProps) {
       </MapContainer>
     </div>
   );
-                                                               }
+}
