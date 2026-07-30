@@ -26,7 +26,6 @@ type TransportMapProps = {
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
 
-// ---- Marqueur de position actuelle (BLEU animé) ----
 const currentIcon = L.divIcon({
   className: "custom-marker current",
   html: `<div style="background-color:#3b82f6; width:18px; height:18px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(59,130,246,0.4); animation: pulse 1.5s infinite;"></div>`,
@@ -34,7 +33,6 @@ const currentIcon = L.divIcon({
   iconAnchor: [9, 9],
 });
 
-// ---- Marqueur de départ (VERT) ----
 const startIcon = L.divIcon({
   className: "custom-marker",
   html: `<div style="background-color:#22c55e; width:22px; height:22px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(34,197,94,0.3);"></div>`,
@@ -42,7 +40,6 @@ const startIcon = L.divIcon({
   iconAnchor: [11, 11],
 });
 
-// ---- Marqueur d'arrivée (ROUGE) ----
 const endIcon = L.divIcon({
   className: "custom-marker",
   html: `<div style="background-color:#ef4444; width:22px; height:22px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(239,68,68,0.3);"></div>`,
@@ -50,7 +47,6 @@ const endIcon = L.divIcon({
   iconAnchor: [11, 11],
 });
 
-// ---- Points intermédiaires (petits ronds) ----
 const pointIcon = L.divIcon({
   className: "custom-marker",
   html: `<div style="background-color:#60a5fa; width:8px; height:8px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); box-shadow:0 0 0 4px rgba(96,165,250,0.2);"></div>`,
@@ -108,7 +104,7 @@ export default function TransportMap({ points, status }: TransportMapProps) {
   const showEnd = status === "idle" && points.length > 0;
 
   return (
-    <div className="h-screen w-full relative">
+    <div className="relative w-full h-[60vh]">
       <style>{pulseStyle}</style>
 
       <MapContainer
@@ -126,7 +122,6 @@ export default function TransportMap({ points, status }: TransportMapProps) {
 
         <MapFollower position={currentPosition} />
 
-        {/* Ligne + ombre premium */}
         {routePositions.length > 1 && (
           <>
             <Polyline
@@ -162,45 +157,28 @@ export default function TransportMap({ points, status }: TransportMapProps) {
           </>
         )}
 
-        {/* MARQUEUR VERT (départ) */}
         {showStart && firstPoint && (
-          <Marker
-            position={[firstPoint.latitude, firstPoint.longitude]}
-            icon={startIcon}
-          />
+          <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />
         )}
 
-        {/* MARQUEUR ROUGE (arrivée) */}
         {showEnd && lastPoint && (
-          <Marker
-            position={[lastPoint.latitude, lastPoint.longitude]}
-            icon={endIcon}
-          />
+          <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />
         )}
 
-        {/* MARQUEUR BLEU (position actuelle) */}
         {livePosition && (
           <Marker position={currentPosition} icon={currentIcon} />
         )}
 
-        {/* POINTS INTERMÉDIAIRES */}
         {middlePoints.map((point, index) => (
-          <Marker
-            key={`point-${index}`}
-            position={[point.latitude, point.longitude]}
-            icon={pointIcon}
-          />
+          <Marker key={`point-${index}`} position={[point.latitude, point.longitude]} icon={pointIcon} />
         ))}
       </MapContainer>
 
-      {/* Badge de statut en bas à droite */}
-      <div className="absolute bottom-4 right-4 pointer-events-none">
-        <div className="bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10">
-          <span className="text-[10px] font-mono text-white/50">
-            {points.length} pts
-          </span>
+      <div className="absolute bottom-3 right-3 pointer-events-none">
+        <div className="bg-black/50 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
+          <span className="text-[10px] font-mono text-white/60">{points.length} pts</span>
         </div>
       </div>
     </div>
   );
-}
+               }
