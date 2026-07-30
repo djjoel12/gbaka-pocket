@@ -16,6 +16,7 @@ const TransportMap = dynamic(
   }
 );
 
+
 type GPSPoint = {
   latitude: number;
   longitude: number;
