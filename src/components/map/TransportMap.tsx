@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -21,7 +21,7 @@ type GPSPoint = {
 
 type TransportMapProps = {
   points: GPSPoint[];
-  status: "idle" | "recording" | "paused"; // 👈 NOUVEAU
+  status: "idle" | "recording" | "paused";
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -78,12 +78,43 @@ const pulseStyle = `
 `;
 
 export default function TransportMap({ points, status }: TransportMapProps) {
+  // ---- POSITION EN DIRECT DU GPS (même sans enregistrement) ----
+  const [livePosition, setLivePosition] = useState<[number, number] | null>(null);
+  const [watchId, setWatchId] = useState<number | null>(null);
+
+  // ---- SUIVI GPS EN CONTINU (dès l'ouverture de l'app) ----
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    const id = navigator.geolocation.watchPosition(
+      (position) => {
+        setLivePosition([position.coords.latitude, position.coords.longitude]);
+      },
+      (error) => {
+        console.error("Erreur GPS en direct :", error);
+        setLivePosition(null);
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 5000,
+        timeout: 10000,
+      }
+    );
+
+    setWatchId(id);
+
+    return () => {
+      if (watchId !== null) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+    };
+  }, []);
+
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
   const firstPoint = points.length > 0 ? points[0] : null;
 
-  const currentPosition: [number, number] = lastPoint
-    ? [lastPoint.latitude, lastPoint.longitude]
-    : defaultPosition;
+  // ---- Position affichée : live GPS si disponible, sinon dernier point enregistré, sinon position par défaut ----
+  const currentPosition: [number, number] = livePosition || (lastPoint ? [lastPoint.latitude, lastPoint.longitude] : defaultPosition);
 
   const routePositions: [number, number][] = points.map((p) => [
     p.latitude,
@@ -92,7 +123,6 @@ export default function TransportMap({ points, status }: TransportMapProps) {
 
   const middlePoints = points.slice(1, -1);
 
-  // ---- NOUVELLE LOGIQUE DES MARQUEURS ----
   const showStart = status === "recording" || status === "paused";
   const showEnd = status === "idle" && points.length > 0;
 
@@ -137,9 +167,6 @@ export default function TransportMap({ points, status }: TransportMapProps) {
           </>
         )}
 
-        {/* ---- MARQUEUR BLEU (position actuelle) - TOUJOURS VISIBLE ---- */}
-        <Marker position={currentPosition} icon={currentIcon} />
-
         {/* ---- MARQUEUR VERT (départ) - visible pendant l'enregistrement ---- */}
         {showStart && firstPoint && (
           <Marker
@@ -154,6 +181,11 @@ export default function TransportMap({ points, status }: TransportMapProps) {
             position={[lastPoint.latitude, lastPoint.longitude]}
             icon={endIcon}
           />
+        )}
+
+        {/* ---- MARQUEUR BLEU (position actuelle) - TOUJOURS VISIBLE si GPS allumé ---- */}
+        {livePosition && (
+          <Marker position={currentPosition} icon={currentIcon} />
         )}
 
         {/* ---- POINTS INTERMÉDIAIRES ---- */}
