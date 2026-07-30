@@ -9,7 +9,7 @@ const TransportMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full w-full items-center justify-center bg-gray-200">
+      <div className="h-screen w-full bg-gray-200 animate-pulse flex items-center justify-center">
         <p className="text-sm text-gray-500">Chargement de la carte...</p>
       </div>
     ),
@@ -28,80 +28,58 @@ export default function Home() {
   const [route, setRoute] = useState("");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex h-screen flex-col bg-white relative">
-      {/* Carte en arrière-plan */}
-      <div className="flex-1 min-h-0">
-        <TransportMap points={points} status={status} />
-      </div>
+    <main className="relative h-screen w-full overflow-hidden">
+      {/* Carte en plein écran */}
+      <TransportMap points={points} status={status} />
 
-      {/* Panneau accordéon */}
-      <div
-        className={`absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm rounded-t-3xl shadow-2xl border-t border-gray-200/80 transition-all duration-500 ease-in-out ${
-          isOpen ? 'h-[70vh]' : 'h-[10vh]'
-        }`}
-      >
-        {/* Barre de contrôle (toujours visible) */}
-        <div className="flex items-center justify-between px-4 h-12 border-b border-gray-200/50">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">🚍</span>
-            <span className="font-bold text-gray-800">TransportTicket.ci</span>
+      {/* Overlay des contrôles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="pointer-events-auto mx-auto max-w-md px-4 py-6 h-full flex flex-col justify-between">
+          {/* En-tête */}
+          <div className="text-center">
+            <div className="inline-block rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white/90 tracking-wider border border-white/10">
+              🚍 TRANSPORTTICKET.CI
+            </div>
           </div>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="p-2 rounded-full hover:bg-gray-100 transition"
-          >
-            {isOpen ? (
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-              </svg>
-            ) : (
-              <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            )}
-          </button>
-        </div>
 
-        {/* Contenu (visible seulement si ouvert) */}
-        <div
-          className={`overflow-y-auto px-4 pb-6 transition-opacity duration-300 ${
-            isOpen ? 'h-[calc(100%-3rem)] opacity-100' : 'h-0 opacity-0'
-          }`}
-        >
-          <div className="max-w-lg mx-auto space-y-4 pt-4">
+          <div className="flex-1" />
+
+          {/* Panneau inférieur */}
+          <div className="space-y-3">
             {/* Sélection de ligne */}
-            <div>
-              <label htmlFor="route" className="block text-sm font-medium text-gray-700 mb-1">
+            <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
+              <label htmlFor="route" className="mb-1.5 block text-xs font-semibold text-white/80">
                 Ligne
               </label>
               <select
                 id="route"
                 value={route}
                 onChange={(e) => setRoute(e.target.value)}
-                className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-800 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-white text-sm outline-none focus:border-blue-400 transition"
               >
-                <option value="">Choisir une ligne</option>
-                <option value="yopougon-adjame">Yopougon Maroc → Adjamé</option>
-                <option value="abobo-adjame">Abobo → Adjamé</option>
-                <option value="cocody-plateau">Cocody → Plateau</option>
+                <option value="" className="text-gray-900">Choisir une ligne</option>
+                <option value="yopougon-adjame" className="text-gray-900">Yopougon Maroc → Adjamé</option>
+                <option value="abobo-adjame" className="text-gray-900">Abobo → Adjamé</option>
+                <option value="cocody-plateau" className="text-gray-900">Cocody → Plateau</option>
               </select>
             </div>
 
             {/* GPS Recorder */}
             {route ? (
-              <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
+              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
+                <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
+              </div>
             ) : (
-              <div className="rounded-2xl bg-gray-50 p-5 text-center text-sm text-gray-500 border border-dashed border-gray-300">
-                <span className="text-3xl block mb-2">📍</span>
-                Sélectionnez une ligne pour commencer
+              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-5 text-center text-sm text-white/70 border border-white/10 shadow-2xl">
+                <span className="text-3xl block mb-1">📍</span>
+                Sélectionnez une ligne
               </div>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
-                }
+}
