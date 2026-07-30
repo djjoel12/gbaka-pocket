@@ -34,52 +34,51 @@ export default function Home() {
       {/* Carte en plein écran */}
       <TransportMap points={points} status={status} />
 
-      {/* Overlay des contrôles */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="pointer-events-auto mx-auto max-w-md px-4 py-6 h-full flex flex-col justify-between">
-          {/* En-tête */}
-          <div className="text-center">
-            <div className="inline-block rounded-full bg-black/40 backdrop-blur-md px-3 py-1 text-xs font-semibold text-white/90 tracking-wider border border-white/10">
-              🚍 TRANSPORTTICKET.CI
-            </div>
+      {/* Overlay des contrôles - tout est visible et cliquable */}
+      <div className="absolute inset-0 flex flex-col justify-between p-4 pointer-events-none">
+        {/* En-tête */}
+        <div className="pointer-events-auto text-center">
+          <div className="inline-block rounded-full bg-black/60 backdrop-blur-md px-4 py-1.5 text-sm font-bold text-white/90 tracking-wider border border-white/20 shadow-lg">
+            🚍 TRANSPORTTICKET.CI
+          </div>
+        </div>
+
+        {/* Espace central (laisse la carte visible) */}
+        <div className="flex-1" />
+
+        {/* Panneau inférieur - bien visible */}
+        <div className="pointer-events-auto space-y-3">
+          {/* Sélection de ligne */}
+          <div className="rounded-2xl bg-black/60 backdrop-blur-md p-4 border border-white/20 shadow-2xl">
+            <label htmlFor="route" className="mb-1.5 block text-sm font-semibold text-white/90">
+              Ligne
+            </label>
+            <select
+              id="route"
+              value={route}
+              onChange={(e) => setRoute(e.target.value)}
+              className="w-full rounded-xl bg-white/20 border border-white/30 px-4 py-3 text-white text-base outline-none focus:border-blue-400 transition"
+            >
+              <option value="" className="text-gray-900 bg-white">Choisir une ligne</option>
+              <option value="yopougon-adjame" className="text-gray-900 bg-white">Yopougon Maroc → Adjamé</option>
+              <option value="abobo-adjame" className="text-gray-900 bg-white">Abobo → Adjamé</option>
+              <option value="cocody-plateau" className="text-gray-900 bg-white">Cocody → Plateau</option>
+            </select>
           </div>
 
-          <div className="flex-1" />
-
-          {/* Panneau inférieur */}
-          <div className="space-y-3">
-            {/* Sélection de ligne */}
-            <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
-              <label htmlFor="route" className="mb-1.5 block text-xs font-semibold text-white/80">
-                Ligne
-              </label>
-              <select
-                id="route"
-                value={route}
-                onChange={(e) => setRoute(e.target.value)}
-                className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-white text-sm outline-none focus:border-blue-400 transition"
-              >
-                <option value="" className="text-gray-900">Choisir une ligne</option>
-                <option value="yopougon-adjame" className="text-gray-900">Yopougon Maroc → Adjamé</option>
-                <option value="abobo-adjame" className="text-gray-900">Abobo → Adjamé</option>
-                <option value="cocody-plateau" className="text-gray-900">Cocody → Plateau</option>
-              </select>
+          {/* GPS Recorder */}
+          {route ? (
+            <div className="rounded-2xl bg-black/60 backdrop-blur-md p-4 border border-white/20 shadow-2xl">
+              <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
             </div>
-
-            {/* GPS Recorder */}
-            {route ? (
-              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-4 border border-white/10 shadow-2xl">
-                <GpsRecorder status={status} setStatus={setStatus} onPointsChange={setPoints} />
-              </div>
-            ) : (
-              <div className="rounded-2xl bg-black/40 backdrop-blur-md p-5 text-center text-sm text-white/70 border border-white/10 shadow-2xl">
-                <span className="text-3xl block mb-1">📍</span>
-                Sélectionnez une ligne
-              </div>
-            )}
-          </div>
+          ) : (
+            <div className="rounded-2xl bg-black/60 backdrop-blur-md p-5 text-center text-base text-white/90 border border-white/20 shadow-2xl">
+              <span className="text-4xl block mb-2">📍</span>
+              Sélectionnez une ligne pour commencer
+            </div>
+          )}
         </div>
       </div>
     </main>
   );
-}
+      }
