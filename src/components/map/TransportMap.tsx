@@ -21,9 +21,18 @@ type GPSPoint = {
 
 type TransportMapProps = {
   points: GPSPoint[];
+  status: "idle" | "recording" | "paused"; // 👈 NOUVEAU
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
+
+// ---- Marqueur de position actuelle (BLEU animé) ----
+const currentIcon = L.divIcon({
+  className: "custom-marker current",
+  html: `<div style="background-color:#2563eb; width:18px; height:18px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(37,99,235,0.3); animation: pulse 1.5s infinite;"></div>`,
+  iconSize: [18, 18],
+  iconAnchor: [9, 9],
+});
 
 // ---- Marqueur de départ (VERT) ----
 const startIcon = L.divIcon({
@@ -39,14 +48,6 @@ const endIcon = L.divIcon({
   html: `<div style="background-color:#ef4444; width:20px; height:20px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 4px rgba(239,68,68,0.4);"></div>`,
   iconSize: [20, 20],
   iconAnchor: [10, 10],
-});
-
-// ---- Marqueur actuel (avec animation) ----
-const currentIcon = L.divIcon({
-  className: "custom-marker current",
-  html: `<div style="background-color:#2563eb; width:18px; height:18px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 6px rgba(37,99,235,0.3); animation: pulse 1.5s infinite;"></div>`,
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
 });
 
 // ---- Points intermédiaires (petits ronds bleus) ----
@@ -65,7 +66,6 @@ function MapFollower({ position }: { position: [number, number] }) {
   return null;
 }
 
-// ---- Injecter les animations CSS pour le point actuel ----
 const pulseStyle = `
   @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
@@ -77,7 +77,7 @@ const pulseStyle = `
   }
 `;
 
-export default function TransportMap({ points }: TransportMapProps) {
+export default function TransportMap({ points, status }: TransportMapProps) {
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
   const firstPoint = points.length > 0 ? points[0] : null;
 
@@ -90,12 +90,14 @@ export default function TransportMap({ points }: TransportMapProps) {
     p.longitude,
   ]);
 
-  // Points intermédiaires (tous sauf le premier et le dernier)
   const middlePoints = points.slice(1, -1);
+
+  // ---- NOUVELLE LOGIQUE DES MARQUEURS ----
+  const showStart = status === "recording" || status === "paused";
+  const showEnd = status === "idle" && points.length > 0;
 
   return (
     <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-200">
-      {/* Injection du style CSS pour l'animation */}
       <style>{pulseStyle}</style>
 
       <MapContainer
@@ -104,7 +106,6 @@ export default function TransportMap({ points }: TransportMapProps) {
         scrollWheelZoom={true}
         className="h-[500px] w-full"
       >
-        {/* Fond de carte OpenStreetMap avec style amélioré */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -112,10 +113,9 @@ export default function TransportMap({ points }: TransportMapProps) {
 
         <MapFollower position={currentPosition} />
 
-        {/* ---- POLYLINE AVEC DOUBLE CONTOUR ---- */}
+        {/* POLYLINE */}
         {routePositions.length > 1 && (
           <>
-            {/* Ombre blanche */}
             <Polyline
               positions={routePositions}
               pathOptions={{
@@ -125,7 +125,6 @@ export default function TransportMap({ points }: TransportMapProps) {
                 lineJoin: "round",
               }}
             />
-            {/* Ligne principale bleue */}
             <Polyline
               positions={routePositions}
               pathOptions={{
@@ -138,7 +137,26 @@ export default function TransportMap({ points }: TransportMapProps) {
           </>
         )}
 
-        {/* ---- POINTS INTERMÉDIAIRES (petits ronds) ---- */}
+        {/* ---- MARQUEUR BLEU (position actuelle) - TOUJOURS VISIBLE ---- */}
+        <Marker position={currentPosition} icon={currentIcon} />
+
+        {/* ---- MARQUEUR VERT (départ) - visible pendant l'enregistrement ---- */}
+        {showStart && firstPoint && (
+          <Marker
+            position={[firstPoint.latitude, firstPoint.longitude]}
+            icon={startIcon}
+          />
+        )}
+
+        {/* ---- MARQUEUR ROUGE (arrivée) - visible après "Terminer" ---- */}
+        {showEnd && lastPoint && (
+          <Marker
+            position={[lastPoint.latitude, lastPoint.longitude]}
+            icon={endIcon}
+          />
+        )}
+
+        {/* ---- POINTS INTERMÉDIAIRES ---- */}
         {middlePoints.map((point, index) => (
           <Marker
             key={`point-${index}`}
@@ -146,28 +164,7 @@ export default function TransportMap({ points }: TransportMapProps) {
             icon={pointIcon}
           />
         ))}
-
-        {/* ---- MARQUEUR DE DÉPART (VERT) ---- */}
-        {firstPoint && (
-          <Marker
-            position={[firstPoint.latitude, firstPoint.longitude]}
-            icon={startIcon}
-          />
-        )}
-
-        {/* ---- MARQUEUR D'ARRIVÉE (ROUGE) ---- */}
-        {lastPoint && points.length > 1 && (
-          <Marker
-            position={[lastPoint.latitude, lastPoint.longitude]}
-            icon={endIcon}
-          />
-        )}
-
-        {/* ---- MARQUEUR ACTUEL (BLEU ANIMÉ) ---- */}
-        {lastPoint && points.length === 1 && (
-          <Marker position={currentPosition} icon={currentIcon} />
-        )}
       </MapContainer>
     </div>
   );
-                }
+        }
