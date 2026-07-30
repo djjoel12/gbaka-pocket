@@ -37,10 +37,10 @@ export default function Home() {
         <TransportMap points={points} status={status} />
       </div>
 
-      {/* Panneau coulissant */}
+      {/* Panneau coulissant avec hauteur minimale = 10% */}
       <div
         className={`absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm rounded-t-3xl shadow-2xl border-t border-gray-200/80 transition-all duration-500 ease-in-out ${
-          isPanelOpen ? 'h-[80vh]' : 'h-[70px]'
+          isPanelOpen ? 'h-[80vh]' : 'h-[10vh]'
         }`}
       >
         {/* Poignée */}
@@ -95,4 +95,4 @@ export default function Home() {
       </div>
     </div>
   );
-                }
+}
