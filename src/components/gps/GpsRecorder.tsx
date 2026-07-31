@@ -8,208 +8,145 @@ type GPSPoint = {
   accuracy: number;
   speed: number | null;
   timestamp: number;
-  address?: {
-    road?: string;
-    suburb?: string;
-    city?: string;
-    country?: string;
-    display_name?: string;
-  };
 };
 
 type GpsRecorderProps = {
   status?: "idle" | "recording" | "paused";
   setStatus?: Dispatch<SetStateAction<"idle" | "recording" | "paused">>;
   onPointsChange?: (points: GPSPoint[]) => void;
+  minDistance?: number; // seuil en mètres (défaut: 5)
 };
 
+// Calcul de la distance entre deux points (formule de Haversine)
 function calculateDistance(
   lat1: number,
   lon1: number,
   lat2: number,
   lon2: number
-) {
-  const R = 6371e3;
+): number {
+  const R = 6371e3; // rayon terrestre en mètres
   const φ1 = (lat1 * Math.PI) / 180;
   const φ2 = (lat2 * Math.PI) / 180;
   const Δφ = ((lat2 - lat1) * Math.PI) / 180;
   const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
   const a =
     Math.sin(Δφ / 2) ** 2 +
     Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
-async function fetchAddress(lat: number, lon: number) {
-  try {
-    const res = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&zoom=16&addressdetails=1`
-    );
-    const data = await res.json();
-    if (data && data.address) {
-      const { road, suburb, city, country } = data.address;
-      const display_name = data.display_name || "";
-      return { road, suburb, city, country, display_name };
-    }
-    return null;
-  } catch (error) {
-    console.error("Erreur lors de la récupération de l'adresse :", error);
-    return null;
-  }
+  return R * c;
 }
 
 export default function GpsRecorder({
   status = "idle",
   setStatus,
   onPointsChange,
+  minDistance = 5,
 }: GpsRecorderProps) {
   const isRecording = status === "recording";
 
-  const [gpsStatus, setGpsStatus] = useState("En attente");
+  const [gpsStatus, setGpsStatus] = useState<string>("En attente");
   const [points, setPoints] = useState<GPSPoint[]>([]);
-  const [error, setError] = useState("");
-  const latestPoint = points[points.length - 1];
+  const [error, setError] = useState<string>("");
 
   const watchIdRef = useRef<number | null>(null);
+  const latestPoint = points[points.length - 1];
 
+  // Démarrer l'enregistrement
   const startRecording = () => {
     setError("");
+    setGpsStatus("Recherche de votre position…");
 
     if (!navigator.geolocation) {
-      setError(
-        "La géolocalisation n'est pas disponible sur cet appareil."
-      );
+      setError("La géolocalisation n'est pas disponible sur cet appareil.");
+      setGpsStatus("Indisponible");
       return;
     }
 
-    setPoints([]);
-    onPointsChange?.([]);
-
-    setGpsStatus("Recherche de votre position...");
-
-    navigator.geolocation.getCurrentPosition(
-      () => {
-        setStatus?.("recording");
-        setGpsStatus("Enregistrement en cours");
-
-        const watchId = navigator.geolocation.watchPosition(
-          (position) => {
-            if (position.coords.accuracy > 50) {
-              console.log(`Point ignoré - précision: ${position.coords.accuracy}m`);
-              return;
-            }
-
-            const newPoint: GPSPoint = {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              accuracy: position.coords.accuracy,
-              speed: position.coords.speed,
-              timestamp: position.timestamp,
-            };
-
-            if (newPoint.speed !== null && newPoint.speed > 40) {
-              console.log(`Point ignoré - vitesse excessive: ${newPoint.speed} m/s`);
-              return;
-            }
-
-            setPoints((previousPoints) => {
-              const lastPoint = previousPoints[previousPoints.length - 1];
-
-              if (lastPoint) {
-                const distance = calculateDistance(
-                  lastPoint.latitude,
-                  lastPoint.longitude,
-                  newPoint.latitude,
-                  newPoint.longitude
-                );
-                if (distance < 10) {
-                  console.log(`Point ignoré : déplacement ${distance.toFixed(1)}m`);
-                  return previousPoints;
-                }
-              }
-
-              let updatedPoints = [...previousPoints, newPoint];
-
-              if (updatedPoints.length >= 3) {
-                const last3 = updatedPoints.slice(-3);
-                const avgLat = last3.reduce((s, p) => s + p.latitude, 0) / 3;
-                const avgLng = last3.reduce((s, p) => s + p.longitude, 0) / 3;
-                const smoothed = {
-                  ...newPoint,
-                  latitude: avgLat,
-                  longitude: avgLng,
-                };
-                updatedPoints[updatedPoints.length - 1] = smoothed;
-              }
-
-              const lastAdded = updatedPoints[updatedPoints.length - 1];
-              if (lastAdded) {
-                fetchAddress(lastAdded.latitude, lastAdded.longitude)
-                  .then((address) => {
-                    if (address) {
-                      setPoints((currentPoints) => {
-                        const newList = [...currentPoints];
-                        const index = newList.length - 1;
-                        if (index >= 0 && newList[index] === lastAdded) {
-                          newList[index] = { ...lastAdded, address };
-                          onPointsChange?.(newList);
-                        }
-                        return newList;
-                      });
-                    }
-                  })
-                  .catch((err) =>
-                    console.error("Erreur fetchAddress:", err)
-                  );
-              }
-
-              onPointsChange?.(updatedPoints);
-              return updatedPoints;
-            });
-          },
-          (error) => {
-            console.error("Erreur GPS :", error);
-            setGpsStatus("Erreur GPS");
-            setError("Impossible de récupérer votre position GPS.");
-          },
-          {
-            enableHighAccuracy: true,
-            maximumAge: 5000,
-            timeout: 10000,
-          }
-        );
-
-        watchIdRef.current = watchId;
-      },
-      (error) => {
-        console.error("Permission GPS refusée :", error);
-        setGpsStatus("GPS indisponible");
-        if (error.code === 1) {
-          setError("Vous devez autoriser la localisation pour enregistrer un trajet.");
-        } else if (error.code === 2) {
-          setError("Votre position GPS est actuellement indisponible.");
-        } else {
-          setError("La récupération de votre position a pris trop de temps.");
+    // On lance directement watchPosition. En cas d'erreur de permission,
+    // le callback d'erreur sera appelé.
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        // Filtre sur la précision (on ignore les points trop imprécis)
+        if (position.coords.accuracy > 100) {
+          console.log(`Point ignoré – précision : ${position.coords.accuracy}m`);
+          return;
         }
+
+        const newPoint: GPSPoint = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy,
+          speed: position.coords.speed,
+          timestamp: position.timestamp,
+        };
+
+        setPoints((prev) => {
+          const last = prev[prev.length - 1];
+          if (last) {
+            const distance = calculateDistance(
+              last.latitude,
+              last.longitude,
+              newPoint.latitude,
+              newPoint.longitude
+            );
+            if (distance < minDistance) {
+              console.log(`Point ignoré – déplacement ${distance.toFixed(1)}m`);
+              return prev;
+            }
+          }
+
+          const updated = [...prev, newPoint];
+          onPointsChange?.(updated);
+          return updated;
+        });
+
+        // Mise à jour du statut
+        if (gpsStatus !== "Enregistrement en cours") {
+          setGpsStatus("Enregistrement en cours");
+        }
+        // Indiquer au parent qu'on est en cours
+        if (status !== "recording") {
+          setStatus?.("recording");
+        }
+      },
+      (err) => {
+        console.error("Erreur GPS :", err);
+        setGpsStatus("Erreur GPS");
+        if (err.code === 1) {
+          setError("Vous devez autoriser la localisation pour enregistrer un trajet.");
+        } else if (err.code === 2) {
+          setError("Votre position GPS est actuellement indisponible.");
+        } else if (err.code === 3) {
+          setError("La récupération de votre position a pris trop de temps.");
+        } else {
+          setError("Erreur inconnue de géolocalisation.");
+        }
+        // On arrête tout en cas d'erreur fatale
+        stopRecording();
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        maximumAge: 5000,      // 5 secondes
+        timeout: 10000,       // 10 secondes
       }
     );
+
+    watchIdRef.current = watchId;
   };
 
+  // Arrêter l'enregistrement
   const stopRecording = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
     }
-    setStatus?.("idle");
+    setStatus?.("paused");
     setGpsStatus("Trajet terminé");
   };
 
+  // Nettoyer le watch lors du démontage
   useEffect(() => {
     return () => {
       if (watchIdRef.current !== null) {
@@ -219,140 +156,158 @@ export default function GpsRecorder({
   }, []);
 
   return (
-    <div className="space-y-3">
-      {/* Statut GPS - version épurée */}
-      <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-white/5 border border-white/5">
-        <div className="flex items-center gap-2">
-          <div className={`h-2 w-2 rounded-full ${
-            isRecording ? "bg-emerald-400 animate-pulse" : "bg-amber-400"
-          }`} />
-          <span className="text-xs font-medium text-white/60 uppercase tracking-wider">
-            Statut GPS
+    <div className="max-w-md mx-auto space-y-4 p-4">
+      {/* Statut GPS */}
+      <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div
+              className={`h-3 w-3 rounded-full animate-pulse ${
+                isRecording ? "bg-green-500" : "bg-orange-500"
+              }`}
+            />
+            <span className="font-semibold text-gray-700">Statut GPS</span>
+          </div>
+          <span
+            className={`text-sm font-medium ${
+              isRecording ? "text-green-600" : "text-orange-600"
+            }`}
+          >
+            {gpsStatus}
           </span>
         </div>
-        <span className={`text-xs font-semibold ${
-          isRecording ? "text-emerald-400" : "text-white/50"
-        }`}>
-          {gpsStatus}
-        </span>
       </div>
 
       {/* Erreur */}
       {error && (
-        <div className="rounded-xl bg-red-500/10 backdrop-blur-sm p-3 text-xs text-red-300 border border-red-500/20">
-          <div className="flex items-start gap-2">
-            <span className="text-red-400 text-base leading-none">⚠</span>
+        <div className="rounded-2xl bg-red-50/80 backdrop-blur-sm p-4 text-sm text-red-700 border border-red-200/50 shadow-sm animate-in slide-in-from-top-2">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">⚠️</span>
             <span>{error}</span>
           </div>
         </div>
       )}
 
-      {/* Bouton principal - design moderne */}
+      {/* Bouton principal */}
       {!isRecording ? (
         <button
           onClick={startRecording}
-          className="group w-full rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-3.5 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:shadow-blue-500/50"
+          className="group w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02]"
         >
-          <span className="flex items-center justify-center gap-2 text-sm">
-            <span className="text-lg leading-none">📍</span>
-            Démarrer le trajet
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-xl">📍</span> Démarrer le trajet
           </span>
         </button>
       ) : (
         <button
           onClick={stopRecording}
-          className="group w-full rounded-xl bg-gradient-to-r from-rose-500 to-rose-600 px-4 py-3.5 font-semibold text-white shadow-lg shadow-rose-500/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] hover:shadow-rose-500/50"
+          className="group w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-[1.02]"
         >
-          <span className="flex items-center justify-center gap-2 text-sm">
-            <span className="text-lg leading-none">⏹</span>
-            Terminer le trajet
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-xl">⏹</span> Terminer le trajet
           </span>
         </button>
       )}
 
-      {/* Statistiques - design élégant */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="rounded-xl bg-white/5 p-3 border border-white/5">
-          <div className="flex items-center gap-1.5">
-            <span className="text-base leading-none opacity-50">📊</span>
-            <p className="text-[10px] font-medium text-white/40 uppercase tracking-wider">
+      {/* Informations GPS */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-4 shadow-lg border border-gray-100/50 transition-all duration-300 hover:shadow-xl">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">📊</span>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               Points GPS
             </p>
           </div>
-          <p className="mt-1 text-lg font-bold text-white">{points.length}</p>
-          <p className="text-[10px] text-white/30">
-            {isRecording ? "En cours..." : "Total enregistrés"}
+          <p className="mt-2 text-2xl font-bold text-gray-900">{points.length}</p>
+          <p className="mt-1 text-xs text-gray-400">
+            {isRecording ? "En cours…" : "Total enregistrés"}
           </p>
         </div>
 
-        <div className="rounded-xl bg-white/5 p-3 border border-white/5">
-          <div className="flex items-center gap-1.5">
-            <span className="text-base leading-none opacity-50">🎯</span>
-            <p className="text-[10px] font-medium text-white/40 uppercase tracking-wider">
+        <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-4 shadow-lg border border-gray-100/50 transition-all duration-300 hover:shadow-xl">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">🎯</span>
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">
               Précision
             </p>
           </div>
-          <p className="mt-1 text-lg font-bold text-white">
+          <p className="mt-2 text-2xl font-bold text-gray-900">
             {latestPoint ? `${Math.round(latestPoint.accuracy)} m` : "--"}
           </p>
-          <p className="text-[10px] text-white/30">
-            {latestPoint && latestPoint.accuracy < 50
-              ? "✅ Très bonne"
-              : latestPoint && latestPoint.accuracy < 100
-              ? "👍 Bonne"
+          <p className="mt-1 text-xs text-gray-400">
+            {latestPoint
+              ? latestPoint.accuracy < 50
+                ? "✅ Très bonne"
+                : latestPoint.accuracy < 100
+                ? "👍 Bonne"
+                : "📡 En attente"
               : "📡 En attente"}
           </p>
         </div>
       </div>
 
-      {/* Dernière position - version minimaliste */}
+      {/* Détails de la dernière position */}
       {latestPoint && (
-        <div className="rounded-xl bg-white/5 p-3 border border-white/5 space-y-1.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-base leading-none">🛰️</span>
-              <h3 className="text-xs font-semibold text-white/70">Dernière position</h3>
-            </div>
+        <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl">🛰️</span>
+            <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
             {isRecording && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-medium text-emerald-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+              <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
                 En direct
               </span>
             )}
           </div>
 
-          {latestPoint.address && (
-            <div className="rounded-lg bg-white/5 p-2 text-xs text-white/60 border border-white/5">
-              <p className="font-medium text-white/80">
-                {latestPoint.address.display_name ||
-                  `${latestPoint.address.road || ""}, ${latestPoint.address.suburb || ""}, ${latestPoint.address.city || ""}`}
-              </p>
-            </div>
-          )}
-
-          <div className="grid grid-cols-2 gap-1">
-            <div className="flex justify-between items-center px-2 py-1 rounded bg-white/5">
-              <span className="text-[10px] text-white/40">Lat</span>
-              <span className="font-mono text-[10px] text-white/70">{latestPoint.latitude.toFixed(6)}</span>
-            </div>
-            <div className="flex justify-between items-center px-2 py-1 rounded bg-white/5">
-              <span className="text-[10px] text-white/40">Lng</span>
-              <span className="font-mono text-[10px] text-white/70">{latestPoint.longitude.toFixed(6)}</span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-1">
-            <div className="flex justify-between items-center px-2 py-1 rounded bg-white/5">
-              <span className="text-[10px] text-white/40">⚡ Vitesse</span>
-              <span className="text-[10px] font-medium text-white/70">
-                {latestPoint.speed !== null
-                  ? `${(latestPoint.speed * 3.6).toFixed(1)} km/h`
-                  : "⏸ À l'arrêt"}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🌐</span> Latitude
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
+                {latestPoint.latitude.toFixed(6)}
               </span>
             </div>
-            <div className="flex justify-between items-center px-2 py-1 rounded bg-white/5">
-              <span className="text-[10px] text-white/40">🕐</span>
-              <span className="font-mono text-[10px] text-white/70">
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🌐</span> Longitude
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
+                {latestPoint.longitude.toFixed(6)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🎯</span> Précision
+              </span>
+              <span
+                className={`font-semibold text-sm ${
+                  latestPoint.accuracy < 50
+                    ? "text-green-600"
+                    : latestPoint.accuracy < 100
+                    ? "text-yellow-600"
+                    : "text-red-600"
+                }`}
+              >
+                {Math.round(latestPoint.accuracy)} mètres
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>⚡</span> Vitesse
+              </span>
+              <span className="font-semibold text-sm text-gray-900">
+                {latestPoint.speed !== null
+                  ? `${(latestPoint.speed * 3.6).toFixed(1)} km/h`
+                  : "⏸️ À l'arrêt"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🕐</span> Dernière mise à jour
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
                 {new Date(latestPoint.timestamp).toLocaleTimeString()}
               </span>
             </div>
@@ -361,4 +316,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-    }
+}
