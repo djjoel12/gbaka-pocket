@@ -607,5 +607,15 @@ export default function GpsRecorder({
       )}
 
       {/* Dernière position GPS */}
-      {latestPoint && (
-        <div className="rounded-2xl bg-g
+{latestPoint && (
+  <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
+    <div className="flex items-center gap-2 mb-4">
+      <span className="text-xl">🛰️</span>
+      <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
+      {isRecording && (
+        <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-green-600">
+          <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
+          En direct
+        </span>
+      )}
+    </div>
