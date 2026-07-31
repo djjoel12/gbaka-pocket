@@ -607,15 +607,47 @@ export default function GpsRecorder({
       )}
 
       {/* Dernière position GPS */}
-{latestPoint && (
-  <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
-    <div className="flex items-center gap-2 mb-4">
-      <span className="text-xl">🛰️</span>
-      <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
-      {isRecording && (
-        <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-green-600">
-          <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
-          En direct
-        </span>
+      {/* Dernière position GPS */}
+      {latestPoint && (
+        <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xl">🛰️</span>
+            <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
+            {isRecording && (
+              <span className="ml-auto inline-flex items-center gap-1 text-xs font-medium text-green-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping" />
+                En direct
+              </span>
+            )}
+          </div>
+          
+          {/* Afficher les coordonnées si disponibles */}
+          {latestPoint && (
+            <div className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <div className="rounded-xl bg-gray-50 p-2">
+                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Latitude</p>
+                  <p className="text-sm font-mono font-bold text-gray-900">
+                    {latestPoint.latitude.toFixed(6)}
+                  </p>
+                </div>
+                <div className="rounded-xl bg-gray-50 p-2">
+                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Longitude</p>
+                  <p className="text-sm font-mono font-bold text-gray-900">
+                    {latestPoint.longitude.toFixed(6)}
+                  </p>
+                </div>
+              </div>
+              {latestPoint.accuracy && (
+                <div className="rounded-xl bg-gray-50 p-2">
+                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Précision</p>
+                  <p className="text-sm font-bold text-gray-900">{latestPoint.accuracy} m</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       )}
     </div>
+  );
+                  }
