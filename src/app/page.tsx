@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import GpsRecorder from "@/components/gps/GpsRecorder";
 
@@ -17,7 +17,7 @@ const TransportMap = dynamic(
   }
 );
 
-type GPSPoint = {
+export type GPSPoint = {
   latitude: number;
   longitude: number;
   accuracy: number;
@@ -29,6 +29,12 @@ export default function Home() {
   const [route, setRoute] = useState("");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
+
+  // Nettoyage des points au changement de ligne (fonctionnalité 18)
+  useEffect(() => {
+    setPoints([]);
+    setStatus("idle");
+  }, [route]);
 
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-6">
@@ -71,6 +77,7 @@ export default function Home() {
             status={status}
             setStatus={setStatus}
             onPointsChange={setPoints}
+            route={route}
           />
         ) : (
           <div className="rounded-2xl bg-white p-5 text-center text-sm text-gray-500 shadow-sm">
