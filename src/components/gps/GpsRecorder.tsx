@@ -8,187 +8,13 @@ type GpsRecorderProps = {
   setStatus?: Dispatch<SetStateAction<"idle" | "recording" | "paused">>;
   onPointsChange?: (points: GPSPoint[]) => void;
   route?: string;
+  minDistance?: number;
+  maxSpeed?: number;
+  maxAccuracy?: number;
 };
 
 // ============================================
-// 1. FILTRE DE KALMAN (LISSAGE INTELLIGENT)
-// ============================================
-class KalmanFilter {
-  private Q: number; // Bruit du processus
-  private R: number; // Bruit de mesure
-  private P: number; // Erreur de covariance
-  private K: number; // Gain de Kalman
-  private x: number; // État estimé
-
-  constructor(initialValue: number, Q: number = 0.01, R: number = 5) {
-    this.Q = Q;
-    this.R = R;
-    this.P = 1;
-    this.K = 0;
-    this.x = initialValue;
-  }
-
-  update(measurement: number): number {
-    // 1. Prédiction
-    this.P = this.P + this.Q;
-
-    // 2. Mise à jour (correction)
-    this.K = this.P / (this.P + this.R);
-    this.x = this.x + this.K * (measurement - this.x);
-    this.P = (1 - this.K) * this.P;
-
-    return this.x;
-  }
-}
-
-// ============================================
-// 2. MAP MATCHING AVEC OSRM
-// ============================================
-async function mapMatchPoints(points: GPSPoint[]): Promise<GPSPoint[]> {
-  if (points.length < 3) return points;
-
-  try {
-    // Préparer les coordonnées pour OSRM
-    const coordinates = points
-      .map((p) => `${p.longitude},${p.latitude}`)
-      .join(';');
-
-    // Appeler l'API OSRM Map Matching
-    const response = await fetch(
-      `https://router.project-osrm.org/match/v1/car/${coordinates}?geometries=geojson&overview=full`
-    );
-
-    if (!response.ok) {
-      console.warn('Map Matching échoué, utilisation des points bruts');
-      return points;
-    }
-
-    const data = await response.json();
-
-    if (data && data.matchings && data.matchings.length > 0) {
-      const matched = data.matchings[0];
-      
-      // Convertir les points alignés
-      const matchedPoints: GPSPoint[] = matched.geometry.coordinates.map(
-        (coord: [number, number], index: number) => ({
-          latitude: coord[1],
-          longitude: coord[0],
-          accuracy: points[index]?.accuracy || 30,
-          speed: points[index]?.speed || 0,
-          timestamp: points[index]?.timestamp || Date.now(),
-        })
-      );
-
-      console.log(`✅ Map Matching réussi : ${points.length} → ${matchedPoints.length} points`);
-      return matchedPoints;
-    }
-
-    return points;
-  } catch (error) {
-    console.error('Erreur Map Matching:', error);
-    return points;
-  }
-}
-
-// ============================================
-// 3. LISSAGE BIDIRECTIONNEL
-// ============================================
-function smoothPoints(points: GPSPoint[], windowSize: number = 5): GPSPoint[] {
-  if (points.length < windowSize) return points;
-
-  // Lissage dans les deux sens
-  const smoothed = smoothDirectional(points, windowSize);
-  const reversed = smoothDirectional([...smoothed].reverse(), windowSize);
-  
-  return reversed.reverse();
-}
-
-function smoothDirectional(points: GPSPoint[], windowSize: number): GPSPoint[] {
-  const halfWindow = Math.floor(windowSize / 2);
-  const smoothed: GPSPoint[] = [];
-
-  for (let i = 0; i < points.length; i++) {
-    const start = Math.max(0, i - halfWindow);
-    const end = Math.min(points.length, i + halfWindow + 1);
-    const window = points.slice(start, end);
-
-    const avgLat = window.reduce((sum, p) => sum + p.latitude, 0) / window.length;
-    const avgLon = window.reduce((sum, p) => sum + p.longitude, 0) / window.length;
-    const avgAccuracy = window.reduce((sum, p) => sum + p.accuracy, 0) / window.length;
-
-    smoothed.push({
-      latitude: avgLat,
-      longitude: avgLon,
-      accuracy: avgAccuracy,
-      speed: points[i].speed,
-      timestamp: points[i].timestamp,
-    });
-  }
-
-  return smoothed;
-}
-
-// ============================================
-// 4. ALGORITHME DE DOUGLAS-PEUCKER (Simplification)
-// ============================================
-function douglasPeucker(points: GPSPoint[], epsilon: number = 5): GPSPoint[] {
-  if (points.length < 3) return points;
-
-  // Trouver le point le plus éloigné
-  let dmax = 0;
-  let index = 0;
-  const end = points.length - 1;
-
-  for (let i = 1; i < end; i++) {
-    const d = perpendicularDistance(points[i], points[0], points[end]);
-    if (d > dmax) {
-      index = i;
-      dmax = d;
-    }
-  }
-
-  // Si la distance max est > epsilon, on divise
-  if (dmax > epsilon) {
-    const recResults1 = douglasPeucker(points.slice(0, index + 1), epsilon);
-    const recResults2 = douglasPeucker(points.slice(index), epsilon);
-    return [...recResults1.slice(0, -1), ...recResults2];
-  } else {
-    return [points[0], points[end]];
-  }
-}
-
-function perpendicularDistance(point: GPSPoint, start: GPSPoint, end: GPSPoint): number {
-  const lat1 = point.latitude;
-  const lon1 = point.longitude;
-  const lat2 = start.latitude;
-  const lon2 = start.longitude;
-  const lat3 = end.latitude;
-  const lon3 = end.longitude;
-
-  // Convertir en radians
-  const R = 6371e3;
-  const φ1 = (lat1 * Math.PI) / 180;
-  const φ2 = (lat2 * Math.PI) / 180;
-  const φ3 = (lat3 * Math.PI) / 180;
-  const Δλ2 = ((lon2 - lon1) * Math.PI) / 180;
-  const Δλ3 = ((lon3 - lon1) * Math.PI) / 180;
-
-  // Distance entre les points
-  const d13 = calculateDistance(lat1, lon1, lat3, lon3);
-  const d23 = calculateDistance(lat2, lon2, lat3, lon3);
-  
-  if (d13 === 0) return d23;
-  if (d23 === 0) return d13;
-
-  // Projection
-  const cosθ = (d13 * d13 + d23 * d23 - calculateDistance(lat1, lon1, lat2, lon2) ** 2) / (2 * d13 * d23);
-  const sinθ = Math.sqrt(1 - cosθ * cosθ);
-  
-  return d13 * sinθ;
-}
-
-// ============================================
-// 5. CALCUL DE DISTANCE (Haversine)
+// 1. CALCUL DE DISTANCE (Haversine)
 // ============================================
 function calculateDistance(
   lat1: number,
@@ -211,7 +37,149 @@ function calculateDistance(
 }
 
 // ============================================
-// 6. REVERSE GEOCODING
+// 2. FILTRE DE KALMAN
+// ============================================
+class KalmanFilter {
+  private Q: number;
+  private R: number;
+  private P: number;
+  private K: number;
+  private x: number;
+
+  constructor(initialValue: number, Q: number = 0.01, R: number = 5) {
+    this.Q = Q;
+    this.R = R;
+    this.P = 1;
+    this.K = 0;
+    this.x = initialValue;
+  }
+
+  update(measurement: number): number {
+    this.P = this.P + this.Q;
+    this.K = this.P / (this.P + this.R);
+    this.x = this.x + this.K * (measurement - this.x);
+    this.P = (1 - this.K) * this.P;
+    return this.x;
+  }
+}
+
+// ============================================
+// 3. LISSAGE BIDIRECTIONNEL (moyenne mobile sur 7 points)
+// ============================================
+function smoothPoints(points: GPSPoint[], windowSize: number = 7): GPSPoint[] {
+  if (points.length < windowSize) return points;
+
+  const smoothDirectional = (pts: GPSPoint[], size: number): GPSPoint[] => {
+    const half = Math.floor(size / 2);
+    const smoothed: GPSPoint[] = [];
+
+    for (let i = 0; i < pts.length; i++) {
+      const start = Math.max(0, i - half);
+      const end = Math.min(pts.length, i + half + 1);
+      const window = pts.slice(start, end);
+
+      const avgLat = window.reduce((sum, p) => sum + p.latitude, 0) / window.length;
+      const avgLon = window.reduce((sum, p) => sum + p.longitude, 0) / window.length;
+      const avgAccuracy = window.reduce((sum, p) => sum + p.accuracy, 0) / window.length;
+
+      smoothed.push({
+        latitude: avgLat,
+        longitude: avgLon,
+        accuracy: avgAccuracy,
+        speed: pts[i].speed,
+        timestamp: pts[i].timestamp,
+      });
+    }
+    return smoothed;
+  };
+
+  const smoothed = smoothDirectional(points, windowSize);
+  const reversed = smoothDirectional([...smoothed].reverse(), windowSize);
+  return reversed.reverse();
+}
+
+// ============================================
+// 4. MAP MATCHING (OSRM)
+// ============================================
+async function mapMatchPoints(points: GPSPoint[]): Promise<GPSPoint[]> {
+  if (points.length < 3) return points;
+
+  try {
+    const coordinates = points
+      .map((p) => `${p.longitude},${p.latitude}`)
+      .join(';');
+
+    const response = await fetch(
+      `https://router.project-osrm.org/match/v1/car/${coordinates}?geometries=geojson&overview=full`
+    );
+
+    if (!response.ok) return points;
+
+    const data = await response.json();
+
+    if (data && data.matchings && data.matchings.length > 0) {
+      const matched = data.matchings[0];
+      const matchedPoints: GPSPoint[] = matched.geometry.coordinates.map(
+        (coord: [number, number], index: number) => ({
+          latitude: coord[1],
+          longitude: coord[0],
+          accuracy: points[index]?.accuracy || 30,
+          speed: points[index]?.speed || 0,
+          timestamp: points[index]?.timestamp || Date.now(),
+        })
+      );
+      console.log(`✅ Map Matching: ${points.length} → ${matchedPoints.length} points`);
+      return matchedPoints;
+    }
+    return points;
+  } catch (error) {
+    console.error('Map Matching error:', error);
+    return points;
+  }
+}
+
+// ============================================
+// 5. DOUGLAS-PEUCKER (Simplification)
+// ============================================
+function douglasPeucker(points: GPSPoint[], epsilon: number = 5): GPSPoint[] {
+  if (points.length < 3) return points;
+
+  let dmax = 0;
+  let index = 0;
+  const end = points.length - 1;
+
+  for (let i = 1; i < end; i++) {
+    const d = perpendicularDistance(points[i], points[0], points[end]);
+    if (d > dmax) {
+      index = i;
+      dmax = d;
+    }
+  }
+
+  if (dmax > epsilon) {
+    const recResults1 = douglasPeucker(points.slice(0, index + 1), epsilon);
+    const recResults2 = douglasPeucker(points.slice(index), epsilon);
+    return [...recResults1.slice(0, -1), ...recResults2];
+  } else {
+    return [points[0], points[end]];
+  }
+}
+
+function perpendicularDistance(point: GPSPoint, start: GPSPoint, end: GPSPoint): number {
+  const d13 = calculateDistance(point.latitude, point.longitude, end.latitude, end.longitude);
+  const d23 = calculateDistance(start.latitude, start.longitude, end.latitude, end.longitude);
+  const d12 = calculateDistance(point.latitude, point.longitude, start.latitude, start.longitude);
+  
+  if (d13 === 0) return d23;
+  if (d23 === 0) return d13;
+  
+  const cosθ = (d13 * d13 + d23 * d23 - d12 * d12) / (2 * d13 * d23);
+  const sinθ = Math.sqrt(1 - Math.min(cosθ * cosθ, 1));
+  return d13 * sinθ;
+}
+
+// ============================================
+// 6. REVERSE GEOCODING (Nominatim)
 // ============================================
 async function getAddress(lat: number, lon: number): Promise<string> {
   try {
@@ -219,14 +187,13 @@ async function getAddress(lat: number, lon: number): Promise<string> {
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`
     );
     const data = await response.json();
-    
     if (data && data.display_name) {
       const parts = data.display_name.split(',');
       return parts.slice(0, 3).join(',').trim();
     }
     return "Adresse inconnue";
   } catch (error) {
-    console.error("Erreur reverse geocoding:", error);
+    console.error("Reverse geocoding error:", error);
     return "Adresse inconnue";
   }
 }
@@ -239,9 +206,13 @@ export default function GpsRecorder({
   setStatus,
   onPointsChange,
   route,
+  minDistance = 15,
+  maxSpeed = 40,
+  maxAccuracy = 30,
 }: GpsRecorderProps) {
   const isRecording = status === "recording";
 
+  // États
   const [gpsStatus, setGpsStatus] = useState<string>("En attente");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [rawPoints, setRawPoints] = useState<GPSPoint[]>([]);
@@ -252,14 +223,17 @@ export default function GpsRecorder({
   const [startTime, setStartTime] = useState<number | null>(null);
   const [isStopped, setIsStopped] = useState<boolean>(false);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
+  const [hasMoved, setHasMoved] = useState<boolean>(false);
+  const [stopCount, setStopCount] = useState<number>(0);
 
+  // Refs
   const watchIdRef = useRef<number | null>(null);
-  const latestPoint = points[points.length - 1];
-  const lastRawPoint = rawPoints[rawPoints.length - 1];
-
-  // Filtres Kalman (un pour latitude, un pour longitude)
   const latFilterRef = useRef<KalmanFilter | null>(null);
   const lonFilterRef = useRef<KalmanFilter | null>(null);
+  const stopStartTimeRef = useRef<number | null>(null);
+
+  const latestPoint = points[points.length - 1];
+  const lastRawPoint = rawPoints[rawPoints.length - 1];
 
   // Nettoyage au changement de route
   useEffect(() => {
@@ -272,6 +246,9 @@ export default function GpsRecorder({
     setIsStopped(false);
     setError("");
     setGpsStatus("En attente");
+    setHasMoved(false);
+    setStopCount(0);
+    stopStartTimeRef.current = null;
   }, [route]);
 
   // Timer pour la durée
@@ -288,15 +265,48 @@ export default function GpsRecorder({
   }, [isRecording, startTime]);
 
   // ============================================
-  // FONCTION DE TRAITEMENT DES POINTS
+  // TRAITEMENT DES POINTS (COMPLET)
   // ============================================
   const processPoints = async (newPoints: GPSPoint[]) => {
+    // VÉRIFICATION STRICTE : Est-ce qu'on a vraiment bougé ?
+    if (rawPoints.length >= 2) {
+      const last = rawPoints[rawPoints.length - 1];
+      const beforeLast = rawPoints[rawPoints.length - 2];
+      
+      if (last && beforeLast) {
+        const realDistance = calculateDistance(
+          beforeLast.latitude,
+          beforeLast.longitude,
+          last.latitude,
+          last.longitude
+        );
+
+        // ❌ Si on a pas bougé de minDistance, on ignore
+        if (realDistance < minDistance) {
+          console.log(`❌ Immobile: ${realDistance.toFixed(1)}m < ${minDistance}m`);
+          return;
+        }
+
+        // Calcul de la vitesse réelle
+        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+        if (timeDiff > 0) {
+          const speed = realDistance / timeDiff;
+          if (speed < 0.5) {
+            console.log(`❌ Trop lent: ${speed.toFixed(2)} m/s`);
+            return;
+          }
+        }
+
+        setHasMoved(true);
+      }
+    }
+
     setIsProcessing(true);
 
     try {
       let processed = [...newPoints];
 
-      // 1. Filtre de Kalman (si initialisé)
+      // 1. FILTRE DE KALMAN
       if (latFilterRef.current && lonFilterRef.current) {
         processed = processed.map((point) => ({
           ...point,
@@ -305,34 +315,34 @@ export default function GpsRecorder({
         }));
       }
 
-      // 2. Lissage bidirectionnel (si assez de points)
-      if (processed.length >= 5) {
+      // 2. LISSAGE BIDIRECTIONNEL (7 points)
+      if (processed.length >= 7 && hasMoved) {
         processed = smoothPoints(processed, 7);
       }
 
-      // 3. Map Matching (si assez de points et route)
-      if (processed.length >= 3 && route) {
+      // 3. MAP MATCHING (alignement sur les routes)
+      if (processed.length >= 3 && route && hasMoved) {
         try {
           const matched = await mapMatchPoints(processed);
           if (matched.length > 0) {
             processed = matched;
           }
         } catch (e) {
-          console.log('Map Matching non disponible, utilisation des points lissés');
+          console.log('Map Matching non disponible');
         }
       }
 
-      // 4. Simplification (Douglas-Peucker)
-      if (processed.length >= 10) {
+      // 4. DOUGLAS-PEUCKER (simplification)
+      if (processed.length >= 10 && hasMoved) {
         processed = douglasPeucker(processed, 5);
       }
 
-      // Mettre à jour les points affichés
+      // Mise à jour des points affichés
       setPoints(processed);
       onPointsChange?.(processed);
 
-      // Calculer la distance
-      if (processed.length >= 2) {
+      // Calcul de la distance totale
+      if (processed.length >= 2 && hasMoved) {
         const last = processed[processed.length - 2];
         const current = processed[processed.length - 1];
         if (last && current) {
@@ -345,8 +355,36 @@ export default function GpsRecorder({
           setTotalDistance((prev) => prev + dist);
         }
       }
+
+      // Détection des arrêts
+      if (hasMoved && rawPoints.length >= 2) {
+        const last = rawPoints[rawPoints.length - 1];
+        const beforeLast = rawPoints[rawPoints.length - 2];
+        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+        const dist = calculateDistance(
+          beforeLast.latitude,
+          beforeLast.longitude,
+          last.latitude,
+          last.longitude
+        );
+        const speed = dist / timeDiff;
+
+        if (speed < 0.5) {
+          if (!stopStartTimeRef.current) {
+            stopStartTimeRef.current = Date.now();
+          } else {
+            const stopDuration = (Date.now() - stopStartTimeRef.current) / 1000;
+            if (stopDuration > 30) {
+              setStopCount((prev) => prev + 1);
+              stopStartTimeRef.current = null;
+            }
+          }
+        } else {
+          stopStartTimeRef.current = null;
+        }
+      }
     } catch (error) {
-      console.error('Erreur lors du traitement des points:', error);
+      console.error('Erreur traitement:', error);
     } finally {
       setIsProcessing(false);
     }
@@ -359,6 +397,9 @@ export default function GpsRecorder({
     setError("");
     setGpsStatus("Recherche de votre position…");
     setIsStopped(false);
+    setHasMoved(false);
+    setStopCount(0);
+    stopStartTimeRef.current = null;
 
     if (!navigator.geolocation) {
       setError("La géolocalisation n'est pas disponible sur cet appareil.");
@@ -366,27 +407,27 @@ export default function GpsRecorder({
       return;
     }
 
-    // Réinitialiser
+    // Réinitialisation
     setPoints([]);
     setRawPoints([]);
     setTotalDistance(0);
     setDuration(0);
     setAddress("");
 
-    // Réinitialiser les filtres Kalman
     latFilterRef.current = null;
     lonFilterRef.current = null;
 
     const watchId = navigator.geolocation.watchPosition(
       async (position) => {
-        // Filtres de qualité
-        if (position.coords.accuracy > 30) {
-          console.log(`❌ Point ignoré – précision: ${position.coords.accuracy}m`);
+        // FILTRE DE PRÉCISION
+        if (position.coords.accuracy > maxAccuracy) {
+          console.log(`❌ Précision: ${position.coords.accuracy}m > ${maxAccuracy}m`);
           return;
         }
 
-        if (position.coords.speed !== null && position.coords.speed > 40) {
-          console.log(`❌ Point ignoré – vitesse: ${position.coords.speed}m/s`);
+        // FILTRE DE VITESSE
+        if (position.coords.speed !== null && position.coords.speed > maxSpeed) {
+          console.log(`❌ Vitesse: ${position.coords.speed}m/s > ${maxSpeed}m/s`);
           return;
         }
 
@@ -398,35 +439,41 @@ export default function GpsRecorder({
           timestamp: position.timestamp,
         };
 
-        // Initialiser les filtres Kalman avec le premier point
+        // Initialiser les filtres Kalman
         if (!latFilterRef.current) {
           latFilterRef.current = new KalmanFilter(newPoint.latitude, 0.01, 5);
           lonFilterRef.current = new KalmanFilter(newPoint.longitude, 0.01, 5);
         }
 
-        // Ajouter le point brut
+        // Ajouter le point
         setRawPoints((prev) => {
           const updated = [...prev, newPoint];
           
-          // Traiter les points
+          // Vérification stricte AVANT de traiter
           if (updated.length >= 3) {
+            const lastTwo = updated.slice(-2);
+            if (lastTwo.length === 2) {
+              const dist = calculateDistance(
+                lastTwo[0].latitude,
+                lastTwo[0].longitude,
+                lastTwo[1].latitude,
+                lastTwo[1].longitude
+              );
+              
+              if (dist < minDistance) {
+                console.log(`❌ Ignoré (trop proche): ${dist.toFixed(1)}m`);
+                return prev;
+              }
+            }
+            
             processPoints(updated);
           } else {
-            // Points initiaux (pas de filtrage avancé)
             setPoints(updated);
             onPointsChange?.(updated);
           }
 
           return updated;
         });
-
-        // Détection des arrêts
-        if (lastRawPoint && position.coords.speed !== null && position.coords.speed < 0.5) {
-          const timeDiff = (position.timestamp - lastRawPoint.timestamp) / 1000;
-          if (timeDiff > 30) {
-            console.log(`🛑 Arrêt détecté – durée: ${Math.round(timeDiff)}s`);
-          }
-        }
 
         // Mise à jour de l'adresse
         if (rawPoints.length === 0) {
@@ -446,7 +493,7 @@ export default function GpsRecorder({
         }
       },
       (err) => {
-        console.error("Erreur GPS :", err);
+        console.error("Erreur GPS:", err);
         setGpsStatus("Erreur GPS");
         if (err.code === 1) {
           setError("Vous devez autoriser la localisation pour enregistrer un trajet.");
@@ -482,7 +529,7 @@ export default function GpsRecorder({
     setIsStopped(true);
   };
 
-  // Suivi GPS en direct
+  // Suivi GPS en direct (même sans enregistrement)
   useEffect(() => {
     if (!isRecording && !isStopped) {
       const watchId = navigator.geolocation.watchPosition(
@@ -495,7 +542,6 @@ export default function GpsRecorder({
         (err) => console.log("Suivi passif:", err),
         { enableHighAccuracy: true, maximumAge: 10000 }
       );
-      
       return () => {
         if (watchId) navigator.geolocation.clearWatch(watchId);
       };
@@ -520,7 +566,7 @@ export default function GpsRecorder({
 
   return (
     <div className="max-w-md mx-auto space-y-4 p-4">
-      {/* Statut GPS avec indicateur de traitement */}
+      {/* Statut GPS */}
       <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -539,6 +585,16 @@ export default function GpsRecorder({
             {isProcessing ? "🔄 Traitement..." : gpsStatus}
           </span>
         </div>
+        {isRecording && (
+          <div className="mt-2 flex items-center gap-2 text-xs">
+            <span className={hasMoved ? "text-green-600" : "text-gray-400"}>
+              {hasMoved ? "🚶 En mouvement" : "⏸️ Immobile"}
+            </span>
+            {stopCount > 0 && (
+              <span className="text-blue-600">🛑 {stopCount} arrêts</span>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Erreur */}
@@ -607,7 +663,6 @@ export default function GpsRecorder({
       )}
 
       {/* Dernière position GPS */}
-      {/* Dernière position GPS */}
       {latestPoint && (
         <div className="rounded-2xl bg-gradient-to-br from-white to-gray-50/50 p-5 shadow-lg border border-gray-100/50 animate-in slide-in-from-bottom-4">
           <div className="flex items-center gap-2 mb-4">
@@ -620,34 +675,61 @@ export default function GpsRecorder({
               </span>
             )}
           </div>
-          
-          {/* Afficher les coordonnées si disponibles */}
-          {latestPoint && (
-            <div className="space-y-2">
-              <div className="grid grid-cols-2 gap-2">
-                <div className="rounded-xl bg-gray-50 p-2">
-                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Latitude</p>
-                  <p className="text-sm font-mono font-bold text-gray-900">
-                    {latestPoint.latitude.toFixed(6)}
-                  </p>
-                </div>
-                <div className="rounded-xl bg-gray-50 p-2">
-                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Longitude</p>
-                  <p className="text-sm font-mono font-bold text-gray-900">
-                    {latestPoint.longitude.toFixed(6)}
-                  </p>
-                </div>
-              </div>
-              {latestPoint.accuracy && (
-                <div className="rounded-xl bg-gray-50 p-2">
-                  <p className="text-[10px] font-medium text-gray-500 uppercase tracking-wider">Précision</p>
-                  <p className="text-sm font-bold text-gray-900">{latestPoint.accuracy} m</p>
-                </div>
-              )}
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🌐</span> Latitude
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
+                {latestPoint.latitude.toFixed(6)}
+              </span>
             </div>
-          )}
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🌐</span> Longitude
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
+                {latestPoint.longitude.toFixed(6)}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🎯</span> Précision
+              </span>
+              <span
+                className={`font-semibold text-sm ${
+                  latestPoint.accuracy < 20
+                    ? "text-green-600"
+                    : latestPoint.accuracy < 30
+                    ? "text-yellow-600"
+                    : "text-red-600"
+                }`}
+              >
+                {Math.round(latestPoint.accuracy)} mètres
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>⚡</span> Vitesse
+              </span>
+              <span className="font-semibold text-sm text-gray-900">
+                {latestPoint.speed !== null
+                  ? `${(latestPoint.speed * 3.6).toFixed(1)} km/h`
+                  : "⏸️ À l'arrêt"}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50/50">
+              <span className="text-sm text-gray-500 flex items-center gap-1">
+                <span>🕐</span> Dernière mise à jour
+              </span>
+              <span className="font-mono text-sm font-semibold text-gray-900">
+                {new Date(latestPoint.timestamp).toLocaleTimeString()}
+              </span>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
-                  }
+}
