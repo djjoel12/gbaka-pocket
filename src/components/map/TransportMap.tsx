@@ -164,4 +164,4 @@ export default function TransportMap({ points }: TransportMapProps) {
       </MapContainer>
     </div>
   );
-        }
+    }
