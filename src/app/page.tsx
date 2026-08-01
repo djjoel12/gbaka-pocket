@@ -285,6 +285,7 @@ export default function Home() {
             status={status}
             setStatus={setStatus}
             onPointsChange={setPoints}
+            route={route}
           />
         ) : (
           <div className="rounded-2xl bg-white/70 p-8 text-center shadow-lg shadow-slate-200/50 backdrop-blur-xl border border-white/80">
@@ -298,4 +299,4 @@ export default function Home() {
       </div>
     </main>
   );
-        }
+                }
