@@ -337,14 +337,30 @@ export default function GpsRecorder({
         processed = douglasPeucker(processed, 5);
       }
 
-      // Mise à jour des points affichés
-      setPoints(processed);
-      onPointsChange?.(processed);
+      // ✅ CORRECTION : AJOUTER les points au lieu de REMPLACER
+      setPoints((prevPoints) => {
+        // Créer un Set des timestamps existants
+        const existingTimestamps = new Set(prevPoints.map(p => p.timestamp));
+        
+        // Filtrer les nouveaux points qui n'existent pas déjà
+        const uniqueNewPoints = processed.filter(p => !existingTimestamps.has(p.timestamp));
+        
+        // Concaténer les anciens et les nouveaux
+        const allPoints = [...prevPoints, ...uniqueNewPoints];
+        
+        // Trier par timestamp pour garder l'ordre chronologique
+        allPoints.sort((a, b) => a.timestamp - b.timestamp);
+        
+        return allPoints;
+      });
+
+      // ✅ Mettre à jour le parent avec TOUS les points
+      onPointsChange?.(points);
 
       // Calcul de la distance totale
-      if (processed.length >= 2 && hasMoved) {
-        const last = processed[processed.length - 2];
-        const current = processed[processed.length - 1];
+      if (points.length >= 2 && hasMoved) {
+        const last = points[points.length - 2];
+        const current = points[points.length - 1];
         if (last && current) {
           const dist = calculateDistance(
             last.latitude,
@@ -607,7 +623,7 @@ export default function GpsRecorder({
         </div>
       )}
 
-       {/* Bouton principal */}
+            {/* Bouton principal */}
       {!isRecording ? (
         <button
           onClick={startRecording}
@@ -732,4 +748,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-      }
+          }
