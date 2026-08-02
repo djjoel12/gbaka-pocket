@@ -45,28 +45,48 @@ export default function GpsRecorder({
 }: GpsRecorderProps) {
   const isRecording = status === "recording";
 
+  // États
   const [gpsStatus, setGpsStatus] = useState<string>("En attente");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [error, setError] = useState<string>("");
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [isStopped, setIsStopped] = useState<boolean>(false);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
 
+  // Refs
   const watchIdRef = useRef<number | null>(null);
   const lastPositionRef = useRef<GPSPoint | null>(null);
+  const routeRef = useRef<string | undefined>(route);
 
   const latestPoint = points[points.length - 1];
 
+  // ✅ Nettoyage UNIQUEMENT quand la route change vraiment
   useEffect(() => {
-    setPoints([]);
-    setTotalDistance(0);
-    setError("");
-    setGpsStatus("En attente");
-    setIsStopped(false);
-    lastPositionRef.current = null;
-    onPointsChange?.([]);
-  }, [route, onPointsChange]);
+    if (route !== routeRef.current) {
+      console.log("🔄 Route changée, réinitialisation");
+      routeRef.current = route;
+      
+      // Arrêter l'enregistrement en cours
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
+      }
+      
+      setPoints([]);
+      setTotalDistance(0);
+      setError("");
+      setGpsStatus("En attente");
+      setIsStopped(false);
+      lastPositionRef.current = null;
+      onPointsChange?.([]);
+      setStatus?.("idle");
+      setIsInitialized(false);
+    }
+  }, [route, onPointsChange, setStatus]);
 
+  // Démarrer l'enregistrement
   const startRecording = () => {
+    console.log("🚀 Démarrer l'enregistrement");
     setError("");
     setGpsStatus("Recherche de votre position…");
     setIsStopped(false);
@@ -77,13 +97,24 @@ export default function GpsRecorder({
       return;
     }
 
+    // ✅ Réinitialiser les points au démarrage
     setPoints([]);
     setTotalDistance(0);
     lastPositionRef.current = null;
+    setIsInitialized(false);
     onPointsChange?.([]);
+
+    // ✅ S'assurer qu'on arrête l'ancien watch
+    if (watchIdRef.current !== null) {
+      navigator.geolocation.clearWatch(watchIdRef.current);
+      watchIdRef.current = null;
+    }
 
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
+        console.log("📍 Position reçue:", position.coords.latitude, position.coords.longitude);
+        
+        // Filtre de précision
         if (position.coords.accuracy > maxAccuracy) {
           console.log(`❌ Précision: ${position.coords.accuracy}m > ${maxAccuracy}m`);
           return;
@@ -97,6 +128,7 @@ export default function GpsRecorder({
           timestamp: position.timestamp,
         };
 
+        // Vérifier la distance avec le dernier point
         if (lastPositionRef.current) {
           const dist = calculateDistance(
             lastPositionRef.current.latitude,
@@ -105,22 +137,29 @@ export default function GpsRecorder({
             newPoint.longitude
           );
 
+          // Ignorer si trop proche
           if (dist < minDistance) {
             console.log(`❌ Trop proche: ${dist.toFixed(1)}m < ${minDistance}m`);
             return;
           }
 
+          // Ajouter à la distance totale
           setTotalDistance((prev) => prev + dist);
+          console.log(`✅ Distance ajoutée: ${(dist / 1000).toFixed(3)}km`);
         }
 
+        // ✅ Ajouter le point
         setPoints((prev) => {
           const updated = [...prev, newPoint];
+          console.log(`📊 Points: ${updated.length}`);
           onPointsChange?.(updated);
           return updated;
         });
 
         lastPositionRef.current = newPoint;
+        setIsInitialized(true);
 
+        // Mise à jour du statut
         if (gpsStatus !== "Enregistrement en cours") {
           setGpsStatus("Enregistrement en cours");
         }
@@ -129,7 +168,7 @@ export default function GpsRecorder({
         }
       },
       (err) => {
-        console.error("Erreur GPS:", err);
+        console.error("❌ Erreur GPS:", err);
         setGpsStatus("Erreur GPS");
         if (err.code === 1) {
           setError("Vous devez autoriser la localisation pour enregistrer un trajet.");
@@ -150,9 +189,12 @@ export default function GpsRecorder({
     );
 
     watchIdRef.current = watchId;
+    console.log("👀 Watch ID:", watchId);
   };
 
+  // Arrêter l'enregistrement
   const stopRecording = () => {
+    console.log("⏹ Arrêt de l'enregistrement");
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
@@ -162,16 +204,20 @@ export default function GpsRecorder({
     setIsStopped(true);
   };
 
+  // Nettoyage à la destruction du composant
   useEffect(() => {
     return () => {
+      console.log("🧹 Nettoyage du composant");
       if (watchIdRef.current !== null) {
         navigator.geolocation.clearWatch(watchIdRef.current);
+        watchIdRef.current = null;
       }
     };
   }, []);
 
   return (
     <div className="space-y-4">
+      {/* Statut GPS */}
       <div className="rounded-2xl bg-white/70 p-5 shadow-lg border border-gray-100/50 backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -192,11 +238,17 @@ export default function GpsRecorder({
         </div>
         {isRecording && points.length > 0 && (
           <div className="mt-2 text-xs text-gray-500">
-            Dernier point il y a {Math.round((Date.now() - latestPoint.timestamp) / 1000)}s
+            📊 {points.length} points enregistrés
+          </div>
+        )}
+        {isRecording && !isInitialized && (
+          <div className="mt-2 text-xs text-yellow-600">
+            ⏳ En attente de la première position...
           </div>
         )}
       </div>
 
+      {/* Erreur */}
       {error && (
         <div className="rounded-2xl bg-red-50/80 p-4 text-sm text-red-700 border border-red-200/50 shadow-sm">
           <div className="flex items-center gap-2">
@@ -206,10 +258,16 @@ export default function GpsRecorder({
         </div>
       )}
 
+      {/* Bouton principal */}
       {!isRecording ? (
         <button
           onClick={startRecording}
-          className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+          disabled={!route}
+          className={`w-full rounded-2xl px-5 py-4 font-bold text-white shadow-lg transition-all duration-300 ${
+            route 
+              ? "bg-gradient-to-r from-blue-600 to-blue-700 shadow-blue-600/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer" 
+              : "bg-gray-400 shadow-gray-400/30 cursor-not-allowed opacity-50"
+          }`}
         >
           <span className="flex items-center justify-center gap-2">
             <span className="text-xl">📍</span> Démarrer le trajet
@@ -226,6 +284,7 @@ export default function GpsRecorder({
         </button>
       )}
 
+      {/* Informations GPS */}
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-white/70 p-3 shadow-lg border border-gray-100/50 backdrop-blur-xl">
           <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">Points</p>
@@ -240,8 +299,9 @@ export default function GpsRecorder({
         </div>
       </div>
 
+      {/* Dernière position GPS */}
       {latestPoint && (
-        <div className="rounded-2xl bg-white/70 p-5 shadow-lg border border-gray-100/50 backdrop-blur-xl">
+        <div className="rounded-2xl bg-white/70 p-5 shadow-lg border border-gray-100/50 backdrop-blur-xl animate-in slide-in-from-bottom-4">
           <div className="flex items-center gap-2 mb-4">
             <span className="text-xl">🛰️</span>
             <h2 className="font-bold text-gray-900">Dernière position GPS</h2>
@@ -288,4 +348,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-                  }
+  }
