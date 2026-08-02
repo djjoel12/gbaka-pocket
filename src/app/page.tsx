@@ -92,7 +92,11 @@ export default function Home() {
     setSelectedLocation(location);
     setSearchQuery(result.display_name.split(',')[0]);
     setShowResults(false);
-    setPoints((prev) => [...prev, location]);
+    setPoints((prev) => {
+      const updated = [...prev, location];
+      updated.sort((a, b) => a.timestamp - b.timestamp);
+      return updated;
+    });
   };
 
   // Fermer les résultats en cliquant ailleurs
@@ -114,6 +118,7 @@ export default function Home() {
 
   // ✅ Fonction pour gérer les points depuis GpsRecorder
   const handlePointsChange = (newPoints: GPSPoint[]) => {
+    console.log('📊 Points reçus du GPS:', newPoints.length);
     setPoints(newPoints);
   };
 
@@ -304,4 +309,4 @@ export default function Home() {
       </div>
     </main>
   );
-                    }
+}
