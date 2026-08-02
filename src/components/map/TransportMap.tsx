@@ -10,7 +10,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -22,6 +22,7 @@ type GPSPoint = {
 
 type TransportMapProps = {
   points: GPSPoint[];
+  livePosition?: GPSPoint | null; // ✅ Position en direct
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -43,9 +44,19 @@ const endIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
+// ✅ Icône spéciale pour la position en direct (plus grosse, avec pulsation)
 const liveIcon = L.icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  iconSize: [35, 57], // Plus grand
+  iconAnchor: [17, 57],
+});
+
+// ✅ Icône pour le point de départ de l'enregistrement (vert)
+const recordingStartIcon = L.icon({
+  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -54,9 +65,16 @@ const liveIcon = L.icon({
 // Suivi automatique de la carte
 function MapFollower({ position }: { position: [number, number] }) {
   const map = useMap();
+  const isFirstRender = useRef(true);
+  
   useEffect(() => {
     if (position) {
-      map.setView(position, map.getZoom(), { animate: true });
+      // Animation plus fluide
+      map.setView(position, map.getZoom(), { 
+        animate: true,
+        duration: isFirstRender.current ? 0 : 0.5,
+      });
+      isFirstRender.current = false;
     }
   }, [position, map]);
   return null;
@@ -83,11 +101,14 @@ function IntermediatePoints({ points }: { points: GPSPoint[] }) {
   );
 }
 
-export default function TransportMap({ points }: TransportMapProps) {
+export default function TransportMap({ points, livePosition }: TransportMapProps) {
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
   const firstPoint = points.length > 0 ? points[0] : null;
 
-  const currentPosition: [number, number] = lastPoint
+  // ✅ Position à afficher : soit la position en direct, soit le dernier point enregistré
+  const displayPosition: [number, number] = livePosition
+    ? [livePosition.latitude, livePosition.longitude]
+    : lastPoint
     ? [lastPoint.latitude, lastPoint.longitude]
     : defaultPosition;
 
@@ -97,12 +118,13 @@ export default function TransportMap({ points }: TransportMapProps) {
   ]);
 
   const hasValidPoints = points.length > 0;
+  const hasLivePosition = livePosition !== null;
 
   return (
     <div className="overflow-hidden rounded-2xl shadow-sm">
       <MapContainer
-        center={currentPosition}
-        zoom={hasValidPoints ? 15 : 13}
+        center={displayPosition}
+        zoom={hasValidPoints || hasLivePosition ? 16 : 13}
         scrollWheelZoom={true}
         className="h-[400px] w-full"
       >
@@ -111,10 +133,12 @@ export default function TransportMap({ points }: TransportMapProps) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* Suivi automatique */}
-        {hasValidPoints && <MapFollower position={currentPosition} />}
+        {/* ✅ Suivi automatique sur la position en direct ou le dernier point */}
+        {(hasLivePosition || hasValidPoints) && (
+          <MapFollower position={displayPosition} />
+        )}
 
-        {/* Double tracé */}
+        {/* Tracé du trajet enregistré */}
         {routePositions.length > 1 && (
           <>
             <Polyline
@@ -137,16 +161,16 @@ export default function TransportMap({ points }: TransportMapProps) {
         {/* Points intermédiaires */}
         {routePositions.length > 2 && <IntermediatePoints points={points} />}
 
-        {/* Marqueur de départ */}
+        {/* Marqueur de départ de l'enregistrement */}
         {firstPoint && routePositions.length > 1 && (
           <Marker
             key={`start-${firstPoint.timestamp}`}
             position={[firstPoint.latitude, firstPoint.longitude]}
-            icon={startIcon}
+            icon={recordingStartIcon}
           />
         )}
 
-        {/* Marqueur d'arrivée */}
+        {/* Marqueur d'arrivée de l'enregistrement */}
         {lastPoint && routePositions.length > 1 && (
           <Marker
             key={`end-${lastPoint.timestamp}`}
@@ -155,15 +179,35 @@ export default function TransportMap({ points }: TransportMapProps) {
           />
         )}
 
-        {/* Marqueur de position en direct */}
-        {lastPoint && (
+        {/* ✅ Position en direct (toujours affichée) */}
+        {livePosition && (
           <Marker
-            key={`live-${lastPoint.timestamp}`}
-            position={currentPosition}
+            key="live-position"
+            position={[livePosition.latitude, livePosition.longitude]}
+            icon={liveIcon}
+          >
+            {/* ✅ Cercle de précision autour de la position */}
+            <CircleMarker
+              center={[livePosition.latitude, livePosition.longitude]}
+              radius={livePosition.accuracy / 10}
+              fillColor="#3b82f6"
+              color="#60a5fa"
+              weight={1}
+              opacity={0.3}
+              fillOpacity={0.15}
+            />
+          </Marker>
+        )}
+
+        {/* ✅ Si pas de position en direct mais des points enregistrés */}
+        {!livePosition && lastPoint && (
+          <Marker
+            key={`last-${lastPoint.timestamp}`}
+            position={[lastPoint.latitude, lastPoint.longitude]}
             icon={liveIcon}
           />
         )}
       </MapContainer>
     </div>
   );
-}
+            }
