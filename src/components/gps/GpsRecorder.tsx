@@ -199,7 +199,7 @@ async function getAddress(lat: number, lon: number): Promise<string> {
 }
 
 // ============================================
-// 7. COMPOSANT PRINCIPAL
+// 7. COMPOSANT PRINCIPAL (CORRIGÉ)
 // ============================================
 export default function GpsRecorder({
   status = "idle",
@@ -233,7 +233,6 @@ export default function GpsRecorder({
   const stopStartTimeRef = useRef<number | null>(null);
 
   const latestPoint = points[points.length - 1];
-  const lastRawPoint = rawPoints[rawPoints.length - 1];
 
   // Nettoyage au changement de route
   useEffect(() => {
@@ -249,7 +248,8 @@ export default function GpsRecorder({
     setHasMoved(false);
     setStopCount(0);
     stopStartTimeRef.current = null;
-  }, [route]);
+    onPointsChange?.([]);
+  }, [route, onPointsChange]);
 
   // Timer pour la durée
   useEffect(() => {
@@ -265,150 +265,153 @@ export default function GpsRecorder({
   }, [isRecording, startTime]);
 
   // ============================================
+  // TRAITEMENT DES POINTS (CORRIGÉ)
   // ============================================
-// TRAITEMENT DES POINTS (COMPLET)
-// ============================================
-const processPoints = async (newPoints: GPSPoint[]) => {
-  // VÉRIFICATION STRICTE : Est-ce qu'on a vraiment bougé ?
-  if (rawPoints.length >= 2) {
-    const last = rawPoints[rawPoints.length - 1];
-    const beforeLast = rawPoints[rawPoints.length - 2];
-    
-    if (last && beforeLast) {
-      const realDistance = calculateDistance(
-        beforeLast.latitude,
-        beforeLast.longitude,
-        last.latitude,
-        last.longitude
-      );
-
-      // ❌ Si on a pas bougé de minDistance, on ignore
-      if (realDistance < minDistance) {
-        console.log(`❌ Immobile: ${realDistance.toFixed(1)}m < ${minDistance}m`);
-        return;
-      }
-
-      // Calcul de la vitesse réelle
-      const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
-      if (timeDiff > 0) {
-        const speed = realDistance / timeDiff;
-        if (speed < 0.5) {
-          console.log(`❌ Trop lent: ${speed.toFixed(2)} m/s`);
-          return;
-        }
-      }
-
-      setHasMoved(true);
-    }
-  }
-
-  setIsProcessing(true);
-
-  try {
-    let processed = [...newPoints];
-
-    // 1. FILTRE DE KALMAN
-    if (latFilterRef.current && lonFilterRef.current) {
-      processed = processed.map((point) => ({
-        ...point,
-        latitude: latFilterRef.current!.update(point.latitude),
-        longitude: lonFilterRef.current!.update(point.longitude),
-      }));
-    }
-
-    // 2. LISSAGE BIDIRECTIONNEL (7 points)
-    if (processed.length >= 7 && hasMoved) {
-      processed = smoothPoints(processed, 7);
-    }
-
-    // 3. MAP MATCHING (alignement sur les routes)
-    if (processed.length >= 3 && route && hasMoved) {
-      try {
-        const matched = await mapMatchPoints(processed);
-        if (matched.length > 0) {
-          processed = matched;
-        }
-      } catch (e) {
-        console.log('Map Matching non disponible');
-      }
-    }
-
-    // 4. DOUGLAS-PEUCKER (simplification)
-    if (processed.length >= 10 && hasMoved) {
-      processed = douglasPeucker(processed, 5);
-    }
-
-    // ✅ CORRECTION : AJOUTER les points au lieu de REMPLACER
-    setPoints((prevPoints) => {
-      // Créer un Set des timestamps existants
-      const existingTimestamps = new Set(prevPoints.map(p => p.timestamp));
-      
-      // Filtrer les nouveaux points qui n'existent pas déjà
-      const uniqueNewPoints = processed.filter(p => !existingTimestamps.has(p.timestamp));
-      
-      // Concaténer les anciens et les nouveaux
-      const allPoints = [...prevPoints, ...uniqueNewPoints];
-      
-      // Trier par timestamp pour garder l'ordre chronologique
-      allPoints.sort((a, b) => a.timestamp - b.timestamp);
-      
-      return allPoints;
-    });
-
-    // ✅ Mettre à jour le parent avec TOUS les points
-    onPointsChange?.(points);
-
-    // Calcul de la distance totale
-    if (points.length >= 2 && hasMoved) {
-      const last = points[points.length - 2];
-      const current = points[points.length - 1];
-      if (last && current) {
-        const dist = calculateDistance(
-          last.latitude,
-          last.longitude,
-          current.latitude,
-          current.longitude
-        );
-        setTotalDistance((prev) => prev + dist);
-      }
-    }
-
-    // Détection des arrêts
-    if (hasMoved && rawPoints.length >= 2) {
+  const processPoints = async (newPoints: GPSPoint[]) => {
+    // VÉRIFICATION STRICTE : Est-ce qu'on a vraiment bougé ?
+    if (rawPoints.length >= 2) {
       const last = rawPoints[rawPoints.length - 1];
       const beforeLast = rawPoints[rawPoints.length - 2];
-      const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
-      const dist = calculateDistance(
-        beforeLast.latitude,
-        beforeLast.longitude,
-        last.latitude,
-        last.longitude
-      );
-      const speed = dist / timeDiff;
+      
+      if (last && beforeLast) {
+        const realDistance = calculateDistance(
+          beforeLast.latitude,
+          beforeLast.longitude,
+          last.latitude,
+          last.longitude
+        );
 
-      if (speed < 0.5) {
-        if (!stopStartTimeRef.current) {
-          stopStartTimeRef.current = Date.now();
-        } else {
-          const stopDuration = (Date.now() - stopStartTimeRef.current) / 1000;
-          if (stopDuration > 30) {
-            setStopCount((prev) => prev + 1);
-            stopStartTimeRef.current = null;
+        // ❌ Si on a pas bougé de minDistance, on ignore
+        if (realDistance < minDistance) {
+          console.log(`❌ Immobile: ${realDistance.toFixed(1)}m < ${minDistance}m`);
+          return;
+        }
+
+        // Calcul de la vitesse réelle
+        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+        if (timeDiff > 0) {
+          const speed = realDistance / timeDiff;
+          if (speed < 0.5) {
+            console.log(`❌ Trop lent: ${speed.toFixed(2)} m/s`);
+            return;
           }
         }
-      } else {
-        stopStartTimeRef.current = null;
+
+        setHasMoved(true);
       }
     }
-  } catch (error) {
-    console.error('Erreur traitement:', error);
-  } finally {
-    setIsProcessing(false);
-  }
-};
+
+    setIsProcessing(true);
+
+    try {
+      let processed = [...newPoints];
+
+      // 1. FILTRE DE KALMAN
+      if (latFilterRef.current && lonFilterRef.current) {
+        processed = processed.map((point) => ({
+          ...point,
+          latitude: latFilterRef.current!.update(point.latitude),
+          longitude: lonFilterRef.current!.update(point.longitude),
+        }));
+      }
+
+      // 2. LISSAGE BIDIRECTIONNEL (7 points)
+      if (processed.length >= 7 && hasMoved) {
+        processed = smoothPoints(processed, 7);
+      }
+
+      // 3. MAP MATCHING (alignement sur les routes)
+      if (processed.length >= 3 && route && hasMoved) {
+        try {
+          const matched = await mapMatchPoints(processed);
+          if (matched.length > 0) {
+            processed = matched;
+          }
+        } catch (e) {
+          console.log('Map Matching non disponible');
+        }
+      }
+
+      // 4. DOUGLAS-PEUCKER (simplification)
+      if (processed.length >= 10 && hasMoved) {
+        processed = douglasPeucker(processed, 5);
+      }
+
+      // ✅ CORRECTION : Ajouter les points UNIQUEMENT
+      setPoints((prevPoints) => {
+        // Créer un Set des timestamps existants
+        const existingTimestamps = new Set(prevPoints.map(p => p.timestamp));
+        
+        // Filtrer les nouveaux points qui n'existent pas déjà
+        const uniqueNewPoints = processed.filter(p => !existingTimestamps.has(p.timestamp));
+        
+        if (uniqueNewPoints.length === 0) {
+          return prevPoints;
+        }
+        
+        // Concaténer les anciens et les nouveaux
+        const allPoints = [...prevPoints, ...uniqueNewPoints];
+        
+        // Trier par timestamp pour garder l'ordre chronologique
+        allPoints.sort((a, b) => a.timestamp - b.timestamp);
+        
+        // ✅ Mettre à jour le parent avec TOUS les points
+        onPointsChange?.(allPoints);
+        
+        return allPoints;
+      });
+
+      // Calcul de la distance totale
+      if (points.length >= 2 && hasMoved) {
+        const last = points[points.length - 2];
+        const current = points[points.length - 1];
+        if (last && current) {
+          const dist = calculateDistance(
+            last.latitude,
+            last.longitude,
+            current.latitude,
+            current.longitude
+          );
+          setTotalDistance((prev) => prev + dist);
+        }
+      }
+
+      // Détection des arrêts
+      if (hasMoved && rawPoints.length >= 2) {
+        const last = rawPoints[rawPoints.length - 1];
+        const beforeLast = rawPoints[rawPoints.length - 2];
+        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+        const dist = calculateDistance(
+          beforeLast.latitude,
+          beforeLast.longitude,
+          last.latitude,
+          last.longitude
+        );
+        const speed = dist / timeDiff;
+
+        if (speed < 0.5) {
+          if (!stopStartTimeRef.current) {
+            stopStartTimeRef.current = Date.now();
+          } else {
+            const stopDuration = (Date.now() - stopStartTimeRef.current) / 1000;
+            if (stopDuration > 30) {
+              setStopCount((prev) => prev + 1);
+              stopStartTimeRef.current = null;
+            }
+          }
+        } else {
+          stopStartTimeRef.current = null;
+        }
+      }
+    } catch (error) {
+      console.error('Erreur traitement:', error);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   // ============================================
-  // DÉMARRER L'ENREGISTREMENT
+  // DÉMARRER L'ENREGISTREMENT (CORRIGÉ)
   // ============================================
   const startRecording = () => {
     setError("");
@@ -430,6 +433,7 @@ const processPoints = async (newPoints: GPSPoint[]) => {
     setTotalDistance(0);
     setDuration(0);
     setAddress("");
+    onPointsChange?.([]);
 
     latFilterRef.current = null;
     lonFilterRef.current = null;
@@ -462,12 +466,27 @@ const processPoints = async (newPoints: GPSPoint[]) => {
           lonFilterRef.current = new KalmanFilter(newPoint.longitude, 0.01, 5);
         }
 
-        // Ajouter le point
+        // ✅ CORRECTION : Ajouter le point SANS écraser les autres
+        setPoints((prevPoints) => {
+          // Vérifier si ce point existe déjà
+          const exists = prevPoints.some(p => p.timestamp === newPoint.timestamp);
+          if (exists) return prevPoints;
+          
+          const updated = [...prevPoints, newPoint];
+          updated.sort((a, b) => a.timestamp - b.timestamp);
+          
+          // ✅ Notifier le parent immédiatement
+          onPointsChange?.(updated);
+          
+          return updated;
+        });
+
+        // ✅ Ajouter aux points bruts pour le traitement
         setRawPoints((prev) => {
           const updated = [...prev, newPoint];
           
-          // Vérification stricte AVANT de traiter
-          if (updated.length >= 3) {
+          // Traiter les points si on en a assez
+          if (updated.length >= 3 && !isProcessing) {
             const lastTwo = updated.slice(-2);
             if (lastTwo.length === 2) {
               const dist = calculateDistance(
@@ -477,22 +496,16 @@ const processPoints = async (newPoints: GPSPoint[]) => {
                 lastTwo[1].longitude
               );
               
-              if (dist < minDistance) {
-                console.log(`❌ Ignoré (trop proche): ${dist.toFixed(1)}m`);
-                return prev;
+              if (dist >= minDistance) {
+                processPoints(updated);
               }
             }
-            
-            processPoints(updated);
-          } else {
-            setPoints(updated);
-            onPointsChange?.(updated);
           }
-
+          
           return updated;
         });
 
-        // Mise à jour de l'adresse
+        // Mise à jour de l'adresse (seulement au premier point)
         if (rawPoints.length === 0) {
           const addr = await getAddress(position.coords.latitude, position.coords.longitude);
           setAddress(addr);
@@ -624,7 +637,7 @@ const processPoints = async (newPoints: GPSPoint[]) => {
         </div>
       )}
 
-            {/* Bouton principal */}
+      {/* Bouton principal */}
       {!isRecording ? (
         <button
           onClick={startRecording}
@@ -749,4 +762,4 @@ const processPoints = async (newPoints: GPSPoint[]) => {
       )}
     </div>
   );
-          }
+            }
