@@ -10,7 +10,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -26,7 +26,7 @@ type TransportMapProps = {
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
 
-// Icône personnalisée pour le marqueur de départ (vert)
+// Icônes
 const startIcon = L.icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
   iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
@@ -35,7 +35,6 @@ const startIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Icône personnalisée pour le marqueur d'arrivée (rouge)
 const endIcon = L.icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
   iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
@@ -44,7 +43,6 @@ const endIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Icône personnalisée pour le marqueur de position en direct (bleu animé)
 const liveIcon = L.icon({
   iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
   iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
@@ -53,7 +51,7 @@ const liveIcon = L.icon({
   iconAnchor: [12, 41],
 });
 
-// Composant pour suivre la carte
+// Suivi automatique de la carte
 function MapFollower({ position }: { position: [number, number] }) {
   const map = useMap();
   useEffect(() => {
@@ -64,9 +62,8 @@ function MapFollower({ position }: { position: [number, number] }) {
   return null;
 }
 
-// Composant pour les points intermédiaires (fonctionnalité 13)
+// Points intermédiaires
 function IntermediatePoints({ points }: { points: GPSPoint[] }) {
-  // On exclut le premier et le dernier point
   const intermediate = points.slice(1, -1);
   return (
     <>
@@ -87,9 +84,6 @@ function IntermediatePoints({ points }: { points: GPSPoint[] }) {
 }
 
 export default function TransportMap({ points }: TransportMapProps) {
-  // ✅ Debug
-  console.log('🗺️ TransportMap - Points reçus:', points.length);
-
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
   const firstPoint = points.length > 0 ? points[0] : null;
 
@@ -102,7 +96,6 @@ export default function TransportMap({ points }: TransportMapProps) {
     p.longitude,
   ]);
 
-  // ✅ Vérification si la carte doit être affichée
   const hasValidPoints = points.length > 0;
 
   return (
@@ -118,13 +111,12 @@ export default function TransportMap({ points }: TransportMapProps) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* Suivi automatique de la carte (fonctionnalité 19) */}
+        {/* Suivi automatique */}
         {hasValidPoints && <MapFollower position={currentPosition} />}
 
-        {/* Double tracé (fonctionnalité 9) - trait blanc en dessous, bleu au-dessus */}
+        {/* Double tracé */}
         {routePositions.length > 1 && (
           <>
-            {/* Trait blanc (effet de contour) */}
             <Polyline
               positions={routePositions}
               color="white"
@@ -132,7 +124,6 @@ export default function TransportMap({ points }: TransportMapProps) {
               opacity={0.7}
               lineJoin="round"
             />
-            {/* Trait bleu (principal) */}
             <Polyline
               positions={routePositions}
               color="#3b82f6"
@@ -143,10 +134,10 @@ export default function TransportMap({ points }: TransportMapProps) {
           </>
         )}
 
-        {/* Points intermédiaires (fonctionnalité 13) */}
+        {/* Points intermédiaires */}
         {routePositions.length > 2 && <IntermediatePoints points={points} />}
 
-        {/* Marqueur de départ (fonctionnalité 10) */}
+        {/* Marqueur de départ */}
         {firstPoint && routePositions.length > 1 && (
           <Marker
             key={`start-${firstPoint.timestamp}`}
@@ -155,7 +146,7 @@ export default function TransportMap({ points }: TransportMapProps) {
           />
         )}
 
-        {/* Marqueur d'arrivée (fonctionnalité 11) */}
+        {/* Marqueur d'arrivée */}
         {lastPoint && routePositions.length > 1 && (
           <Marker
             key={`end-${lastPoint.timestamp}`}
@@ -164,7 +155,7 @@ export default function TransportMap({ points }: TransportMapProps) {
           />
         )}
 
-        {/* Marqueur de position en direct (fonctionnalité 12) */}
+        {/* Marqueur de position en direct */}
         {lastPoint && (
           <Marker
             key={`live-${lastPoint.timestamp}`}
