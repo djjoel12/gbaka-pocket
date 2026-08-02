@@ -265,146 +265,147 @@ export default function GpsRecorder({
   }, [isRecording, startTime]);
 
   // ============================================
-  // TRAITEMENT DES POINTS (COMPLET)
   // ============================================
-  const processPoints = async (newPoints: GPSPoint[]) => {
-    // VÉRIFICATION STRICTE : Est-ce qu'on a vraiment bougé ?
-    if (rawPoints.length >= 2) {
-      const last = rawPoints[rawPoints.length - 1];
-      const beforeLast = rawPoints[rawPoints.length - 2];
-      
-      if (last && beforeLast) {
-        const realDistance = calculateDistance(
-          beforeLast.latitude,
-          beforeLast.longitude,
-          last.latitude,
-          last.longitude
-        );
+// TRAITEMENT DES POINTS (COMPLET)
+// ============================================
+const processPoints = async (newPoints: GPSPoint[]) => {
+  // VÉRIFICATION STRICTE : Est-ce qu'on a vraiment bougé ?
+  if (rawPoints.length >= 2) {
+    const last = rawPoints[rawPoints.length - 1];
+    const beforeLast = rawPoints[rawPoints.length - 2];
+    
+    if (last && beforeLast) {
+      const realDistance = calculateDistance(
+        beforeLast.latitude,
+        beforeLast.longitude,
+        last.latitude,
+        last.longitude
+      );
 
-        // ❌ Si on a pas bougé de minDistance, on ignore
-        if (realDistance < minDistance) {
-          console.log(`❌ Immobile: ${realDistance.toFixed(1)}m < ${minDistance}m`);
+      // ❌ Si on a pas bougé de minDistance, on ignore
+      if (realDistance < minDistance) {
+        console.log(`❌ Immobile: ${realDistance.toFixed(1)}m < ${minDistance}m`);
+        return;
+      }
+
+      // Calcul de la vitesse réelle
+      const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+      if (timeDiff > 0) {
+        const speed = realDistance / timeDiff;
+        if (speed < 0.5) {
+          console.log(`❌ Trop lent: ${speed.toFixed(2)} m/s`);
           return;
         }
+      }
 
-        // Calcul de la vitesse réelle
-        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
-        if (timeDiff > 0) {
-          const speed = realDistance / timeDiff;
-          if (speed < 0.5) {
-            console.log(`❌ Trop lent: ${speed.toFixed(2)} m/s`);
-            return;
-          }
+      setHasMoved(true);
+    }
+  }
+
+  setIsProcessing(true);
+
+  try {
+    let processed = [...newPoints];
+
+    // 1. FILTRE DE KALMAN
+    if (latFilterRef.current && lonFilterRef.current) {
+      processed = processed.map((point) => ({
+        ...point,
+        latitude: latFilterRef.current!.update(point.latitude),
+        longitude: lonFilterRef.current!.update(point.longitude),
+      }));
+    }
+
+    // 2. LISSAGE BIDIRECTIONNEL (7 points)
+    if (processed.length >= 7 && hasMoved) {
+      processed = smoothPoints(processed, 7);
+    }
+
+    // 3. MAP MATCHING (alignement sur les routes)
+    if (processed.length >= 3 && route && hasMoved) {
+      try {
+        const matched = await mapMatchPoints(processed);
+        if (matched.length > 0) {
+          processed = matched;
         }
-
-        setHasMoved(true);
+      } catch (e) {
+        console.log('Map Matching non disponible');
       }
     }
 
-    setIsProcessing(true);
+    // 4. DOUGLAS-PEUCKER (simplification)
+    if (processed.length >= 10 && hasMoved) {
+      processed = douglasPeucker(processed, 5);
+    }
 
-    try {
-      let processed = [...newPoints];
+    // ✅ CORRECTION : AJOUTER les points au lieu de REMPLACER
+    setPoints((prevPoints) => {
+      // Créer un Set des timestamps existants
+      const existingTimestamps = new Set(prevPoints.map(p => p.timestamp));
+      
+      // Filtrer les nouveaux points qui n'existent pas déjà
+      const uniqueNewPoints = processed.filter(p => !existingTimestamps.has(p.timestamp));
+      
+      // Concaténer les anciens et les nouveaux
+      const allPoints = [...prevPoints, ...uniqueNewPoints];
+      
+      // Trier par timestamp pour garder l'ordre chronologique
+      allPoints.sort((a, b) => a.timestamp - b.timestamp);
+      
+      return allPoints;
+    });
 
-      // 1. FILTRE DE KALMAN
-      if (latFilterRef.current && lonFilterRef.current) {
-        processed = processed.map((point) => ({
-          ...point,
-          latitude: latFilterRef.current!.update(point.latitude),
-          longitude: lonFilterRef.current!.update(point.longitude),
-        }));
-      }
+    // ✅ Mettre à jour le parent avec TOUS les points
+    onPointsChange?.(points);
 
-      // 2. LISSAGE BIDIRECTIONNEL (7 points)
-      if (processed.length >= 7 && hasMoved) {
-        processed = smoothPoints(processed, 7);
-      }
-
-      // 3. MAP MATCHING (alignement sur les routes)
-      if (processed.length >= 3 && route && hasMoved) {
-        try {
-          const matched = await mapMatchPoints(processed);
-          if (matched.length > 0) {
-            processed = matched;
-          }
-        } catch (e) {
-          console.log('Map Matching non disponible');
-        }
-      }
-
-      // 4. DOUGLAS-PEUCKER (simplification)
-      if (processed.length >= 10 && hasMoved) {
-        processed = douglasPeucker(processed, 5);
-      }
-
-      // ✅ CORRECTION : AJOUTER les points au lieu de REMPLACER
-      setPoints((prevPoints) => {
-        // Créer un Set des timestamps existants
-        const existingTimestamps = new Set(prevPoints.map(p => p.timestamp));
-        
-        // Filtrer les nouveaux points qui n'existent pas déjà
-        const uniqueNewPoints = processed.filter(p => !existingTimestamps.has(p.timestamp));
-        
-        // Concaténer les anciens et les nouveaux
-        const allPoints = [...prevPoints, ...uniqueNewPoints];
-        
-        // Trier par timestamp pour garder l'ordre chronologique
-        allPoints.sort((a, b) => a.timestamp - b.timestamp);
-        
-        return allPoints;
-      });
-
-      // ✅ Mettre à jour le parent avec TOUS les points
-      onPointsChange?.(points);
-
-      // Calcul de la distance totale
-      if (points.length >= 2 && hasMoved) {
-        const last = points[points.length - 2];
-        const current = points[points.length - 1];
-        if (last && current) {
-          const dist = calculateDistance(
-            last.latitude,
-            last.longitude,
-            current.latitude,
-            current.longitude
-          );
-          setTotalDistance((prev) => prev + dist);
-        }
-      }
-
-      // Détection des arrêts
-      if (hasMoved && rawPoints.length >= 2) {
-        const last = rawPoints[rawPoints.length - 1];
-        const beforeLast = rawPoints[rawPoints.length - 2];
-        const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+    // Calcul de la distance totale
+    if (points.length >= 2 && hasMoved) {
+      const last = points[points.length - 2];
+      const current = points[points.length - 1];
+      if (last && current) {
         const dist = calculateDistance(
-          beforeLast.latitude,
-          beforeLast.longitude,
           last.latitude,
-          last.longitude
+          last.longitude,
+          current.latitude,
+          current.longitude
         );
-        const speed = dist / timeDiff;
-
-        if (speed < 0.5) {
-          if (!stopStartTimeRef.current) {
-            stopStartTimeRef.current = Date.now();
-          } else {
-            const stopDuration = (Date.now() - stopStartTimeRef.current) / 1000;
-            if (stopDuration > 30) {
-              setStopCount((prev) => prev + 1);
-              stopStartTimeRef.current = null;
-            }
-          }
-        } else {
-          stopStartTimeRef.current = null;
-        }
+        setTotalDistance((prev) => prev + dist);
       }
-    } catch (error) {
-      console.error('Erreur traitement:', error);
-    } finally {
-      setIsProcessing(false);
     }
-  };
+
+    // Détection des arrêts
+    if (hasMoved && rawPoints.length >= 2) {
+      const last = rawPoints[rawPoints.length - 1];
+      const beforeLast = rawPoints[rawPoints.length - 2];
+      const timeDiff = (last.timestamp - beforeLast.timestamp) / 1000;
+      const dist = calculateDistance(
+        beforeLast.latitude,
+        beforeLast.longitude,
+        last.latitude,
+        last.longitude
+      );
+      const speed = dist / timeDiff;
+
+      if (speed < 0.5) {
+        if (!stopStartTimeRef.current) {
+          stopStartTimeRef.current = Date.now();
+        } else {
+          const stopDuration = (Date.now() - stopStartTimeRef.current) / 1000;
+          if (stopDuration > 30) {
+            setStopCount((prev) => prev + 1);
+            stopStartTimeRef.current = null;
+          }
+        }
+      } else {
+        stopStartTimeRef.current = null;
+      }
+    }
+  } catch (error) {
+    console.error('Erreur traitement:', error);
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   // ============================================
   // DÉMARRER L'ENREGISTREMENT
