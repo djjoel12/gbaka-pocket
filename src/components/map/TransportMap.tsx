@@ -72,7 +72,7 @@ function IntermediatePoints({ points }: { points: GPSPoint[] }) {
     <>
       {intermediate.map((point, index) => (
         <CircleMarker
-          key={index}
+          key={`intermediate-${index}-${point.timestamp}`}
           center={[point.latitude, point.longitude]}
           radius={4}
           fillColor="#3b82f6"
@@ -87,6 +87,9 @@ function IntermediatePoints({ points }: { points: GPSPoint[] }) {
 }
 
 export default function TransportMap({ points }: TransportMapProps) {
+  // ✅ Debug
+  console.log('🗺️ TransportMap - Points reçus:', points.length);
+
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
   const firstPoint = points.length > 0 ? points[0] : null;
 
@@ -146,6 +149,7 @@ export default function TransportMap({ points }: TransportMapProps) {
         {/* Marqueur de départ (fonctionnalité 10) */}
         {firstPoint && routePositions.length > 1 && (
           <Marker
+            key={`start-${firstPoint.timestamp}`}
             position={[firstPoint.latitude, firstPoint.longitude]}
             icon={startIcon}
           />
@@ -154,6 +158,7 @@ export default function TransportMap({ points }: TransportMapProps) {
         {/* Marqueur d'arrivée (fonctionnalité 11) */}
         {lastPoint && routePositions.length > 1 && (
           <Marker
+            key={`end-${lastPoint.timestamp}`}
             position={[lastPoint.latitude, lastPoint.longitude]}
             icon={endIcon}
           />
@@ -162,6 +167,7 @@ export default function TransportMap({ points }: TransportMapProps) {
         {/* Marqueur de position en direct (fonctionnalité 12) */}
         {lastPoint && (
           <Marker
+            key={`live-${lastPoint.timestamp}`}
             position={currentPosition}
             icon={liveIcon}
           />
@@ -169,4 +175,4 @@ export default function TransportMap({ points }: TransportMapProps) {
       </MapContainer>
     </div>
   );
-                                     }
+}
