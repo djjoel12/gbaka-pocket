@@ -57,7 +57,9 @@ const liveIcon = L.icon({
 function MapFollower({ position }: { position: [number, number] }) {
   const map = useMap();
   useEffect(() => {
-    map.setView(position, map.getZoom(), { animate: true });
+    if (position) {
+      map.setView(position, map.getZoom(), { animate: true });
+    }
   }, [position, map]);
   return null;
 }
@@ -97,11 +99,14 @@ export default function TransportMap({ points }: TransportMapProps) {
     p.longitude,
   ]);
 
+  // ✅ Vérification si la carte doit être affichée
+  const hasValidPoints = points.length > 0;
+
   return (
     <div className="overflow-hidden rounded-2xl shadow-sm">
       <MapContainer
         center={currentPosition}
-        zoom={13}
+        zoom={hasValidPoints ? 15 : 13}
         scrollWheelZoom={true}
         className="h-[400px] w-full"
       >
@@ -111,7 +116,7 @@ export default function TransportMap({ points }: TransportMapProps) {
         />
 
         {/* Suivi automatique de la carte (fonctionnalité 19) */}
-        <MapFollower position={currentPosition} />
+        {hasValidPoints && <MapFollower position={currentPosition} />}
 
         {/* Double tracé (fonctionnalité 9) - trait blanc en dessous, bleu au-dessus */}
         {routePositions.length > 1 && (
@@ -136,10 +141,10 @@ export default function TransportMap({ points }: TransportMapProps) {
         )}
 
         {/* Points intermédiaires (fonctionnalité 13) */}
-        <IntermediatePoints points={points} />
+        {routePositions.length > 2 && <IntermediatePoints points={points} />}
 
         {/* Marqueur de départ (fonctionnalité 10) */}
-        {firstPoint && points.length > 1 && (
+        {firstPoint && routePositions.length > 1 && (
           <Marker
             position={[firstPoint.latitude, firstPoint.longitude]}
             icon={startIcon}
@@ -147,7 +152,7 @@ export default function TransportMap({ points }: TransportMapProps) {
         )}
 
         {/* Marqueur d'arrivée (fonctionnalité 11) */}
-        {lastPoint && points.length > 1 && (
+        {lastPoint && routePositions.length > 1 && (
           <Marker
             position={[lastPoint.latitude, lastPoint.longitude]}
             icon={endIcon}
@@ -164,4 +169,4 @@ export default function TransportMap({ points }: TransportMapProps) {
       </MapContainer>
     </div>
   );
-    }
+                                     }
