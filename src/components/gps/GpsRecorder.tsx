@@ -194,12 +194,14 @@ export default function GpsRecorder({
           lonFilterRef.current = new KalmanFilter(newPoint.longitude);
         }
 
-        // ✅ 3. Application du filtre Kalman
-        newPoint = {
-          ...newPoint,
-          latitude: latFilterRef.current.update(newPoint.latitude),
-          longitude: lonFilterRef.current.update(newPoint.longitude),
-        };
+        // ✅ 3. Application du filtre Kalman (avec vérification null)
+        if (latFilterRef.current && lonFilterRef.current) {
+          newPoint = {
+            ...newPoint,
+            latitude: latFilterRef.current.update(newPoint.latitude),
+            longitude: lonFilterRef.current.update(newPoint.longitude),
+          };
+        }
 
         // ✅ 4. Lissage adaptatif
         newPoint = adaptiveSmooth(points, newPoint);
@@ -293,9 +295,9 @@ export default function GpsRecorder({
             {gpsStatus}
           </span>
         </div>
-        {isRecording && (
+        {isRecording && latestPoint && (
           <div className="mt-2 text-xs text-gray-500">
-            ✅ Points: {points.length} | 🎯 Précision: {latestPoint?.accuracy.toFixed(0) || '...'}m
+            ✅ Points: {points.length} | 🎯 Précision: {latestPoint.accuracy.toFixed(0)}m
           </div>
         )}
       </div>
@@ -309,16 +311,25 @@ export default function GpsRecorder({
       {!isRecording ? (
         <button
           onClick={startRecording}
-          className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-blue-700 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 hover:scale-[1.02] transition-all"
+          disabled={!route}
+          className={`w-full rounded-2xl px-5 py-4 font-bold text-white shadow-lg transition-all duration-300 ${
+            route 
+              ? "bg-gradient-to-r from-blue-600 to-blue-700 shadow-blue-600/30 hover:scale-[1.02] active:scale-[0.98] cursor-pointer" 
+              : "bg-gray-400 shadow-gray-400/30 cursor-not-allowed opacity-50"
+          }`}
         >
-          📍 Démarrer le trajet
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-xl">📍</span> Démarrer le trajet
+          </span>
         </button>
       ) : (
         <button
           onClick={stopRecording}
-          className="w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 hover:scale-[1.02] transition-all"
+          className="w-full rounded-2xl bg-gradient-to-r from-red-600 to-red-700 px-5 py-4 font-bold text-white shadow-lg shadow-red-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
-          ⏹ Terminer le trajet
+          <span className="flex items-center justify-center gap-2">
+            <span className="text-xl">⏹</span> Terminer le trajet
+          </span>
         </button>
       )}
 
@@ -360,9 +371,17 @@ export default function GpsRecorder({
                 {Math.round(latestPoint.accuracy)} m
               </span>
             </div>
+            {latestPoint.speed !== null && (
+              <div className="flex justify-between p-2 rounded-xl bg-gray-50/50">
+                <span className="text-sm text-gray-500">Vitesse</span>
+                <span className="font-semibold text-sm text-gray-900">
+                  {(latestPoint.speed * 3.6).toFixed(1)} km/h
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
     </div>
   );
-          }
+      }
