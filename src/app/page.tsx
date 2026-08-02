@@ -112,6 +112,11 @@ export default function Home() {
     };
   }, []);
 
+  // ✅ Fonction pour gérer les points depuis GpsRecorder
+  const handlePointsChange = (newPoints: GPSPoint[]) => {
+    setPoints(newPoints);
+  };
+
   // Icône selon le type de lieu
   const getPlaceIcon = (result: SearchResult) => {
     if (result.class === "highway") return "🛣️";
@@ -284,7 +289,7 @@ export default function Home() {
           <GpsRecorder
             status={status}
             setStatus={setStatus}
-            onPointsChange={setPoints}
+            onPointsChange={handlePointsChange}
             route={route}
           />
         ) : (
@@ -299,4 +304,4 @@ export default function Home() {
       </div>
     </main>
   );
-                }
+                    }
