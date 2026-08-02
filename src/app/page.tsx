@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 
 const TransportMap = dynamic(
@@ -32,12 +32,22 @@ export default function Home() {
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
   
-  // ✅ Position en direct (même sans enregistrement)
   const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
   const [liveAccuracy, setLiveAccuracy] = useState<number>(0);
+  
+  // ✅ Référence pour éviter les conflits
+  const isRecordingRef = useRef(false);
 
-  // ✅ Suivi GPS permanent
+  // ✅ Suivi GPS permanent (UNIQUEMENT si pas en enregistrement)
   useEffect(() => {
+    // Si on est en enregistrement, on laisse GpsRecorder gérer le GPS
+    if (status === "recording") {
+      console.log("📡 Enregistrement actif, suivi permanent désactivé");
+      return;
+    }
+
+    console.log("📡 Suivi GPS permanent activé");
+
     if (!navigator.geolocation) {
       console.log("❌ Géolocalisation non disponible");
       return;
@@ -56,7 +66,7 @@ export default function Home() {
         setLiveAccuracy(position.coords.accuracy);
       },
       (error) => {
-        console.error("❌ Erreur GPS:", error);
+        console.error("❌ Erreur GPS (permanent):", error);
       },
       {
         enableHighAccuracy: true,
@@ -66,13 +76,21 @@ export default function Home() {
     );
 
     return () => {
+      console.log("🧹 Nettoyage suivi GPS permanent");
       if (watchId) navigator.geolocation.clearWatch(watchId);
     };
-  }, []);
+  }, [status]); // ✅ Dépend de status
 
   const handlePointsChange = (newPoints: GPSPoint[]) => {
+    console.log("📊 Points reçus du GPS:", newPoints.length);
     setPoints(newPoints);
   };
+
+  // ✅ Debug du status
+  useEffect(() => {
+    console.log("🔄 Status changé:", status);
+    isRecordingRef.current = status === "recording";
+  }, [status]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 px-4 py-6">
@@ -105,7 +123,12 @@ export default function Home() {
             <select
               id="route"
               value={route}
-              onChange={(e) => setRoute(e.target.value)}
+              onChange={(e) => {
+                setRoute(e.target.value);
+                // ✅ Réinitialiser les points quand on change de ligne
+                setPoints([]);
+                setStatus("idle");
+              }}
               className="w-full rounded-xl border-0 bg-slate-100/80 px-4 py-3.5 text-gray-900 outline-none ring-1 ring-slate-200/50 transition-all focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
             >
               <option value="">Choisir une ligne</option>
@@ -169,6 +192,8 @@ export default function Home() {
             setStatus={setStatus}
             onPointsChange={handlePointsChange}
             route={route}
+            minDistance={5} // ✅ Réduit pour mieux tester
+            maxAccuracy={50} // ✅ Augmenté pour mieux tester
           />
         ) : (
           <div className="rounded-2xl bg-white/70 p-8 text-center shadow-lg shadow-slate-200/50 backdrop-blur-xl border border-white/80">
@@ -182,4 +207,4 @@ export default function Home() {
       </div>
     </main>
   );
-              }
+      }
