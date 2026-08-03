@@ -216,10 +216,21 @@ export default function TransportMap({
         style={{ background: "#0a0e17" }}
       >
 
-        {/* FOND DE CARTE - STYLE SOMBRE */}
+        {/* ==========================================
+            FOND DE CARTE - STYLE SOMBRE AVEC ROUTES VISIBLES
+            Utilisation de la tuile "voyager" qui a des routes claires
+        ========================================== */}
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
+        />
+
+        {/* Couche supplémentaire pour les routes en plus clair */}
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png"
+          opacity={0.6}
         />
 
         {/* ==================================
