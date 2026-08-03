@@ -90,7 +90,6 @@ function adaptiveSmooth(
 ): GPSPoint {
   const accuracy = newPoint.accuracy;
   
-  // Bonne précision → lissage léger (3 points)
   if (accuracy < 15) {
     const lastPoints = points.slice(-2);
     if (lastPoints.length < 2) return newPoint;
@@ -102,7 +101,6 @@ function adaptiveSmooth(
     return { ...newPoint, latitude: avgLat, longitude: avgLon };
   }
   
-  // Mauvaise précision → lissage fort (5 points)
   const lastPoints = points.slice(-4);
   if (lastPoints.length < 4) return newPoint;
   
@@ -128,30 +126,52 @@ export default function GpsRecorder({
   const [error, setError] = useState<string>("");
   const [totalDistance, setTotalDistance] = useState<number>(0);
   const [isStopped, setIsStopped] = useState<boolean>(false);
+  const [isFirstPoint, setIsFirstPoint] = useState<boolean>(true);
 
   const watchIdRef = useRef<number | null>(null);
   const lastPositionRef = useRef<GPSPoint | null>(null);
   const latFilterRef = useRef<KalmanFilter | null>(null);
   const lonFilterRef = useRef<KalmanFilter | null>(null);
+  const isFirstPointRef = useRef<boolean>(true);
 
   const latestPoint = points[points.length - 1];
 
+  // Nettoyage au changement de route
   useEffect(() => {
     setPoints([]);
     setTotalDistance(0);
     setError("");
     setGpsStatus("En attente");
     setIsStopped(false);
+    setIsFirstPoint(true);
+    isFirstPointRef.current = true;
     lastPositionRef.current = null;
     latFilterRef.current = null;
     lonFilterRef.current = null;
     onPointsChange?.([]);
   }, [route, onPointsChange]);
 
+  // ✅ Fonction pour ajouter un point immédiatement
+  const addPointImmediate = (point: GPSPoint) => {
+    console.log("✅ AJOUT IMMÉDIAT:", point.latitude, point.longitude);
+    
+    setPoints((prev) => {
+      const updated = [...prev, point];
+      onPointsChange?.(updated);
+      return updated;
+    });
+    
+    lastPositionRef.current = point;
+    setIsFirstPoint(false);
+    isFirstPointRef.current = false;
+  };
+
   const startRecording = () => {
     setError("");
     setGpsStatus("Recherche de votre position…");
     setIsStopped(false);
+    setIsFirstPoint(true);
+    isFirstPointRef.current = true;
 
     if (!navigator.geolocation) {
       setError("La géolocalisation n'est pas disponible.");
@@ -166,8 +186,61 @@ export default function GpsRecorder({
     lonFilterRef.current = null;
     onPointsChange?.([]);
 
+    // ✅ ÉTAPE 1 : Récupérer la position immédiatement
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        console.log("📍 POSITION INITIALE RÉCUPÉRÉE");
+        
+        // Créer le point
+        let newPoint: GPSPoint = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy,
+          speed: position.coords.speed,
+          timestamp: position.timestamp,
+        };
+
+        // Initialiser les filtres Kalman
+        if (!latFilterRef.current) {
+          latFilterRef.current = new KalmanFilter(newPoint.latitude);
+          lonFilterRef.current = new KalmanFilter(newPoint.longitude);
+        }
+
+        // Appliquer le filtre Kalman
+        if (latFilterRef.current && lonFilterRef.current) {
+          newPoint = {
+            ...newPoint,
+            latitude: latFilterRef.current.update(newPoint.latitude),
+            longitude: lonFilterRef.current.update(newPoint.longitude),
+          };
+        }
+
+        // ✅ AJOUTER LE POINT IMMÉDIATEMENT
+        addPointImmediate(newPoint);
+
+        // Mettre à jour le statut
+        setGpsStatus("Enregistrement en cours");
+        if (status !== "recording") {
+          setStatus?.("recording");
+        }
+      },
+      (error) => {
+        console.error("❌ Erreur position initiale:", error);
+        // Si la position immédiate échoue, on utilise le watch
+        setGpsStatus("En attente de position...");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 2000,
+      }
+    );
+
+    // ✅ ÉTAPE 2 : Démarrer le suivi continu
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
+        console.log("📍 POSITION CONTINUE:", position.coords.latitude, position.coords.longitude);
+        
         // Filtre de précision
         if (position.coords.accuracy > maxAccuracy) {
           console.log(`❌ Précision: ${position.coords.accuracy}m`);
@@ -183,18 +256,18 @@ export default function GpsRecorder({
           timestamp: position.timestamp,
         };
 
-        // ✅ 1. Détection des sauts
+        // Détection des sauts
         if (detectSpike(lastPositionRef.current, newPoint, 50)) {
           return;
         }
 
-        // ✅ 2. Initialisation des filtres Kalman
+        // Initialisation des filtres Kalman (si pas déjà fait)
         if (!latFilterRef.current) {
           latFilterRef.current = new KalmanFilter(newPoint.latitude);
           lonFilterRef.current = new KalmanFilter(newPoint.longitude);
         }
 
-        // ✅ 3. Application du filtre Kalman (avec vérification null)
+        // Application du filtre Kalman
         if (latFilterRef.current && lonFilterRef.current) {
           newPoint = {
             ...newPoint,
@@ -203,7 +276,7 @@ export default function GpsRecorder({
           };
         }
 
-        // ✅ 4. Lissage adaptatif
+        // Lissage adaptatif
         newPoint = adaptiveSmooth(points, newPoint);
 
         // Vérifier la distance
@@ -223,7 +296,7 @@ export default function GpsRecorder({
           setTotalDistance((prev) => prev + dist);
         }
 
-        // Ajouter le point
+        // ✅ Ajouter le point
         setPoints((prev) => {
           const updated = [...prev, newPoint];
           onPointsChange?.(updated);
@@ -231,6 +304,8 @@ export default function GpsRecorder({
         });
 
         lastPositionRef.current = newPoint;
+        setIsFirstPoint(false);
+        isFirstPointRef.current = false;
 
         if (gpsStatus !== "Enregistrement en cours") {
           setGpsStatus("Enregistrement en cours");
@@ -281,6 +356,7 @@ export default function GpsRecorder({
 
   return (
     <div className="space-y-4">
+      {/* Statut GPS */}
       <div className="rounded-2xl bg-white/70 p-5 shadow-lg border border-gray-100/50 backdrop-blur-xl">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -295,19 +371,23 @@ export default function GpsRecorder({
             {gpsStatus}
           </span>
         </div>
-        {isRecording && latestPoint && (
+        {isRecording && (
           <div className="mt-2 text-xs text-gray-500">
-            ✅ Points: {points.length} | 🎯 Précision: {latestPoint.accuracy.toFixed(0)}m
+            ✅ Points: {points.length} 
+            {latestPoint && ` | 🎯 Précision: ${latestPoint.accuracy.toFixed(0)}m`}
+            {isFirstPoint && points.length > 0 && ` | ⚡ Premier point capturé !`}
           </div>
         )}
       </div>
 
+      {/* Erreur */}
       {error && (
         <div className="rounded-2xl bg-red-50/80 p-4 text-sm text-red-700 border border-red-200/50">
           ⚠️ {error}
         </div>
       )}
 
+      {/* Boutons */}
       {!isRecording ? (
         <button
           onClick={startRecording}
@@ -333,6 +413,7 @@ export default function GpsRecorder({
         </button>
       )}
 
+      {/* Infos */}
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-white/70 p-3 shadow-lg border border-gray-100/50">
           <p className="text-xs font-medium text-gray-500 uppercase">Points</p>
@@ -346,6 +427,7 @@ export default function GpsRecorder({
         </div>
       </div>
 
+      {/* Dernière position */}
       {latestPoint && (
         <div className="rounded-2xl bg-white/70 p-5 shadow-lg border border-gray-100/50">
           <h2 className="font-bold text-gray-900 mb-3">🛰️ Dernière position</h2>
@@ -384,4 +466,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-      }
+    }
