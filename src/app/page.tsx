@@ -9,10 +9,11 @@ const TransportMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl bg-gray-200">
-        <p className="text-sm text-gray-500">
-          Chargement de la carte...
-        </p>
+      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl bg-gray-800">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <p className="text-sm text-gray-400">Chargement de la carte...</p>
+        </div>
       </div>
     ),
   }
@@ -28,51 +29,39 @@ export type GPSPoint = {
 
 export default function Home() {
   const [route, setRoute] = useState("");
-
-  // Tous les points réellement enregistrés
   const [points, setPoints] = useState<GPSPoint[]>([]);
-
-  // Position GPS actuelle
-  const [livePosition, setLivePosition] =
-    useState<GPSPoint | null>(null);
-
-  // État de l'enregistrement
-  const [status, setStatus] = useState<
-    "idle" | "recording" | "paused"
-  >("idle");
+  const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
+  const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
 
   return (
-    <main className="flex h-screen flex-col bg-gray-100 p-4">
-      {/* SÉLECTION DE LA LIGNE - compacte */}
-      <div className="mx-auto mb-3 w-full max-w-md flex-shrink-0">
-        <select
-          id="route"
-          value={route}
-          onChange={(e) => {
-            setRoute(e.target.value);
-            setPoints([]);
-            setLivePosition(null);
-            setStatus("idle");
-          }}
-          className="w-full rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-900 outline-none focus:border-blue-500"
-        >
-          <option value="">
-            Choisir une ligne
-          </option>
-          <option value="yopougon-adjame">
-            Yopougon Maroc → Adjamé
-          </option>
-          <option value="abobo-adjame">
-            Abobo → Adjamé
-          </option>
-          <option value="cocody-plateau">
-            Cocody → Plateau
-          </option>
-        </select>
-      </div>
+    <div className="flex h-screen flex-col bg-[#0a0a0f]">
+      
+      {/* ========== ZONE CARTE ========== */}
+      {/* 70% de l'écran */}
+      <div className="relative h-[70vh] w-full flex-shrink-0 overflow-hidden">
+        
+        {/* Sélecteur de ligne - overlay en haut */}
+        <div className="absolute left-0 right-0 top-4 z-10 px-4">
+          <div className="mx-auto max-w-md">
+            <select
+              value={route}
+              onChange={(e) => {
+                setRoute(e.target.value);
+                setPoints([]);
+                setLivePosition(null);
+                setStatus("idle");
+              }}
+              className="w-full rounded-2xl border-0 bg-white/95 px-5 py-3.5 text-sm font-medium text-gray-900 shadow-2xl shadow-black/30 outline-none backdrop-blur-sm transition-all focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">🚌 Choisir une ligne</option>
+              <option value="yopougon-adjame">Yopougon Maroc → Adjamé</option>
+              <option value="abobo-adjame">Abobo → Adjamé</option>
+              <option value="cocody-plateau">Cocody → Plateau</option>
+            </select>
+          </div>
+        </div>
 
-      {/* CARTE - 70% de l'espace */}
-      <div className="flex-1 overflow-hidden">
+        {/* La carte */}
         <TransportMap
           points={points}
           livePosition={livePosition}
@@ -80,29 +69,33 @@ export default function Home() {
         />
       </div>
 
-      {/* GPS - contrôles en bas */}
-      <div className="mx-auto mt-3 w-full max-w-md flex-shrink-0">
-        {route ? (
-          <GpsRecorder
-            status={status}
-            setStatus={setStatus}
-            route={route}
-            onPointsChange={setPoints}
-            onLivePositionChange={setLivePosition}
-            minDistance={5}
-            maxAccuracy={50}
-          />
-        ) : (
-          <div className="rounded-2xl bg-white p-3 text-center shadow-sm">
-            <p className="text-sm font-medium text-gray-700">
-              Sélectionnez une ligne
-            </p>
-            <p className="mt-0.5 text-xs text-gray-500">
-              pour commencer l&apos;enregistrement.
-            </p>
-          </div>
-        )}
+      {/* ========== ZONE CONTROLES ========== */}
+      {/* 30% restant */}
+      <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
+        <div className="mx-auto w-full max-w-md flex-1">
+          {route ? (
+            <GpsRecorder
+              status={status}
+              setStatus={setStatus}
+              route={route}
+              onPointsChange={setPoints}
+              onLivePositionChange={setLivePosition}
+              minDistance={5}
+              maxAccuracy={50}
+            />
+          ) : (
+            <div className="mt-2 rounded-2xl border border-white/10 bg-white/5 p-5 text-center backdrop-blur-sm">
+              <div className="text-3xl mb-2">📍</div>
+              <p className="font-medium text-white/80">
+                Sélectionnez une ligne
+              </p>
+              <p className="mt-1 text-sm text-white/40">
+                pour commencer l&apos;enregistrement
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-    </main>
+    </div>
   );
-}
+      }
