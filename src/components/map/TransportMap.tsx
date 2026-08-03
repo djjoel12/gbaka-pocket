@@ -204,7 +204,7 @@ export default function TransportMap({
     !!livePosition;
 
   return (
-    <div className="overflow-hidden rounded-2xl shadow-sm">
+    <div className="h-full w-full overflow-hidden rounded-2xl shadow-sm">
 
       <MapContainer
         center={
@@ -212,14 +212,14 @@ export default function TransportMap({
         }
         zoom={13}
         scrollWheelZoom={true}
-        className="h-[400px] w-full"
+        className="h-full w-full"
+        style={{ background: "#0a0e17" }}
       >
 
-        {/* FOND DE CARTE */}
-
+        {/* FOND DE CARTE - STYLE SOMBRE */}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
 
         {/* ==================================
