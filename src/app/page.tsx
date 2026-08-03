@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 
 const TransportMap = dynamic(
@@ -9,11 +9,10 @@ const TransportMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[400px] items-center justify-center rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200/50 backdrop-blur-sm">
-        <div className="flex flex-col items-center gap-2">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
-          <p className="text-sm text-gray-500">Chargement de la carte…</p>
-        </div>
+      <div className="flex h-[400px] items-center justify-center rounded-2xl bg-gray-200">
+        <p className="text-sm text-gray-500">
+          Chargement de la carte...
+        </p>
       </div>
     ),
   }
@@ -29,181 +28,115 @@ export type GPSPoint = {
 
 export default function Home() {
   const [route, setRoute] = useState("");
+
+  // Tous les points réellement enregistrés
   const [points, setPoints] = useState<GPSPoint[]>([]);
-  const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
-  
-  const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
-  const [liveAccuracy, setLiveAccuracy] = useState<number>(0);
-  
-  // ✅ Référence pour éviter les conflits
-  const isRecordingRef = useRef(false);
 
-  // ✅ Suivi GPS permanent (UNIQUEMENT si pas en enregistrement)
-  useEffect(() => {
-    // Si on est en enregistrement, on laisse GpsRecorder gérer le GPS
-    if (status === "recording") {
-      console.log("📡 Enregistrement actif, suivi permanent désactivé");
-      return;
-    }
+  // Position GPS actuelle
+  const [livePosition, setLivePosition] =
+    useState<GPSPoint | null>(null);
 
-    console.log("📡 Suivi GPS permanent activé");
-
-    if (!navigator.geolocation) {
-      console.log("❌ Géolocalisation non disponible");
-      return;
-    }
-
-    const watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        const point: GPSPoint = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          accuracy: position.coords.accuracy,
-          speed: position.coords.speed,
-          timestamp: position.timestamp,
-        };
-        setLivePosition(point);
-        setLiveAccuracy(position.coords.accuracy);
-      },
-      (error) => {
-        console.error("❌ Erreur GPS (permanent):", error);
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 5000,
-        timeout: 15000,
-      }
-    );
-
-    return () => {
-      console.log("🧹 Nettoyage suivi GPS permanent");
-      if (watchId) navigator.geolocation.clearWatch(watchId);
-    };
-  }, [status]); // ✅ Dépend de status
-
-  const handlePointsChange = (newPoints: GPSPoint[]) => {
-    console.log("📊 Points reçus du GPS:", newPoints.length);
-    setPoints(newPoints);
-  };
-
-  // ✅ Debug du status
-  useEffect(() => {
-    console.log("🔄 Status changé:", status);
-    isRecordingRef.current = status === "recording";
-  }, [status]);
+  // État de l'enregistrement
+  const [status, setStatus] = useState<
+    "idle" | "recording" | "paused"
+  >("idle");
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100 px-4 py-6">
+    <main className="min-h-screen bg-gray-100 px-4 py-6">
       <div className="mx-auto max-w-md space-y-5">
-        {/* ===== EN-TÊTE ===== */}
-        <header className="relative">
-          <div className="absolute -top-10 -right-10 h-32 w-32 rounded-full bg-blue-500/10 blur-3xl" />
-          <div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-purple-500/10 blur-3xl" />
-          
-          <div className="relative">
-            <div className="inline-flex items-center gap-2 rounded-full bg-blue-600/10 px-3 py-1 text-xs font-semibold text-blue-700 backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
-              TRANSPORTTICKET.CI
-            </div>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-gray-900">
-              Collecte de trajet
-            </h1>
-            <p className="mt-1.5 text-sm text-gray-500">
-              Enregistrez le parcours réel d&apos;une ligne de transport.
-            </p>
-          </div>
+
+        {/* EN-TÊTE */}
+        <header>
+          <p className="text-sm font-medium text-blue-600">
+            TRANSPORTTICKET.CI
+          </p>
+
+          <h1 className="mt-2 text-3xl font-bold text-gray-900">
+            Collecte de trajet
+          </h1>
+
+          <p className="mt-2 text-sm text-gray-500">
+            Enregistrez le parcours réel d&apos;une ligne
+            de transport.
+          </p>
         </header>
 
-        {/* ===== SÉLECTION DE LA LIGNE ===== */}
-        <section className="group rounded-2xl bg-white/70 p-5 shadow-lg shadow-slate-200/50 backdrop-blur-xl border border-white/80 transition-all hover:shadow-xl hover:shadow-slate-200/70">
-          <label htmlFor="route" className="mb-2 block text-xs font-semibold uppercase tracking-wider text-gray-500">
+        {/* SÉLECTION DE LA LIGNE */}
+        <section className="rounded-2xl bg-white p-5 shadow-sm">
+          <label
+            htmlFor="route"
+            className="mb-2 block text-sm font-semibold text-gray-700"
+          >
             Sélectionner une ligne
           </label>
-          <div className="relative">
-            <select
-              id="route"
-              value={route}
-              onChange={(e) => {
-                setRoute(e.target.value);
-                // ✅ Réinitialiser les points quand on change de ligne
-                setPoints([]);
-                setStatus("idle");
-              }}
-              className="w-full rounded-xl border-0 bg-slate-100/80 px-4 py-3.5 text-gray-900 outline-none ring-1 ring-slate-200/50 transition-all focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
-            >
-              <option value="">Choisir une ligne</option>
-              <option value="yopougon-adjame">🚍 Yopougon Maroc → Adjamé</option>
-              <option value="abobo-adjame">🚍 Abobo → Adjamé</option>
-              <option value="cocody-plateau">🚍 Cocody → Plateau</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
+
+          <select
+            id="route"
+            value={route}
+            onChange={(e) => {
+              setRoute(e.target.value);
+
+              // On efface l'ancien trajet
+              setPoints([]);
+
+              // On efface la position actuelle
+              setLivePosition(null);
+
+              // On remet l'état à zéro
+              setStatus("idle");
+            }}
+            className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 outline-none focus:border-blue-500"
+          >
+            <option value="">
+              Choisir une ligne
+            </option>
+
+            <option value="yopougon-adjame">
+              Yopougon Maroc → Adjamé
+            </option>
+
+            <option value="abobo-adjame">
+              Abobo → Adjamé
+            </option>
+
+            <option value="cocody-plateau">
+              Cocody → Plateau
+            </option>
+          </select>
         </section>
 
-        {/* ===== CARTE ===== */}
-        <section className="relative">
-          <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 blur-xl opacity-50" />
-          <div className="relative">
-            <TransportMap 
-              points={points} 
-              livePosition={livePosition}
-            />
-          </div>
+        {/* CARTE */}
+        <section>
+          <TransportMap
+            points={points}
+            livePosition={livePosition}
+            isRecording={status === "recording"}
+          />
         </section>
 
-        {/* ===== INDICATEUR GPS ===== */}
-        <div className="rounded-2xl bg-white/70 p-4 shadow-lg border border-gray-100/50 backdrop-blur-xl">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className={`h-2.5 w-2.5 rounded-full ${livePosition ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`} />
-              <span className="text-sm font-medium text-gray-700">
-                {livePosition ? '📍 Position en direct' : '🔴 En attente du GPS...'}
-              </span>
-            </div>
-            {liveAccuracy > 0 && (
-              <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                liveAccuracy < 20 ? 'bg-green-100 text-green-700' :
-                liveAccuracy < 30 ? 'bg-yellow-100 text-yellow-700' :
-                'bg-red-100 text-red-700'
-              }`}>
-                Précision: {Math.round(liveAccuracy)}m
-              </span>
-            )}
-          </div>
-          {livePosition && (
-            <div className="mt-2 text-xs text-gray-400 flex gap-4">
-              <span>Lat: {livePosition.latitude.toFixed(6)}</span>
-              <span>Lon: {livePosition.longitude.toFixed(6)}</span>
-              {livePosition.speed !== null && (
-                <span>{(livePosition.speed * 3.6).toFixed(1)} km/h</span>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ===== GPS ===== */}
+        {/* GPS */}
         {route ? (
           <GpsRecorder
             status={status}
             setStatus={setStatus}
-            onPointsChange={handlePointsChange}
             route={route}
-            minDistance={5} // ✅ Réduit pour mieux tester
-            maxAccuracy={50} // ✅ Augmenté pour mieux tester
+            onPointsChange={setPoints}
+            onLivePositionChange={setLivePosition}
+            minDistance={5}
+            maxAccuracy={50}
           />
         ) : (
-          <div className="rounded-2xl bg-white/70 p-8 text-center shadow-lg shadow-slate-200/50 backdrop-blur-xl border border-white/80">
-            <div className="flex flex-col items-center gap-3">
-              <div className="rounded-full bg-slate-100 p-3 text-3xl">🗺️</div>
-              <p className="text-sm font-medium text-gray-700">Sélectionnez une ligne</p>
-              <p className="text-xs text-gray-400">pour commencer l&apos;enregistrement</p>
-            </div>
+          <div className="rounded-2xl bg-white p-6 text-center shadow-sm">
+            <p className="text-sm font-medium text-gray-700">
+              Sélectionnez une ligne
+            </p>
+
+            <p className="mt-1 text-xs text-gray-500">
+              pour commencer l&apos;enregistrement.
+            </p>
           </div>
         )}
+
       </div>
     </main>
   );
