@@ -28,38 +28,41 @@ export type GPSPoint = {
 };
 
 export default function Home() {
-  const [route, setRoute] = useState("");
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
+  const [destination, setDestination] = useState("");
+  const [showDestinationInput, setShowDestinationInput] = useState(false);
+
+  // Début du trajet - on affiche le champ destination
+  const handleStartTrip = () => {
+    setShowDestinationInput(true);
+  };
+
+  // Validation de la destination et démarrage de l'enregistrement
+  const confirmDestination = () => {
+    if (destination.trim()) {
+      setShowDestinationInput(false);
+      setStatus("recording");
+    }
+  };
 
   return (
     <div className="flex h-screen flex-col bg-[#0a0a0f]">
       
       {/* ========== ZONE CARTE ========== */}
-      {/* 70% de l'écran */}
       <div className="relative h-[70vh] w-full flex-shrink-0 overflow-hidden">
         
-        {/* Sélecteur de ligne - overlay en haut */}
-        <div className="absolute left-0 right-0 top-4 z-10 px-4">
-          <div className="mx-auto max-w-md">
-            <select
-              value={route}
-              onChange={(e) => {
-                setRoute(e.target.value);
-                setPoints([]);
-                setLivePosition(null);
-                setStatus("idle");
-              }}
-              className="w-full rounded-2xl border-0 bg-white/95 px-5 py-3.5 text-sm font-medium text-gray-900 shadow-2xl shadow-black/30 outline-none backdrop-blur-sm transition-all focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">🚌 Choisir une ligne</option>
-              <option value="yopougon-adjame">Yopougon Maroc → Adjamé</option>
-              <option value="abobo-adjame">Abobo → Adjamé</option>
-              <option value="cocody-plateau">Cocody → Plateau</option>
-            </select>
+        {/* Si destination saisie, on l'affiche en haut */}
+        {destination && status === "recording" && (
+          <div className="absolute left-0 right-0 top-4 z-10 px-4">
+            <div className="mx-auto max-w-md rounded-2xl bg-blue-600/90 px-4 py-2.5 text-center backdrop-blur-sm">
+              <p className="text-sm font-medium text-white">
+                🚗 Trajet vers : <span className="font-bold">{destination}</span>
+              </p>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* La carte */}
         <TransportMap
@@ -70,32 +73,102 @@ export default function Home() {
       </div>
 
       {/* ========== ZONE CONTROLES ========== */}
-      {/* 30% restant */}
       <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
         <div className="mx-auto w-full max-w-md flex-1">
-          {route ? (
+          
+          {/* Si on est en train de saisir la destination */}
+          {showDestinationInput ? (
+            <div className="mt-2 space-y-3">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
+                <label className="mb-2 block text-sm font-medium text-white/80">
+                  📍 Où allez-vous ?
+                </label>
+                <input
+                  type="text"
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  placeholder="Ex: Adjamé, Plateau, Cocody..."
+                  className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-blue-500"
+                  autoFocus
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && destination.trim()) {
+                      confirmDestination();
+                    }
+                  }}
+                />
+                <div className="mt-3 flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowDestinationInput(false);
+                      setDestination("");
+                    }}
+                    className="flex-1 rounded-xl bg-white/10 px-4 py-3 text-sm font-medium text-white/60 transition hover:bg-white/20"
+                  >
+                    Annuler
+                  </button>
+                  <button
+                    onClick={confirmDestination}
+                    disabled={!destination.trim()}
+                    className="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:bg-white/10 disabled:text-white/30"
+                  >
+                    Valider
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : status === "recording" ? (
+            // Enregistrement en cours
             <GpsRecorder
               status={status}
               setStatus={setStatus}
-              route={route}
+              destination={destination}
               onPointsChange={setPoints}
               onLivePositionChange={setLivePosition}
               minDistance={5}
               maxAccuracy={50}
             />
+          ) : status === "paused" ? (
+            // Trajet terminé
+            <div className="mt-2 space-y-3">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm text-center">
+                <div className="text-3xl mb-2">✅</div>
+                <p className="font-medium text-white/80">Trajet terminé</p>
+                <p className="mt-1 text-sm text-white/40">
+                  {points.length} points enregistrés
+                </p>
+                <button
+                  onClick={() => {
+                    setPoints([]);
+                    setLivePosition(null);
+                    setStatus("idle");
+                    setDestination("");
+                  }}
+                  className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700"
+                >
+                  🔄 Nouveau trajet
+                </button>
+              </div>
+            </div>
           ) : (
-            <div className="mt-2 rounded-2xl border border-white/10 bg-white/5 p-5 text-center backdrop-blur-sm">
-              <div className="text-3xl mb-2">📍</div>
-              <p className="font-medium text-white/80">
-                Sélectionnez une ligne
-              </p>
-              <p className="mt-1 text-sm text-white/40">
-                pour commencer l&apos;enregistrement
-              </p>
+            // État initial - bouton démarrer
+            <div className="mt-2 space-y-3">
+              <button
+                onClick={handleStartTrip}
+                className="w-full rounded-2xl bg-blue-600 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700"
+              >
+                📍 Démarrer le trajet
+              </button>
+              
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-sm">
+                <p className="text-sm text-white/60">
+                  Votre position GPS sera utilisée comme point de départ
+                </p>
+              </div>
             </div>
           )}
+
         </div>
       </div>
     </div>
   );
-      }
+              }
