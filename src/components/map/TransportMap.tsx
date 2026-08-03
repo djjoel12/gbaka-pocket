@@ -5,12 +5,18 @@ import {
   TileLayer,
   Marker,
   Polyline,
-  CircleMarker,
+  Circle,
   useMap,
 } from "react-leaflet";
+
 import "leaflet/dist/leaflet.css";
+
 import L from "leaflet";
-import { useEffect, useRef } from "react";
+
+import {
+  useEffect,
+  useRef,
+} from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -22,192 +28,347 @@ type GPSPoint = {
 
 type TransportMapProps = {
   points: GPSPoint[];
-  livePosition?: GPSPoint | null; // ✅ Position en direct
+
+  livePosition?: GPSPoint | null;
+
+  isRecording?: boolean;
 };
 
-const defaultPosition: [number, number] = [5.3364, -4.0267];
+const defaultPosition: [
+  number,
+  number
+] = [
+  5.3364,
+  -4.0267,
+];
 
-// Icônes
+// ============================================
+// ICÔNE DE DÉPART
+// ============================================
+
 const startIcon = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+
+  iconRetinaUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
+
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
   iconSize: [25, 41],
+
   iconAnchor: [12, 41],
 });
+
+// ============================================
+// ICÔNE D'ARRIVÉE
+// ============================================
 
 const endIcon = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+
+  iconRetinaUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
   iconSize: [25, 41],
+
   iconAnchor: [12, 41],
 });
 
-// ✅ Icône spéciale pour la position en direct (plus grosse, avec pulsation)
+// ============================================
+// ICÔNE POSITION EN DIRECT
+// ============================================
+
 const liveIcon = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-  iconSize: [35, 57], // Plus grand
-  iconAnchor: [17, 57],
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+
+  iconRetinaUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png",
+
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
+  iconSize: [30, 48],
+
+  iconAnchor: [15, 48],
 });
 
-// ✅ Icône pour le point de départ de l'enregistrement (vert)
-const recordingStartIcon = L.icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-  iconRetinaUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
+// ============================================
+// SUIVI AUTOMATIQUE DE LA CARTE
+// ============================================
 
-// Suivi automatique de la carte
-function MapFollower({ position }: { position: [number, number] }) {
+function MapFollower({
+  position,
+}: {
+  position: [
+    number,
+    number
+  ];
+}) {
   const map = useMap();
-  const isFirstRender = useRef(true);
-  
+
+  const firstRender =
+    useRef(true);
+
   useEffect(() => {
-    if (position) {
-      // Animation plus fluide
-      map.setView(position, map.getZoom(), { 
-        animate: true,
-        duration: isFirstRender.current ? 0 : 0.5,
-      });
-      isFirstRender.current = false;
+    if (firstRender.current) {
+      map.setView(
+        position,
+        16
+      );
+
+      firstRender.current =
+        false;
+
+      return;
     }
-  }, [position, map]);
+
+    map.panTo(
+      position,
+      {
+        animate: true,
+
+        duration: 0.5,
+      }
+    );
+  }, [
+    position,
+    map,
+  ]);
+
   return null;
 }
 
-// Points intermédiaires
-function IntermediatePoints({ points }: { points: GPSPoint[] }) {
-  const intermediate = points.slice(1, -1);
-  return (
-    <>
-      {intermediate.map((point, index) => (
-        <CircleMarker
-          key={`intermediate-${index}-${point.timestamp}`}
-          center={[point.latitude, point.longitude]}
-          radius={4}
-          fillColor="#3b82f6"
-          color="#2563eb"
-          weight={1}
-          opacity={0.8}
-          fillOpacity={0.8}
-        />
-      ))}
-    </>
-  );
-}
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
 
-export default function TransportMap({ points, livePosition }: TransportMapProps) {
-  const lastPoint = points.length > 0 ? points[points.length - 1] : null;
-  const firstPoint = points.length > 0 ? points[0] : null;
+export default function TransportMap({
+  points,
+  livePosition,
+  isRecording = false,
+}: TransportMapProps) {
 
-  // ✅ Position à afficher : soit la position en direct, soit le dernier point enregistré
-  const displayPosition: [number, number] = livePosition
-    ? [livePosition.latitude, livePosition.longitude]
+  const lastPoint =
+    points.length > 0
+      ? points[
+          points.length - 1
+        ]
+      : null;
+
+  const firstPoint =
+    points.length > 0
+      ? points[0]
+      : null;
+
+  // ==========================================
+  // POSITION À AFFICHER
+  // ==========================================
+
+  const displayPosition: [
+    number,
+    number
+  ] = livePosition
+    ? [
+        livePosition.latitude,
+        livePosition.longitude,
+      ]
     : lastPoint
-    ? [lastPoint.latitude, lastPoint.longitude]
+    ? [
+        lastPoint.latitude,
+        lastPoint.longitude,
+      ]
     : defaultPosition;
 
-  const routePositions: [number, number][] = points.map((p) => [
-    p.latitude,
-    p.longitude,
-  ]);
+  // ==========================================
+  // CONVERSION DES POINTS
+  // ==========================================
 
-  const hasValidPoints = points.length > 0;
-  const hasLivePosition = livePosition !== null;
+  const routePositions: [
+    number,
+    number
+  ][] = points.map(
+    (point) => [
+      point.latitude,
+      point.longitude,
+    ]
+  );
+
+  const hasLivePosition =
+    !!livePosition;
 
   return (
     <div className="overflow-hidden rounded-2xl shadow-sm">
+
       <MapContainer
-        center={displayPosition}
-        zoom={hasValidPoints || hasLivePosition ? 16 : 13}
+        center={
+          displayPosition
+        }
+        zoom={13}
         scrollWheelZoom={true}
         className="h-[400px] w-full"
       >
+
+        {/* FOND DE CARTE */}
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* ✅ Suivi automatique sur la position en direct ou le dernier point */}
-        {(hasLivePosition || hasValidPoints) && (
-          <MapFollower position={displayPosition} />
-        )}
+        {/* ==================================
+            SUIVI DE LA POSITION
+        ================================== */}
 
-        {/* Tracé du trajet enregistré */}
-        {routePositions.length > 1 && (
-          <>
-            <Polyline
-              positions={routePositions}
-              color="white"
-              weight={8}
-              opacity={0.7}
-              lineJoin="round"
-            />
-            <Polyline
-              positions={routePositions}
-              color="#3b82f6"
-              weight={4}
-              opacity={0.9}
-              lineJoin="round"
-            />
-          </>
-        )}
-
-        {/* Points intermédiaires */}
-        {routePositions.length > 2 && <IntermediatePoints points={points} />}
-
-        {/* Marqueur de départ de l'enregistrement */}
-        {firstPoint && routePositions.length > 1 && (
-          <Marker
-            key={`start-${firstPoint.timestamp}`}
-            position={[firstPoint.latitude, firstPoint.longitude]}
-            icon={recordingStartIcon}
+        {hasLivePosition && (
+          <MapFollower
+            position={
+              displayPosition
+            }
           />
         )}
 
-        {/* Marqueur d'arrivée de l'enregistrement */}
-        {lastPoint && routePositions.length > 1 && (
+        {/* ==================================
+            TRACÉ DU TRAJET
+        ================================== */}
+
+        {routePositions.length >
+          1 && (
+
+          <Polyline
+            positions={
+              routePositions
+            }
+
+            color="#2563eb"
+
+            weight={5}
+
+            opacity={0.9}
+
+            lineJoin="round"
+
+            lineCap="round"
+          />
+
+        )}
+
+        {/* ==================================
+            POINT DE DÉPART
+        ================================== */}
+
+        {firstPoint && (
           <Marker
-            key={`end-${lastPoint.timestamp}`}
-            position={[lastPoint.latitude, lastPoint.longitude]}
-            icon={endIcon}
+            position={[
+              firstPoint.latitude,
+              firstPoint.longitude,
+            ]}
+            icon={
+              startIcon
+            }
           />
         )}
 
-        {/* ✅ Position en direct (toujours affichée) */}
+        {/* ==================================
+            POINT D'ARRIVÉE
+        ================================== */}
+
+        {lastPoint &&
+          points.length > 1 && (
+
+          <Marker
+            position={[
+              lastPoint.latitude,
+              lastPoint.longitude,
+            ]}
+            icon={
+              endIcon
+            }
+          />
+
+        )}
+
+        {/* ==================================
+            POSITION EN DIRECT
+        ================================== */}
+
         {livePosition && (
-          <Marker
-            key="live-position"
-            position={[livePosition.latitude, livePosition.longitude]}
-            icon={liveIcon}
-          >
-            {/* ✅ Cercle de précision autour de la position */}
-            <CircleMarker
-              center={[livePosition.latitude, livePosition.longitude]}
-              radius={livePosition.accuracy / 10}
-              fillColor="#3b82f6"
-              color="#60a5fa"
-              weight={1}
-              opacity={0.3}
-              fillOpacity={0.15}
+
+          <>
+            <Marker
+              position={[
+                livePosition.latitude,
+                livePosition.longitude,
+              ]}
+              icon={
+                liveIcon
+              }
             />
-          </Marker>
+
+            {/* CERCLE DE PRÉCISION */}
+
+            <Circle
+              center={[
+                livePosition.latitude,
+                livePosition.longitude,
+              ]}
+              radius={
+                livePosition.accuracy
+              }
+
+              pathOptions={{
+                color:
+                  "#3b82f6",
+
+                fillColor:
+                  "#3b82f6",
+
+                fillOpacity:
+                  0.1,
+
+                weight: 1,
+              }}
+            />
+
+          </>
+
         )}
 
-        {/* ✅ Si pas de position en direct mais des points enregistrés */}
-        {!livePosition && lastPoint && (
-          <Marker
-            key={`last-${lastPoint.timestamp}`}
-            position={[lastPoint.latitude, lastPoint.longitude]}
-            icon={liveIcon}
-          />
-        )}
       </MapContainer>
+
+      {/* LÉGENDE */}
+
+      <div className="flex items-center gap-4 bg-white px-4 py-3 text-xs">
+
+        <div className="flex items-center gap-1">
+          <span className="h-3 w-3 rounded-full bg-blue-500" />
+          Position GPS
+        </div>
+
+        <div className="flex items-center gap-1">
+          <span className="h-3 w-3 rounded-full bg-green-500" />
+          Départ
+        </div>
+
+        <div className="flex items-center gap-1">
+          <span className="h-3 w-3 rounded-full bg-red-500" />
+          Arrivée
+        </div>
+
+        {isRecording && (
+          <span className="ml-auto font-semibold text-green-600">
+            ● REC
+          </span>
+        )}
+
+      </div>
+
     </div>
   );
-            }
+    }
