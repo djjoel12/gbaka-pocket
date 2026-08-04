@@ -165,18 +165,15 @@ export default function TransportMap({
         style={{ background: "#0a0e17" }}
       >
         {/* ==========================================
-            FOND DE CARTE - STYLE SOMBRE AVEC ROUTES VISIBLES
+            FOND DE CARTE - STYLE SOMBRE
+            AVEC TOUS LES NOMS DE LIEUX
+            (villes, villages, quartiers, rues, etc.)
         ========================================== */}
 
+        {/* Couche principale : fond sombre + tous les labels */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png"
-        />
-
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png"
-          opacity={0.6}
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
         {/* ==================================
