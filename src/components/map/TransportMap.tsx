@@ -114,6 +114,7 @@ const POI_CATEGORIES = {
   'restaurant': { icon: '🍽️', color: '#f59e0b' },
   'maquis': { icon: '🥘', color: '#f97316' },
   'bar': { icon: '🍺', color: '#ef4444' },
+  'cafe': { icon: '☕', color: '#8b5cf6' },
   'school': { icon: '🏫', color: '#3b82f6' },
   'university': { icon: '🎓', color: '#6366f1' },
   'hospital': { icon: '🏥', color: '#ef4444' },
@@ -131,7 +132,6 @@ const POI_CATEGORIES = {
   'police': { icon: '👮', color: '#3b82f6' },
   'post_office': { icon: '📮', color: '#f59e0b' },
   'townhall': { icon: '🏛️', color: '#6366f1' },
-  'cafe': { icon: '☕', color: '#8b5cf6' },
   'fast_food': { icon: '🍔', color: '#f97316' },
   'hotel': { icon: '🏨', color: '#3b82f6' },
   'mall': { icon: '🛍️', color: '#ec4899' },
@@ -374,13 +374,32 @@ export default function TransportMap({
   const hasLivePosition = !!livePosition;
 
   // ==========================================
+  // ÉCOUTE DES MOUVEMENTS DE LA CARTE
+  // ==========================================
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handleMoveEnd = () => {
+      const bounds = map.getBounds();
+      setMapBounds(bounds);
+    };
+
+    map.on('moveend', handleMoveEnd);
+
+    return () => {
+      map.off('moveend', handleMoveEnd);
+    };
+  }, []);
+
+  // ==========================================
   // RÉCUPÉRATION DES POIs QUAND LA CARTE CHANGE
   // ==========================================
 
-  const handleMapMove = () => {
+  const handleMapReady = () => {
     if (mapRef.current) {
-      const bounds = mapRef.current.getBounds();
-      setMapBounds(bounds);
+      setMapBounds(mapRef.current.getBounds());
     }
   };
 
@@ -402,12 +421,7 @@ export default function TransportMap({
         className="h-full w-full"
         style={{ background: "#0a0e17" }}
         ref={mapRef}
-        whenReady={() => {
-          if (mapRef.current) {
-            setMapBounds(mapRef.current.getBounds());
-          }
-        }}
-        whenMoveEnd={handleMapMove}
+        whenReady={handleMapReady}
       >
         {/* ==========================================
             FOND DE CARTE - STYLE SOMBRE
