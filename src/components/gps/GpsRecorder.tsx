@@ -93,6 +93,7 @@ export default function GpsRecorder({
   const [totalDistance, setTotalDistance] = useState(0);
   const [tripStartTime, setTripStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [currentSpeed, setCurrentSpeed] = useState<number | null>(null); // Nouvel état pour la vitesse
 
   const watchIdRef = useRef<number | null>(null);
   const lastPointRef = useRef<GPSPoint | null>(null);
@@ -155,7 +156,18 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // DÉMARRER L'ENREGISTREMENT (appelé par page.tsx)
+  // FORMATAGE DE LA VITESSE
+  // ============================================
+
+  const formatSpeed = (speed: number | null) => {
+    if (speed === null || speed < 0) return "--";
+    // Conversion m/s -> km/h
+    const kmh = speed * 3.6;
+    return `${kmh.toFixed(1)} km/h`;
+  };
+
+  // ============================================
+  // DÉMARRER L'ENREGISTREMENT
   // ============================================
 
   useEffect(() => {
@@ -175,6 +187,7 @@ export default function GpsRecorder({
     setPoints([]);
     onPointsChange([]);
     setTotalDistance(0);
+    setCurrentSpeed(null);
     lastPointRef.current = null;
     onLivePositionChange(null);
     setGpsStatus("Recherche de votre position...");
@@ -191,6 +204,9 @@ export default function GpsRecorder({
         };
 
         console.log("Position GPS reçue :", newPoint);
+
+        // Mise à jour de la vitesse
+        setCurrentSpeed(position.coords.speed);
 
         // Position en direct
         onLivePositionChange(newPoint);
@@ -277,6 +293,7 @@ export default function GpsRecorder({
     stopGPS();
     setStatus("paused");
     setGpsStatus("Trajet terminé");
+    setCurrentSpeed(null);
 
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -301,6 +318,7 @@ export default function GpsRecorder({
       setTotalDistance(0);
       setError("");
       setGpsStatus("En attente");
+      setCurrentSpeed(null);
       lastPointRef.current = null;
       onPointsChange([]);
       onLivePositionChange(null);
@@ -383,20 +401,28 @@ export default function GpsRecorder({
         </button>
       )}
 
-      {/* INFORMATIONS */}
+      {/* INFORMATIONS - 3 colonnes maintenant */}
       {isRecording && (
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
             <p className="text-xs text-white/40">POINTS</p>
-            <p className="mt-1 text-xl font-bold text-white">{points.length}</p>
+            <p className="mt-1 text-lg font-bold text-white">{points.length}</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
             <p className="text-xs text-white/40">DISTANCE</p>
-            <p className="mt-1 text-xl font-bold text-white">
+            <p className="mt-1 text-lg font-bold text-white">
               {totalDistance > 0
                 ? `${(totalDistance / 1000).toFixed(2)} km`
                 : "--"}
+            </p>
+          </div>
+
+          {/* Nouvelle carte pour la vitesse */}
+          <div className="rounded-2xl border border-yellow-500/20 bg-yellow-500/10 p-3 backdrop-blur-sm">
+            <p className="text-xs text-yellow-400/60">VITESSE</p>
+            <p className="mt-1 text-lg font-bold text-yellow-400">
+              {formatSpeed(currentSpeed)}
             </p>
           </div>
         </div>
@@ -421,10 +447,18 @@ export default function GpsRecorder({
                 {latestPoint.longitude.toFixed(6)}
               </span>
             </div>
+            {currentSpeed !== null && (
+              <div className="col-span-2 mt-1 pt-1 border-t border-white/5">
+                <span className="text-white/40">Vitesse</span>
+                <span className="ml-2 font-mono text-yellow-400">
+                  {formatSpeed(currentSpeed)}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
 
     </div>
   );
-    }
+        }
