@@ -27,6 +27,18 @@ export type GPSPoint = {
   timestamp: number;
 };
 
+// Suggestions de destinations populaires
+const SUGGESTIONS = [
+  "Adjamé",
+  "Plateau", 
+  "Cocody",
+  "Yopougon",
+  "Abobo",
+  "Marcory",
+  "Treichville",
+  "Port-Bouët"
+];
+
 export default function Home() {
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
@@ -34,17 +46,19 @@ export default function Home() {
   const [destination, setDestination] = useState("");
   const [showDestinationInput, setShowDestinationInput] = useState(false);
 
-  // Début du trajet - on affiche le champ destination
   const handleStartTrip = () => {
     setShowDestinationInput(true);
   };
 
-  // Validation de la destination et démarrage de l'enregistrement
   const confirmDestination = () => {
     if (destination.trim()) {
       setShowDestinationInput(false);
       setStatus("recording");
     }
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setDestination(suggestion);
   };
 
   return (
@@ -53,7 +67,6 @@ export default function Home() {
       {/* ========== ZONE CARTE ========== */}
       <div className="relative h-[70vh] w-full flex-shrink-0 overflow-hidden">
         
-        {/* Si destination saisie, on l'affiche en haut */}
         {destination && status === "recording" && (
           <div className="absolute left-0 right-0 top-4 z-10 px-4">
             <div className="mx-auto max-w-md rounded-2xl bg-blue-600/90 px-4 py-2.5 text-center backdrop-blur-sm">
@@ -64,7 +77,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* La carte */}
         <TransportMap
           points={points}
           livePosition={livePosition}
@@ -76,19 +88,23 @@ export default function Home() {
       <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
         <div className="mx-auto w-full max-w-md flex-1">
           
-          {/* Si on est en train de saisir la destination */}
           {showDestinationInput ? (
-            <div className="mt-2 space-y-3">
+            // ==========================================
+            // FENÊTRE DE SAISIE AMÉLIORÉE
+            // ==========================================
+            <div className="mt-2 space-y-4">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
                 <label className="mb-2 block text-sm font-medium text-white/80">
                   📍 Où allez-vous ?
                 </label>
+                
+                {/* Champ de saisie plus grand */}
                 <input
                   type="text"
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
-                  placeholder="Ex: Adjamé, Plateau, Cocody..."
-                  className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white placeholder:text-white/40 outline-none focus:border-blue-500"
+                  placeholder="Tapez une destination..."
+                  className="w-full rounded-xl border border-white/20 bg-white/10 px-4 py-4 text-lg text-white placeholder:text-white/40 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                   autoFocus
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && destination.trim()) {
@@ -96,7 +112,29 @@ export default function Home() {
                     }
                   }}
                 />
-                <div className="mt-3 flex gap-3">
+                
+                {/* Suggestions rapides */}
+                <div className="mt-4">
+                  <p className="mb-2 text-xs text-white/40">📍 Suggestions populaires :</p>
+                  <div className="flex flex-wrap gap-2">
+                    {SUGGESTIONS.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className={`rounded-xl px-3 py-1.5 text-xs transition ${
+                          destination === suggestion
+                            ? "bg-blue-600 text-white"
+                            : "bg-white/10 text-white/60 hover:bg-white/20"
+                        }`}
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Boutons */}
+                <div className="mt-4 flex gap-3">
                   <button
                     onClick={() => {
                       setShowDestinationInput(false);
@@ -104,20 +142,19 @@ export default function Home() {
                     }}
                     className="flex-1 rounded-xl bg-white/10 px-4 py-3 text-sm font-medium text-white/60 transition hover:bg-white/20"
                   >
-                    Annuler
+                    ❌ Annuler
                   </button>
                   <button
                     onClick={confirmDestination}
                     disabled={!destination.trim()}
                     className="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700 disabled:bg-white/10 disabled:text-white/30"
                   >
-                    Valider
+                    ✅ Valider
                   </button>
                 </div>
               </div>
             </div>
           ) : status === "recording" ? (
-            // Enregistrement en cours
             <GpsRecorder
               status={status}
               setStatus={setStatus}
@@ -128,7 +165,6 @@ export default function Home() {
               maxAccuracy={50}
             />
           ) : status === "paused" ? (
-            // Trajet terminé
             <div className="mt-2 space-y-3">
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm text-center">
                 <div className="text-3xl mb-2">✅</div>
@@ -150,7 +186,6 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            // État initial - bouton démarrer
             <div className="mt-2 space-y-3">
               <button
                 onClick={handleStartTrip}
@@ -171,4 +206,4 @@ export default function Home() {
       </div>
     </div>
   );
-              }
+                }
