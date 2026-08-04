@@ -114,7 +114,6 @@ const POI_CATEGORIES = {
   'restaurant': { icon: '🍽️', color: '#f59e0b' },
   'maquis': { icon: '🥘', color: '#f97316' },
   'bar': { icon: '🍺', color: '#ef4444' },
-  'cafe': { icon: '☕', color: '#8b5cf6' },
   'school': { icon: '🏫', color: '#3b82f6' },
   'university': { icon: '🎓', color: '#6366f1' },
   'hospital': { icon: '🏥', color: '#ef4444' },
