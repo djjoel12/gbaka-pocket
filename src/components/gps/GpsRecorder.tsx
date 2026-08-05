@@ -288,7 +288,7 @@ export default function GpsRecorder({
           lastStop.coordinates[0],
           lastStop.coordinates[1]
         );
-        setEndPointName(endName);
+       
       }
 
       const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
