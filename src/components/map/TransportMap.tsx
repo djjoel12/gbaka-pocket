@@ -37,7 +37,7 @@ const defaultPosition: [number, number] = [
 ];
 
 // ============================================
-// CRÉATION D'ICÔNES PERSONNALISÉES
+// CRÉATION D'ICÔNES
 // ============================================
 
 function createIcon(
@@ -168,44 +168,25 @@ function createIcon(
 }
 
 // ============================================
-// ICÔNES PRINCIPALES
+// ICÔNES
 // ============================================
 
-const startIcon = createIcon(
-  "#22C55E",
-  "🏁"
-);
-
-const endIcon = createIcon(
-  "#EF4444",
-  "🏁"
-);
-
-const liveIcon = createIcon(
-  "#2563EB",
-  "",
-  true
-);
+const startIcon = createIcon("#22C55E", "🏁");
+const endIcon = createIcon("#EF4444", "🏁");
+const liveIcon = createIcon("#2563EB", "", true);
 
 // ============================================
-// SUIVI AUTOMATIQUE DE LA CARTE
+// SUIVI AUTOMATIQUE
 // ============================================
 
-function MapFollower({
-  position,
-}: {
-  position: [number, number];
-}) {
+function MapFollower({ position }: { position: [number, number] }) {
   const map = useMap();
-
   const firstRender = useRef(true);
 
   useEffect(() => {
     if (firstRender.current) {
       map.setView(position, 16);
-
       firstRender.current = false;
-
       return;
     }
 
@@ -228,37 +209,20 @@ export default function TransportMap({
   isRecording = false,
 }: TransportMapProps) {
 
-  const lastPoint =
-    points.length > 0
-      ? points[points.length - 1]
-      : null;
-
-  const firstPoint =
-    points.length > 0
-      ? points[0]
-      : null;
+  const lastPoint = points.length > 0 ? points[points.length - 1] : null;
+  const firstPoint = points.length > 0 ? points[0] : null;
 
   const displayPosition: [number, number] =
     livePosition
-      ? [
-          livePosition.latitude,
-          livePosition.longitude,
-        ]
+      ? [livePosition.latitude, livePosition.longitude]
       : lastPoint
-      ? [
-          lastPoint.latitude,
-          lastPoint.longitude,
-        ]
+      ? [lastPoint.latitude, lastPoint.longitude]
       : defaultPosition;
 
   const routePositions: [number, number][] =
-    points.map((point) => [
-      point.latitude,
-      point.longitude,
-    ]);
+    points.map((point) => [point.latitude, point.longitude]);
 
-  const hasLivePosition =
-    !!livePosition;
+  const hasLivePosition = !!livePosition;
 
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
@@ -269,43 +233,37 @@ export default function TransportMap({
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
         style={{
-          background: "#E2E8F0",
+          background: "#0a0e17",
         }}
       >
 
         {/* ===== FOND DE CARTE ===== */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        {hasLivePosition && (
-          <MapFollower
-            position={displayPosition}
-          />
-        )}
+        {hasLivePosition && <MapFollower position={displayPosition} />}
 
-        {/* ===== TRACÉ DU TRAJET - BLEU ROI ===== */}
+        {/* ===== TRACÉ - BLEU ROI ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline
               positions={routePositions}
               color="#2563EB"
               weight={20}
-              opacity={0.15}
+              opacity={0.12}
               lineJoin="round"
               lineCap="round"
             />
-
             <Polyline
               positions={routePositions}
               color="#2563EB"
               weight={10}
-              opacity={0.25}
+              opacity={0.2}
               lineJoin="round"
               lineCap="round"
             />
-
             <Polyline
               positions={routePositions}
               color="#2563EB"
@@ -314,16 +272,14 @@ export default function TransportMap({
               lineJoin="round"
               lineCap="round"
             />
-
             <Polyline
               positions={routePositions}
               color="#60A5FA"
               weight={2}
-              opacity={0.8}
+              opacity={0.7}
               lineJoin="round"
               lineCap="round"
             />
-
             <Polyline
               positions={routePositions}
               color="#93C5FD"
@@ -338,43 +294,27 @@ export default function TransportMap({
 
         {firstPoint && (
           <Marker
-            position={[
-              firstPoint.latitude,
-              firstPoint.longitude,
-            ]}
+            position={[firstPoint.latitude, firstPoint.longitude]}
             icon={startIcon}
           />
         )}
 
-        {lastPoint &&
-          points.length > 1 && (
-            <Marker
-              position={[
-                lastPoint.latitude,
-                lastPoint.longitude,
-              ]}
-              icon={endIcon}
-            />
-          )}
+        {lastPoint && points.length > 1 && (
+          <Marker
+            position={[lastPoint.latitude, lastPoint.longitude]}
+            icon={endIcon}
+          />
+        )}
 
         {livePosition && (
           <>
             <Marker
-              position={[
-                livePosition.latitude,
-                livePosition.longitude,
-              ]}
+              position={[livePosition.latitude, livePosition.longitude]}
               icon={liveIcon}
             />
-
             <Circle
-              center={[
-                livePosition.latitude,
-                livePosition.longitude,
-              ]}
-              radius={
-                livePosition.accuracy
-              }
+              center={[livePosition.latitude, livePosition.longitude]}
+              radius={livePosition.accuracy}
               pathOptions={{
                 color: "#2563EB",
                 fillColor: "#2563EB",
@@ -388,4 +328,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-}
+    }
