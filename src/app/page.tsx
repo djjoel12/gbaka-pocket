@@ -11,10 +11,10 @@ const TransportMap = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl bg-gray-200">
+      <div className="flex h-full min-h-[400px] items-center justify-center rounded-2xl bg-gray-800">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-sm text-gray-500">Chargement de la carte...</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+          <p className="text-sm text-gray-400">Chargement de la carte...</p>
         </div>
       </div>
     ),
@@ -110,9 +110,9 @@ export default function Home() {
   } : null;
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden bg-[#E2E8F0]">
+    <div className="relative h-screen w-screen overflow-hidden bg-[#0a0e17]">
       
-      {/* ===== CARTE - 100% DE L'ÉCRAN ===== */}
+      {/* ===== CARTE - 100% ===== */}
       <div className="absolute inset-0 z-0">
         <TransportMap
           points={points}
@@ -121,40 +121,55 @@ export default function Home() {
         />
       </div>
 
-      {/* ===== INTERFACE EN BAS - 15% ===== */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-[15vh] min-h-[100px] bg-[#1E3A8A] shadow-2xl border-t-2 border-[#0284C7]/30">
+      {/* ===== INTERFACE EN BAS - 25% ===== */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-[25vh] min-h-[180px] bg-[#1E3A8A] shadow-2xl border-t-2 border-[#0284C7]/30">
         
-        <div className="flex h-full w-full items-center px-4">
+        <div className="flex h-full w-full flex-col px-4 py-2">
           
-          {/* ===== GAUCHE : Logo + Titre ===== */}
-          <div className="flex items-center gap-3 w-[200px] flex-shrink-0">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0284C7]/20 text-xl">
-              🚌
+          {/* ===== LIGNE 1 : Logo + Titre + Statut ===== */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0284C7]/20 text-xl">
+                🚌
+              </div>
+              <div>
+                <h1 className="text-sm font-bold text-white leading-tight">PASS GBAKA</h1>
+                <p className="text-[10px] text-[#E2E8F0]/60">Collecte de trajets</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-sm font-bold text-white leading-tight">PASS GBAKA</h1>
-              <p className="text-[9px] text-[#E2E8F0]/60 font-medium">Collecte de trajets</p>
+
+            {/* Statut */}
+            <div className="flex items-center gap-2">
+              {status === "recording" && (
+                <>
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-[#EA580C]" />
+                  <span className="text-xs font-semibold text-[#EA580C] uppercase">Enregistrement</span>
+                </>
+              )}
+              {status === "idle" && (
+                <span className="text-xs text-[#E2E8F0]/60">Prêt</span>
+              )}
+              {status === "paused" && (
+                <span className="text-xs text-[#22C55E]">✅ Terminé</span>
+              )}
             </div>
           </div>
 
-          {/* ===== DIVISEUR ===== */}
-          <div className="h-10 w-px bg-white/10 flex-shrink-0 mx-3" />
-
-          {/* ===== CENTRE : Contenu ===== */}
-          <div className="flex-1 min-w-0">
+          {/* ===== LIGNE 2 : Contenu principal ===== */}
+          <div className="flex-1 flex items-center">
             
             {/* État IDLE */}
             {!showDestinationInput && status === "idle" && (
-              <div className="flex items-center gap-4">
-                <div className="flex-1 min-w-0">
-                  <p className="text-[10px] text-[#E2E8F0]/60 font-medium">📍 Prêt à enregistrer</p>
-                  <p className="text-xs text-white truncate">Appuyez sur Démarrer pour commencer</p>
+              <div className="flex w-full items-center justify-between gap-4">
+                <div>
+                  <p className="text-[10px] text-[#E2E8F0]/50">📍 Prêt à enregistrer</p>
+                  <p className="text-sm text-white">Appuyez sur Démarrer pour commencer</p>
                 </div>
                 <button
                   onClick={handleStartTrip}
-                  className="flex items-center gap-2 rounded-lg bg-[#0284C7] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-[#0284C7]/30 transition hover:scale-[1.02] hover:shadow-[#0284C7]/50 active:scale-95"
+                  className="flex items-center gap-2 rounded-lg bg-[#0284C7] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-[#0284C7]/30 transition hover:scale-[1.02] hover:shadow-[#0284C7]/50 active:scale-95"
                 >
-                  <svg className="h-4 w-4 fill-white" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 fill-white" viewBox="0 0 24 24">
                     <polygon points="5,3 19,12 5,21" />
                   </svg>
                   <span>Démarrer</span>
@@ -164,50 +179,50 @@ export default function Home() {
 
             {/* FORMULAIRE */}
             {showDestinationInput && (
-              <div className="flex items-center gap-3">
+              <div className="flex w-full items-center gap-4 flex-wrap">
                 {/* Départ */}
-                <div className="flex-1 max-w-[180px]">
-                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider font-medium">🟢 Départ</p>
+                <div className="flex-1 min-w-[120px]">
+                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">🟢 Départ</p>
                   <input
                     type="text"
                     value={startPointName}
                     onChange={(e) => setStartPointName(e.target.value)}
                     placeholder="Détection auto..."
-                    className="w-full bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
+                    className="w-full bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
                     disabled={isAutoDetecting}
                   />
                 </div>
 
                 {/* Destination */}
-                <div className="flex-1 max-w-[180px]">
-                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider font-medium">🎯 Destination</p>
+                <div className="flex-1 min-w-[120px]">
+                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">🎯 Destination</p>
                   <input
                     type="text"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     placeholder="Plateau, Cocody..."
-                    className="w-full bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
+                    className="w-full bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
                     autoFocus
                   />
                 </div>
 
                 {/* Prix */}
-                <div className="w-[120px] flex-shrink-0">
-                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider font-medium">💰 Prix</p>
+                <div className="w-[140px]">
+                  <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">💰 Prix</p>
                   <div className="relative">
                     <input
                       type="number"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                       placeholder="250"
-                      className="w-full bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
+                      className="w-full bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
                     />
-                    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[8px] text-white/30">FCFA</span>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-white/30">FCFA</span>
                   </div>
                 </div>
 
                 {/* Boutons */}
-                <div className="flex gap-2 flex-shrink-0">
+                <div className="flex gap-2">
                   <button
                     onClick={() => {
                       setShowDestinationInput(false);
@@ -218,14 +233,14 @@ export default function Home() {
                       setEndPointName("");
                       setGpsReady(false);
                     }}
-                    className="rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-xs text-white/70 hover:bg-white/10"
+                    className="rounded-lg border border-white/20 bg-white/5 px-4 py-2.5 text-sm text-white/70 hover:bg-white/10"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={confirmDestination}
                     disabled={!destination.trim() || !gpsReady}
-                    className="rounded-lg bg-[#0284C7] px-4 py-2 text-xs font-bold text-white shadow-lg shadow-[#0284C7]/30 hover:scale-[1.02] disabled:opacity-40"
+                    className="rounded-lg bg-[#0284C7] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#0284C7]/30 hover:scale-[1.02] disabled:opacity-40"
                   >
                     {gpsReady ? "🚀 Démarrer" : "⏳ GPS..."}
                   </button>
@@ -235,22 +250,20 @@ export default function Home() {
 
             {/* ENREGISTREMENT */}
             {status === "recording" && (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="flex w-full items-center gap-4 flex-wrap">
+                <div className="flex items-center gap-4 flex-1">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2 w-2 animate-pulse rounded-full bg-[#EA580C]" />
-                    <span className="text-[10px] font-semibold text-[#EA580C] uppercase">REC</span>
+                    <span className="text-xs font-bold text-[#EA580C] uppercase">REC</span>
                   </div>
                   {startPointName && (
-                    <p className="text-xs text-white/70 truncate">
+                    <p className="text-sm text-white/80 truncate">
                       🟢 {startPointName.split(',')[0]}
                     </p>
                   )}
-                  <p className="text-xs font-bold text-white truncate">
-                    → {destination}
-                  </p>
+                  <p className="text-sm font-bold text-white truncate">→ {destination}</p>
                   {price && (
-                    <p className="text-xs text-[#FCD34D] truncate">💰 {price} FCFA</p>
+                    <p className="text-sm text-[#FCD34D]">💰 {price} FCFA</p>
                   )}
                 </div>
                 <GpsRecorder
@@ -271,11 +284,13 @@ export default function Home() {
 
             {/* PAUSED */}
             {status === "paused" && (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 flex-1">
-                  <span className="text-xl">✅</span>
-                  <p className="text-xs text-white font-medium">Trajet terminé</p>
-                  <p className="text-xs text-[#E2E8F0]/50">{points.length} points</p>
+              <div className="flex w-full items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✅</span>
+                  <div>
+                    <p className="text-sm font-bold text-white">Trajet terminé</p>
+                    <p className="text-xs text-[#E2E8F0]/50">{points.length} points enregistrés</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => {
@@ -289,35 +304,43 @@ export default function Home() {
                     setEndPointName("");
                     setGpsReady(false);
                   }}
-                  className="rounded-lg bg-[#0284C7] px-4 py-2 text-xs font-bold text-white shadow-lg shadow-[#0284C7]/30 hover:scale-[1.02]"
+                  className="rounded-lg bg-[#0284C7] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#0284C7]/30 hover:scale-[1.02]"
                 >
-                  🔄 Nouveau
+                  🔄 Nouveau trajet
                 </button>
               </div>
             )}
           </div>
 
-          {/* ===== DIVISEUR ===== */}
-          <div className="h-10 w-px bg-white/10 flex-shrink-0 mx-3" />
+          {/* ===== LIGNE 3 : Légende ===== */}
+          <div className="flex items-center justify-between border-t border-white/10 pt-2">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB]" />
+                <span className="text-[10px] text-[#E2E8F0]/70">GPS</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#22C55E]" />
+                <span className="text-[10px] text-[#E2E8F0]/70">Départ</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444]" />
+                <span className="text-[10px] text-[#E2E8F0]/70">Arrivée</span>
+              </div>
+              {status === "recording" && (
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-[#EA580C]" />
+                  <span className="text-[9px] font-bold text-[#EA580C] uppercase">REC</span>
+                </div>
+              )}
+            </div>
 
-          {/* ===== DROITE : Légende ===== */}
-          <div className="flex items-center gap-3 flex-shrink-0">
-            <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#2563EB] shadow-lg shadow-[#2563EB]/50" />
-              <span className="text-[10px] text-[#E2E8F0]/70 font-medium">GPS</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#22C55E] shadow-lg shadow-[#22C55E]/50" />
-              <span className="text-[10px] text-[#E2E8F0]/70 font-medium">Départ</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#EF4444] shadow-lg shadow-[#EF4444]/50" />
-              <span className="text-[10px] text-[#E2E8F0]/70 font-medium">Arrivée</span>
-            </div>
+            {/* Infos supplémentaires */}
             {status === "recording" && (
-              <div className="flex items-center gap-1.5 ml-1">
-                <span className="h-2 w-2 animate-pulse rounded-full bg-[#EA580C]" />
-                <span className="text-[9px] font-bold text-[#EA580C] uppercase">REC</span>
+              <div className="flex items-center gap-4 text-xs text-[#E2E8F0]/60">
+                <span>📊 {points.length} pts</span>
+                <span>📏 {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}</span>
+                <span>🏎️ {currentSpeed !== null ? `${(currentSpeed * 3.6).toFixed(0)} km/h` : "--"}</span>
               </div>
             )}
           </div>
@@ -325,4 +348,4 @@ export default function Home() {
       </div>
     </div>
   );
-                }
+    }
