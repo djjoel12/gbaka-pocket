@@ -362,72 +362,72 @@ export default function GpsRecorder({
     <>
       {/* ÉTAT ENREGISTREMENT */}
       {isRecording && !showPriceInput && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {/* Points */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-[#E2E8F0]/50">📊</span>
-            <span className="text-xs font-bold text-white">{points.length}</span>
+            <span className="text-xs text-[#E2E8F0]/50">📊</span>
+            <span className="text-sm font-bold text-white">{points.length}</span>
           </div>
 
           {/* Distance */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-[#E2E8F0]/50">📏</span>
-            <span className="text-xs text-white">
+            <span className="text-xs text-[#E2E8F0]/50">📏</span>
+            <span className="text-sm text-white">
               {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}
             </span>
           </div>
 
           {/* Vitesse */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-[#E2E8F0]/50">🏎️</span>
-            <span className="text-xs font-medium text-[#0284C7]">{formatSpeed(currentSpeed)}</span>
+            <span className="text-xs text-[#E2E8F0]/50">🏎️</span>
+            <span className="text-sm font-medium text-[#0284C7]">{formatSpeed(currentSpeed)}</span>
           </div>
 
           {/* Arrêts */}
           {stops.length > 0 && (
             <div className="flex items-center gap-1.5">
-              <span className="text-[10px] text-[#E2E8F0]/50">🛑</span>
-              <span className="text-xs text-white">{stops.length}</span>
+              <span className="text-xs text-[#E2E8F0]/50">🛑</span>
+              <span className="text-sm text-white">{stops.length}</span>
             </div>
           )}
 
           {/* Temps */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[10px] text-[#E2E8F0]/50">⏱️</span>
-            <span className="text-xs text-white">{formatTime(elapsedTime)}</span>
+            <span className="text-xs text-[#E2E8F0]/50">⏱️</span>
+            <span className="text-sm text-white">{formatTime(elapsedTime)}</span>
           </div>
 
           {/* Bouton Terminer */}
           <button
             onClick={stopRecording}
-            className="ml-2 rounded-lg bg-[#EA580C] px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-[#EA580C]/30 hover:bg-[#EA580C]/80"
+            className="ml-2 rounded-lg bg-[#EA580C] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-[#EA580C]/30 hover:bg-[#EA580C]/80 transition"
           >
             ⏹ Terminer
           </button>
 
           {/* Sauvegardé */}
           {tripSaved && (
-            <span className="text-[10px] text-[#22C55E]">✅ Sauvegardé</span>
+            <span className="text-xs text-[#22C55E]">✅ Sauvegardé</span>
           )}
         </div>
       )}
 
       {/* DEMANDE DE PRIX */}
       {showPriceInput && (
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-white">💰 Prix ?</span>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-white font-medium">💰 Prix ?</span>
           <input
             type="number"
             value={finalPrice}
             onChange={(e) => setFinalPrice(e.target.value)}
             placeholder="250"
-            className="w-20 bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white text-center outline-none focus:border-[#0284C7]"
+            className="w-24 bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white text-center outline-none focus:border-[#0284C7]"
             autoFocus
           />
           <button
             onClick={handlePriceSubmit}
             disabled={!finalPrice || parseInt(finalPrice) <= 0}
-            className="rounded-lg bg-[#0284C7] px-3 py-1.5 text-xs font-bold text-white disabled:opacity-40"
+            className="rounded-lg bg-[#0284C7] px-4 py-2 text-sm font-bold text-white disabled:opacity-40 hover:scale-[1.02] transition"
           >
             ✅ Sauvegarder
           </button>
@@ -437,15 +437,15 @@ export default function GpsRecorder({
               setStatus("paused");
               setGpsStatus("Terminé");
             }}
-            className="rounded-lg border border-white/20 px-3 py-1.5 text-xs text-white/60 hover:bg-white/10"
+            className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/60 hover:bg-white/10 transition"
           >
             Passer
           </button>
           {error && (
-            <span className="text-[10px] text-[#EF4444]">{error}</span>
+            <span className="text-xs text-[#EF4444]">{error}</span>
           )}
         </div>
       )}
     </>
   );
-}
+        }
