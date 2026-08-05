@@ -1,5 +1,3 @@
-// src/types/trip.ts
-
 export type GPSPoint = {
   latitude: number;
   longitude: number;
