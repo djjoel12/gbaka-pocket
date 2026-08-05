@@ -77,15 +77,20 @@ export default function Home() {
   }, [showDestinationInput, startPointName]);
 
   // ============================================
-  // CHARGER LES SUGGESTIONS DE LIGNES
+  // CHARGER LES SUGGESTIONS DE LIGNES - CORRIGÉ
   // ============================================
   useEffect(() => {
-    const savedTrips = JSON.parse(localStorage.getItem("trips") || "[]");
-    const lines = savedTrips
-      .map((t: any) => t.line?.name)
-      .filter(Boolean);
-    const uniqueLines = [...new Set(lines)];
-    setSuggestedLines(uniqueLines.slice(0, 5));
+    try {
+      const savedTrips = JSON.parse(localStorage.getItem("trips") || "[]");
+      const lines: string[] = savedTrips
+        .map((t: any) => t.line?.name)
+        .filter((name: string | undefined): name is string => typeof name === "string");
+      const uniqueLines = [...new Set(lines)];
+      setSuggestedLines(uniqueLines.slice(0, 5));
+    } catch (error) {
+      console.error("Erreur chargement suggestions:", error);
+      setSuggestedLines([]);
+    }
   }, []);
 
   // ============================================
