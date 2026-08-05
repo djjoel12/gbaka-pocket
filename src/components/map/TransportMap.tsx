@@ -36,10 +36,6 @@ const defaultPosition: [number, number] = [
   -4.0267,
 ];
 
-// ============================================
-// CRÉATION D'ICÔNES PERSONNALISÉES
-// ============================================
-
 function createIcon(
   color: string,
   label: string = "",
@@ -167,10 +163,6 @@ function createIcon(
   });
 }
 
-// ============================================
-// ICÔNES PRINCIPALES
-// ============================================
-
 const startIcon = createIcon(
   "#22c55e",
   "🏁"
@@ -186,10 +178,6 @@ const liveIcon = createIcon(
   "",
   true
 );
-
-// ============================================
-// SUIVI AUTOMATIQUE DE LA CARTE
-// ============================================
 
 function MapFollower({
   position,
@@ -218,37 +206,21 @@ function MapFollower({
   return null;
 }
 
-// ============================================
-// COMPOSANT PRINCIPAL
-// ============================================
-
 export default function TransportMap({
   points,
   livePosition,
   isRecording = false,
 }: TransportMapProps) {
 
-  // ==========================================
-  // DERNIER POINT
-  // ==========================================
-
   const lastPoint =
     points.length > 0
       ? points[points.length - 1]
       : null;
 
-  // ==========================================
-  // PREMIER POINT
-  // ==========================================
-
   const firstPoint =
     points.length > 0
       ? points[0]
       : null;
-
-  // ==========================================
-  // POSITION À AFFICHER
-  // ==========================================
 
   const displayPosition: [number, number] =
     livePosition
@@ -263,26 +235,14 @@ export default function TransportMap({
         ]
       : defaultPosition;
 
-  // ==========================================
-  // CONVERSION DES POINTS GPS
-  // ==========================================
-
   const routePositions: [number, number][] =
     points.map((point) => [
       point.latitude,
       point.longitude,
     ]);
 
-  // ==========================================
-  // POSITION GPS DISPONIBLE
-  // ==========================================
-
   const hasLivePosition =
     !!livePosition;
-
-  // ==========================================
-  // AFFICHAGE
-  // ==========================================
 
   return (
     <div
@@ -296,10 +256,6 @@ export default function TransportMap({
         shadow-sm
       "
     >
-
-      {/* ======================================
-          CARTE
-      ====================================== */}
 
       <MapContainer
         center={displayPosition}
@@ -316,18 +272,10 @@ export default function TransportMap({
         }}
       >
 
-        {/* ====================================
-            FOND DE CARTE
-        ==================================== */}
-
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
-
-        {/* ====================================
-            SUIVI AUTOMATIQUE GPS
-        ==================================== */}
 
         {hasLivePosition && (
           <MapFollower
@@ -336,67 +284,63 @@ export default function TransportMap({
         )}
 
         {/* ====================================
-            TRACÉ DU TRAJET - STYLE AMÉLIORÉ
+            TRACÉ DU TRAJET - COULEURS VIOLET
         ==================================== */}
 
         {routePositions.length > 1 && (
           <>
-            {/* Halo de lumière bleu */}
+            {/* Effet de néon - halo extérieur large */}
             <Polyline
               positions={routePositions}
-              color="#1d4ed8"
-              weight={16}
-              opacity={0.15}
+              color="#8b5cf6"
+              weight={20}
+              opacity={0.12}
               lineJoin="round"
               lineCap="round"
             />
 
-            {/* Halo extérieur */}
+            {/* Halo moyen */}
             <Polyline
               positions={routePositions}
-              color="#3b82f6"
-              weight={10}
-              opacity={0.25}
+              color="#6d28d9"
+              weight={14}
+              opacity={0.2}
               lineJoin="round"
               lineCap="round"
             />
 
-            {/* Ligne principale - Bleu électrique */}
+            {/* Ligne principale - Violet clair */}
             <Polyline
               positions={routePositions}
-              color="#60a5fa"
-              weight={5}
+              color="#a78bfa"
+              weight={6}
               opacity={0.95}
               lineJoin="round"
               lineCap="round"
             />
 
-            {/* Ligne intérieure - Bleu clair brillant */}
+            {/* Ligne intérieure brillante */}
             <Polyline
               positions={routePositions}
-              color="#93c5fd"
-              weight={2}
-              opacity={0.7}
+              color="#c4b5fd"
+              weight={3}
+              opacity={0.8}
               lineJoin="round"
               lineCap="round"
             />
 
-            {/* Pointillés lumineux */}
+            {/* Pointillés dynamiques */}
             <Polyline
               positions={routePositions}
-              color="#bfdbfe"
-              weight={1}
-              opacity={0.5}
+              color="#ddd6fe"
+              weight={1.5}
+              opacity={0.6}
               lineJoin="round"
               lineCap="round"
-              dashArray="12 16"
+              dashArray="10 14"
             />
           </>
         )}
-
-        {/* ====================================
-            POINT DE DÉPART
-        ==================================== */}
 
         {firstPoint && (
           <Marker
@@ -407,10 +351,6 @@ export default function TransportMap({
             icon={startIcon}
           />
         )}
-
-        {/* ====================================
-            POINT D'ARRIVÉE
-        ==================================== */}
 
         {lastPoint &&
           points.length > 1 && (
@@ -423,14 +363,8 @@ export default function TransportMap({
             />
           )}
 
-        {/* ====================================
-            POSITION GPS EN DIRECT
-        ==================================== */}
-
         {livePosition && (
           <>
-            {/* Position actuelle */}
-
             <Marker
               position={[
                 livePosition.latitude,
@@ -438,8 +372,6 @@ export default function TransportMap({
               ]}
               icon={liveIcon}
             />
-
-            {/* Cercle de précision GPS */}
 
             <Circle
               center={[
@@ -460,10 +392,6 @@ export default function TransportMap({
         )}
 
       </MapContainer>
-
-      {/* ======================================
-          LÉGENDE PRINCIPALE
-      ====================================== */}
 
       <div
         className="
@@ -496,10 +424,7 @@ export default function TransportMap({
           "
         >
 
-          {/* GPS */}
-
           <div className="flex items-center gap-1.5">
-
             <span
               className="
                 h-2.5
@@ -510,17 +435,12 @@ export default function TransportMap({
                 shadow-blue-500/50
               "
             />
-
             <span className="text-white/80">
               GPS
             </span>
-
           </div>
 
-          {/* DÉPART */}
-
           <div className="flex items-center gap-1.5">
-
             <span
               className="
                 h-2.5
@@ -531,17 +451,12 @@ export default function TransportMap({
                 shadow-green-500/50
               "
             />
-
             <span className="text-white/80">
               Départ
             </span>
-
           </div>
 
-          {/* ARRIVÉE */}
-
           <div className="flex items-center gap-1.5">
-
             <span
               className="
                 h-2.5
@@ -552,14 +467,10 @@ export default function TransportMap({
                 shadow-red-500/50
               "
             />
-
             <span className="text-white/80">
               Arrivée
             </span>
-
           </div>
-
-          {/* ENREGISTREMENT */}
 
           {isRecording && (
             <span
@@ -572,7 +483,6 @@ export default function TransportMap({
                 text-emerald-400
               "
             >
-
               <span
                 className="
                   h-2
@@ -582,9 +492,7 @@ export default function TransportMap({
                   bg-emerald-400
                 "
               />
-
               REC
-
             </span>
           )}
 
@@ -594,4 +502,4 @@ export default function TransportMap({
 
     </div>
   );
-        }
+            }
