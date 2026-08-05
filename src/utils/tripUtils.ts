@@ -25,7 +25,7 @@ export const calculateDistance = (
 };
 
 // ============================================
-// GÉOCODAGE INVERSE - Nom du lieu à partir des coordonnées
+// GÉOCODAGE INVERSE
 // ============================================
 export const reverseGeocode = async (lat: number, lng: number): Promise<string> => {
   try {
@@ -35,9 +35,7 @@ export const reverseGeocode = async (lat: number, lng: number): Promise<string> 
     const data = await response.json();
     
     if (data && data.display_name) {
-      // Extraire juste le quartier/ville
       const parts = data.display_name.split(',');
-      // Prendre les 2-3 premiers éléments (quartier, ville)
       return parts.slice(0, 3).join(',').trim();
     }
     return "Lieu inconnu";
@@ -55,8 +53,8 @@ export const detectStops = (points: GPSPoint[]): StopPoint[] => {
 
   const stops: StopPoint[] = [];
   let currentStop: GPSPoint[] = [];
-  const STOP_THRESHOLD = 0.5; // Vitesse < 0.5 m/s = arrêt
-  const MIN_STOP_DURATION = 5; // 5 secondes minimum
+  const STOP_THRESHOLD = 0.5;
+  const MIN_STOP_DURATION = 5;
 
   for (let i = 0; i < points.length; i++) {
     const point = points[i];
@@ -93,7 +91,6 @@ export const detectStops = (points: GPSPoint[]): StopPoint[] => {
     }
   }
 
-  // Dernier arrêt
   if (currentStop.length > 0) {
     const duration =
       (currentStop[currentStop.length - 1].timestamp -
@@ -119,21 +116,9 @@ export const detectStops = (points: GPSPoint[]): StopPoint[] => {
     }
   }
 
-  // Marquer le premier et dernier arrêt
   if (stops.length > 0) {
     stops[0].isStart = true;
     stops[stops.length - 1].isEnd = true;
-    
-    // Donner des noms aux arrêts via géocodage
-    stops.forEach(async (stop, index) => {
-      if (index === 0) {
-        stop.name = await reverseGeocode(stop.coordinates[0], stop.coordinates[1]);
-      } else if (index === stops.length - 1) {
-        stop.name = await reverseGeocode(stop.coordinates[0], stop.coordinates[1]);
-      } else {
-        stop.name = `Arrêt ${index}`;
-      }
-    });
   }
 
   return stops;

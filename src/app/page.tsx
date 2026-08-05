@@ -34,8 +34,10 @@ export default function Home() {
   const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
   
-  // Champs automatiques
+  // Champs visibles par l'utilisateur
   const [destination, setDestination] = useState("");
+  
+  // Champs automatiques
   const [lineName, setLineName] = useState("");
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
@@ -45,9 +47,6 @@ export default function Home() {
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
   
-  // Suggestions de lignes basées sur les trajets précédents
-  const [suggestedLines, setSuggestedLines] = useState<string[]>([]);
-
   // ============================================
   // AUTODÉTECTION DU POINT DE DÉPART
   // ============================================
@@ -70,6 +69,7 @@ export default function Home() {
           console.error("Erreur GPS pour le départ:", error);
           setIsAutoDetecting(false);
           setStartPointName("Position actuelle");
+          setGpsReady(true);
         },
         { enableHighAccuracy: true, timeout: 10000 }
       );
@@ -77,21 +77,21 @@ export default function Home() {
   }, [showDestinationInput, startPointName]);
 
   // ============================================
-  // CHARGER LES SUGGESTIONS DE LIGNES - CORRIGÉ
+  // GÉNÉRATION AUTOMATIQUE DU NOM DE LA LIGNE
   // ============================================
   useEffect(() => {
-    try {
-      const savedTrips = JSON.parse(localStorage.getItem("trips") || "[]");
-      const lines: string[] = savedTrips
-        .map((t: any) => t.line?.name)
-        .filter((name: string | undefined): name is string => typeof name === "string");
-      const uniqueLines = [...new Set(lines)];
-      setSuggestedLines(uniqueLines.slice(0, 5));
-    } catch (error) {
-      console.error("Erreur chargement suggestions:", error);
-      setSuggestedLines([]);
+    if (startPointName && destination) {
+      // Extraire le quartier principal du point de départ
+      const startMain = startPointName.split(',')[0].trim();
+      const endMain = destination.split(',')[0].trim();
+      
+      // Générer le nom de la ligne
+      const generatedName = `Gbaka ${startMain} → ${endMain}`;
+      setLineName(generatedName);
+      
+      console.log("🚌 Nom de ligne généré :", generatedName);
     }
-  }, []);
+  }, [startPointName, destination]);
 
   // ============================================
   // DÉMARRER LE TRAJET
@@ -101,7 +101,7 @@ export default function Home() {
   };
 
   const confirmDestination = () => {
-    if (destination.trim()) {
+    if (destination.trim() && gpsReady) {
       setShowDestinationInput(false);
       setStatus("recording");
     }
@@ -114,7 +114,7 @@ export default function Home() {
     id: Date.now().toString(),
     name: lineName,
     number: lineName.match(/\d+/)?.[0] || "",
-    type: lineName.toLowerCase().includes("wor") ? "woro-woro" : "gbaka",
+    type: "gbaka",
     color: "#8b5cf6",
     estimatedPrice: 0,
   } : null;
@@ -129,15 +129,15 @@ export default function Home() {
             <div className="mx-auto max-w-md rounded-2xl bg-blue-600/90 px-4 py-2.5 text-center backdrop-blur-sm">
               <p className="text-sm font-medium text-white">
                 🚗 Trajet vers : <span className="font-bold">{destination}</span>
-                {lineName && (
-                  <span className="ml-2 rounded-full bg-purple-500/30 px-2 py-0.5 text-xs">
-                    {lineName}
-                  </span>
-                )}
               </p>
               {startPointName && (
                 <p className="mt-1 text-xs text-white/70">
                   🟢 Départ : {startPointName}
+                </p>
+              )}
+              {lineName && (
+                <p className="mt-1 text-xs text-purple-300">
+                  🚌 {lineName}
                 </p>
               )}
             </div>
@@ -154,7 +154,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
         <div className="mx-auto w-full max-w-md flex-1">
           
-          {/* ===== FORMULAIRE AUTOMATISÉ ===== */}
+          {/* ===== FORMULAIRE SIMPLIFIÉ ===== */}
           {showDestinationInput && (
             <div className="mt-2 animate-in fade-in slide-in-from-bottom-4 duration-300">
               <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-pink-500/10 p-6 backdrop-blur-xl shadow-2xl shadow-purple-500/20">
@@ -170,10 +170,10 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">
-                        Trajet automatique
+                        Nouveau trajet
                       </h3>
                       <p className="text-xs text-white/40">
-                        Le GPS détecte automatiquement votre position
+                        Votre position est détectée automatiquement
                       </p>
                     </div>
                   </div>
@@ -239,59 +239,31 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Nom de la ligne - SUGGESTIONS AUTOMATIQUES */}
-                  <div className="mb-3">
-                    <label className="mb-1.5 block text-xs font-medium text-white/60">
-                      🚌 Nom de la ligne
-                    </label>
-                    <input
-                      type="text"
-                      value={lineName}
-                      onChange={(e) => setLineName(e.target.value)}
-                      placeholder="Ex: Gbaka 22, Wôrô-wôrô..."
-                      className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
-                    />
-                    {suggestedLines.length > 0 && (
-                      <div className="mt-1.5 flex flex-wrap gap-2">
-                        <span className="text-xs text-white/30">Basé sur vos trajets :</span>
-                        {suggestedLines.map((line) => (
-                          <button
-                            key={line}
-                            onClick={() => setLineName(line)}
-                            className="rounded-full border border-purple-500/30 bg-purple-500/10 px-2.5 py-0.5 text-xs text-purple-400 transition hover:bg-purple-500/20"
-                          >
-                            {line}
-                          </button>
-                        ))}
+                  {/* NOM DE LA LIGNE - GÉNÉRÉ AUTOMATIQUEMENT */}
+                  {lineName && (
+                    <div className="mb-3 rounded-xl border border-purple-500/20 bg-purple-500/5 p-3">
+                      <div className="flex items-center gap-2 text-xs text-purple-400">
+                        <span>🚌</span>
+                        <div>
+                          <p className="font-medium text-purple-300">
+                            Ligne : {lineName}
+                          </p>
+                          <p className="text-purple-400/60 text-[10px]">
+                            Généré automatiquement
+                          </p>
+                        </div>
                       </div>
-                    )}
-                  </div>
-
-                  {/* Point d'arrivée - AUTO DÉTECTION OPTIONNELLE */}
-                  <div className="mb-4">
-                    <label className="mb-1.5 block text-xs font-medium text-white/60">
-                      🔴 Point d'arrivée
-                    </label>
-                    <input
-                      type="text"
-                      value={endPointName}
-                      onChange={(e) => setEndPointName(e.target.value)}
-                      placeholder="Sera détecté automatiquement à la fin du trajet"
-                      className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
-                    />
-                    <p className="mt-1 text-xs text-white/30">
-                      ⚡ Optionnel - sera automatiquement détecté par GPS
-                    </p>
-                  </div>
+                    </div>
+                  )}
 
                   {/* Indicateur des données automatiques */}
                   <div className="mb-4 rounded-xl border border-green-500/20 bg-green-500/5 p-3">
                     <div className="flex items-center gap-2 text-xs text-green-400">
                       <span className="text-lg">🤖</span>
                       <div>
-                        <p className="font-medium">Mode automatique activé</p>
+                        <p className="font-medium">Mode automatique</p>
                         <p className="text-green-400/60">
-                          Départ détecté • Arrivée auto • Arrêts automatiques
+                          Départ détecté • Ligne générée • Arrivée auto • Arrêts automatiques
                         </p>
                       </div>
                     </div>
@@ -389,16 +361,8 @@ export default function Home() {
                   📍 Appuyez pour démarrer
                 </p>
                 <p className="mt-1 text-xs text-white/40">
-                  Le GPS détectera automatiquement votre position de départ
+                  Le GPS détecte votre position et génère la ligne automatiquement
                 </p>
-                {suggestedLines.length > 0 && (
-                  <div className="mt-2 flex justify-center gap-2 text-xs text-white/30">
-                    <span>Dernières lignes :</span>
-                    {suggestedLines.map((line) => (
-                      <span key={line} className="text-purple-400">{line}</span>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
           )}

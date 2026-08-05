@@ -220,7 +220,7 @@ export default function GpsRecorder({
           const updatedPoints = [...previousPoints, newPoint];
           onPointsChange(updatedPoints);
           
-          // Détection des arrêts en temps réel (mise à jour périodique)
+          // Détection des arrêts en temps réel
           if (updatedPoints.length % 10 === 0) {
             const detectedStops = detectStops(updatedPoints);
             setStops(detectedStops);
@@ -280,27 +280,15 @@ export default function GpsRecorder({
       // 1. Détection des arrêts
       const detectedStops = await detectStops(points);
       
-      // 2. Géocodage du point de départ et d'arrivée
-      let startName = startPointName;
+      // 2. Géocodage du point d'arrivée (si non fourni)
       let endName = endPointName;
-      
-      if (detectedStops.length > 0) {
-        // Premier point = départ
-        if (!startName) {
-          startName = await reverseGeocode(
-            detectedStops[0].coordinates[0],
-            detectedStops[0].coordinates[1]
-          );
-        }
-        
-        // Dernier point = arrivée
-        if (!endName) {
-          const lastStop = detectedStops[detectedStops.length - 1];
-          endName = await reverseGeocode(
-            lastStop.coordinates[0],
-            lastStop.coordinates[1]
-          );
-        }
+      if (!endName && detectedStops.length > 0) {
+        const lastStop = detectedStops[detectedStops.length - 1];
+        endName = await reverseGeocode(
+          lastStop.coordinates[0],
+          lastStop.coordinates[1]
+        );
+        setEndPointName(endName);
       }
 
       const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
@@ -315,7 +303,7 @@ export default function GpsRecorder({
         id: Date.now().toString(),
         line: lineInfo || null,
         destination: destination || "Trajet sans destination",
-        startPointName: startName || "Départ inconnu",
+        startPointName: startPointName || "Départ inconnu",
         endPointName: endName || "Arrivée inconnue",
         points: points,
         startPoint: startPoint,
@@ -343,8 +331,9 @@ export default function GpsRecorder({
       console.log(`⏱️ Durée : ${formatTime(elapsedTime)}`);
       console.log(`🏎️ Vitesse moyenne : ${averageSpeed.toFixed(1)} km/h`);
       console.log(`🛑 Arrêts : ${detectedStops.length}`);
-      console.log(`📍 Départ : ${startName}`);
+      console.log(`📍 Départ : ${startPointName}`);
       console.log(`📍 Arrivée : ${endName}`);
+      console.log(`🚌 Ligne : ${lineInfo?.name || "Non spécifiée"}`);
       console.log(`📈 Qualité : ${quality}%`);
     } else {
       console.log("⚠️ Aucun point enregistré, trajet ignoré");
@@ -437,6 +426,11 @@ export default function GpsRecorder({
           {lineInfo && (
             <p className="mt-1 text-center text-xs text-purple-400">
               🚌 Ligne : <span className="font-bold text-white">{lineInfo.name}</span>
+            </p>
+          )}
+          {startPointName && (
+            <p className="mt-1 text-center text-xs text-green-400">
+              🟢 Départ : <span className="font-bold text-white">{startPointName}</span>
             </p>
           )}
         </div>
