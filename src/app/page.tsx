@@ -1,9 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 import type { LineInfo } from "@/types/trip";
+import { reverseGeocode } from "@/utils/tripUtils";
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -32,12 +33,64 @@ export default function Home() {
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [livePosition, setLivePosition] = useState<GPSPoint | null>(null);
   const [status, setStatus] = useState<"idle" | "recording" | "paused">("idle");
+  
+  // Champs automatiques
   const [destination, setDestination] = useState("");
   const [lineName, setLineName] = useState("");
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
+  
+  // État pour l'autodétection
+  const [isAutoDetecting, setIsAutoDetecting] = useState(false);
+  const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
+  
+  // Suggestions de lignes basées sur les trajets précédents
+  const [suggestedLines, setSuggestedLines] = useState<string[]>([]);
 
+  // ============================================
+  // AUTODÉTECTION DU POINT DE DÉPART
+  // ============================================
+  useEffect(() => {
+    if (showDestinationInput && !startPointName && navigator.geolocation) {
+      setIsAutoDetecting(true);
+      
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const name = await reverseGeocode(
+            position.coords.latitude,
+            position.coords.longitude
+          );
+          setStartPointName(name);
+          setIsAutoDetecting(false);
+          setGpsReady(true);
+          console.log("📍 Point de départ automatique :", name);
+        },
+        (error) => {
+          console.error("Erreur GPS pour le départ:", error);
+          setIsAutoDetecting(false);
+          setStartPointName("Position actuelle");
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    }
+  }, [showDestinationInput, startPointName]);
+
+  // ============================================
+  // CHARGER LES SUGGESTIONS DE LIGNES
+  // ============================================
+  useEffect(() => {
+    const savedTrips = JSON.parse(localStorage.getItem("trips") || "[]");
+    const lines = savedTrips
+      .map((t: any) => t.line?.name)
+      .filter(Boolean);
+    const uniqueLines = [...new Set(lines)];
+    setSuggestedLines(uniqueLines.slice(0, 5));
+  }, []);
+
+  // ============================================
+  // DÉMARRER LE TRAJET
+  // ============================================
   const handleStartTrip = () => {
     setShowDestinationInput(true);
   };
@@ -49,7 +102,9 @@ export default function Home() {
     }
   };
 
-  // Construction des infos de ligne
+  // ============================================
+  // CONSTRUCTION DES INFOS DE LIGNE
+  // ============================================
   const lineInfo: LineInfo | null = lineName ? {
     id: Date.now().toString(),
     name: lineName,
@@ -75,6 +130,11 @@ export default function Home() {
                   </span>
                 )}
               </p>
+              {startPointName && (
+                <p className="mt-1 text-xs text-white/70">
+                  🟢 Départ : {startPointName}
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -89,32 +149,66 @@ export default function Home() {
       <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
         <div className="mx-auto w-full max-w-md flex-1">
           
-          {/* ===== FORMULAIRE ENRICHIE ===== */}
+          {/* ===== FORMULAIRE AUTOMATISÉ ===== */}
           {showDestinationInput && (
             <div className="mt-2 animate-in fade-in slide-in-from-bottom-4 duration-300">
               <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-pink-500/10 p-6 backdrop-blur-xl shadow-2xl shadow-purple-500/20">
                 
-                {/* Effets de fond */}
                 <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 blur-3xl animate-pulse" />
                 <div className="absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
                 
                 <div className="relative z-10">
                   {/* Titre */}
                   <div className="mb-4 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 text-2xl animate-bounce">
-                      📝
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 text-2xl animate-bounce">
+                      🤖
                     </div>
                     <div>
                       <h3 className="text-lg font-bold text-white">
-                        Détails du trajet
+                        Trajet automatique
                       </h3>
                       <p className="text-xs text-white/40">
-                        Renseignez les informations de votre trajet
+                        Le GPS détecte automatiquement votre position
                       </p>
                     </div>
                   </div>
-                  
-                  {/* Champ 1: Destination */}
+
+                  {/* Point de départ - AUTOMATIQUE */}
+                  <div className="mb-3">
+                    <label className="mb-1.5 flex items-center gap-2 text-xs font-medium text-white/60">
+                      <span>🟢 Point de départ</span>
+                      {isAutoDetecting ? (
+                        <span className="flex items-center gap-1 text-green-400">
+                          <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
+                          Détection...
+                        </span>
+                      ) : gpsReady ? (
+                        <span className="text-green-400">✅ Automatique</span>
+                      ) : null}
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={startPointName}
+                        onChange={(e) => setStartPointName(e.target.value)}
+                        placeholder="Détection automatique en cours..."
+                        className="w-full rounded-xl border-2 border-green-500/30 bg-green-500/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-green-500 focus:bg-green-500/10 focus:ring-4 focus:ring-green-500/20"
+                        disabled={isAutoDetecting}
+                      />
+                      {gpsReady && (
+                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                          <span className="text-green-400">📍</span>
+                        </div>
+                      )}
+                    </div>
+                    <p className="mt-1 text-xs text-green-400/60">
+                      {gpsReady 
+                        ? "✅ Position détectée automatiquement" 
+                        : "⏳ En attente du signal GPS..."}
+                    </p>
+                  </div>
+
+                  {/* Destination - MANUELLE */}
                   <div className="mb-3">
                     <label className="mb-1.5 block text-xs font-medium text-white/60">
                       🎯 Destination *
@@ -127,25 +221,11 @@ export default function Home() {
                       className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
                       autoFocus
                     />
-                  </div>
-
-                  {/* Champ 2: Nom de la ligne */}
-                  <div className="mb-3">
-                    <label className="mb-1.5 block text-xs font-medium text-white/60">
-                      🚌 Nom de la ligne
-                    </label>
-                    <input
-                      type="text"
-                      value={lineName}
-                      onChange={(e) => setLineName(e.target.value)}
-                      placeholder="Ex: Gbaka 22, Wôrô-wôrô Adjamé-Plateau..."
-                      className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
-                    />
                     <div className="mt-1.5 flex flex-wrap gap-2">
-                      {["Gbaka 22", "Gbaka 35", "Gbaka 46", "Wôrô-wôrô", "Bus Sotra"].map((suggestion) => (
+                      {["Adjamé", "Plateau", "Cocody", "Treichville", "Marcory"].map((suggestion) => (
                         <button
                           key={suggestion}
-                          onClick={() => setLineName(suggestion)}
+                          onClick={() => setDestination(suggestion)}
                           className="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-xs text-white/50 transition hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-white"
                         >
                           {suggestion}
@@ -154,21 +234,35 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Champ 3: Point de départ */}
+                  {/* Nom de la ligne - SUGGESTIONS AUTOMATIQUES */}
                   <div className="mb-3">
                     <label className="mb-1.5 block text-xs font-medium text-white/60">
-                      🟢 Point de départ
+                      🚌 Nom de la ligne
                     </label>
                     <input
                       type="text"
-                      value={startPointName}
-                      onChange={(e) => setStartPointName(e.target.value)}
-                      placeholder="Ex: Adjamé - Gare Nord"
+                      value={lineName}
+                      onChange={(e) => setLineName(e.target.value)}
+                      placeholder="Ex: Gbaka 22, Wôrô-wôrô..."
                       className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
                     />
+                    {suggestedLines.length > 0 && (
+                      <div className="mt-1.5 flex flex-wrap gap-2">
+                        <span className="text-xs text-white/30">Basé sur vos trajets :</span>
+                        {suggestedLines.map((line) => (
+                          <button
+                            key={line}
+                            onClick={() => setLineName(line)}
+                            className="rounded-full border border-purple-500/30 bg-purple-500/10 px-2.5 py-0.5 text-xs text-purple-400 transition hover:bg-purple-500/20"
+                          >
+                            {line}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Champ 4: Point d'arrivée */}
+                  {/* Point d'arrivée - AUTO DÉTECTION OPTIONNELLE */}
                   <div className="mb-4">
                     <label className="mb-1.5 block text-xs font-medium text-white/60">
                       🔴 Point d'arrivée
@@ -177,11 +271,27 @@ export default function Home() {
                       type="text"
                       value={endPointName}
                       onChange={(e) => setEndPointName(e.target.value)}
-                      placeholder="Ex: Plateau - Place de la République"
+                      placeholder="Sera détecté automatiquement à la fin du trajet"
                       className="w-full rounded-xl border-2 border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-all duration-300 focus:border-purple-500 focus:bg-white/10 focus:ring-4 focus:ring-purple-500/20"
                     />
+                    <p className="mt-1 text-xs text-white/30">
+                      ⚡ Optionnel - sera automatiquement détecté par GPS
+                    </p>
                   </div>
-                  
+
+                  {/* Indicateur des données automatiques */}
+                  <div className="mb-4 rounded-xl border border-green-500/20 bg-green-500/5 p-3">
+                    <div className="flex items-center gap-2 text-xs text-green-400">
+                      <span className="text-lg">🤖</span>
+                      <div>
+                        <p className="font-medium">Mode automatique activé</p>
+                        <p className="text-green-400/60">
+                          Départ détecté • Arrivée auto • Arrêts automatiques
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Boutons d'action */}
                   <div className="mt-5 flex gap-3">
                     <button
@@ -191,21 +301,22 @@ export default function Home() {
                         setLineName("");
                         setStartPointName("");
                         setEndPointName("");
+                        setGpsReady(false);
                       }}
                       className="flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm font-medium text-white/60 transition-all hover:bg-white/10 hover:text-white/80 active:scale-95"
                     >
                       Annuler
                     </button>
-                    
+
                     <button
                       onClick={confirmDestination}
-                      disabled={!destination.trim()}
-                      className="group relative flex-1 overflow-hidden rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-purple-600/30 transition-all hover:scale-[1.02] hover:shadow-purple-600/50 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                      disabled={!destination.trim() || !gpsReady}
+                      className="group relative flex-1 overflow-hidden rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-4 py-3.5 text-sm font-bold text-white shadow-lg shadow-green-600/30 transition-all hover:scale-[1.02] hover:shadow-green-600/50 active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
                     >
                       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
                       <div className="relative flex items-center justify-center gap-2">
                         <span>🚀</span>
-                        <span>Démarrer</span>
+                        <span>{gpsReady ? "Démarrer" : "Attente GPS..."}</span>
                       </div>
                     </button>
                   </div>
@@ -244,6 +355,7 @@ export default function Home() {
                     setLineName("");
                     setStartPointName("");
                     setEndPointName("");
+                    setGpsReady(false);
                   }}
                   className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700"
                 >
@@ -252,7 +364,6 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            /* ===== BOUTON PLAY ROND ===== */
             <div className="mt-2 space-y-4">
               <div className="flex justify-center">
                 <button
@@ -267,14 +378,22 @@ export default function Home() {
                   </svg>
                 </button>
               </div>
-              
+
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-sm">
                 <p className="text-sm font-medium text-white/70">
-                  Appuyez pour démarrer votre trajet
+                  📍 Appuyez pour démarrer
                 </p>
                 <p className="mt-1 text-xs text-white/40">
-                  Votre position GPS servira de point de départ
+                  Le GPS détectera automatiquement votre position de départ
                 </p>
+                {suggestedLines.length > 0 && (
+                  <div className="mt-2 flex justify-center gap-2 text-xs text-white/30">
+                    <span>Dernières lignes :</span>
+                    {suggestedLines.map((line) => (
+                      <span key={line} className="text-purple-400">{line}</span>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
