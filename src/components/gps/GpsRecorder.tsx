@@ -8,7 +8,17 @@ import {
   useState,
 } from "react";
 
-import type { GPSPoint } from "@/app/page";
+import type { GPSPoint, TripData, LineInfo, StopPoint } from "@/types/trip";
+import {
+  calculateDistance,
+  detectStops,
+  calculateQuality,
+  calculateAverageSpeed,
+  calculateMaxSpeed,
+  calculateMovingTime,
+  saveTrip,
+  reverseGeocode,
+} from "@/utils/tripUtils";
 
 type GpsRecorderProps = {
   status: "idle" | "recording" | "paused";
@@ -16,40 +26,19 @@ type GpsRecorderProps = {
   onPointsChange: (points: GPSPoint[]) => void;
   onLivePositionChange: (point: GPSPoint | null) => void;
   destination?: string;
+  lineInfo?: LineInfo | null;
+  startPointName?: string;
+  endPointName?: string;
   minDistance?: number;
   maxAccuracy?: number;
 };
-
-function calculateDistance(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number {
-  const R = 6371000;
-  const phi1 = (lat1 * Math.PI) / 180;
-  const phi2 = (lat2 * Math.PI) / 180;
-  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
-  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
-
-  const a =
-    Math.sin(deltaPhi / 2) ** 2 +
-    Math.cos(phi1) *
-      Math.cos(phi2) *
-      Math.sin(deltaLambda / 2) ** 2;
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
 
 function detectSpike(
   previousPoint: GPSPoint | null,
   newPoint: GPSPoint,
   maxJump = 100
 ): boolean {
-  if (!previousPoint) {
-    return false;
-  }
+  if (!previousPoint) return false;
 
   const distance = calculateDistance(
     previousPoint.latitude,
@@ -72,6 +61,9 @@ export default function GpsRecorder({
   onPointsChange,
   onLivePositionChange,
   destination,
+  lineInfo = null,
+  startPointName = "",
+  endPointName = "",
   minDistance = 5,
   maxAccuracy = 50,
 }: GpsRecorderProps) {
@@ -82,10 +74,16 @@ export default function GpsRecorder({
   const [tripStartTime, setTripStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [currentSpeed, setCurrentSpeed] = useState<number | null>(null);
+  const [tripSaved, setTripSaved] = useState(false);
+  const [stops, setStops] = useState<StopPoint[]>([]);
 
   const watchIdRef = useRef<number | null>(null);
   const lastPointRef = useRef<GPSPoint | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // ============================================
+  // CHRONOMÈTRE
+  // ============================================
 
   useEffect(() => {
     if (status === "recording") {
@@ -110,6 +108,10 @@ export default function GpsRecorder({
     };
   }, [status, tripStartTime]);
 
+  // ============================================
+  // NETTOYAGE GPS
+  // ============================================
+
   const stopGPS = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
@@ -118,16 +120,16 @@ export default function GpsRecorder({
     }
   };
 
+  // ============================================
+  // FORMATAGE
+  // ============================================
+
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    if (h > 0) {
-      return `${h}h ${m}m ${s}s`;
-    }
-    if (m > 0) {
-      return `${m}m ${s}s`;
-    }
+    if (h > 0) return `${h}h ${m}m ${s}s`;
+    if (m > 0) return `${m}m ${s}s`;
     return `${s}s`;
   };
 
@@ -136,6 +138,10 @@ export default function GpsRecorder({
     const kmh = speed * 3.6;
     return `${kmh.toFixed(1)} km/h`;
   };
+
+  // ============================================
+  // DÉMARRER ENREGISTREMENT
+  // ============================================
 
   useEffect(() => {
     if (status === "recording" && destination) {
@@ -155,6 +161,8 @@ export default function GpsRecorder({
     onPointsChange([]);
     setTotalDistance(0);
     setCurrentSpeed(null);
+    setTripSaved(false);
+    setStops([]);
     lastPointRef.current = null;
     onLivePositionChange(null);
     setGpsStatus("Recherche de votre position...");
@@ -176,7 +184,9 @@ export default function GpsRecorder({
         onLivePositionChange(newPoint);
 
         if (newPoint.accuracy > maxAccuracy) {
-          console.log(`Position ignorée : précision ${newPoint.accuracy.toFixed(1)}m`);
+          console.log(
+            `Position ignorée : précision ${newPoint.accuracy.toFixed(1)}m`
+          );
           setGpsStatus(`GPS imprécis (${Math.round(newPoint.accuracy)}m)`);
           return;
         }
@@ -209,6 +219,13 @@ export default function GpsRecorder({
         setPoints((previousPoints) => {
           const updatedPoints = [...previousPoints, newPoint];
           onPointsChange(updatedPoints);
+          
+          // Détection des arrêts en temps réel (mise à jour périodique)
+          if (updatedPoints.length % 10 === 0) {
+            const detectedStops = detectStops(updatedPoints);
+            setStops(detectedStops);
+          }
+          
           return updatedPoints;
         });
 
@@ -243,7 +260,11 @@ export default function GpsRecorder({
     watchIdRef.current = watchId;
   };
 
-  const stopRecording = () => {
+  // ============================================
+  // TERMINER LE TRAJET
+  // ============================================
+
+  const stopRecording = async () => {
     stopGPS();
     setStatus("paused");
     setGpsStatus("Trajet terminé");
@@ -254,12 +275,85 @@ export default function GpsRecorder({
       timerRef.current = null;
     }
 
-    console.log("Trajet terminé.");
-    console.log("Destination :", destination);
-    console.log("Nombre de points :", points.length);
-    console.log("Distance totale :", totalDistance);
-    console.log("Durée :", formatTime(elapsedTime));
+    // ===== ANALYSE COMPLÈTE DU TRAJET =====
+    if (points.length > 0) {
+      // 1. Détection des arrêts
+      const detectedStops = await detectStops(points);
+      
+      // 2. Géocodage du point de départ et d'arrivée
+      let startName = startPointName;
+      let endName = endPointName;
+      
+      if (detectedStops.length > 0) {
+        // Premier point = départ
+        if (!startName) {
+          startName = await reverseGeocode(
+            detectedStops[0].coordinates[0],
+            detectedStops[0].coordinates[1]
+          );
+        }
+        
+        // Dernier point = arrivée
+        if (!endName) {
+          const lastStop = detectedStops[detectedStops.length - 1];
+          endName = await reverseGeocode(
+            lastStop.coordinates[0],
+            lastStop.coordinates[1]
+          );
+        }
+      }
+
+      const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
+      const endPoint = detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null;
+      const averageSpeed = calculateAverageSpeed(points);
+      const maxSpeed = calculateMaxSpeed(points);
+      const movingTime = calculateMovingTime(points);
+      const stoppedTime = elapsedTime - movingTime;
+      const quality = calculateQuality(points);
+
+      const tripData: TripData = {
+        id: Date.now().toString(),
+        line: lineInfo || null,
+        destination: destination || "Trajet sans destination",
+        startPointName: startName || "Départ inconnu",
+        endPointName: endName || "Arrivée inconnue",
+        points: points,
+        startPoint: startPoint,
+        endPoint: endPoint,
+        stops: detectedStops,
+        totalDistance: totalDistance,
+        duration: elapsedTime,
+        averageSpeed: averageSpeed,
+        maxSpeed: maxSpeed,
+        movingTime: movingTime,
+        stoppedTime: stoppedTime > 0 ? stoppedTime : 0,
+        date: new Date().toISOString(),
+        quality: quality,
+        isComplete: true,
+        notes: "",
+      };
+
+      // Sauvegarder le trajet
+      saveTrip(tripData);
+      setTripSaved(true);
+
+      console.log("✅ Trajet enregistré :", tripData);
+      console.log(`📊 ${points.length} points GPS`);
+      console.log(`📏 Distance : ${(totalDistance / 1000).toFixed(2)} km`);
+      console.log(`⏱️ Durée : ${formatTime(elapsedTime)}`);
+      console.log(`🏎️ Vitesse moyenne : ${averageSpeed.toFixed(1)} km/h`);
+      console.log(`🛑 Arrêts : ${detectedStops.length}`);
+      console.log(`📍 Départ : ${startName}`);
+      console.log(`📍 Arrivée : ${endName}`);
+      console.log(`📈 Qualité : ${quality}%`);
+    } else {
+      console.log("⚠️ Aucun point enregistré, trajet ignoré");
+    }
   };
+
+  // ============================================
+  // RESET
+  // ============================================
 
   useEffect(() => {
     if (status === "idle") {
@@ -269,6 +363,8 @@ export default function GpsRecorder({
       setError("");
       setGpsStatus("En attente");
       setCurrentSpeed(null);
+      setTripSaved(false);
+      setStops([]);
       lastPointRef.current = null;
       onPointsChange([]);
       onLivePositionChange(null);
@@ -280,6 +376,10 @@ export default function GpsRecorder({
       }
     }
   }, [status]);
+
+  // ============================================
+  // NETTOYAGE
+  // ============================================
 
   useEffect(() => {
     return () => {
@@ -296,7 +396,7 @@ export default function GpsRecorder({
 
   return (
     <div className="space-y-3">
-
+      {/* STATUT GPS */}
       <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -316,24 +416,40 @@ export default function GpsRecorder({
           <div className="mt-2 flex justify-between text-xs text-white/40">
             <span>{points.length} points</span>
             {elapsedTime > 0 && <span>⏱ {formatTime(elapsedTime)}</span>}
+            {stops.length > 0 && <span>🛑 {stops.length} arrêts</span>}
+          </div>
+        )}
+
+        {tripSaved && (
+          <div className="mt-2 rounded-lg bg-green-500/20 p-2 text-center text-xs text-green-400">
+            ✅ Trajet sauvegardé avec succès !
           </div>
         )}
       </div>
 
+      {/* INFOS TRAJET */}
       {destination && (
         <div className="rounded-2xl border border-blue-500/20 bg-blue-500/10 p-3 backdrop-blur-sm">
           <p className="text-center text-sm text-blue-400">
-            🎯 Destination : <span className="font-bold text-white">{destination}</span>
+            🎯 Destination :{" "}
+            <span className="font-bold text-white">{destination}</span>
           </p>
+          {lineInfo && (
+            <p className="mt-1 text-center text-xs text-purple-400">
+              🚌 Ligne : <span className="font-bold text-white">{lineInfo.name}</span>
+            </p>
+          )}
         </div>
       )}
 
+      {/* ERREUR */}
       {error && (
         <div className="rounded-2xl bg-red-500/20 p-3 text-sm text-red-400">
           ⚠️ {error}
         </div>
       )}
 
+      {/* BOUTON TERMINER */}
       {isRecording && (
         <button
           onClick={stopRecording}
@@ -343,6 +459,7 @@ export default function GpsRecorder({
         </button>
       )}
 
+      {/* STATS */}
       {isRecording && (
         <div className="grid grid-cols-3 gap-2">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
@@ -365,9 +482,28 @@ export default function GpsRecorder({
               {formatSpeed(currentSpeed)}
             </p>
           </div>
+          <div className="rounded-2xl border border-purple-500/20 bg-purple-500/10 p-3 backdrop-blur-sm">
+            <p className="text-xs text-purple-400/60">ARRÊTS</p>
+            <p className="mt-1 text-lg font-bold text-purple-400">
+              {stops.length}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-green-500/20 bg-green-500/10 p-3 backdrop-blur-sm">
+            <p className="text-xs text-green-400/60">QUALITÉ</p>
+            <p className="mt-1 text-lg font-bold text-green-400">
+              {points.length > 0 ? `${calculateQuality(points)}%` : "--"}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
+            <p className="text-xs text-white/40">TEMPS</p>
+            <p className="mt-1 text-lg font-bold text-white">
+              {formatTime(elapsedTime)}
+            </p>
+          </div>
         </div>
       )}
 
+      {/* DERNIER POINT */}
       {latestPoint && isRecording && (
         <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
           <h2 className="mb-2 text-sm font-medium text-white/60">
@@ -387,17 +523,24 @@ export default function GpsRecorder({
               </span>
             </div>
             {currentSpeed !== null && (
-              <div className="col-span-2 mt-1 pt-1 border-t border-white/5">
+              <div className="col-span-2 mt-1 border-t border-white/5 pt-1">
                 <span className="text-white/40">Vitesse</span>
                 <span className="ml-2 font-mono text-yellow-400">
                   {formatSpeed(currentSpeed)}
                 </span>
               </div>
             )}
+            {stops.length > 0 && (
+              <div className="col-span-2 mt-1 border-t border-white/5 pt-1">
+                <span className="text-white/40">Arrêts détectés</span>
+                <span className="ml-2 font-mono text-purple-400">
+                  {stops.length}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
-
     </div>
   );
 }
