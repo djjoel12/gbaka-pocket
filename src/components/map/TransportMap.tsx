@@ -172,17 +172,17 @@ function createIcon(
 // ============================================
 
 const startIcon = createIcon(
-  "#22c55e",
+  "#22C55E",
   "🏁"
 );
 
 const endIcon = createIcon(
-  "#ef4444",
+  "#EF4444",
   "🏁"
 );
 
 const liveIcon = createIcon(
-  "#3b82f6",
+  "#2563EB",
   "",
   true
 );
@@ -261,7 +261,7 @@ export default function TransportMap({
     !!livePosition;
 
   return (
-    <div className="relative isolate h-full w-full overflow-hidden shadow-sm">
+    <div className="relative isolate h-full w-full overflow-hidden">
 
       <MapContainer
         center={displayPosition}
@@ -269,13 +269,14 @@ export default function TransportMap({
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
         style={{
-          background: "#0a0e17",
+          background: "#E2E8F0",
         }}
       >
 
+        {/* ===== FOND DE CARTE ===== */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png"
         />
 
         {hasLivePosition && (
@@ -284,34 +285,31 @@ export default function TransportMap({
           />
         )}
 
-        {/* ====================================
-            TRACÉ DU TRAJET - STYLE AMÉLIORÉ
-        ==================================== */}
-
+        {/* ===== TRACÉ DU TRAJET - BLEU ROI ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline
               positions={routePositions}
-              color="#8b5cf6"
+              color="#2563EB"
               weight={20}
-              opacity={0.12}
+              opacity={0.15}
               lineJoin="round"
               lineCap="round"
             />
 
             <Polyline
               positions={routePositions}
-              color="#6d28d9"
-              weight={14}
-              opacity={0.2}
+              color="#2563EB"
+              weight={10}
+              opacity={0.25}
               lineJoin="round"
               lineCap="round"
             />
 
             <Polyline
               positions={routePositions}
-              color="#a78bfa"
-              weight={6}
+              color="#2563EB"
+              weight={5}
               opacity={0.95}
               lineJoin="round"
               lineCap="round"
@@ -319,8 +317,8 @@ export default function TransportMap({
 
             <Polyline
               positions={routePositions}
-              color="#c4b5fd"
-              weight={3}
+              color="#60A5FA"
+              weight={2}
               opacity={0.8}
               lineJoin="round"
               lineCap="round"
@@ -328,9 +326,9 @@ export default function TransportMap({
 
             <Polyline
               positions={routePositions}
-              color="#ddd6fe"
-              weight={1.5}
-              opacity={0.6}
+              color="#93C5FD"
+              weight={1}
+              opacity={0.5}
               lineJoin="round"
               lineCap="round"
               dashArray="10 14"
@@ -378,8 +376,8 @@ export default function TransportMap({
                 livePosition.accuracy
               }
               pathOptions={{
-                color: "#3b82f6",
-                fillColor: "#3b82f6",
+                color: "#2563EB",
+                fillColor: "#2563EB",
                 fillOpacity: 0.1,
                 weight: 1,
               }}
@@ -388,12 +386,6 @@ export default function TransportMap({
         )}
 
       </MapContainer>
-
-      {/* ======================================
-          LÉGENDE - SUPPRIMÉE (maintenant dans la colonne)
-      ====================================== */}
-      {/* La légende est maintenant dans la colonne à gauche */}
-
     </div>
   );
-  }
+}
