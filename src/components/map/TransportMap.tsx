@@ -289,7 +289,6 @@ export default function TransportMap({
 
         {routePositions.length > 1 && (
           <>
-            {/* Effet de néon - halo extérieur large */}
             <Polyline
               positions={routePositions}
               color="#8b5cf6"
@@ -299,7 +298,6 @@ export default function TransportMap({
               lineCap="round"
             />
 
-            {/* Halo moyen */}
             <Polyline
               positions={routePositions}
               color="#6d28d9"
@@ -309,7 +307,6 @@ export default function TransportMap({
               lineCap="round"
             />
 
-            {/* Ligne principale - Violet clair */}
             <Polyline
               positions={routePositions}
               color="#a78bfa"
@@ -319,7 +316,6 @@ export default function TransportMap({
               lineCap="round"
             />
 
-            {/* Ligne intérieure brillante */}
             <Polyline
               positions={routePositions}
               color="#c4b5fd"
@@ -329,7 +325,6 @@ export default function TransportMap({
               lineCap="round"
             />
 
-            {/* Pointillés dynamiques */}
             <Polyline
               positions={routePositions}
               color="#ddd6fe"
@@ -502,4 +497,4 @@ export default function TransportMap({
 
     </div>
   );
-            }
+}
