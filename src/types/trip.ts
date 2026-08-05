@@ -24,7 +24,7 @@ export type LineInfo = {
   number: string;
   type: "gbaka" | "woro-woro" | "bus" | "taxi";
   color: string;
-  estimatedPrice?: number;
+  estimatedPrice: number;
 };
 
 export type TripData = {
@@ -46,5 +46,7 @@ export type TripData = {
   date: string;
   quality: number;
   isComplete: boolean;
+  price: number;
+  pricePerKm: number;
   notes?: string;
 };
