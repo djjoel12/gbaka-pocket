@@ -85,10 +85,6 @@ export default function GpsRecorder({
   const lastPointRef = useRef<GPSPoint | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // ============================================
-  // CHRONOMÈTRE
-  // ============================================
-
   useEffect(() => {
     if (status === "recording") {
       setTripStartTime(Date.now());
@@ -112,10 +108,6 @@ export default function GpsRecorder({
     };
   }, [status, tripStartTime]);
 
-  // ============================================
-  // NETTOYAGE GPS
-  // ============================================
-
   const stopGPS = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
@@ -124,15 +116,11 @@ export default function GpsRecorder({
     }
   };
 
-  // ============================================
-  // FORMATAGE
-  // ============================================
-
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
     const s = seconds % 60;
-    if (h > 0) return `${h}h ${m}m ${s}s`;
+    if (h > 0) return `${h}h ${m}m`;
     if (m > 0) return `${m}m ${s}s`;
     return `${s}s`;
   };
@@ -140,12 +128,8 @@ export default function GpsRecorder({
   const formatSpeed = (speed: number | null) => {
     if (speed === null || speed < 0) return "--";
     const kmh = speed * 3.6;
-    return `${kmh.toFixed(1)} km/h`;
+    return `${kmh.toFixed(0)} km/h`;
   };
-
-  // ============================================
-  // DÉMARRER ENREGISTREMENT
-  // ============================================
 
   useEffect(() => {
     if (status === "recording" && destination) {
@@ -155,7 +139,7 @@ export default function GpsRecorder({
 
   const startRecording = () => {
     if (!navigator.geolocation) {
-      setError("La géolocalisation n'est pas disponible sur cet appareil.");
+      setError("La géolocalisation n'est pas disponible.");
       return;
     }
 
@@ -170,7 +154,7 @@ export default function GpsRecorder({
     setShowPriceInput(false);
     lastPointRef.current = null;
     onLivePositionChange(null);
-    setGpsStatus("Recherche de votre position...");
+    setGpsStatus("Recherche...");
     setTripStartTime(Date.now());
 
     const watchId = navigator.geolocation.watchPosition(
@@ -183,16 +167,11 @@ export default function GpsRecorder({
           timestamp: position.timestamp,
         };
 
-        console.log("Position GPS reçue :", newPoint);
-
         setCurrentSpeed(position.coords.speed);
         onLivePositionChange(newPoint);
 
         if (newPoint.accuracy > maxAccuracy) {
-          console.log(
-            `Position ignorée : précision ${newPoint.accuracy.toFixed(1)}m`
-          );
-          setGpsStatus(`GPS imprécis (${Math.round(newPoint.accuracy)}m)`);
+          setGpsStatus(`Précision ${Math.round(newPoint.accuracy)}m`);
           return;
         }
 
@@ -200,8 +179,7 @@ export default function GpsRecorder({
           setPoints([newPoint]);
           onPointsChange([newPoint]);
           lastPointRef.current = newPoint;
-          setGpsStatus("Enregistrement en cours");
-          console.log("Premier point enregistré");
+          setGpsStatus("Enregistrement");
           return;
         }
 
@@ -217,7 +195,6 @@ export default function GpsRecorder({
         );
 
         if (distance < minDistance) {
-          console.log(`Déplacement trop faible : ${distance.toFixed(1)}m`);
           return;
         }
 
@@ -235,23 +212,17 @@ export default function GpsRecorder({
 
         setTotalDistance((previousDistance) => previousDistance + distance);
         lastPointRef.current = newPoint;
-        setGpsStatus("Enregistrement en cours");
-
-        console.log(`Point enregistré : ${distance.toFixed(1)}m`);
+        setGpsStatus("Enregistrement");
       },
 
       (gpsError) => {
         console.error("Erreur GPS :", gpsError);
         if (gpsError.code === 1) {
-          setError("Autorisez la localisation dans votre navigateur.");
-        } else if (gpsError.code === 2) {
-          setError("Impossible de déterminer votre position.");
-        } else if (gpsError.code === 3) {
-          setError("Le GPS met trop de temps à répondre.");
+          setError("Autorisez la localisation.");
         } else {
-          setError("Une erreur GPS est survenue.");
+          setError("Erreur GPS.");
         }
-        setGpsStatus("Erreur GPS");
+        setGpsStatus("Erreur");
       },
 
       {
@@ -264,12 +235,9 @@ export default function GpsRecorder({
     watchIdRef.current = watchId;
   };
 
-  // ============================================
-  // SAUVEGARDE AVEC PRIX
-  // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
-      console.log("⚠️ Aucun point enregistré, trajet ignoré");
+      console.log("⚠️ Aucun point enregistré");
       return;
     }
 
@@ -298,7 +266,7 @@ export default function GpsRecorder({
     const tripData: TripData = {
       id: Date.now().toString(),
       line: lineInfo || null,
-      destination: destination || "Trajet sans destination",
+      destination: destination || "Trajet",
       startPointName: startPointName || "Départ inconnu",
       endPointName: endName || "Arrivée inconnue",
       points: points,
@@ -324,10 +292,9 @@ export default function GpsRecorder({
     setShowPriceInput(false);
 
     console.log("✅ Trajet enregistré :", tripData);
-    console.log(`💰 Prix : ${tripPrice} FCFA (${pricePerKm.toFixed(1)} FCFA/km)`);
 
     setStatus("paused");
-    setGpsStatus("Trajet terminé");
+    setGpsStatus("Terminé");
     setCurrentSpeed(null);
 
     if (timerRef.current) {
@@ -335,10 +302,6 @@ export default function GpsRecorder({
       timerRef.current = null;
     }
   };
-
-  // ============================================
-  // TERMINER LE TRAJET
-  // ============================================
 
   const stopRecording = async () => {
     stopGPS();
@@ -350,22 +313,14 @@ export default function GpsRecorder({
     }
   };
 
-  // ============================================
-  // VALIDATION DU PRIX
-  // ============================================
-
   const handlePriceSubmit = () => {
     const priceValue = parseInt(finalPrice);
     if (priceValue > 0) {
       saveTripWithPrice(priceValue);
     } else {
-      setError("Veuillez saisir un prix valide");
+      setError("Prix valide");
     }
   };
-
-  // ============================================
-  // RESET
-  // ============================================
 
   useEffect(() => {
     if (status === "idle") {
@@ -391,10 +346,6 @@ export default function GpsRecorder({
     }
   }, [status]);
 
-  // ============================================
-  // NETTOYAGE
-  // ============================================
-
   useEffect(() => {
     return () => {
       stopGPS();
@@ -409,111 +360,76 @@ export default function GpsRecorder({
   const isRecording = status === "recording";
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-1.5 text-xs">
       {/* STATUT GPS */}
-      <div className="rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 p-3">
+      <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/15 p-1.5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <div
-              className={`h-2 w-2 rounded-full ${
+              className={`h-1.5 w-1.5 rounded-full ${
                 isRecording ? "animate-pulse bg-emerald-300" : "bg-white/30"
               }`}
             />
-            <span className="text-sm font-medium text-white">GPS</span>
+            <span className="text-[10px] font-medium text-white/80">GPS</span>
           </div>
-          <span className="text-xs font-medium text-white/70">
-            {gpsStatus}
-          </span>
+          <span className="text-[8px] text-white/60">{gpsStatus}</span>
         </div>
 
         {isRecording && (
-          <div className="mt-1.5 flex justify-between text-xs text-white/60">
-            <span>{points.length} points</span>
+          <div className="mt-0.5 flex justify-between text-[8px] text-white/50">
+            <span>{points.length} pts</span>
             {elapsedTime > 0 && <span>⏱ {formatTime(elapsedTime)}</span>}
-            {stops.length > 0 && <span>🛑 {stops.length} arrêts</span>}
+            {stops.length > 0 && <span>🛑 {stops.length}</span>}
           </div>
         )}
 
         {tripSaved && (
-          <div className="mt-2 rounded-lg bg-emerald-500/20 p-1.5 text-center text-xs text-emerald-200">
-            ✅ Trajet sauvegardé !
+          <div className="mt-1 rounded bg-emerald-500/20 px-1 py-0.5 text-center text-[8px] text-emerald-200">
+            ✅ Sauvegardé
           </div>
         )}
       </div>
 
       {/* DEMANDE DE PRIX */}
       {showPriceInput && (
-        <div className="rounded-xl bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/30 p-4 text-center">
-          <div className="text-2xl mb-1">💰</div>
-          <h3 className="font-bold text-white">Combien as-tu payé ?</h3>
-          <p className="text-xs text-white/60">Saisis le prix en FCFA</p>
-          
-          <div className="mt-3">
-            <div className="relative">
-              <input
-                type="number"
-                value={finalPrice}
-                onChange={(e) => setFinalPrice(e.target.value)}
-                placeholder="Ex: 250"
-                className="w-full rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 text-center text-lg text-white placeholder:text-white/40 outline-none focus:border-white/50"
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handlePriceSubmit();
-                  }}
-                }
-              />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/40">FCFA</span>
-            </div>
-          </div>
-
-          <div className="mt-3 flex gap-2">
-            <button
-              onClick={() => {
-                setShowPriceInput(false);
-                setStatus("paused");
-                setGpsStatus("Trajet terminé");
-              }}
-              className="flex-1 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs text-white/70 hover:bg-white/20"
-            >
-              Passer
-            </button>
+        <div className="rounded-lg bg-yellow-500/20 border border-yellow-500/30 p-2 text-center">
+          <p className="text-[10px] font-bold text-white">💰 Prix ?</p>
+          <div className="mt-1 flex gap-1">
+            <input
+              type="number"
+              value={finalPrice}
+              onChange={(e) => setFinalPrice(e.target.value)}
+              placeholder="250"
+              className="flex-1 rounded bg-white/10 border border-white/20 px-1.5 py-1 text-xs text-white text-center outline-none"
+              autoFocus
+            />
             <button
               onClick={handlePriceSubmit}
               disabled={!finalPrice || parseInt(finalPrice) <= 0}
-              className="flex-1 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-400 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-yellow-400/30 hover:scale-[1.02] disabled:opacity-40"
+              className="rounded bg-gradient-to-r from-yellow-400 to-orange-400 px-2 py-1 text-[10px] font-bold text-white disabled:opacity-40"
             >
-              ✅ Sauvegarder
+              ✅
             </button>
           </div>
-
-          {error && (
-            <p className="mt-2 text-xs text-rose-300">{error}</p>
-          )}
         </div>
       )}
 
-      {/* INFOS TRAJET */}
+      {/* INFOS */}
       {destination && (
-        <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2.5 text-center">
-          <p className="text-xs text-white">
-            🎯 <span className="font-bold">{destination}</span>
-          </p>
+        <div className="rounded-lg bg-white/5 border border-white/10 p-1.5 text-center">
+          <p className="text-[10px] text-white font-medium truncate">🎯 {destination}</p>
           {lineInfo && (
-            <p className="mt-0.5 text-xs text-sky-200">🚌 {lineInfo.name}</p>
-          )}
-          {startPointName && (
-            <p className="mt-0.5 text-xs text-white/70">🟢 {startPointName.split(',')[0]}</p>
+            <p className="text-[8px] text-sky-200 truncate">🚌 {lineInfo.name}</p>
           )}
           {price && parseInt(price) > 0 && (
-            <p className="mt-0.5 text-xs text-yellow-200">💰 {price} FCFA</p>
+            <p className="text-[8px] text-yellow-200">💰 {price} FCFA</p>
           )}
         </div>
       )}
 
       {/* ERREUR */}
       {error && !showPriceInput && (
-        <div className="rounded-xl bg-rose-500/20 backdrop-blur-sm border border-rose-500/30 p-2.5 text-xs text-rose-200">
+        <div className="rounded-lg bg-rose-500/20 border border-rose-500/30 p-1.5 text-[8px] text-rose-200">
           ⚠️ {error}
         </div>
       )}
@@ -522,62 +438,31 @@ export default function GpsRecorder({
       {isRecording && !showPriceInput && (
         <button
           onClick={stopRecording}
-          className="w-full rounded-xl bg-rose-500 px-3 py-3 text-sm font-bold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-600"
+          className="w-full rounded-lg bg-rose-500 px-2 py-1.5 text-[10px] font-bold text-white shadow-lg shadow-rose-500/30 hover:bg-rose-600"
         >
-          ⏹ Terminer le trajet
+          ⏹ Terminer
         </button>
       )}
 
       {/* STATS */}
       {isRecording && !showPriceInput && (
-        <div className="grid grid-cols-2 gap-1.5">
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">POINTS</p>
-            <p className="font-bold text-white">{points.length}</p>
+        <div className="grid grid-cols-3 gap-1">
+          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
+            <p className="text-[7px] text-white/40">PTS</p>
+            <p className="text-[10px] font-bold text-white">{points.length}</p>
           </div>
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">DISTANCE</p>
-            <p className="font-bold text-white">
-              {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(2)} km` : "--"}
+          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
+            <p className="text-[7px] text-white/40">DIST</p>
+            <p className="text-[10px] font-bold text-white">
+              {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)}` : "--"}
             </p>
           </div>
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">VITESSE</p>
-            <p className="font-bold text-sky-200">{formatSpeed(currentSpeed)}</p>
-          </div>
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">ARRÊTS</p>
-            <p className="font-bold text-white">{stops.length}</p>
-          </div>
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">QUALITÉ</p>
-            <p className="font-bold text-emerald-200">
-              {points.length > 0 ? `${calculateQuality(points)}%` : "--"}
-            </p>
-          </div>
-          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
-            <p className="text-[10px] text-white/40">TEMPS</p>
-            <p className="font-bold text-white">{formatTime(elapsedTime)}</p>
-          </div>
-        </div>
-      )}
-
-      {/* DERNIER POINT */}
-      {latestPoint && isRecording && !showPriceInput && (
-        <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2.5">
-          <p className="mb-1 text-[10px] text-white/40">🛰️ Dernier point</p>
-          <div className="grid grid-cols-2 gap-1 text-[10px]">
-            <div>
-              <span className="text-white/40">Lat </span>
-              <span className="font-mono text-white/80">{latestPoint.latitude.toFixed(6)}</span>
-            </div>
-            <div>
-              <span className="text-white/40">Lng </span>
-              <span className="font-mono text-white/80">{latestPoint.longitude.toFixed(6)}</span>
-            </div>
+          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
+            <p className="text-[7px] text-white/40">VIT</p>
+            <p className="text-[10px] font-bold text-sky-200">{formatSpeed(currentSpeed)}</p>
           </div>
         </div>
       )}
     </div>
   );
-    }
+}
