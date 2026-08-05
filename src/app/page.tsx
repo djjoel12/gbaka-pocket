@@ -70,7 +70,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col overflow-y-auto bg-[#0a0a0f] px-4 pb-4 pt-2">
         <div className="mx-auto w-full max-w-md flex-1">
           
-          {/* NOUVELLE FENÊTRE DESTINATION - JAUNE/ORANGE */}
+          {/* Fenêtre destination */}
           {showDestinationInput && (
             <div className="mt-2">
               <div className="relative overflow-hidden rounded-2xl border border-yellow-500/30 bg-gradient-to-br from-yellow-500/10 to-orange-500/10 p-6 backdrop-blur-sm shadow-xl shadow-yellow-500/20">
@@ -155,17 +155,28 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div className="mt-2 space-y-3">
-              <button
-                onClick={handleStartTrip}
-                className="w-full rounded-2xl bg-blue-600 px-5 py-4 font-bold text-white shadow-lg shadow-blue-600/30 transition hover:bg-blue-700"
-              >
-                📍 Démarrer le trajet
-              </button>
+            /* ===== BOUTON PLAY ROND - VERSION 2 ===== */
+            <div className="mt-2 space-y-4">
+              <div className="flex justify-center">
+                <button
+                  onClick={handleStartTrip}
+                  className="group flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-green-500 to-emerald-600 shadow-lg shadow-green-500/30 transition hover:scale-110 hover:shadow-green-500/50"
+                >
+                  <svg 
+                    className="ml-1 h-10 w-10 fill-white transition group-hover:scale-110" 
+                    viewBox="0 0 24 24"
+                  >
+                    <polygon points="5,3 19,12 5,21" />
+                  </svg>
+                </button>
+              </div>
               
               <div className="rounded-2xl border border-white/10 bg-white/5 p-4 text-center backdrop-blur-sm">
-                <p className="text-sm text-white/60">
-                  Votre position GPS sera utilisée comme point de départ
+                <p className="text-sm font-medium text-white/70">
+                  Appuyez pour démarrer votre trajet
+                </p>
+                <p className="mt-1 text-xs text-white/40">
+                  Votre position GPS servira de point de départ
                 </p>
               </div>
             </div>
