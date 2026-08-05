@@ -335,12 +335,10 @@ export default function Home() {
               )}
             </div>
 
-            {/* Infos supplémentaires */}
+            {/* Infos supplémentaires - CORRIGÉ */}
             {status === "recording" && (
               <div className="flex items-center gap-4 text-xs text-[#E2E8F0]/60">
                 <span>📊 {points.length} pts</span>
-                <span>📏 {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}</span>
-                <span>🏎️ {currentSpeed !== null ? `${(currentSpeed * 3.6).toFixed(0)} km/h` : "--"}</span>
               </div>
             )}
           </div>
@@ -348,4 +346,4 @@ export default function Home() {
       </div>
     </div>
   );
-    }
+          }
