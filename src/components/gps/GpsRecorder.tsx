@@ -356,113 +356,96 @@ export default function GpsRecorder({
     };
   }, []);
 
-  const latestPoint = points.length > 0 ? points[points.length - 1] : null;
   const isRecording = status === "recording";
 
   return (
-    <div className="space-y-1.5 text-xs">
-      {/* STATUT GPS */}
-      <div className="rounded-lg bg-white/10 backdrop-blur-sm border border-white/15 p-1.5">
-        <div className="flex items-center justify-between">
+    <>
+      {/* ÉTAT ENREGISTREMENT */}
+      {isRecording && !showPriceInput && (
+        <div className="flex items-center gap-3">
+          {/* Points */}
           <div className="flex items-center gap-1.5">
-            <div
-              className={`h-1.5 w-1.5 rounded-full ${
-                isRecording ? "animate-pulse bg-emerald-300" : "bg-white/30"
-              }`}
-            />
-            <span className="text-[10px] font-medium text-white/80">GPS</span>
+            <span className="text-[10px] text-[#E2E8F0]/50">📊</span>
+            <span className="text-xs font-bold text-white">{points.length}</span>
           </div>
-          <span className="text-[8px] text-white/60">{gpsStatus}</span>
+
+          {/* Distance */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-[#E2E8F0]/50">📏</span>
+            <span className="text-xs text-white">
+              {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}
+            </span>
+          </div>
+
+          {/* Vitesse */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-[#E2E8F0]/50">🏎️</span>
+            <span className="text-xs font-medium text-[#0284C7]">{formatSpeed(currentSpeed)}</span>
+          </div>
+
+          {/* Arrêts */}
+          {stops.length > 0 && (
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] text-[#E2E8F0]/50">🛑</span>
+              <span className="text-xs text-white">{stops.length}</span>
+            </div>
+          )}
+
+          {/* Temps */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-[10px] text-[#E2E8F0]/50">⏱️</span>
+            <span className="text-xs text-white">{formatTime(elapsedTime)}</span>
+          </div>
+
+          {/* Bouton Terminer */}
+          <button
+            onClick={stopRecording}
+            className="ml-2 rounded-lg bg-[#EA580C] px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-[#EA580C]/30 hover:bg-[#EA580C]/80"
+          >
+            ⏹ Terminer
+          </button>
+
+          {/* Sauvegardé */}
+          {tripSaved && (
+            <span className="text-[10px] text-[#22C55E]">✅ Sauvegardé</span>
+          )}
         </div>
-
-        {isRecording && (
-          <div className="mt-0.5 flex justify-between text-[8px] text-white/50">
-            <span>{points.length} pts</span>
-            {elapsedTime > 0 && <span>⏱ {formatTime(elapsedTime)}</span>}
-            {stops.length > 0 && <span>🛑 {stops.length}</span>}
-          </div>
-        )}
-
-        {tripSaved && (
-          <div className="mt-1 rounded bg-emerald-500/20 px-1 py-0.5 text-center text-[8px] text-emerald-200">
-            ✅ Sauvegardé
-          </div>
-        )}
-      </div>
+      )}
 
       {/* DEMANDE DE PRIX */}
       {showPriceInput && (
-        <div className="rounded-lg bg-yellow-500/20 border border-yellow-500/30 p-2 text-center">
-          <p className="text-[10px] font-bold text-white">💰 Prix ?</p>
-          <div className="mt-1 flex gap-1">
-            <input
-              type="number"
-              value={finalPrice}
-              onChange={(e) => setFinalPrice(e.target.value)}
-              placeholder="250"
-              className="flex-1 rounded bg-white/10 border border-white/20 px-1.5 py-1 text-xs text-white text-center outline-none"
-              autoFocus
-            />
-            <button
-              onClick={handlePriceSubmit}
-              disabled={!finalPrice || parseInt(finalPrice) <= 0}
-              className="rounded bg-gradient-to-r from-yellow-400 to-orange-400 px-2 py-1 text-[10px] font-bold text-white disabled:opacity-40"
-            >
-              ✅
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* INFOS */}
-      {destination && (
-        <div className="rounded-lg bg-white/5 border border-white/10 p-1.5 text-center">
-          <p className="text-[10px] text-white font-medium truncate">🎯 {destination}</p>
-          {lineInfo && (
-            <p className="text-[8px] text-sky-200 truncate">🚌 {lineInfo.name}</p>
-          )}
-          {price && parseInt(price) > 0 && (
-            <p className="text-[8px] text-yellow-200">💰 {price} FCFA</p>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-white">💰 Prix ?</span>
+          <input
+            type="number"
+            value={finalPrice}
+            onChange={(e) => setFinalPrice(e.target.value)}
+            placeholder="250"
+            className="w-20 bg-white/10 border border-white/15 rounded px-2 py-1 text-xs text-white text-center outline-none focus:border-[#0284C7]"
+            autoFocus
+          />
+          <button
+            onClick={handlePriceSubmit}
+            disabled={!finalPrice || parseInt(finalPrice) <= 0}
+            className="rounded-lg bg-[#0284C7] px-3 py-1.5 text-xs font-bold text-white disabled:opacity-40"
+          >
+            ✅ Sauvegarder
+          </button>
+          <button
+            onClick={() => {
+              setShowPriceInput(false);
+              setStatus("paused");
+              setGpsStatus("Terminé");
+            }}
+            className="rounded-lg border border-white/20 px-3 py-1.5 text-xs text-white/60 hover:bg-white/10"
+          >
+            Passer
+          </button>
+          {error && (
+            <span className="text-[10px] text-[#EF4444]">{error}</span>
           )}
         </div>
       )}
-
-      {/* ERREUR */}
-      {error && !showPriceInput && (
-        <div className="rounded-lg bg-rose-500/20 border border-rose-500/30 p-1.5 text-[8px] text-rose-200">
-          ⚠️ {error}
-        </div>
-      )}
-
-      {/* BOUTON TERMINER */}
-      {isRecording && !showPriceInput && (
-        <button
-          onClick={stopRecording}
-          className="w-full rounded-lg bg-rose-500 px-2 py-1.5 text-[10px] font-bold text-white shadow-lg shadow-rose-500/30 hover:bg-rose-600"
-        >
-          ⏹ Terminer
-        </button>
-      )}
-
-      {/* STATS */}
-      {isRecording && !showPriceInput && (
-        <div className="grid grid-cols-3 gap-1">
-          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
-            <p className="text-[7px] text-white/40">PTS</p>
-            <p className="text-[10px] font-bold text-white">{points.length}</p>
-          </div>
-          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
-            <p className="text-[7px] text-white/40">DIST</p>
-            <p className="text-[10px] font-bold text-white">
-              {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)}` : "--"}
-            </p>
-          </div>
-          <div className="rounded-lg bg-white/5 border border-white/10 p-1 text-center">
-            <p className="text-[7px] text-white/40">VIT</p>
-            <p className="text-[10px] font-bold text-sky-200">{formatSpeed(currentSpeed)}</p>
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
