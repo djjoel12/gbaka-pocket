@@ -29,7 +29,7 @@ type GpsRecorderProps = {
   lineInfo?: LineInfo | null;
   startPointName?: string;
   endPointName?: string;
-  price?: string;          // ✅ AJOUTÉ
+  price?: string;
   minDistance?: number;
   maxAccuracy?: number;
 };
@@ -65,7 +65,7 @@ export default function GpsRecorder({
   lineInfo = null,
   startPointName = "",
   endPointName = "",
-  price = "",              // ✅ AJOUTÉ
+  price = "",
   minDistance = 5,
   maxAccuracy = 50,
 }: GpsRecorderProps) {
@@ -78,8 +78,6 @@ export default function GpsRecorder({
   const [currentSpeed, setCurrentSpeed] = useState<number | null>(null);
   const [tripSaved, setTripSaved] = useState(false);
   const [stops, setStops] = useState<StopPoint[]>([]);
-  
-  // Pour la demande de prix à la fin
   const [showPriceInput, setShowPriceInput] = useState(false);
   const [finalPrice, setFinalPrice] = useState(price || "");
 
@@ -413,23 +411,23 @@ export default function GpsRecorder({
   return (
     <div className="space-y-3">
       {/* STATUT GPS */}
-      <div className="rounded-xl border border-white/10 bg-white/5 p-3 backdrop-blur-sm">
+      <div className="rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div
               className={`h-2 w-2 rounded-full ${
-                isRecording ? "animate-pulse bg-green-500" : "bg-gray-500"
+                isRecording ? "animate-pulse bg-emerald-300" : "bg-white/30"
               }`}
             />
-            <span className="text-sm font-medium text-white/80">GPS</span>
+            <span className="text-sm font-medium text-white">GPS</span>
           </div>
-          <span className="text-xs font-medium text-white/60">
+          <span className="text-xs font-medium text-white/70">
             {gpsStatus}
           </span>
         </div>
 
         {isRecording && (
-          <div className="mt-1.5 flex justify-between text-xs text-white/40">
+          <div className="mt-1.5 flex justify-between text-xs text-white/60">
             <span>{points.length} points</span>
             {elapsedTime > 0 && <span>⏱ {formatTime(elapsedTime)}</span>}
             {stops.length > 0 && <span>🛑 {stops.length} arrêts</span>}
@@ -437,7 +435,7 @@ export default function GpsRecorder({
         )}
 
         {tripSaved && (
-          <div className="mt-2 rounded-lg bg-green-500/20 p-1.5 text-center text-xs text-green-400">
+          <div className="mt-2 rounded-lg bg-emerald-500/20 p-1.5 text-center text-xs text-emerald-200">
             ✅ Trajet sauvegardé !
           </div>
         )}
@@ -445,85 +443,77 @@ export default function GpsRecorder({
 
       {/* DEMANDE DE PRIX */}
       {showPriceInput && (
-        <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-4 backdrop-blur-sm">
-          <div className="text-center">
-            <div className="text-2xl mb-1">💰</div>
-            <h3 className="font-bold text-white">Combien as-tu payé ?</h3>
-            <p className="text-xs text-white/60">Saisis le prix en FCFA</p>
-            
-            <div className="mt-3">
-              <div className="relative">
-                <input
-                  type="number"
-                  value={finalPrice}
-                  onChange={(e) => setFinalPrice(e.target.value)}
-                  placeholder="Ex: 250"
-                  className="w-full rounded-lg border-2 border-yellow-500/30 bg-white/5 px-3 py-2 text-center text-lg text-white placeholder:text-white/30 outline-none focus:border-yellow-500"
-                  autoFocus
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handlePriceSubmit();
-                    }
+        <div className="rounded-xl bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/30 p-4 text-center">
+          <div className="text-2xl mb-1">💰</div>
+          <h3 className="font-bold text-white">Combien as-tu payé ?</h3>
+          <p className="text-xs text-white/60">Saisis le prix en FCFA</p>
+          
+          <div className="mt-3">
+            <div className="relative">
+              <input
+                type="number"
+                value={finalPrice}
+                onChange={(e) => setFinalPrice(e.target.value)}
+                placeholder="Ex: 250"
+                className="w-full rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 text-center text-lg text-white placeholder:text-white/40 outline-none focus:border-white/50"
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handlePriceSubmit();
                   }}
-                />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/40">FCFA</span>
-              </div>
+                }
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-white/40">FCFA</span>
             </div>
-
-            <div className="mt-3 flex gap-2">
-              <button
-                onClick={() => {
-                  setShowPriceInput(false);
-                  setStatus("paused");
-                  setGpsStatus("Trajet terminé");
-                }}
-                className="flex-1 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/60 hover:bg-white/10"
-              >
-                Passer
-              </button>
-              <button
-                onClick={handlePriceSubmit}
-                disabled={!finalPrice || parseInt(finalPrice) <= 0}
-                className="flex-1 rounded-lg bg-gradient-to-r from-yellow-500 to-orange-500 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-yellow-500/30 hover:scale-[1.02] disabled:opacity-40"
-              >
-                ✅ Sauvegarder
-              </button>
-            </div>
-
-            {error && (
-              <p className="mt-2 text-xs text-red-400">{error}</p>
-            )}
           </div>
+
+          <div className="mt-3 flex gap-2">
+            <button
+              onClick={() => {
+                setShowPriceInput(false);
+                setStatus("paused");
+                setGpsStatus("Trajet terminé");
+              }}
+              className="flex-1 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-2 text-xs text-white/70 hover:bg-white/20"
+            >
+              Passer
+            </button>
+            <button
+              onClick={handlePriceSubmit}
+              disabled={!finalPrice || parseInt(finalPrice) <= 0}
+              className="flex-1 rounded-lg bg-gradient-to-r from-yellow-400 to-orange-400 px-3 py-2 text-xs font-bold text-white shadow-lg shadow-yellow-400/30 hover:scale-[1.02] disabled:opacity-40"
+            >
+              ✅ Sauvegarder
+            </button>
+          </div>
+
+          {error && (
+            <p className="mt-2 text-xs text-rose-300">{error}</p>
+          )}
         </div>
       )}
 
       {/* INFOS TRAJET */}
       {destination && (
-        <div className="rounded-xl border border-blue-500/20 bg-blue-500/10 p-2.5 backdrop-blur-sm">
-          <p className="text-center text-xs text-blue-400">
-            🎯 <span className="font-bold text-white">{destination}</span>
+        <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2.5 text-center">
+          <p className="text-xs text-white">
+            🎯 <span className="font-bold">{destination}</span>
           </p>
           {lineInfo && (
-            <p className="mt-0.5 text-center text-xs text-purple-400">
-              🚌 {lineInfo.name}
-            </p>
+            <p className="mt-0.5 text-xs text-sky-200">🚌 {lineInfo.name}</p>
           )}
           {startPointName && (
-            <p className="mt-0.5 text-center text-xs text-green-400">
-              🟢 {startPointName.split(',')[0]}
-            </p>
+            <p className="mt-0.5 text-xs text-white/70">🟢 {startPointName.split(',')[0]}</p>
           )}
           {price && parseInt(price) > 0 && (
-            <p className="mt-0.5 text-center text-xs text-yellow-400">
-              💰 {price} FCFA
-            </p>
+            <p className="mt-0.5 text-xs text-yellow-200">💰 {price} FCFA</p>
           )}
         </div>
       )}
 
       {/* ERREUR */}
       {error && !showPriceInput && (
-        <div className="rounded-xl bg-red-500/20 p-2.5 text-xs text-red-400">
+        <div className="rounded-xl bg-rose-500/20 backdrop-blur-sm border border-rose-500/30 p-2.5 text-xs text-rose-200">
           ⚠️ {error}
         </div>
       )}
@@ -532,7 +522,7 @@ export default function GpsRecorder({
       {isRecording && !showPriceInput && (
         <button
           onClick={stopRecording}
-          className="w-full rounded-xl bg-red-600 px-3 py-3 text-sm font-bold text-white shadow-lg shadow-red-600/30 transition hover:bg-red-700"
+          className="w-full rounded-xl bg-rose-500 px-3 py-3 text-sm font-bold text-white shadow-lg shadow-rose-500/30 transition hover:bg-rose-600"
         >
           ⏹ Terminer le trajet
         </button>
@@ -540,32 +530,32 @@ export default function GpsRecorder({
 
       {/* STATS */}
       {isRecording && !showPriceInput && (
-        <div className="grid grid-cols-2 gap-1.5 text-center">
-          <div className="rounded-xl border border-white/10 bg-white/5 p-2">
+        <div className="grid grid-cols-2 gap-1.5">
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
             <p className="text-[10px] text-white/40">POINTS</p>
             <p className="font-bold text-white">{points.length}</p>
           </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-2">
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
             <p className="text-[10px] text-white/40">DISTANCE</p>
             <p className="font-bold text-white">
               {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(2)} km` : "--"}
             </p>
           </div>
-          <div className="rounded-xl border border-yellow-500/20 bg-yellow-500/10 p-2">
-            <p className="text-[10px] text-yellow-400/60">VITESSE</p>
-            <p className="font-bold text-yellow-400">{formatSpeed(currentSpeed)}</p>
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
+            <p className="text-[10px] text-white/40">VITESSE</p>
+            <p className="font-bold text-sky-200">{formatSpeed(currentSpeed)}</p>
           </div>
-          <div className="rounded-xl border border-purple-500/20 bg-purple-500/10 p-2">
-            <p className="text-[10px] text-purple-400/60">ARRÊTS</p>
-            <p className="font-bold text-purple-400">{stops.length}</p>
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
+            <p className="text-[10px] text-white/40">ARRÊTS</p>
+            <p className="font-bold text-white">{stops.length}</p>
           </div>
-          <div className="rounded-xl border border-green-500/20 bg-green-500/10 p-2">
-            <p className="text-[10px] text-green-400/60">QUALITÉ</p>
-            <p className="font-bold text-green-400">
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
+            <p className="text-[10px] text-white/40">QUALITÉ</p>
+            <p className="font-bold text-emerald-200">
               {points.length > 0 ? `${calculateQuality(points)}%` : "--"}
             </p>
           </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 p-2">
+          <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2 text-center">
             <p className="text-[10px] text-white/40">TEMPS</p>
             <p className="font-bold text-white">{formatTime(elapsedTime)}</p>
           </div>
@@ -574,7 +564,7 @@ export default function GpsRecorder({
 
       {/* DERNIER POINT */}
       {latestPoint && isRecording && !showPriceInput && (
-        <div className="rounded-xl border border-white/10 bg-white/5 p-2.5">
+        <div className="rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 p-2.5">
           <p className="mb-1 text-[10px] text-white/40">🛰️ Dernier point</p>
           <div className="grid grid-cols-2 gap-1 text-[10px]">
             <div>
@@ -590,4 +580,4 @@ export default function GpsRecorder({
       )}
     </div>
   );
-                               }
+    }
