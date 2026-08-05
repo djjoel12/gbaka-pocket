@@ -36,6 +36,10 @@ const defaultPosition: [number, number] = [
   -4.0267,
 ];
 
+// ============================================
+// CRÉATION D'ICÔNES PERSONNALISÉES
+// ============================================
+
 function createIcon(
   color: string,
   label: string = "",
@@ -163,6 +167,10 @@ function createIcon(
   });
 }
 
+// ============================================
+// ICÔNES PRINCIPALES
+// ============================================
+
 const startIcon = createIcon(
   "#22c55e",
   "🏁"
@@ -178,6 +186,10 @@ const liveIcon = createIcon(
   "",
   true
 );
+
+// ============================================
+// SUIVI AUTOMATIQUE DE LA CARTE
+// ============================================
 
 function MapFollower({
   position,
@@ -205,6 +217,10 @@ function MapFollower({
 
   return null;
 }
+
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
 
 export default function TransportMap({
   points,
@@ -245,28 +261,13 @@ export default function TransportMap({
     !!livePosition;
 
   return (
-    <div
-      className="
-        relative
-        isolate
-        h-full
-        w-full
-        overflow-hidden
-        rounded-2xl
-        shadow-sm
-      "
-    >
+    <div className="relative isolate h-full w-full overflow-hidden shadow-sm">
 
       <MapContainer
         center={displayPosition}
         zoom={13}
         scrollWheelZoom={true}
-        className="
-          relative
-          z-0
-          h-full
-          w-full
-        "
+        className="relative z-0 h-full w-full"
         style={{
           background: "#0a0e17",
         }}
@@ -284,7 +285,7 @@ export default function TransportMap({
         )}
 
         {/* ====================================
-            TRACÉ DU TRAJET - COULEURS VIOLET
+            TRACÉ DU TRAJET - STYLE AMÉLIORÉ
         ==================================== */}
 
         {routePositions.length > 1 && (
@@ -388,113 +389,11 @@ export default function TransportMap({
 
       </MapContainer>
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          bottom-3
-          left-1/2
-          z-[1000]
-          -translate-x-1/2
-          rounded-2xl
-          border
-          border-white/10
-          bg-black/80
-          px-4
-          py-2.5
-          shadow-xl
-          backdrop-blur-md
-        "
-      >
-
-        <div
-          className="
-            flex
-            flex-wrap
-            items-center
-            justify-center
-            gap-3
-            whitespace-nowrap
-            text-xs
-          "
-        >
-
-          <div className="flex items-center gap-1.5">
-            <span
-              className="
-                h-2.5
-                w-2.5
-                rounded-full
-                bg-blue-500
-                shadow-lg
-                shadow-blue-500/50
-              "
-            />
-            <span className="text-white/80">
-              GPS
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <span
-              className="
-                h-2.5
-                w-2.5
-                rounded-full
-                bg-green-500
-                shadow-lg
-                shadow-green-500/50
-              "
-            />
-            <span className="text-white/80">
-              Départ
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <span
-              className="
-                h-2.5
-                w-2.5
-                rounded-full
-                bg-red-500
-                shadow-lg
-                shadow-red-500/50
-              "
-            />
-            <span className="text-white/80">
-              Arrivée
-            </span>
-          </div>
-
-          {isRecording && (
-            <span
-              className="
-                ml-2
-                flex
-                items-center
-                gap-1.5
-                font-semibold
-                text-emerald-400
-              "
-            >
-              <span
-                className="
-                  h-2
-                  w-2
-                  animate-pulse
-                  rounded-full
-                  bg-emerald-400
-                "
-              />
-              REC
-            </span>
-          )}
-
-        </div>
-
-      </div>
+      {/* ======================================
+          LÉGENDE - SUPPRIMÉE (maintenant dans la colonne)
+      ====================================== */}
+      {/* La légende est maintenant dans la colonne à gauche */}
 
     </div>
   );
-}
+  }
