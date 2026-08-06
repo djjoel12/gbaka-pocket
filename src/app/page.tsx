@@ -121,10 +121,10 @@ export default function Home() {
         />
       </div>
 
-      {/* ===== INTERFACE EN BAS - 25% ===== */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-[25vh] min-h-[180px] bg-[#1E3A8A] shadow-2xl border-t-2 border-[#0284C7]/30">
+      {/* ===== INTERFACE EN BAS - 30% ===== */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-[30vh] min-h-[200px] bg-[#1E3A8A] shadow-2xl border-t-2 border-[#0284C7]/30">
         
-        <div className="flex h-full w-full flex-col px-4 py-2">
+        <div className="flex h-full w-full flex-col px-4 py-3">
           
           {/* ===== LIGNE 1 : Logo + Titre + Statut ===== */}
           <div className="flex items-center justify-between">
@@ -133,7 +133,7 @@ export default function Home() {
                 🚌
               </div>
               <div>
-                <h1 className="text-sm font-bold text-white leading-tight">PASS GBAKA</h1>
+                <h1 className="text-base font-bold text-white leading-tight">PASS GBAKA</h1>
                 <p className="text-[10px] text-[#E2E8F0]/60">Collecte de trajets</p>
               </div>
             </div>
@@ -181,7 +181,7 @@ export default function Home() {
             {showDestinationInput && (
               <div className="flex w-full items-center gap-4 flex-wrap">
                 {/* Départ */}
-                <div className="flex-1 min-w-[120px]">
+                <div className="flex-1 min-w-[140px]">
                   <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">🟢 Départ</p>
                   <input
                     type="text"
@@ -194,7 +194,7 @@ export default function Home() {
                 </div>
 
                 {/* Destination */}
-                <div className="flex-1 min-w-[120px]">
+                <div className="flex-1 min-w-[140px]">
                   <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">🎯 Destination</p>
                   <input
                     type="text"
@@ -204,10 +204,21 @@ export default function Home() {
                     className="w-full bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/30 outline-none focus:border-[#0284C7]"
                     autoFocus
                   />
+                  <div className="mt-1 flex gap-1">
+                    {["Adjamé", "Plateau", "Cocody", "Treichville"].map((s) => (
+                      <button
+                        key={s}
+                        onClick={() => setDestination(s)}
+                        className="text-[8px] text-[#E2E8F0]/40 hover:text-white/80"
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Prix */}
-                <div className="w-[140px]">
+                <div className="w-[150px]">
                   <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">💰 Prix</p>
                   <div className="relative">
                     <input
@@ -220,6 +231,14 @@ export default function Home() {
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-white/30">FCFA</span>
                   </div>
                 </div>
+
+                {/* Ligne générée */}
+                {lineName && (
+                  <div className="flex-1 min-w-[120px]">
+                    <p className="text-[8px] text-[#E2E8F0]/50 uppercase tracking-wider">🚌 Ligne</p>
+                    <p className="text-sm text-[#60A5FA] font-medium truncate">{lineName}</p>
+                  </div>
+                )}
 
                 {/* Boutons */}
                 <div className="flex gap-2">
@@ -265,6 +284,9 @@ export default function Home() {
                   {price && (
                     <p className="text-sm text-[#FCD34D]">💰 {price} FCFA</p>
                   )}
+                  {lineName && (
+                    <p className="text-xs text-[#60A5FA] truncate">🚌 {lineName}</p>
+                  )}
                 </div>
                 <GpsRecorder
                   status={status}
@@ -290,6 +312,9 @@ export default function Home() {
                   <div>
                     <p className="text-sm font-bold text-white">Trajet terminé</p>
                     <p className="text-xs text-[#E2E8F0]/50">{points.length} points enregistrés</p>
+                    {lineName && (
+                      <p className="text-xs text-[#60A5FA]">🚌 {lineName}</p>
+                    )}
                   </div>
                 </div>
                 <button
@@ -335,7 +360,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* Infos supplémentaires - CORRIGÉ */}
+            {/* Infos */}
             {status === "recording" && (
               <div className="flex items-center gap-4 text-xs text-[#E2E8F0]/60">
                 <span>📊 {points.length} pts</span>
@@ -346,4 +371,4 @@ export default function Home() {
       </div>
     </div>
   );
-          }
+      }
