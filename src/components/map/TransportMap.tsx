@@ -64,7 +64,7 @@ const endIcon = createIcon("#EF4444", "🏁");
 const liveIcon = createIcon("#ffffff", "", true);
 
 // ============================================
-// SUIVI CARTE AVEC DÉCALAGE (point visible)
+// SUIVI CARTE - DÉCALAGE POUR TOUT VOIR
 // ============================================
 
 function MapFollower({ position }: { position: [number, number] }) {
@@ -72,11 +72,12 @@ function MapFollower({ position }: { position: [number, number] }) {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    // Décalage vers le haut pour que le point soit visible au-dessus de la fenêtre
-    const OFFSET = 0.012; // environ 1.3 km vers le haut
+    // Décalage vers le haut pour que TOUT le tracé soit visible
+    // La fenêtre prend 50% en bas, donc on monte de 15%
+    const OFFSET = 0.018; // environ 2 km vers le haut
 
     if (firstRender.current) {
-      map.setView([position[0] + OFFSET, position[1]], 16);
+      map.setView([position[0] + OFFSET, position[1]], 15);
       firstRender.current = false;
       return;
     }
@@ -139,7 +140,7 @@ export default function TransportMap({
 
         {hasLivePosition && <MapFollower position={displayPosition} />}
 
-        {/* TRACÉ */}
+        {/* ===== TRACÉ COMPLET ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline positions={routePositions} color="#ffffff" weight={20} opacity={0.08} lineJoin="round" lineCap="round" />
@@ -149,9 +150,11 @@ export default function TransportMap({
           </>
         )}
 
+        {/* ===== POINTS DE DÉPART ET ARRIVÉE ===== */}
         {firstPoint && <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />}
         {lastPoint && points.length > 1 && <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />}
 
+        {/* ===== POSITION GPS EN DIRECT ===== */}
         {livePosition && (
           <>
             <Marker position={[livePosition.latitude, livePosition.longitude]} icon={liveIcon} />
@@ -165,4 +168,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-  }
+        }
