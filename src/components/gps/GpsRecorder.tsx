@@ -365,13 +365,13 @@ export default function GpsRecorder({
         <div className="flex items-center gap-4 flex-wrap">
           {/* Points */}
           <div className="flex items-center gap-1.5">
-            <span className="text-xs text-[#E2E8F0]/50">📊</span>
+            <span className="text-xs text-white/30">📊</span>
             <span className="text-sm font-bold text-white">{points.length}</span>
           </div>
 
           {/* Distance */}
           <div className="flex items-center gap-1.5">
-            <span className="text-xs text-[#E2E8F0]/50">📏</span>
+            <span className="text-xs text-white/30">📏</span>
             <span className="text-sm text-white">
               {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}
             </span>
@@ -379,43 +379,43 @@ export default function GpsRecorder({
 
           {/* Vitesse */}
           <div className="flex items-center gap-1.5">
-            <span className="text-xs text-[#E2E8F0]/50">🏎️</span>
-            <span className="text-sm font-medium text-[#60A5FA]">{formatSpeed(currentSpeed)}</span>
+            <span className="text-xs text-white/30">🏎️</span>
+            <span className="text-sm font-medium text-white/70">{formatSpeed(currentSpeed)}</span>
           </div>
 
           {/* Arrêts */}
           {stops.length > 0 && (
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-[#E2E8F0]/50">🛑</span>
+              <span className="text-xs text-white/30">🛑</span>
               <span className="text-sm text-white">{stops.length}</span>
             </div>
           )}
 
           {/* Temps */}
           <div className="flex items-center gap-1.5">
-            <span className="text-xs text-[#E2E8F0]/50">⏱️</span>
+            <span className="text-xs text-white/30">⏱️</span>
             <span className="text-sm text-white">{formatTime(elapsedTime)}</span>
           </div>
 
           {/* Qualité */}
           {points.length > 10 && (
             <div className="flex items-center gap-1.5">
-              <span className="text-xs text-[#E2E8F0]/50">📈</span>
-              <span className="text-sm text-[#22C55E]">{calculateQuality(points)}%</span>
+              <span className="text-xs text-white/30">📈</span>
+              <span className="text-sm text-green-500">{calculateQuality(points)}%</span>
             </div>
           )}
 
           {/* Bouton Terminer */}
           <button
             onClick={stopRecording}
-            className="ml-2 rounded-lg bg-[#EA580C] px-4 py-2 text-sm font-bold text-white shadow-lg shadow-[#EA580C]/30 hover:bg-[#EA580C]/80 transition"
+            className="ml-2 rounded-lg border border-white/20 px-4 py-2 text-sm font-bold text-white hover:bg-white/10 transition"
           >
             ⏹ Terminer
           </button>
 
           {/* Sauvegardé */}
           {tripSaved && (
-            <span className="text-xs text-[#22C55E]">✅ Sauvegardé</span>
+            <span className="text-xs text-green-500">✅ Sauvegardé</span>
           )}
         </div>
       )}
@@ -429,13 +429,13 @@ export default function GpsRecorder({
             value={finalPrice}
             onChange={(e) => setFinalPrice(e.target.value)}
             placeholder="250"
-            className="w-24 bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-sm text-white text-center outline-none focus:border-[#0284C7]"
+            className="w-24 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white text-center outline-none focus:border-white/30"
             autoFocus
           />
           <button
             onClick={handlePriceSubmit}
             disabled={!finalPrice || parseInt(finalPrice) <= 0}
-            className="rounded-lg bg-[#0284C7] px-4 py-2 text-sm font-bold text-white disabled:opacity-40 hover:scale-[1.02] transition"
+            className="rounded-lg bg-white px-4 py-2 text-sm font-bold text-black disabled:opacity-40 hover:scale-[1.02] transition"
           >
             ✅ Sauvegarder
           </button>
@@ -445,12 +445,12 @@ export default function GpsRecorder({
               setStatus("paused");
               setGpsStatus("Terminé");
             }}
-            className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/60 hover:bg-white/10 transition"
+            className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white/40 hover:bg-white/5 transition"
           >
             Passer
           </button>
           {error && (
-            <span className="text-xs text-[#EF4444]">{error}</span>
+            <span className="text-xs text-red-400">{error}</span>
           )}
         </div>
       )}
