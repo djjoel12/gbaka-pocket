@@ -15,6 +15,8 @@ import L from "leaflet";
 import {
   useEffect,
   useRef,
+  forwardRef,
+  useImperativeHandle,
 } from "react";
 
 type GPSPoint = {
@@ -29,6 +31,8 @@ type TransportMapProps = {
   points: GPSPoint[];
   livePosition?: GPSPoint | null;
   isRecording?: boolean;
+  onMapReady?: (map: any) => void;
+  onRecenter?: () => void;
 };
 
 const defaultPosition: [number, number] = [
@@ -181,7 +185,10 @@ function MapFollower({ position }: { position: [number, number] }) {
 
   useEffect(() => {
     if (firstRender.current) {
-      map.setView(position, 16);
+      // Décaler la vue vers le haut pour que le point soit visible (offset 25%)
+      const offsetY = -0.15;
+      const center = map.getCenter();
+      map.setView([position[0] + offsetY, position[1]], 16);
       firstRender.current = false;
       return;
     }
@@ -203,6 +210,7 @@ export default function TransportMap({
   points,
   livePosition,
   isRecording = false,
+  onMapReady,
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -220,6 +228,14 @@ export default function TransportMap({
 
   const hasLivePosition = !!livePosition;
 
+  const mapRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (mapRef.current && onMapReady) {
+      onMapReady(mapRef.current);
+    }
+  }, [onMapReady]);
+
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
 
@@ -228,9 +244,8 @@ export default function TransportMap({
         zoom={13}
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
-        style={{
-          background: "#0a0e17",
-        }}
+        style={{ background: "#0a0e17" }}
+        ref={mapRef}
       >
 
         <TileLayer
@@ -240,7 +255,7 @@ export default function TransportMap({
 
         {hasLivePosition && <MapFollower position={displayPosition} />}
 
-        {/* ===== TRACÉ - BLANC ===== */}
+        {/* ===== TRACÉ GPS ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline
@@ -315,4 +330,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-}
+    }
