@@ -252,15 +252,10 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // SAUVEGARDE AVEC PRIX - RÉPARÉE
+  // SAUVEGARDE
   // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
-    console.log("💾 Sauvegarde en cours...");
-    console.log(`📍 ${points.length} points enregistrés`);
-    console.log(`💰 Prix : ${tripPrice} FCFA`);
-
     if (points.length === 0) {
-      console.log("⚠️ Aucun point enregistré");
       setError("Aucun point GPS enregistré");
       return;
     }
@@ -312,15 +307,10 @@ export default function GpsRecorder({
         notes: "",
       };
 
-      // SAUVEGARDE
       saveTrip(tripData);
       setTripSaved(true);
       setShowPriceInput(false);
 
-      console.log("✅ TRAJET SAUVEGARDÉ AVEC SUCCÈS !");
-      console.log("📊 Résumé :", tripData);
-
-      // Mise à jour des statuts
       setStatus("paused");
       setGpsStatus("Terminé");
       setCurrentSpeed(null);
@@ -331,47 +321,37 @@ export default function GpsRecorder({
       }
 
     } catch (error) {
-      console.error("❌ Erreur lors de la sauvegarde :", error);
+      console.error("Erreur sauvegarde:", error);
       setError("Erreur lors de la sauvegarde");
     }
   };
 
   // ============================================
-  // TERMINER LE TRAJET - RÉPARÉ
+  // TERMINER
   // ============================================
   const stopRecording = () => {
-    console.log("🛑 === BOUTON TERMINER CLIQUE ===");
-    console.log(`📊 ${points.length} points enregistrés`);
-    console.log(`💰 Prix existant : "${price}"`);
-
-    // Arrêter le GPS
     stopGPS();
 
-    // Vérifier si on a des points
     if (points.length === 0) {
-      setError("Aucun point GPS enregistré. Trajet ignoré.");
+      setError("Aucun point GPS enregistré.");
       setStatus("idle");
       return;
     }
 
-    // Vérifier si le prix a été saisi
     const priceValue = price && parseInt(price) > 0 ? parseInt(price) : 0;
 
     if (priceValue > 0) {
-      console.log(`💰 Prix trouvé : ${priceValue} FCFA`);
       saveTripWithPrice(priceValue);
     } else {
-      console.log("⏳ Demande du prix à l'utilisateur");
       setShowPriceInput(true);
     }
   };
 
   // ============================================
-  // VALIDATION DU PRIX
+  // VALIDATION PRIX
   // ============================================
   const handlePriceSubmit = () => {
     const priceValue = parseInt(finalPrice);
-    console.log(`💰 Prix saisi : ${priceValue} FCFA`);
     if (priceValue > 0) {
       saveTripWithPrice(priceValue);
     } else {
@@ -423,68 +403,78 @@ export default function GpsRecorder({
 
   return (
     <>
-      {/* ÉTAT ENREGISTREMENT */}
+      {/* ===== STATS PROPREMENT ORGANISÉES ===== */}
       {isRecording && !showPriceInput && (
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Stats */}
-          <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-            <span className="text-sm text-white/40">📊</span>
-            <span className="text-base font-bold text-white">{points.length}</span>
-          </div>
-
-          <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-            <span className="text-sm text-white/40">📏</span>
-            <span className="text-base font-bold text-white">
-              {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)}` : "--"}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-            <span className="text-sm text-white/40">🏎️</span>
-            <span className="text-base font-bold text-white/80">{formatSpeed(currentSpeed)}</span>
-          </div>
-
-          {stops.length > 0 && (
-            <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-              <span className="text-sm text-white/40">🛑</span>
-              <span className="text-base font-bold text-white">{stops.length}</span>
+        <>
+          {/* Grille 3x2 */}
+          <div className="grid grid-cols-3 gap-3 w-full">
+            
+            {/* Carte 1 : Points */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Points</p>
+              <p className="text-2xl font-bold text-white mt-1">{points.length}</p>
             </div>
-          )}
 
-          <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-            <span className="text-sm text-white/40">⏱️</span>
-            <span className="text-base font-bold text-white">{formatTime(elapsedTime)}</span>
-          </div>
-
-          {points.length > 10 && (
-            <div className="flex items-center gap-2 bg-green-500/10 rounded-lg px-3 py-2 border border-green-500/20">
-              <span className="text-sm text-white/40">📈</span>
-              <span className="text-base font-bold text-green-500">{calculateQuality(points)}%</span>
+            {/* Carte 2 : Distance */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Distance</p>
+              <p className="text-2xl font-bold text-white mt-1">
+                {totalDistance > 0 ? `${(totalDistance / 1000).toFixed(1)} km` : "--"}
+              </p>
             </div>
-          )}
 
-          <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
-            <span className="text-sm text-white/40">🛰️</span>
-            <span className="text-sm text-white/60">{gpsStatus}</span>
+            {/* Carte 3 : Vitesse */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Vitesse</p>
+              <p className="text-2xl font-bold text-white mt-1">{formatSpeed(currentSpeed)}</p>
+            </div>
+
+            {/* Carte 4 : Temps */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Temps</p>
+              <p className="text-2xl font-bold text-white mt-1">{formatTime(elapsedTime)}</p>
+            </div>
+
+            {/* Carte 5 : Arrêts */}
+            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Arrêts</p>
+              <p className="text-2xl font-bold text-white mt-1">{stops.length}</p>
+            </div>
+
+            {/* Carte 6 : Qualité */}
+            <div className="bg-white/5 border border-green-500/20 rounded-xl p-3 text-center">
+              <p className="text-xs text-white/40 font-medium uppercase tracking-wider">Qualité</p>
+              <p className="text-2xl font-bold text-green-500 mt-1">
+                {points.length > 10 ? `${calculateQuality(points)}%` : "--"}
+              </p>
+            </div>
           </div>
 
-          {/* ===== BOUTON TERMINER - RÉPARÉ ===== */}
-          <button
-            onClick={stopRecording}
-            className="ml-auto rounded-lg bg-red-600 border-2 border-red-400 px-6 py-3 text-base font-bold text-white hover:bg-red-700 hover:scale-[1.02] transition-all shadow-lg shadow-red-500/20"
-          >
-            ⏹ Terminer
-          </button>
+          {/* GPS Status */}
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-white/40">🛰️</span>
+              <span className="text-xs text-white/50">{gpsStatus}</span>
+            </div>
 
-          {tripSaved && (
-            <span className="text-sm text-green-500 font-bold">✅ Sauvegardé !</span>
-          )}
-        </div>
+            {/* Bouton Terminer */}
+            <button
+              onClick={stopRecording}
+              className="rounded-lg bg-red-600 border-2 border-red-400 px-6 py-2.5 text-sm font-bold text-white hover:bg-red-700 hover:scale-105 transition shadow-lg shadow-red-500/20"
+            >
+              ⏹ Terminer le trajet
+            </button>
+
+            {tripSaved && (
+              <span className="text-sm text-green-500 font-bold">✅ Sauvegardé</span>
+            )}
+          </div>
+        </>
       )}
 
-      {/* DEMANDE DE PRIX */}
+      {/* ===== DEMANDE DE PRIX ===== */}
       {showPriceInput && (
-        <div className="flex flex-wrap items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10">
+        <div className="flex flex-wrap items-center gap-4 p-4 bg-white/5 rounded-lg border border-white/10 w-full">
           <div className="flex items-center gap-3">
             <span className="text-lg">💰</span>
             <span className="text-base font-bold text-white">Prix du trajet ?</span>
@@ -501,7 +491,7 @@ export default function GpsRecorder({
             <button
               onClick={handlePriceSubmit}
               disabled={!finalPrice || parseInt(finalPrice) <= 0}
-              className="rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-black hover:scale-[1.02] disabled:opacity-40 transition"
+              className="rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-black hover:scale-105 disabled:opacity-40 transition"
             >
               ✅ Sauvegarder
             </button>
@@ -516,9 +506,7 @@ export default function GpsRecorder({
               Passer
             </button>
           </div>
-          {error && (
-            <span className="text-sm text-red-400">{error}</span>
-          )}
+          {error && <span className="text-sm text-red-400">{error}</span>}
         </div>
       )}
     </>
