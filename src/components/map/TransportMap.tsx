@@ -64,29 +64,55 @@ const endIcon = createIcon("#EF4444", "🏁");
 const liveIcon = createIcon("#ffffff", "", true);
 
 // ============================================
-// SUIVI CARTE - DÉCALAGE COMME DANS L'IMAGE
+// SUIVI CARTE AVEC fitBounds
 // ============================================
 
-function MapFollower({ position }: { position: [number, number] }) {
+function MapFollower({ 
+  position, 
+  points, 
+  livePosition 
+}: { 
+  position: [number, number];
+  points: GPSPoint[];
+  livePosition?: GPSPoint | null;
+}) {
   const map = useMap();
   const firstRender = useRef(true);
 
   useEffect(() => {
-    // Décalage vers le haut pour que le point et le tracé soient visibles
-    // Valeur ajustée pour correspondre à l'image
-    const OFFSET = 0.025;
-
-    if (firstRender.current) {
-      map.setView([position[0] + OFFSET, position[1]], 15);
-      firstRender.current = false;
-      return;
+    // Récupérer tous les points à inclure dans la vue
+    const allPoints: [number, number][] = [];
+    
+    // Ajouter le point GPS en direct
+    if (livePosition) {
+      allPoints.push([livePosition.latitude, livePosition.longitude]);
     }
-
-    map.panTo([position[0] + OFFSET, position[1]], {
-      animate: true,
-      duration: 0.5,
+    
+    // Ajouter tous les points du tracé
+    points.forEach(p => {
+      allPoints.push([p.latitude, p.longitude]);
     });
-  }, [position, map]);
+    
+    // Si on a des points, ajuster la vue pour tout montrer
+    if (allPoints.length > 0) {
+      const bounds = L.latLngBounds(allPoints);
+      
+      // Ajouter un padding pour que les marqueurs ne soient pas coupés
+      map.fitBounds(bounds, {
+        padding: [60, 60],
+        maxZoom: 16,
+        duration: 0.5
+      });
+      
+      firstRender.current = false;
+    } else {
+      // Fallback si pas de points
+      if (firstRender.current) {
+        map.setView(position, 15);
+        firstRender.current = false;
+      }
+    }
+  }, [position, points, livePosition, map]);
 
   return null;
 }
@@ -138,7 +164,13 @@ export default function TransportMap({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        {hasLivePosition && <MapFollower position={displayPosition} />}
+        {hasLivePosition && (
+          <MapFollower 
+            position={displayPosition} 
+            points={points}
+            livePosition={livePosition}
+          />
+        )}
 
         {/* TRACÉ */}
         {routePositions.length > 1 && (
