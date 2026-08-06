@@ -362,7 +362,7 @@ export default function GpsRecorder({
     <>
       {/* ÉTAT ENREGISTREMENT */}
       {isRecording && !showPriceInput && (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
           {/* Points */}
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-[#E2E8F0]/50">📊</span>
@@ -380,7 +380,7 @@ export default function GpsRecorder({
           {/* Vitesse */}
           <div className="flex items-center gap-1.5">
             <span className="text-xs text-[#E2E8F0]/50">🏎️</span>
-            <span className="text-sm font-medium text-[#0284C7]">{formatSpeed(currentSpeed)}</span>
+            <span className="text-sm font-medium text-[#60A5FA]">{formatSpeed(currentSpeed)}</span>
           </div>
 
           {/* Arrêts */}
@@ -396,6 +396,14 @@ export default function GpsRecorder({
             <span className="text-xs text-[#E2E8F0]/50">⏱️</span>
             <span className="text-sm text-white">{formatTime(elapsedTime)}</span>
           </div>
+
+          {/* Qualité */}
+          {points.length > 10 && (
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-[#E2E8F0]/50">📈</span>
+              <span className="text-sm text-[#22C55E]">{calculateQuality(points)}%</span>
+            </div>
+          )}
 
           {/* Bouton Terminer */}
           <button
@@ -414,7 +422,7 @@ export default function GpsRecorder({
 
       {/* DEMANDE DE PRIX */}
       {showPriceInput && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="text-sm text-white font-medium">💰 Prix ?</span>
           <input
             type="number"
@@ -448,4 +456,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-        }
+  }
