@@ -72,16 +72,16 @@ function MapFollower({ position }: { position: [number, number] }) {
   const firstRender = useRef(true);
 
   useEffect(() => {
+    // Décalage vers le haut pour que le point soit visible au-dessus de la fenêtre
+    const OFFSET = 0.012; // environ 1.3 km vers le haut
+
     if (firstRender.current) {
-      // Décaler la vue vers le HAUT pour que le point soit visible
-      // La fenêtre prend 50% en bas, donc on monte la vue
-      const offsetY = 0.12; // 12% vers le haut
-      map.setView([position[0] + offsetY, position[1]], 16);
+      map.setView([position[0] + OFFSET, position[1]], 16);
       firstRender.current = false;
       return;
     }
 
-    map.panTo(position, {
+    map.panTo([position[0] + OFFSET, position[1]], {
       animate: true,
       duration: 0.5,
     });
@@ -165,4 +165,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-}
+  }
