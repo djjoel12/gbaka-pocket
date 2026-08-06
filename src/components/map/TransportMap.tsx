@@ -167,13 +167,9 @@ function createIcon(
   });
 }
 
-// ============================================
-// ICÔNES
-// ============================================
-
 const startIcon = createIcon("#22C55E", "🏁");
 const endIcon = createIcon("#EF4444", "🏁");
-const liveIcon = createIcon("#2563EB", "", true);
+const liveIcon = createIcon("#ffffff", "", true);
 
 // ============================================
 // SUIVI AUTOMATIQUE
@@ -237,7 +233,6 @@ export default function TransportMap({
         }}
       >
 
-        {/* ===== FOND DE CARTE ===== */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
@@ -245,46 +240,38 @@ export default function TransportMap({
 
         {hasLivePosition && <MapFollower position={displayPosition} />}
 
-        {/* ===== TRACÉ - BLEU ROI ===== */}
+        {/* ===== TRACÉ - BLANC ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline
               positions={routePositions}
-              color="#2563EB"
+              color="#ffffff"
               weight={20}
-              opacity={0.12}
+              opacity={0.08}
               lineJoin="round"
               lineCap="round"
             />
             <Polyline
               positions={routePositions}
-              color="#2563EB"
+              color="#ffffff"
               weight={10}
-              opacity={0.2}
+              opacity={0.15}
               lineJoin="round"
               lineCap="round"
             />
             <Polyline
               positions={routePositions}
-              color="#2563EB"
+              color="#ffffff"
               weight={5}
-              opacity={0.95}
-              lineJoin="round"
-              lineCap="round"
-            />
-            <Polyline
-              positions={routePositions}
-              color="#60A5FA"
-              weight={2}
               opacity={0.7}
               lineJoin="round"
               lineCap="round"
             />
             <Polyline
               positions={routePositions}
-              color="#93C5FD"
-              weight={1}
-              opacity={0.5}
+              color="#ffffff"
+              weight={2}
+              opacity={0.4}
               lineJoin="round"
               lineCap="round"
               dashArray="10 14"
@@ -316,9 +303,9 @@ export default function TransportMap({
               center={[livePosition.latitude, livePosition.longitude]}
               radius={livePosition.accuracy}
               pathOptions={{
-                color: "#2563EB",
-                fillColor: "#2563EB",
-                fillOpacity: 0.1,
+                color: "#ffffff",
+                fillColor: "#ffffff",
+                fillOpacity: 0.05,
                 weight: 1,
               }}
             />
@@ -328,4 +315,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-    }
+}
