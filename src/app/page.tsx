@@ -44,11 +44,10 @@ export default function Home() {
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
 
-  // Référence pour la carte
   const mapRef = useRef<any>(null);
 
   // ============================================
-  // AUTODÉTECTION DU POINT DE DÉPART
+  // AUTODÉTECTION
   // ============================================
   useEffect(() => {
     if (showDestinationInput && !startPointName && navigator.geolocation) {
@@ -76,7 +75,7 @@ export default function Home() {
   }, [showDestinationInput]);
 
   // ============================================
-  // GÉNÉRATION DU NOM DE LA LIGNE
+  // GÉNÉRATION LIGNE
   // ============================================
   useEffect(() => {
     if (startPointName && destination) {
@@ -98,12 +97,7 @@ export default function Home() {
     }
   };
 
-  // ============================================
-  // RECENTRER LA CARTE (compas)
-  // ============================================
   const handleRecenter = () => {
-    // Cette fonction est passée à TransportMap via une prop
-    // On utilise une ref pour appeler la méthode de recentrage
     if (mapRef.current && livePosition) {
       mapRef.current.setView(
         [livePosition.latitude, livePosition.longitude],
@@ -132,7 +126,6 @@ export default function Home() {
           livePosition={livePosition}
           isRecording={status === "recording"}
           onMapReady={(map) => { mapRef.current = map; }}
-          onRecenter={handleRecenter}
         />
       </div>
 
@@ -140,59 +133,59 @@ export default function Home() {
       {status === "recording" && livePosition && (
         <button
           onClick={handleRecenter}
-          className="absolute bottom-[52%] right-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/70 border-2 border-white/30 text-2xl shadow-xl hover:scale-110 transition active:scale-95"
+          className="absolute bottom-[calc(50vh+80px)] right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-black/70 border-2 border-white/30 text-xl shadow-xl hover:scale-110 transition active:scale-95"
           title="Recentrer sur ma position"
         >
           🧭
         </button>
       )}
 
-      {/* ===== FENÊTRE 50% PROPRE ===== */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-[50vh] min-h-[340px] bg-[#0a0a0f] shadow-2xl border-t border-white/10">
+      {/* ===== FENÊTRE 50% ===== */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-[50vh] min-h-[320px] bg-[#0a0a0f] shadow-2xl border-t border-white/10">
         
-        <div className="flex h-full w-full flex-col px-6 py-4">
+        <div className="flex h-full w-full flex-col px-5 py-3">
           
           {/* ===== LIGNE 1 : Logo + Statut ===== */}
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
-            <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl">🚌</div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-xl">🚌</div>
               <div>
-                <h1 className="text-xl font-bold text-white">PASS GBAKA</h1>
-                <p className="text-xs text-white/40">Collecte de trajets GPS</p>
+                <h1 className="text-base font-bold text-white">PASS GBAKA</h1>
+                <p className="text-[10px] text-white/40">Collecte de trajets GPS</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {status === "recording" && (
                 <>
-                  <span className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                  <span className="text-sm font-bold text-green-500 uppercase">Enregistrement</span>
+                  <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-green-500" />
+                  <span className="text-xs font-bold text-green-500 uppercase">Enregistrement</span>
                 </>
               )}
-              {status === "idle" && <span className="text-sm text-white/40">● Prêt</span>}
+              {status === "idle" && <span className="text-xs text-white/40">● Prêt</span>}
               {status === "paused" && (
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">✅</span>
-                  <span className="text-sm text-white/60">Terminé</span>
+                  <span className="text-base">✅</span>
+                  <span className="text-xs text-white/60">Terminé</span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* ===== LIGNE 2 : Contenu principal ===== */}
-          <div className="flex-1 flex items-center py-3">
+          {/* ===== LIGNE 2 : Contenu ===== */}
+          <div className="flex-1 flex items-center py-2">
             
-            {/* ÉTAT IDLE */}
+            {/* IDLE */}
             {!showDestinationInput && status === "idle" && (
-              <div className="flex w-full items-center justify-between gap-6">
+              <div className="flex w-full items-center justify-between gap-4">
                 <div>
-                  <p className="text-sm text-white/40">📍 Prêt à enregistrer un trajet</p>
-                  <p className="text-base text-white">Appuyez sur Démarrer pour commencer</p>
+                  <p className="text-[11px] text-white/40">📍 Prêt à enregistrer un trajet</p>
+                  <p className="text-sm text-white">Appuyez sur Démarrer pour commencer</p>
                 </div>
                 <button
                   onClick={handleStartTrip}
-                  className="flex items-center gap-3 rounded-lg bg-white px-8 py-4 text-base font-bold text-black hover:scale-105 active:scale-95 transition"
+                  className="flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-bold text-black hover:scale-105 transition"
                 >
-                  <svg className="h-6 w-6 fill-black" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 fill-black" viewBox="0 0 24 24">
                     <polygon points="5,3 19,12 5,21" />
                   </svg>
                   <span>Démarrer</span>
@@ -200,43 +193,40 @@ export default function Home() {
               </div>
             )}
 
-            {/* FORMULAIRE DE SAISIE */}
+            {/* FORMULAIRE */}
             {showDestinationInput && (
-              <div className="flex w-full flex-wrap items-end gap-4">
-                
-                {/* Départ */}
-                <div className="flex-1 min-w-[150px]">
-                  <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-1">🟢 Départ</label>
+              <div className="flex w-full flex-wrap items-end gap-3">
+                <div className="flex-1 min-w-[120px]">
+                  <label className="block text-[10px] font-bold text-white/50 uppercase tracking-wider mb-1">🟢 Départ</label>
                   <input
                     type="text"
                     value={startPointName}
                     onChange={(e) => setStartPointName(e.target.value)}
-                    placeholder="Détection automatique..."
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
+                    placeholder="Détection auto..."
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
                     disabled={isAutoDetecting}
                   />
                   {isAutoDetecting && (
-                    <p className="text-xs text-white/30 mt-1">⏳ Recherche du signal GPS...</p>
+                    <p className="text-[10px] text-white/30 mt-1">⏳ Recherche GPS...</p>
                   )}
                 </div>
 
-                {/* Destination */}
-                <div className="flex-1 min-w-[150px]">
-                  <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-1">🎯 Destination</label>
+                <div className="flex-1 min-w-[120px]">
+                  <label className="block text-[10px] font-bold text-white/50 uppercase tracking-wider mb-1">🎯 Destination</label>
                   <input
                     type="text"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     placeholder="Ex: Plateau, Cocody..."
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
                     autoFocus
                   />
-                  <div className="flex flex-wrap gap-2 mt-1.5">
+                  <div className="flex flex-wrap gap-2 mt-1">
                     {["Adjamé", "Plateau", "Cocody", "Treichville", "Marcory"].map((s) => (
                       <button
                         key={s}
                         onClick={() => setDestination(s)}
-                        className="text-xs text-white/30 hover:text-white/70 transition px-2 py-0.5 rounded border border-white/5 hover:border-white/20"
+                        className="text-[10px] text-white/30 hover:text-white/70 transition"
                       >
                         {s}
                       </button>
@@ -244,28 +234,25 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Prix */}
-                <div className="w-[160px]">
-                  <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-1">💰 Prix</label>
+                <div className="w-[130px]">
+                  <label className="block text-[10px] font-bold text-white/50 uppercase tracking-wider mb-1">💰 Prix</label>
                   <input
                     type="number"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     placeholder="250"
-                    className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
+                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
                   />
                 </div>
 
-                {/* Ligne générée */}
-                <div className="flex-1 min-w-[140px]">
-                  <label className="block text-xs font-bold text-white/50 uppercase tracking-wider mb-1">🚌 Ligne</label>
-                  <div className={`w-full rounded-lg px-4 py-3 text-sm border ${lineName ? 'border-white/20 bg-white/5 text-white' : 'border-white/5 text-white/30'}`}>
-                    {lineName || "En attente du départ..."}
+                <div className="flex-1 min-w-[100px]">
+                  <label className="block text-[10px] font-bold text-white/50 uppercase tracking-wider mb-1">🚌 Ligne</label>
+                  <div className={`w-full rounded-lg px-3 py-2 text-sm border ${lineName ? 'border-white/20 bg-white/5 text-white' : 'border-white/5 text-white/30'}`}>
+                    {lineName || "En attente..."}
                   </div>
                 </div>
 
-                {/* Boutons */}
-                <div className="flex gap-3">
+                <div className="flex gap-2">
                   <button
                     onClick={() => {
                       setShowDestinationInput(false);
@@ -276,14 +263,14 @@ export default function Home() {
                       setEndPointName("");
                       setGpsReady(false);
                     }}
-                    className="rounded-lg border border-white/10 px-5 py-3 text-sm text-white/50 hover:bg-white/5 transition"
+                    className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white/50 hover:bg-white/5 transition"
                   >
                     Annuler
                   </button>
                   <button
                     onClick={confirmDestination}
                     disabled={!destination.trim() || !gpsReady}
-                    className="rounded-lg bg-white px-6 py-3 text-sm font-bold text-black hover:scale-105 disabled:opacity-40 disabled:hover:scale-100 transition"
+                    className="rounded-lg bg-white px-5 py-2 text-sm font-bold text-black hover:scale-105 disabled:opacity-40 transition"
                   >
                     {gpsReady ? "🚀 Démarrer" : "⏳ GPS..."}
                   </button>
@@ -291,26 +278,21 @@ export default function Home() {
               </div>
             )}
 
-            {/* ENREGISTREMENT EN COURS */}
+            {/* RECORDING */}
             {status === "recording" && (
-              <div className="flex w-full flex-col gap-3">
-                {/* Ligne info trajet */}
-                <div className="flex flex-wrap items-center gap-4">
+              <div className="flex w-full flex-col gap-2">
+                <div className="flex flex-wrap items-center gap-3">
                   <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                    <span className="text-sm font-bold text-green-500 uppercase">REC</span>
+                    <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-green-500" />
+                    <span className="text-xs font-bold text-green-500 uppercase">REC</span>
                   </div>
                   {startPointName && (
-                    <span className="text-sm text-white/70">🟢 {startPointName}</span>
+                    <span className="text-xs text-white/70">🟢 {startPointName}</span>
                   )}
                   <span className="text-sm font-bold text-white">→ {destination}</span>
-                  {price && <span className="text-sm text-white/60">💰 {price} FCFA</span>}
-                  {lineName && (
-                    <span className="text-xs text-white/40">🚌 {lineName}</span>
-                  )}
+                  {price && <span className="text-xs text-white/60">💰 {price}</span>}
+                  {lineName && <span className="text-[10px] text-white/40">🚌 {lineName}</span>}
                 </div>
-
-                {/* Stats en grille propre */}
                 <GpsRecorder
                   status={status}
                   setStatus={setStatus}
@@ -327,16 +309,16 @@ export default function Home() {
               </div>
             )}
 
-            {/* TRAJET TERMINÉ */}
+            {/* PAUSED */}
             {status === "paused" && (
-              <div className="flex w-full items-center justify-between gap-6">
-                <div className="flex items-center gap-4">
-                  <span className="text-3xl">✅</span>
+              <div className="flex w-full items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-2xl">✅</span>
                   <div>
-                    <p className="text-lg font-bold text-white">Trajet terminé</p>
-                    <p className="text-sm text-white/40">{points.length} points enregistrés</p>
-                    {lineName && <p className="text-sm text-white/40">🚌 {lineName}</p>}
-                    {price && <p className="text-sm text-white/40">💰 {price} FCFA</p>}
+                    <p className="text-base font-bold text-white">Trajet terminé</p>
+                    <p className="text-xs text-white/40">{points.length} points</p>
+                    {lineName && <p className="text-xs text-white/40">🚌 {lineName}</p>}
+                    {price && <p className="text-xs text-white/40">💰 {price}</p>}
                   </div>
                 </div>
                 <button
@@ -351,42 +333,42 @@ export default function Home() {
                     setEndPointName("");
                     setGpsReady(false);
                   }}
-                  className="rounded-lg border border-white/20 px-8 py-3 text-base font-bold text-white hover:bg-white/5 transition"
+                  className="rounded-lg border border-white/20 px-6 py-2.5 text-sm font-bold text-white hover:bg-white/5 transition"
                 >
-                  🔄 Nouveau trajet
+                  🔄 Nouveau
                 </button>
               </div>
             )}
           </div>
 
           {/* ===== LIGNE 3 : Légende ===== */}
-          <div className="flex items-center justify-between border-t border-white/10 pt-3">
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-white/60" />
-                <span className="text-sm font-medium text-white/50">GPS</span>
+          <div className="flex items-center justify-between border-t border-white/10 pt-2">
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-white/60" />
+                <span className="text-[11px] font-medium text-white/50">GPS</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-green-400" />
-                <span className="text-sm font-medium text-white/50">Départ</span>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                <span className="text-[11px] font-medium text-white/50">Départ</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-400" />
-                <span className="text-sm font-medium text-white/50">Arrivée</span>
+              <div className="flex items-center gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+                <span className="text-[11px] font-medium text-white/50">Arrivée</span>
               </div>
               {status === "recording" && (
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-                  <span className="text-xs font-bold text-green-500 uppercase">REC</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-green-500" />
+                  <span className="text-[10px] font-bold text-green-500 uppercase">REC</span>
                 </div>
               )}
             </div>
             {status === "recording" && (
-              <div className="text-sm text-white/30">📊 {points.length} pts</div>
+              <div className="text-xs text-white/30">📊 {points.length} pts</div>
             )}
           </div>
         </div>
       </div>
     </div>
   );
-        }
+}
