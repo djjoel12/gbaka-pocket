@@ -45,7 +45,7 @@ export default function Home() {
   const [showDestinationInput, setShowDestinationInput] = useState(false);
 
   // ============================================
-  // AUTODÉTECTION DU POINT DE DÉPART
+  // AUTODÉTECTION
   // ============================================
   useEffect(() => {
     if (showDestinationInput && !startPointName && navigator.geolocation) {
@@ -61,10 +61,10 @@ export default function Home() {
           setStartPointName(cleanName);
           setIsAutoDetecting(false);
           setGpsReady(true);
-          console.log("📍 Point de départ automatique :", cleanName);
+          console.log("📍 Départ :", cleanName);
         },
         (error) => {
-          console.error("Erreur GPS pour le départ:", error);
+          console.error("Erreur GPS:", error);
           setIsAutoDetecting(false);
           setStartPointName("Position actuelle");
           setGpsReady(true);
@@ -75,7 +75,7 @@ export default function Home() {
   }, [showDestinationInput, startPointName]);
 
   // ============================================
-  // GÉNÉRATION AUTOMATIQUE DU NOM DE LA LIGNE
+  // GÉNÉRATION LIGNE
   // ============================================
   useEffect(() => {
     if (startPointName && destination) {
@@ -83,13 +83,9 @@ export default function Home() {
       const endMain = destination.split(',')[0].trim();
       const generatedName = `${startMain} → ${endMain}`;
       setLineName(generatedName);
-      console.log("🚌 Nom de ligne généré :", generatedName);
     }
   }, [startPointName, destination]);
 
-  // ============================================
-  // DÉMARRER LE TRAJET
-  // ============================================
   const handleStartTrip = () => {
     setShowDestinationInput(true);
   };
@@ -113,7 +109,7 @@ export default function Home() {
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#0a0a0f]">
       
-      {/* ===== CARTE - 100% ===== */}
+      {/* ===== CARTE ===== */}
       <div className="absolute inset-0 z-0">
         <TransportMap
           points={points}
@@ -122,12 +118,12 @@ export default function Home() {
         />
       </div>
 
-      {/* ===== INTERFACE EN BAS - 50% ===== */}
+      {/* ===== INTERFACE 50% ===== */}
       <div className="absolute bottom-0 left-0 right-0 z-10 h-[50vh] min-h-[320px] bg-[#0a0a0f] shadow-2xl border-t border-white/10">
         
         <div className="flex h-full w-full flex-col px-6 py-4">
           
-          {/* ===== LIGNE 1 : Logo + Titre + Statut ===== */}
+          {/* LIGNE 1 : Logo */}
           <div className="flex items-center justify-between pb-2 border-b border-white/5">
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl">
@@ -138,8 +134,6 @@ export default function Home() {
                 <p className="text-xs text-white/40">Collecte de trajets GPS</p>
               </div>
             </div>
-
-            {/* Statut */}
             <div className="flex items-center gap-3">
               {status === "recording" && (
                 <>
@@ -159,10 +153,9 @@ export default function Home() {
             </div>
           </div>
 
-          {/* ===== LIGNE 2 : Contenu principal ===== */}
+          {/* LIGNE 2 : Contenu */}
           <div className="flex-1 flex items-center py-3">
             
-            {/* État IDLE */}
             {!showDestinationInput && status === "idle" && (
               <div className="flex w-full items-center justify-between gap-6">
                 <div>
@@ -171,7 +164,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={handleStartTrip}
-                  className="flex items-center gap-3 rounded-lg bg-white px-8 py-4 text-base font-bold text-black transition hover:scale-[1.02] active:scale-95"
+                  className="flex items-center gap-3 rounded-lg bg-white px-8 py-4 text-base font-bold text-black hover:scale-[1.02] active:scale-95 transition"
                 >
                   <svg className="h-6 w-6 fill-black" viewBox="0 0 24 24">
                     <polygon points="5,3 19,12 5,21" />
@@ -181,15 +174,10 @@ export default function Home() {
               </div>
             )}
 
-            {/* FORMULAIRE */}
             {showDestinationInput && (
               <div className="flex w-full flex-wrap items-center gap-3">
-                
-                {/* Départ */}
                 <div className="min-w-[140px] flex-1">
-                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
-                    🟢 Départ
-                  </label>
+                  <label className="text-xs font-medium text-white/50 uppercase block mb-1">🟢 Départ</label>
                   <input
                     type="text"
                     value={startPointName}
@@ -198,16 +186,10 @@ export default function Home() {
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30 truncate"
                     disabled={isAutoDetecting}
                   />
-                  {isAutoDetecting && (
-                    <p className="text-xs text-white/30 mt-1">⏳ Détection GPS...</p>
-                  )}
                 </div>
 
-                {/* Destination */}
                 <div className="min-w-[140px] flex-1">
-                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
-                    🎯 Destination
-                  </label>
+                  <label className="text-xs font-medium text-white/50 uppercase block mb-1">🎯 Destination</label>
                   <input
                     type="text"
                     value={destination}
@@ -229,11 +211,8 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Prix */}
                 <div className="w-[140px]">
-                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
-                    💰 Prix (FCFA)
-                  </label>
+                  <label className="text-xs font-medium text-white/50 uppercase block mb-1">💰 Prix</label>
                   <input
                     type="number"
                     value={price}
@@ -243,17 +222,13 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Ligne */}
                 <div className="min-w-[120px] flex-1">
-                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
-                    🚌 Ligne
-                  </label>
+                  <label className="text-xs font-medium text-white/50 uppercase block mb-1">🚌 Ligne</label>
                   <div className={`w-full rounded-lg px-3 py-2.5 text-sm border ${lineName ? 'border-white/20 bg-white/5 text-white/80' : 'border-white/5 text-white/20'}`}>
                     {lineName || "En attente..."}
                   </div>
                 </div>
 
-                {/* Boutons */}
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
@@ -272,7 +247,7 @@ export default function Home() {
                   <button
                     onClick={confirmDestination}
                     disabled={!destination.trim() || !gpsReady}
-                    className="rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-black transition hover:scale-[1.02] disabled:opacity-40 disabled:hover:scale-100"
+                    className="rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-black transition hover:scale-[1.02] disabled:opacity-40"
                   >
                     {gpsReady ? "🚀 Démarrer" : "⏳ GPS..."}
                   </button>
@@ -280,7 +255,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* ENREGISTREMENT */}
             {status === "recording" && (
               <div className="flex w-full flex-wrap items-center gap-3">
                 <div className="flex items-center gap-3 flex-1 min-w-[200px]">
@@ -289,17 +263,11 @@ export default function Home() {
                     <span className="text-sm font-bold text-green-500 uppercase">REC</span>
                   </div>
                   {startPointName && (
-                    <p className="text-sm text-white/70 truncate max-w-[100px]">
-                      🟢 {startPointName}
-                    </p>
+                    <p className="text-sm text-white/70 truncate max-w-[100px]">🟢 {startPointName}</p>
                   )}
                   <p className="text-base font-bold text-white truncate max-w-[120px]">→ {destination}</p>
-                  {price && (
-                    <p className="text-sm text-white/60">💰 {price}</p>
-                  )}
-                  {lineName && (
-                    <p className="text-xs text-white/40 truncate max-w-[120px]">🚌 {lineName}</p>
-                  )}
+                  {price && <p className="text-sm text-white/60">💰 {price}</p>}
+                  {lineName && <p className="text-xs text-white/40 truncate max-w-[120px]">🚌 {lineName}</p>}
                 </div>
                 <GpsRecorder
                   status={status}
@@ -317,7 +285,6 @@ export default function Home() {
               </div>
             )}
 
-            {/* PAUSED */}
             {status === "paused" && (
               <div className="flex w-full items-center justify-between gap-6">
                 <div className="flex items-center gap-4">
@@ -325,12 +292,8 @@ export default function Home() {
                   <div>
                     <p className="text-lg font-bold text-white">Trajet terminé</p>
                     <p className="text-sm text-white/40">{points.length} points enregistrés</p>
-                    {lineName && (
-                      <p className="text-sm text-white/40">🚌 {lineName}</p>
-                    )}
-                    {price && (
-                      <p className="text-sm text-white/40">💰 {price} FCFA</p>
-                    )}
+                    {lineName && <p className="text-sm text-white/40">🚌 {lineName}</p>}
+                    {price && <p className="text-sm text-white/40">💰 {price} FCFA</p>}
                   </div>
                 </div>
                 <button
@@ -353,8 +316,8 @@ export default function Home() {
             )}
           </div>
 
-          {/* ===== LIGNE 3 : Légende - remontée ===== */}
-          <div className="flex items-center justify-between border-t border-white/10 pt-3 pb-1">
+          {/* ===== LIGNE 3 : Légende - REMONTÉE AVEC -mt-2 ===== */}
+          <div className="flex items-center justify-between border-t border-white/10 pt-2 -mt-1">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-full bg-white/60" />
@@ -375,7 +338,6 @@ export default function Home() {
                 </div>
               )}
             </div>
-
             {status === "recording" && (
               <div className="flex items-center gap-5 text-sm text-white/30">
                 <span>📊 {points.length} pts</span>
@@ -386,4 +348,4 @@ export default function Home() {
       </div>
     </div>
   );
-                              }
+  }
