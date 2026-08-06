@@ -6,7 +6,6 @@ import {
   Marker,
   Polyline,
   Circle,
-  useMap,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -64,60 +63,6 @@ const endIcon = createIcon("#EF4444", "🏁");
 const liveIcon = createIcon("#ffffff", "", true);
 
 // ============================================
-// SUIVI CARTE AVEC fitBounds
-// ============================================
-
-function MapFollower({ 
-  position, 
-  points, 
-  livePosition 
-}: { 
-  position: [number, number];
-  points: GPSPoint[];
-  livePosition?: GPSPoint | null;
-}) {
-  const map = useMap();
-  const firstRender = useRef(true);
-
-  useEffect(() => {
-    // Récupérer tous les points à inclure dans la vue
-    const allPoints: [number, number][] = [];
-    
-    // Ajouter le point GPS en direct
-    if (livePosition) {
-      allPoints.push([livePosition.latitude, livePosition.longitude]);
-    }
-    
-    // Ajouter tous les points du tracé
-    points.forEach(p => {
-      allPoints.push([p.latitude, p.longitude]);
-    });
-    
-    // Si on a des points, ajuster la vue pour tout montrer
-    if (allPoints.length > 0) {
-      const bounds = L.latLngBounds(allPoints);
-      
-      // Ajouter un padding pour que les marqueurs ne soient pas coupés
-      map.fitBounds(bounds, {
-        padding: [60, 60],
-        maxZoom: 16,
-        duration: 0.5
-      });
-      
-      firstRender.current = false;
-    } else {
-      // Fallback si pas de points
-      if (firstRender.current) {
-        map.setView(position, 15);
-        firstRender.current = false;
-      }
-    }
-  }, [position, points, livePosition, map]);
-
-  return null;
-}
-
-// ============================================
 // COMPOSANT PRINCIPAL
 // ============================================
 
@@ -139,7 +84,6 @@ export default function TransportMap({
       : defaultPosition;
 
   const routePositions: [number, number][] = points.map((point) => [point.latitude, point.longitude]);
-  const hasLivePosition = !!livePosition;
 
   const mapRef = useRef<any>(null);
 
@@ -164,15 +108,7 @@ export default function TransportMap({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        {hasLivePosition && (
-          <MapFollower 
-            position={displayPosition} 
-            points={points}
-            livePosition={livePosition}
-          />
-        )}
-
-        {/* TRACÉ */}
+        {/* ===== TRACÉ ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline positions={routePositions} color="#ffffff" weight={20} opacity={0.08} lineJoin="round" lineCap="round" />
@@ -182,6 +118,7 @@ export default function TransportMap({
           </>
         )}
 
+        {/* ===== MARQUEURS ===== */}
         {firstPoint && <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />}
         {lastPoint && points.length > 1 && <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />}
 
@@ -198,4 +135,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-  }
+      }
