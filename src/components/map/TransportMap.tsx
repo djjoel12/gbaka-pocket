@@ -12,12 +12,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import {
-  useEffect,
-  useRef,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import { useEffect, useRef } from "react";
 
 type GPSPoint = {
   latitude: number;
@@ -32,143 +27,36 @@ type TransportMapProps = {
   livePosition?: GPSPoint | null;
   isRecording?: boolean;
   onMapReady?: (map: any) => void;
-  onRecenter?: () => void;
 };
 
-const defaultPosition: [number, number] = [
-  5.3364,
-  -4.0267,
-];
+const defaultPosition: [number, number] = [5.3364, -4.0267];
 
 // ============================================
-// CRÉATION D'ICÔNES
+// ICÔNES
 // ============================================
 
-function createIcon(
-  color: string,
-  label: string = "",
-  isPulsing: boolean = false
-) {
+function createIcon(color: string, label: string = "", isPulsing: boolean = false) {
   const svg = `
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 40 40"
-    >
-      ${
-        isPulsing
-          ? `
-        <circle
-          cx="20"
-          cy="20"
-          r="16"
-          fill="none"
-          stroke="${color}"
-          stroke-width="2"
-          opacity="0.4"
-        >
-          <animate
-            attributeName="r"
-            from="12"
-            to="20"
-            dur="1.5s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            from="0.6"
-            to="0"
-            dur="1.5s"
-            repeatCount="indefinite"
-          />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+      ${isPulsing ? `
+        <circle cx="20" cy="20" r="16" fill="none" stroke="${color}" stroke-width="2" opacity="0.4">
+          <animate attributeName="r" from="12" to="20" dur="1.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite"/>
         </circle>
-
-        <circle
-          cx="20"
-          cy="20"
-          r="14"
-          fill="none"
-          stroke="${color}"
-          stroke-width="1.5"
-          opacity="0.3"
-        >
-          <animate
-            attributeName="r"
-            from="10"
-            to="18"
-            dur="1.5s"
-            begin="0.5s"
-            repeatCount="indefinite"
-          />
-          <animate
-            attributeName="opacity"
-            from="0.5"
-            to="0"
-            dur="1.5s"
-            begin="0.5s"
-            repeatCount="indefinite"
-          />
+        <circle cx="20" cy="20" r="14" fill="none" stroke="${color}" stroke-width="1.5" opacity="0.3">
+          <animate attributeName="r" from="10" to="18" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
         </circle>
-      `
-          : ""
-      }
-
-      <circle
-        cx="20"
-        cy="20"
-        r="${isPulsing ? "10" : "14"}"
-        fill="${color}"
-        stroke="white"
-        stroke-width="2.5"
-      />
-
-      ${
-        label
-          ? `
-        <text
-          x="20"
-          y="${isPulsing ? "25" : "24"}"
-          text-anchor="middle"
-          fill="white"
-          font-size="16"
-          font-weight="bold"
-          font-family="Arial"
-        >
-          ${label}
-        </text>
-      `
-          : ""
-      }
-
-      ${
-        isPulsing
-          ? `
-        <circle
-          cx="20"
-          cy="20"
-          r="4"
-          fill="white"
-        />
-
-        <circle
-          cx="20"
-          cy="20"
-          r="2.5"
-          fill="${color}"
-        />
-      `
-          : ""
-      }
+      ` : ""}
+      <circle cx="20" cy="20" r="${isPulsing ? "10" : "14"}" fill="${color}" stroke="white" stroke-width="2.5"/>
+      ${label ? `<text x="20" y="${isPulsing ? "25" : "24"}" text-anchor="middle" fill="white" font-size="16" font-weight="bold" font-family="Arial">${label}</text>` : ""}
+      ${isPulsing ? `
+        <circle cx="20" cy="20" r="4" fill="white"/>
+        <circle cx="20" cy="20" r="2.5" fill="${color}"/>
+      ` : ""}
     </svg>
   `;
-
-  return L.divIcon({
-    html: svg,
-    className: isPulsing
-      ? "pulsing-marker"
-      : "custom-marker",
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
-  });
+  return L.divIcon({ html: svg, className: isPulsing ? "pulsing-marker" : "custom-marker", iconSize: [40, 40], iconAnchor: [20, 20] });
 }
 
 const startIcon = createIcon("#22C55E", "🏁");
@@ -176,7 +64,7 @@ const endIcon = createIcon("#EF4444", "🏁");
 const liveIcon = createIcon("#ffffff", "", true);
 
 // ============================================
-// SUIVI AUTOMATIQUE
+// SUIVI CARTE AVEC DÉCALAGE (point visible)
 // ============================================
 
 function MapFollower({ position }: { position: [number, number] }) {
@@ -185,9 +73,9 @@ function MapFollower({ position }: { position: [number, number] }) {
 
   useEffect(() => {
     if (firstRender.current) {
-      // Décaler la vue vers le haut pour que le point soit visible (offset 25%)
-      const offsetY = -0.15;
-      const center = map.getCenter();
+      // Décaler la vue vers le HAUT pour que le point soit visible
+      // La fenêtre prend 50% en bas, donc on monte la vue
+      const offsetY = 0.12; // 12% vers le haut
       map.setView([position[0] + offsetY, position[1]], 16);
       firstRender.current = false;
       return;
@@ -223,9 +111,7 @@ export default function TransportMap({
       ? [lastPoint.latitude, lastPoint.longitude]
       : defaultPosition;
 
-  const routePositions: [number, number][] =
-    points.map((point) => [point.latitude, point.longitude]);
-
+  const routePositions: [number, number][] = points.map((point) => [point.latitude, point.longitude]);
   const hasLivePosition = !!livePosition;
 
   const mapRef = useRef<any>(null);
@@ -238,7 +124,6 @@ export default function TransportMap({
 
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
-
       <MapContainer
         center={displayPosition}
         zoom={13}
@@ -247,7 +132,6 @@ export default function TransportMap({
         style={{ background: "#0a0e17" }}
         ref={mapRef}
       >
-
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
@@ -255,79 +139,30 @@ export default function TransportMap({
 
         {hasLivePosition && <MapFollower position={displayPosition} />}
 
-        {/* ===== TRACÉ GPS ===== */}
+        {/* TRACÉ */}
         {routePositions.length > 1 && (
           <>
-            <Polyline
-              positions={routePositions}
-              color="#ffffff"
-              weight={20}
-              opacity={0.08}
-              lineJoin="round"
-              lineCap="round"
-            />
-            <Polyline
-              positions={routePositions}
-              color="#ffffff"
-              weight={10}
-              opacity={0.15}
-              lineJoin="round"
-              lineCap="round"
-            />
-            <Polyline
-              positions={routePositions}
-              color="#ffffff"
-              weight={5}
-              opacity={0.7}
-              lineJoin="round"
-              lineCap="round"
-            />
-            <Polyline
-              positions={routePositions}
-              color="#ffffff"
-              weight={2}
-              opacity={0.4}
-              lineJoin="round"
-              lineCap="round"
-              dashArray="10 14"
-            />
+            <Polyline positions={routePositions} color="#ffffff" weight={20} opacity={0.08} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#ffffff" weight={10} opacity={0.15} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#ffffff" weight={5} opacity={0.7} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#ffffff" weight={2} opacity={0.4} lineJoin="round" lineCap="round" dashArray="10 14" />
           </>
         )}
 
-        {firstPoint && (
-          <Marker
-            position={[firstPoint.latitude, firstPoint.longitude]}
-            icon={startIcon}
-          />
-        )}
-
-        {lastPoint && points.length > 1 && (
-          <Marker
-            position={[lastPoint.latitude, lastPoint.longitude]}
-            icon={endIcon}
-          />
-        )}
+        {firstPoint && <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />}
+        {lastPoint && points.length > 1 && <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />}
 
         {livePosition && (
           <>
-            <Marker
-              position={[livePosition.latitude, livePosition.longitude]}
-              icon={liveIcon}
-            />
+            <Marker position={[livePosition.latitude, livePosition.longitude]} icon={liveIcon} />
             <Circle
               center={[livePosition.latitude, livePosition.longitude]}
               radius={livePosition.accuracy}
-              pathOptions={{
-                color: "#ffffff",
-                fillColor: "#ffffff",
-                fillOpacity: 0.05,
-                weight: 1,
-              }}
+              pathOptions={{ color: "#ffffff", fillColor: "#ffffff", fillOpacity: 0.05, weight: 1 }}
             />
           </>
         )}
-
       </MapContainer>
     </div>
   );
-    }
+}
