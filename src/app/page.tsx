@@ -57,7 +57,6 @@ export default function Home() {
             position.coords.latitude,
             position.coords.longitude
           );
-          // Nettoyer le nom pour n'afficher que le quartier principal
           const cleanName = name.split(',')[0].trim();
           setStartPointName(cleanName);
           setIsAutoDetecting(false);
@@ -76,7 +75,7 @@ export default function Home() {
   }, [showDestinationInput, startPointName]);
 
   // ============================================
-  // GÉNÉRATION AUTOMATIQUE DU NOM DE LA LIGNE - FORCÉE
+  // GÉNÉRATION AUTOMATIQUE DU NOM DE LA LIGNE
   // ============================================
   useEffect(() => {
     if (startPointName && destination) {
@@ -182,11 +181,11 @@ export default function Home() {
               </div>
             )}
 
-            {/* ===== FORMULAIRE CORRIGÉ ===== */}
+            {/* FORMULAIRE */}
             {showDestinationInput && (
               <div className="flex w-full flex-wrap items-center gap-3">
                 
-                {/* Départ - TRONQUÉ */}
+                {/* Départ */}
                 <div className="min-w-[140px] flex-1">
                   <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
                     🟢 Départ
@@ -204,7 +203,7 @@ export default function Home() {
                   )}
                 </div>
 
-                {/* Destination - AVEC SUGGESTIONS EN LIGNE */}
+                {/* Destination */}
                 <div className="min-w-[140px] flex-1">
                   <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
                     🎯 Destination
@@ -217,7 +216,6 @@ export default function Home() {
                     className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-white/30"
                     autoFocus
                   />
-                  {/* ===== SUGGESTIONS EN LIGNE (FLEX WRAP) ===== */}
                   <div className="flex flex-wrap gap-2 mt-1.5">
                     {["Adjamé", "Plateau", "Cocody", "Treichville", "Marcory"].map((s) => (
                       <button
@@ -245,13 +243,13 @@ export default function Home() {
                   />
                 </div>
 
-                {/* Ligne - GÉNÉRÉE AUTOMATIQUEMENT */}
+                {/* Ligne */}
                 <div className="min-w-[120px] flex-1">
                   <label className="text-xs font-medium text-white/50 uppercase tracking-wider block mb-1">
                     🚌 Ligne
                   </label>
                   <div className={`w-full rounded-lg px-3 py-2.5 text-sm border ${lineName ? 'border-white/20 bg-white/5 text-white/80' : 'border-white/5 text-white/20'}`}>
-                    {lineName || "En attente du départ..."}
+                    {lineName || "En attente..."}
                   </div>
                 </div>
 
@@ -355,8 +353,8 @@ export default function Home() {
             )}
           </div>
 
-          {/* ===== LIGNE 3 : Légende ===== */}
-          <div className="flex items-center justify-between border-t border-white/10 pt-3">
+          {/* ===== LIGNE 3 : Légende - remontée ===== */}
+          <div className="flex items-center justify-between border-t border-white/10 pt-3 pb-1">
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
                 <span className="h-3 w-3 rounded-full bg-white/60" />
@@ -388,4 +386,4 @@ export default function Home() {
       </div>
     </div>
   );
-        }
+                              }
