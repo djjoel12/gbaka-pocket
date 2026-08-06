@@ -85,6 +85,10 @@ export default function GpsRecorder({
   const lastPointRef = useRef<GPSPoint | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // ============================================
+  // CHRONOMÈTRE
+  // ============================================
+
   useEffect(() => {
     if (status === "recording") {
       setTripStartTime(Date.now());
@@ -108,6 +112,10 @@ export default function GpsRecorder({
     };
   }, [status, tripStartTime]);
 
+  // ============================================
+  // NETTOYAGE GPS
+  // ============================================
+
   const stopGPS = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
@@ -115,6 +123,10 @@ export default function GpsRecorder({
       console.log("GPS arrêté correctement");
     }
   };
+
+  // ============================================
+  // FORMATAGE
+  // ============================================
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
@@ -130,6 +142,10 @@ export default function GpsRecorder({
     const kmh = speed * 3.6;
     return `${kmh.toFixed(0)} km/h`;
   };
+
+  // ============================================
+  // DÉMARRER ENREGISTREMENT
+  // ============================================
 
   useEffect(() => {
     if (status === "recording" && destination) {
@@ -235,6 +251,9 @@ export default function GpsRecorder({
     watchIdRef.current = watchId;
   };
 
+  // ============================================
+  // SAUVEGARDE AVEC PRIX
+  // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
       console.log("⚠️ Aucun point enregistré");
@@ -303,7 +322,11 @@ export default function GpsRecorder({
     }
   };
 
+  // ============================================
+  // TERMINER LE TRAJET - FONCTION CORRIGÉE
+  // ============================================
   const stopRecording = async () => {
+    console.log("🛑 Bouton Terminer cliqué !");
     stopGPS();
 
     if (price && parseInt(price) > 0) {
@@ -313,6 +336,9 @@ export default function GpsRecorder({
     }
   };
 
+  // ============================================
+  // VALIDATION DU PRIX
+  // ============================================
   const handlePriceSubmit = () => {
     const priceValue = parseInt(finalPrice);
     if (priceValue > 0) {
@@ -322,6 +348,9 @@ export default function GpsRecorder({
     }
   };
 
+  // ============================================
+  // RESET
+  // ============================================
   useEffect(() => {
     if (status === "idle") {
       stopGPS();
@@ -346,6 +375,9 @@ export default function GpsRecorder({
     }
   }, [status]);
 
+  // ============================================
+  // NETTOYAGE
+  // ============================================
   useEffect(() => {
     return () => {
       stopGPS();
@@ -362,7 +394,7 @@ export default function GpsRecorder({
     <>
       {/* ÉTAT ENREGISTREMENT - TOUTES LES STATS BIEN VISIBLES */}
       {isRecording && !showPriceInput && (
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3">
           {/* Points */}
           <div className="flex items-center gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
             <span className="text-sm text-white/40">📊</span>
@@ -413,12 +445,12 @@ export default function GpsRecorder({
             <span className="text-sm text-white/60">{gpsStatus}</span>
           </div>
 
-          {/* Bouton Terminer */}
+          {/* ===== BOUTON TERMINER - BIEN VISIBLE ===== */}
           <button
             onClick={stopRecording}
-            className="ml-auto rounded-lg bg-red-500/20 border border-red-500/30 px-5 py-3 text-sm font-bold text-red-400 hover:bg-red-500/30 transition"
+            className="ml-auto rounded-lg bg-red-500/20 border-2 border-red-500/50 px-6 py-3 text-base font-bold text-red-400 hover:bg-red-500/30 hover:scale-[1.02] transition-all"
           >
-            ⏹ Terminer
+            ⏹ Terminer le trajet
           </button>
 
           {/* Sauvegardé */}
