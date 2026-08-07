@@ -19,6 +19,7 @@ import {
   saveTrip,
   reverseGeocode,
 } from "@/utils/tripUtils";
+import { saveTripToSupabase } from "@/utils/supabaseUtils";
 
 type GpsRecorderProps = {
   status: "idle" | "recording" | "paused";
@@ -34,14 +35,25 @@ type GpsRecorderProps = {
   maxAccuracy?: number;
 };
 
-function detectSpike(prev: GPSPoint | null, curr: GPSPoint, maxJump = 100): boolean {
-  if (!prev) return false;
-  const R = 6371000;
-  const dLat = (curr.latitude - prev.latitude) * Math.PI / 180;
-  const dLon = (curr.longitude - prev.longitude) * Math.PI / 180;
-  const a = Math.sin(dLat/2)**2 + Math.cos(prev.latitude * Math.PI/180) * Math.cos(curr.latitude * Math.PI/180) * Math.sin(dLon/2)**2;
-  const dist = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
-  if (dist > maxJump) { console.log(`GPS ignoré : saut de ${dist.toFixed(1)}m`); return true; }
+function detectSpike(
+  previousPoint: GPSPoint | null,
+  newPoint: GPSPoint,
+  maxJump = 100
+): boolean {
+  if (!previousPoint) return false;
+
+  const distance = calculateDistance(
+    previousPoint.latitude,
+    previousPoint.longitude,
+    newPoint.latitude,
+    newPoint.longitude
+  );
+
+  if (distance > maxJump) {
+    console.log(`GPS ignoré : saut de ${distance.toFixed(1)} mètres`);
+    return true;
+  }
+
   return false;
 }
 
@@ -74,43 +86,80 @@ export default function GpsRecorder({
   const lastPointRef = useRef<GPSPoint | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // ============================================
+  // CHRONOMÈTRE
+  // ============================================
+
   useEffect(() => {
     if (status === "recording") {
       setTripStartTime(Date.now());
       timerRef.current = setInterval(() => {
-        if (tripStartTime) setElapsedTime(Math.floor((Date.now() - tripStartTime) / 1000));
+        if (tripStartTime) {
+          setElapsedTime(Math.floor((Date.now() - tripStartTime) / 1000));
+        }
       }, 1000);
     } else {
-      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     }
-    return () => { if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; } };
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, [status, tripStartTime]);
+
+  // ============================================
+  // NETTOYAGE GPS
+  // ============================================
 
   const stopGPS = () => {
     if (watchIdRef.current !== null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
+      console.log("GPS arrêté correctement");
     }
   };
 
-  const formatTime = (s: number) => {
-    const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  // ============================================
+  // FORMATAGE
+  // ============================================
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
     if (h > 0) return `${h}h ${m}m`;
-    if (m > 0) return `${m}m ${sec}s`;
-    return `${sec}s`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
   };
 
-  const formatSpeed = (s: number | null) => {
-    if (s === null || s < 0) return "--";
-    return `${(s * 3.6).toFixed(0)} km/h`;
+  const formatSpeed = (speed: number | null) => {
+    if (speed === null || speed < 0) return "--";
+    const kmh = speed * 3.6;
+    return `${kmh.toFixed(0)} km/h`;
   };
+
+  // ============================================
+  // DÉMARRER ENREGISTREMENT
+  // ============================================
 
   useEffect(() => {
-    if (status === "recording" && destination) startRecording();
+    if (status === "recording" && destination) {
+      startRecording();
+    }
   }, [status, destination]);
 
   const startRecording = () => {
-    if (!navigator.geolocation) { setError("Géolocalisation indisponible."); return; }
+    if (!navigator.geolocation) {
+      setError("La géolocalisation n'est pas disponible.");
+      return;
+    }
+
     stopGPS();
     setError("");
     setPoints([]);
@@ -126,15 +175,16 @@ export default function GpsRecorder({
     setTripStartTime(Date.now());
 
     const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
+      (position) => {
         const newPoint: GPSPoint = {
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-          accuracy: pos.coords.accuracy,
-          speed: pos.coords.speed,
-          timestamp: pos.timestamp,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          accuracy: position.coords.accuracy,
+          speed: position.coords.speed,
+          timestamp: position.timestamp,
         };
-        setCurrentSpeed(pos.coords.speed);
+
+        setCurrentSpeed(position.coords.speed);
         onLivePositionChange(newPoint);
 
         if (newPoint.accuracy > maxAccuracy) {
@@ -150,53 +200,87 @@ export default function GpsRecorder({
           return;
         }
 
-        if (detectSpike(lastPointRef.current, newPoint)) return;
+        if (detectSpike(lastPointRef.current, newPoint)) {
+          return;
+        }
 
-        const R = 6371000;
-        const dLat = (newPoint.latitude - lastPointRef.current.latitude) * Math.PI / 180;
-        const dLon = (newPoint.longitude - lastPointRef.current.longitude) * Math.PI / 180;
-        const a = Math.sin(dLat/2)**2 + Math.cos(lastPointRef.current.latitude * Math.PI/180) * Math.cos(newPoint.latitude * Math.PI/180) * Math.sin(dLon/2)**2;
-        const dist = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
+        const distance = calculateDistance(
+          lastPointRef.current.latitude,
+          lastPointRef.current.longitude,
+          newPoint.latitude,
+          newPoint.longitude
+        );
 
-        if (dist < minDistance) return;
+        if (distance < minDistance) {
+          return;
+        }
 
-        setPoints((prev) => {
-          const updated = [...prev, newPoint];
-          onPointsChange(updated);
-          if (updated.length % 10 === 0) setStops(detectStops(updated));
-          return updated;
+        setPoints((previousPoints) => {
+          const updatedPoints = [...previousPoints, newPoint];
+          onPointsChange(updatedPoints);
+          
+          if (updatedPoints.length % 10 === 0) {
+            const detectedStops = detectStops(updatedPoints);
+            setStops(detectedStops);
+          }
+          
+          return updatedPoints;
         });
 
-        setTotalDistance(d => d + dist);
+        setTotalDistance((previousDistance) => previousDistance + distance);
         lastPointRef.current = newPoint;
         setGpsStatus("Enregistrement");
       },
-      (err) => {
-        console.error("GPS Error:", err);
-        setError("Erreur GPS.");
+
+      (gpsError) => {
+        console.error("Erreur GPS :", gpsError);
+        if (gpsError.code === 1) {
+          setError("Autorisez la localisation.");
+        } else {
+          setError("Erreur GPS.");
+        }
         setGpsStatus("Erreur");
       },
-      { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 }
+
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 15000,
+      }
     );
+
     watchIdRef.current = watchId;
   };
 
+  // ============================================
+  // SAUVEGARDE AVEC PRIX
+  // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
-    if (points.length === 0) { setError("Aucun point GPS enregistré"); return; }
+    if (points.length === 0) {
+      setError("Aucun point GPS enregistré");
+      return;
+    }
+
     try {
       const detectedStops = await detectStops(points);
+      
       let endName = endPointName;
       if (!endName && detectedStops.length > 0) {
-        const last = detectedStops[detectedStops.length - 1];
-        endName = await reverseGeocode(last.coordinates[0], last.coordinates[1]);
+        const lastStop = detectedStops[detectedStops.length - 1];
+        endName = await reverseGeocode(
+          lastStop.coordinates[0],
+          lastStop.coordinates[1]
+        );
       }
-      const avgSpeed = points.filter(p => p.speed !== null).map(p => p.speed!).reduce((a,b) => a+b, 0) / points.filter(p => p.speed !== null).length * 3.6 || 0;
-      const maxSpeed = Math.max(...points.filter(p => p.speed !== null).map(p => p.speed!)) * 3.6 || 0;
-      let movingTime = 0;
-      for (let i = 1; i < points.length; i++) {
-        if ((points[i].speed || 0) > 0.5) movingTime += (points[i].timestamp - points[i-1].timestamp) / 1000;
-      }
+
+      const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
+      const endPoint = detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null;
+      const averageSpeed = calculateAverageSpeed(points);
+      const maxSpeed = calculateMaxSpeed(points);
+      const movingTime = calculateMovingTime(points);
+      const stoppedTime = elapsedTime - movingTime;
       const quality = calculateQuality(points);
+      
       const distanceKm = totalDistance / 1000;
       const pricePerKm = distanceKm > 0 ? tripPrice / distanceKm : 0;
 
@@ -207,15 +291,15 @@ export default function GpsRecorder({
         startPointName: startPointName || "Départ inconnu",
         endPointName: endName || "Arrivée inconnue",
         points: points,
-        startPoint: detectedStops.length > 0 ? detectedStops[0] : null,
-        endPoint: detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null,
+        startPoint: startPoint,
+        endPoint: endPoint,
         stops: detectedStops,
         totalDistance: totalDistance,
         duration: elapsedTime,
-        averageSpeed: avgSpeed,
+        averageSpeed: averageSpeed,
         maxSpeed: maxSpeed,
         movingTime: movingTime,
-        stoppedTime: elapsedTime - movingTime,
+        stoppedTime: stoppedTime > 0 ? stoppedTime : 0,
         date: new Date().toISOString(),
         quality: quality,
         isComplete: true,
@@ -224,31 +308,74 @@ export default function GpsRecorder({
         notes: "",
       };
 
+      // ===== SAUVEGARDE LOCALE =====
       saveTrip(tripData);
       setTripSaved(true);
       setShowPriceInput(false);
+
+      // ===== ENVOI VERS SUPABASE =====
+      try {
+        const result = await saveTripToSupabase(tripData);
+        if (result.success) {
+          console.log('✅ Trajet synchronisé avec Supabase');
+        } else {
+          console.warn('⚠️ Échec de la synchronisation Supabase:', result.error);
+        }
+      } catch (error) {
+        console.warn('⚠️ Erreur lors de l\'envoi à Supabase:', error);
+      }
+
       setStatus("paused");
       setGpsStatus("Terminé");
       setCurrentSpeed(null);
-      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
-    } catch (e) {
-      console.error("Sauvegarde:", e);
-      setError("Erreur sauvegarde");
+
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+
+    } catch (error) {
+      console.error("Erreur sauvegarde:", error);
+      setError("Erreur lors de la sauvegarde");
     }
   };
 
+  // ============================================
+  // TERMINER LE TRAJET
+  // ============================================
   const stopRecording = () => {
     stopGPS();
-    if (points.length === 0) { setError("Aucun point GPS."); setStatus("idle"); return; }
-    const p = price && parseInt(price) > 0 ? parseInt(price) : 0;
-    p > 0 ? saveTripWithPrice(p) : setShowPriceInput(true);
+
+    if (points.length === 0) {
+      setError("Aucun point GPS enregistré.");
+      setStatus("idle");
+      return;
+    }
+
+    const priceValue = price && parseInt(price) > 0 ? parseInt(price) : 0;
+
+    if (priceValue > 0) {
+      saveTripWithPrice(priceValue);
+    } else {
+      setShowPriceInput(true);
+    }
   };
 
+  // ============================================
+  // VALIDATION PRIX
+  // ============================================
   const handlePriceSubmit = () => {
-    const p = parseInt(finalPrice);
-    p > 0 ? saveTripWithPrice(p) : setError("Prix valide");
+    const priceValue = parseInt(finalPrice);
+    if (priceValue > 0) {
+      saveTripWithPrice(priceValue);
+    } else {
+      setError("Veuillez saisir un prix valide");
+    }
   };
 
+  // ============================================
+  // RESET
+  // ============================================
   useEffect(() => {
     if (status === "idle") {
       stopGPS();
@@ -266,12 +393,24 @@ export default function GpsRecorder({
       onLivePositionChange(null);
       setTripStartTime(null);
       setElapsedTime(0);
-      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
     }
   }, [status]);
 
+  // ============================================
+  // NETTOYAGE
+  // ============================================
   useEffect(() => {
-    return () => { stopGPS(); if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; } };
+    return () => {
+      stopGPS();
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
   }, []);
 
   const isRecording = status === "recording";
