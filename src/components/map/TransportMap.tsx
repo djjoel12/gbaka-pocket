@@ -60,7 +60,7 @@ function createIcon(color: string, label: string = "", isPulsing: boolean = fals
 
 const startIcon = createIcon("#22C55E", "🏁");
 const endIcon = createIcon("#EF4444", "🏁");
-const liveIcon = createIcon("#ffffff", "", true);
+const liveIcon = createIcon("#2563EB", "", true);
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -93,6 +93,13 @@ export default function TransportMap({
     }
   }, [onMapReady]);
 
+  // Style pour les labels blancs sur la carte
+  const tileLayerStyle = {
+    color: "#ffffff",
+    weight: 2,
+    opacity: 0.8,
+  };
+
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
@@ -100,25 +107,54 @@ export default function TransportMap({
         zoom={13}
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
-        style={{ background: "#0a0e17" }}
+        style={{ background: "#e8ecf1" }}
         ref={mapRef}
       >
+        {/* ===== FOND DE CARTE AVEC LABELS BLANCS ===== */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
-        {/* ===== TRACÉ ===== */}
+        {/* ===== TRACÉ - BLEU PROFESSIONNEL ===== */}
         {routePositions.length > 1 && (
           <>
-            <Polyline positions={routePositions} color="#ffffff" weight={20} opacity={0.08} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#ffffff" weight={10} opacity={0.15} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#ffffff" weight={5} opacity={0.7} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#ffffff" weight={2} opacity={0.4} lineJoin="round" lineCap="round" dashArray="10 14" />
+            <Polyline
+              positions={routePositions}
+              color="#2563EB"
+              weight={20}
+              opacity={0.12}
+              lineJoin="round"
+              lineCap="round"
+            />
+            <Polyline
+              positions={routePositions}
+              color="#2563EB"
+              weight={10}
+              opacity={0.2}
+              lineJoin="round"
+              lineCap="round"
+            />
+            <Polyline
+              positions={routePositions}
+              color="#2563EB"
+              weight={5}
+              opacity={0.85}
+              lineJoin="round"
+              lineCap="round"
+            />
+            <Polyline
+              positions={routePositions}
+              color="#60A5FA"
+              weight={2}
+              opacity={0.6}
+              lineJoin="round"
+              lineCap="round"
+              dashArray="10 14"
+            />
           </>
         )}
 
-        {/* ===== MARQUEURS ===== */}
         {firstPoint && <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />}
         {lastPoint && points.length > 1 && <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />}
 
@@ -128,11 +164,16 @@ export default function TransportMap({
             <Circle
               center={[livePosition.latitude, livePosition.longitude]}
               radius={livePosition.accuracy}
-              pathOptions={{ color: "#ffffff", fillColor: "#ffffff", fillOpacity: 0.05, weight: 1 }}
+              pathOptions={{
+                color: "#2563EB",
+                fillColor: "#2563EB",
+                fillOpacity: 0.08,
+                weight: 1.5,
+              }}
             />
           </>
         )}
       </MapContainer>
     </div>
   );
-      }
+}
