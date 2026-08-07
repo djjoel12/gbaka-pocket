@@ -320,13 +320,15 @@ export default function GpsRecorder({
       try {
         const result = await saveTripToSupabase(tripData);
         if (result.success) {
-          setSyncStatus("success");
-          setSyncMessage("✅ Trajet synchronisé !");
-          console.log('✅ Trajet synchronisé avec Supabase');
-        } else {
-          setSyncStatus("error");
-          setSyncMessage(`❌ ${result.error?.message || "Erreur inconnue"}`);
-          console.warn('⚠️ Échec synchronisation Supabase:', result.error);
+  setSyncStatus("success");
+  setSyncMessage("✅ Trajet synchronisé !");
+} else {
+  setSyncStatus("error");
+  // Vérifier si error est un objet avec une propriété message
+  const errorMessage = typeof result.error === 'object' && result.error !== null && 'message' in result.error
+    ? result.error.message
+    : result.error?.toString() || "Erreur inconnue";
+  setSyncMessage(`❌ ${errorMessage}`);
         }
       } catch (error: any) {
         setSyncStatus("error");
