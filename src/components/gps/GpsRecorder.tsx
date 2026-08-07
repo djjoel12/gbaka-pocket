@@ -81,6 +81,8 @@ export default function GpsRecorder({
   const [stops, setStops] = useState<StopPoint[]>([]);
   const [showPriceInput, setShowPriceInput] = useState(false);
   const [finalPrice, setFinalPrice] = useState(price || "");
+  const [syncStatus, setSyncStatus] = useState<"idle" | "success" | "error">("idle");
+  const [syncMessage, setSyncMessage] = useState("");
 
   const watchIdRef = useRef<number | null>(null);
   const lastPointRef = useRef<GPSPoint | null>(null);
@@ -169,6 +171,7 @@ export default function GpsRecorder({
     setTripSaved(false);
     setStops([]);
     setShowPriceInput(false);
+    setSyncStatus("idle");
     lastPointRef.current = null;
     onLivePositionChange(null);
     setGpsStatus("Recherche GPS...");
@@ -253,7 +256,7 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // SAUVEGARDE AVEC PRIX - FONCTION CORRIGÉE
+  // SAUVEGARDE AVEC PRIX
   // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
@@ -313,18 +316,21 @@ export default function GpsRecorder({
       setTripSaved(true);
       setShowPriceInput(false);
 
-      console.log('🔍 TEST: Envoi vers Supabase...');
-      
       // ===== ENVOI VERS SUPABASE =====
       try {
         const result = await saveTripToSupabase(tripData);
-        console.log('🔍 Résultat Supabase:', result);
         if (result.success) {
+          setSyncStatus("success");
+          setSyncMessage("✅ Trajet synchronisé !");
           console.log('✅ Trajet synchronisé avec Supabase');
         } else {
-          console.warn('⚠️ Échec de la synchronisation Supabase:', result.error);
+          setSyncStatus("error");
+          setSyncMessage(`❌ ${result.error?.message || "Erreur inconnue"}`);
+          console.warn('⚠️ Échec synchronisation Supabase:', result.error);
         }
-      } catch (error) {
+      } catch (error: any) {
+        setSyncStatus("error");
+        setSyncMessage(`❌ ${error.message || "Erreur inconnue"}`);
         console.warn('⚠️ Erreur lors de l\'envoi à Supabase:', error);
       }
 
@@ -391,6 +397,8 @@ export default function GpsRecorder({
       setStops([]);
       setShowPriceInput(false);
       setFinalPrice("");
+      setSyncStatus("idle");
+      setSyncMessage("");
       lastPointRef.current = null;
       onPointsChange([]);
       onLivePositionChange(null);
@@ -423,74 +431,82 @@ export default function GpsRecorder({
       {isRecording && !showPriceInput && (
         <div className="w-full">
           <div className="grid grid-cols-3 gap-2 w-full">
-            <div className="bg-white/5 border border-white/10 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Points</p>
-              <p className="text-lg font-bold text-white">{points.length}</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Points</p>
+              <p className="text-lg font-bold text-gray-800">{points.length}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Distance</p>
-              <p className="text-lg font-bold text-white">{totalDistance > 0 ? `${(totalDistance/1000).toFixed(1)} km` : "--"}</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Distance</p>
+              <p className="text-lg font-bold text-gray-800">{totalDistance > 0 ? `${(totalDistance/1000).toFixed(1)} km` : "--"}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Vitesse</p>
-              <p className="text-lg font-bold text-white">{formatSpeed(currentSpeed)}</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Vitesse</p>
+              <p className="text-lg font-bold text-gray-800">{formatSpeed(currentSpeed)}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Temps</p>
-              <p className="text-lg font-bold text-white">{formatTime(elapsedTime)}</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Temps</p>
+              <p className="text-lg font-bold text-gray-800">{formatTime(elapsedTime)}</p>
             </div>
-            <div className="bg-white/5 border border-white/10 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Arrêts</p>
-              <p className="text-lg font-bold text-white">{stops.length}</p>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Arrêts</p>
+              <p className="text-lg font-bold text-gray-800">{stops.length}</p>
             </div>
-            <div className="bg-white/5 border border-green-500/20 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-white/40 font-medium uppercase">Qualité</p>
-              <p className="text-lg font-bold text-green-500">{points.length > 10 ? `${calculateQuality(points)}%` : "--"}</p>
+            <div className="bg-gray-50 border border-green-200 rounded-lg p-2 text-center">
+              <p className="text-[10px] text-gray-400 font-medium uppercase">Qualité</p>
+              <p className="text-lg font-bold text-green-600">{points.length > 10 ? `${calculateQuality(points)}%` : "--"}</p>
             </div>
           </div>
           <div className="flex items-center justify-between w-full mt-2">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] text-white/40">🛰️</span>
-              <span className="text-[10px] text-white/50">{gpsStatus}</span>
+              <span className="text-[10px] text-gray-400">🛰️</span>
+              <span className="text-[10px] text-gray-500">{gpsStatus}</span>
             </div>
-            <button
-              onClick={stopRecording}
-              className="rounded-lg bg-red-600 border-2 border-red-400 px-5 py-2 text-sm font-bold text-white hover:bg-red-700 hover:scale-105 transition"
-            >
-              ⏹ Terminer
-            </button>
-            {tripSaved && <span className="text-sm text-green-500 font-bold">✅</span>}
+            <div className="flex items-center gap-3">
+              {syncStatus === "success" && (
+                <span className="text-[10px] text-green-600 font-medium">✅ {syncMessage}</span>
+              )}
+              {syncStatus === "error" && (
+                <span className="text-[10px] text-red-500 font-medium">❌ {syncMessage}</span>
+              )}
+              <button
+                onClick={stopRecording}
+                className="rounded-lg bg-red-600 border-2 border-red-400 px-5 py-2 text-sm font-bold text-white hover:bg-red-700 transition"
+              >
+                ⏹ Terminer
+              </button>
+              {tripSaved && <span className="text-sm text-green-600 font-bold">✅</span>}
+            </div>
           </div>
         </div>
       )}
 
       {showPriceInput && (
-        <div className="flex flex-wrap items-center gap-3 p-3 bg-white/5 rounded-lg border border-white/10 w-full">
-          <span className="text-sm font-bold text-white">💰 Prix ?</span>
+        <div className="flex flex-wrap items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 w-full">
+          <span className="text-sm font-bold text-gray-800">💰 Prix ?</span>
           <input
             type="number"
             value={finalPrice}
             onChange={(e) => setFinalPrice(e.target.value)}
             placeholder="250"
-            className="w-24 bg-white/10 border border-white/15 rounded-lg px-3 py-2 text-base text-white text-center outline-none focus:border-white/30"
+            className="w-24 bg-white border border-gray-300 rounded-lg px-3 py-2 text-base text-gray-700 text-center outline-none focus:border-blue-400"
             autoFocus
           />
           <button
             onClick={handlePriceSubmit}
             disabled={!finalPrice || parseInt(finalPrice) <= 0}
-            className="rounded-lg bg-white px-4 py-2 text-sm font-bold text-black hover:scale-105 disabled:opacity-40 transition"
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-40 transition"
           >
             ✅ Sauvegarder
           </button>
           <button
             onClick={() => { setShowPriceInput(false); setStatus("paused"); setGpsStatus("Terminé"); }}
-            className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white/40 hover:bg-white/5 transition"
+            className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 transition"
           >
             Passer
           </button>
-          {error && <span className="text-sm text-red-400">{error}</span>}
+          {error && <span className="text-sm text-red-500">{error}</span>}
         </div>
       )}
     </>
   );
-                         }
+      }
