@@ -5,18 +5,14 @@ export const saveTripToSupabase = async (tripData: TripData) => {
   console.log('📤 Envoi vers Supabase...')
   
   try {
-    // Vérifier que tripData contient des points
     if (!tripData.points || tripData.points.length === 0) {
       console.warn('⚠️ Pas de points GPS à envoyer')
       return { success: false, error: 'Pas de points' }
     }
 
-    // Construire la géométrie LINESTRING
     const routeString = tripData.points
       .map(p => `${p.longitude} ${p.latitude}`)
       .join(',')
-
-    console.log(`📤 Envoi de ${tripData.points.length} points...`)
 
     const { data, error } = await supabase
       .from('trips')
