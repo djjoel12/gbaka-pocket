@@ -304,8 +304,8 @@ export default function Home() {
                   price={price}
                   onPointsChange={setPoints}
                   onLivePositionChange={setLivePosition}
-                  minDistance={5}
-                  maxAccuracy={50}
+                  minDistance={2}
+                  maxAccuracy={150}
                 />
               </div>
             )}
