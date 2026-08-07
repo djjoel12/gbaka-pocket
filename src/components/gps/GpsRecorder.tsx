@@ -253,7 +253,7 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // SAUVEGARDE AVEC PRIX
+  // SAUVEGARDE AVEC PRIX - FONCTION CORRIGÉE
   // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
@@ -313,9 +313,12 @@ export default function GpsRecorder({
       setTripSaved(true);
       setShowPriceInput(false);
 
+      console.log('🔍 TEST: Envoi vers Supabase...');
+      
       // ===== ENVOI VERS SUPABASE =====
       try {
         const result = await saveTripToSupabase(tripData);
+        console.log('🔍 Résultat Supabase:', result);
         if (result.success) {
           console.log('✅ Trajet synchronisé avec Supabase');
         } else {
@@ -490,4 +493,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-}
+                         }
