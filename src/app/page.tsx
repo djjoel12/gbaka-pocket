@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
+import SupabaseStatus from "@/components/SupabaseStatus";
 import type { LineInfo } from "@/types/trip";
 import { reverseGeocode } from "@/utils/tripUtils";
 
@@ -341,7 +342,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* ===== LIGNE 3 : Légende ===== */}
+          {/* ===== LIGNE 3 : Légende + SupabaseStatus ===== */}
           <div className="flex items-center justify-between border-t border-white/10 pt-2">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1.5">
@@ -363,12 +364,15 @@ export default function Home() {
                 </div>
               )}
             </div>
-            {status === "recording" && (
-              <div className="text-xs text-white/30">📊 {points.length} pts</div>
-            )}
+            <div className="flex items-center gap-3">
+              <SupabaseStatus />
+              {status === "recording" && (
+                <div className="text-xs text-white/30">📊 {points.length} pts</div>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+        }
