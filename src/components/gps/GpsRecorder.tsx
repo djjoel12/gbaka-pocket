@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-import type { GPSPoint, TripData, LineInfo, StopPoint } from "@/types/trip";
+import type { GPSPoint, TripData, StopPoint } from "@/types/trip";
 import {
   calculateDistance,
   detectStops,
@@ -20,6 +20,7 @@ import {
   reverseGeocode,
 } from "@/utils/tripUtils";
 import { saveTripToSupabase } from "@/utils/supabaseUtils";
+import { convertToGbakaFormat } from "@/utils/tripConverter";
 
 type GpsRecorderProps = {
   status: "idle" | "recording" | "paused";
@@ -27,7 +28,14 @@ type GpsRecorderProps = {
   onPointsChange: (points: GPSPoint[]) => void;
   onLivePositionChange: (point: GPSPoint | null) => void;
   destination?: string;
-  lineInfo?: LineInfo | null;
+  lineInfo?: {
+    id: string;
+    name: string;
+    number: string;
+    type: "gbaka" | "woro-woro" | "bus" | "taxi";
+    color: string;
+    estimatedPrice: number;
+  } | null;
   startPointName?: string;
   endPointName?: string;
   price?: string;
@@ -172,6 +180,7 @@ export default function GpsRecorder({
     setStops([]);
     setShowPriceInput(false);
     setSyncStatus("idle");
+    setSyncMessage("");
     lastPointRef.current = null;
     onLivePositionChange(null);
     setGpsStatus("Recherche GPS...");
@@ -256,7 +265,7 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // SAUVEGARDE AVEC PRIX
+  // SAUVEGARDE AVEC PRIX - CONVERSION GBAKA FORMAT
   // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
@@ -265,8 +274,10 @@ export default function GpsRecorder({
     }
 
     try {
+      // 1. Détection des arrêts
       const detectedStops = await detectStops(points);
       
+      // 2. Géocodage du point d'arrivée
       let endName = endPointName;
       if (!endName && detectedStops.length > 0) {
         const lastStop = detectedStops[detectedStops.length - 1];
@@ -276,59 +287,86 @@ export default function GpsRecorder({
         );
       }
 
-      const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
-      const endPoint = detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null;
+      // 3. Calcul des statistiques
       const averageSpeed = calculateAverageSpeed(points);
       const maxSpeed = calculateMaxSpeed(points);
-      const movingTime = calculateMovingTime(points);
-      const stoppedTime = elapsedTime - movingTime;
       const quality = calculateQuality(points);
       
-      const distanceKm = totalDistance / 1000;
-      const pricePerKm = distanceKm > 0 ? tripPrice / distanceKm : 0;
+      const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
+      const endPoint = detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null;
 
-      const tripData: TripData = {
-        id: Date.now().toString(),
-        line: lineInfo || null,
-        destination: destination || "Trajet",
-        startPointName: startPointName || "Départ inconnu",
-        endPointName: endName || "Arrivée inconnue",
-        points: points,
-        startPoint: startPoint,
-        endPoint: endPoint,
-        stops: detectedStops,
-        totalDistance: totalDistance,
-        duration: elapsedTime,
-        averageSpeed: averageSpeed,
-        maxSpeed: maxSpeed,
-        movingTime: movingTime,
-        stoppedTime: stoppedTime > 0 ? stoppedTime : 0,
-        date: new Date().toISOString(),
-        quality: quality,
-        isComplete: true,
-        price: tripPrice,
-        pricePerKm: pricePerKm,
-        notes: "",
-      };
+      // 4. Conversion au format Gbaka Pocket (JSON cible)
+      const tripData = convertToGbakaFormat(
+        points,                         // points GPS
+        detectedStops,                  // arrêts détectés
+        destination || "Trajet",        // destination
+        startPointName || "Départ inconnu", // nom du départ
+        endName || "Arrivée inconnue",  // nom de l'arrivée
+        tripPrice,                      // prix
+        totalDistance,                  // distance en mètres
+        elapsedTime,                    // durée en secondes
+        averageSpeed,                   // vitesse moyenne en km/h
+        maxSpeed,                       // vitesse max en km/h
+        quality,                        // qualité
+        lineInfo?.name || `${startPointName} → ${destination}`, // nom de la ligne
+        lineInfo?.type || "gbaka"       // type
+      );
+
+      console.log('📦 Données converties au format Gbaka:');
+      console.log(`📍 Ligne: ${tripData.direction}`);
+      console.log(`📏 Distance: ${tripData.distance} km`);
+      console.log(`💰 Tarif: ${tripData.fare} FCFA`);
 
       // ===== SAUVEGARDE LOCALE =====
-      saveTrip(tripData);
+      // Sauvegarder au format ancien pour compatibilité
+      const oldTripData: any = {
+        id: tripData.id,
+        line: {
+          name: tripData.direction,
+          type: tripData.type,
+          color: "#2563EB",
+        },
+        destination: tripData.end.name,
+        startPointName: tripData.start.name,
+        endPointName: tripData.end.name,
+        points: tripData.points,
+        startPoint: null,
+        endPoint: null,
+        stops: tripData.stops,
+        totalDistance: tripData.distance * 1000,
+        duration: tripData.duration,
+        averageSpeed: tripData.averageSpeed,
+        maxSpeed: tripData.maxSpeed,
+        movingTime: 0,
+        stoppedTime: 0,
+        date: tripData.startedAt,
+        quality: tripData.quality,
+        isComplete: true,
+        price: tripData.fare,
+        pricePerKm: tripData.distance > 0 ? tripData.fare / tripData.distance : 0,
+        notes: "",
+      };
+      
+      saveTrip(oldTripData);
       setTripSaved(true);
       setShowPriceInput(false);
+
+      console.log('💾 Trajet sauvegardé localement');
 
       // ===== ENVOI VERS SUPABASE =====
       try {
         const result = await saveTripToSupabase(tripData);
         if (result.success) {
-  setSyncStatus("success");
-  setSyncMessage("✅ Trajet synchronisé !");
-} else {
-  setSyncStatus("error");
-  // Vérifier si error est un objet avec une propriété message
-  const errorMessage = typeof result.error === 'object' && result.error !== null && 'message' in result.error
-    ? result.error.message
-    : result.error?.toString() || "Erreur inconnue";
-  setSyncMessage(`❌ ${errorMessage}`);
+          setSyncStatus("success");
+          setSyncMessage("✅ Trajet synchronisé !");
+          console.log('✅ Trajet synchronisé avec Supabase');
+        } else {
+          setSyncStatus("error");
+          const errorMessage = typeof result.error === 'object' && result.error !== null && 'message' in result.error
+            ? result.error.message
+            : result.error?.toString() || "Erreur inconnue";
+          setSyncMessage(`❌ ${errorMessage}`);
+          console.warn('⚠️ Échec synchronisation Supabase:', result.error);
         }
       } catch (error: any) {
         setSyncStatus("error");
@@ -511,4 +549,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-      }
+                      }
