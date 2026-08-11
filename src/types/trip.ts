@@ -1,3 +1,5 @@
+// src/types/trip.ts
+
 export type GPSPoint = {
   latitude: number;
   longitude: number;
@@ -17,8 +19,8 @@ export type StopPoint = {
 };
 
 export type LineInfo = {
-  id: string;
-  name: string;
+  id: string;           // lineId personnalisé
+  name: string;         // direction
   number: string;
   type: "gbaka" | "woro-woro" | "bus" | "taxi";
   color: string;
@@ -26,25 +28,49 @@ export type LineInfo = {
 };
 
 export type TripData = {
+  // Identifiants
   id: string;
-  line: LineInfo | null;
-  destination: string;
-  startPointName: string;
-  endPointName: string;
+  lineId: string;               // ✅ nouveau : ex: "GES-ADJ-01"
+  
+  // Ligne
+  type: "gbaka" | "woro-woro" | "bus" | "taxi";
+  direction: string;            // ✅ nouveau : ex: "Gesco → Adjamé"
+  
+  // Départ
+  start: {
+    name: string;
+    latitude: number;           // ✅ nouveau
+    longitude: number;          // ✅ nouveau
+  };
+  
+  // Arrivée
+  end: {
+    name: string;
+    latitude: number;           // ✅ nouveau
+    longitude: number;          // ✅ nouveau
+  };
+  
+  // Tarif
+  fare: number;                 // ✅ nouveau (remplace price)
+  
+  // Statistiques
+  distance: number;             // ✅ en km
+  duration: number;             // ✅ en secondes
+  averageSpeed: number;         // ✅ en km/h
+  maxSpeed: number;             // ✅ en km/h
+  
+  // Données brutes
   points: GPSPoint[];
-  startPoint: StopPoint | null;
-  endPoint: StopPoint | null;
   stops: StopPoint[];
-  totalDistance: number;
-  duration: number;
-  averageSpeed: number;
-  maxSpeed: number;
-  movingTime: number;
-  stoppedTime: number;
-  date: string;
+  
+  // Temps
+  startedAt: string;            // ✅ nouveau
+  endedAt: string;              // ✅ nouveau
+  
+  // Qualité
   quality: number;
+  
+  // Métadonnées
   isComplete: boolean;
-  price: number;
-  pricePerKm: number;
   notes?: string;
 };
