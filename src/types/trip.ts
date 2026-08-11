@@ -1,5 +1,3 @@
-// src/types/trip.ts
-
 export type GPSPoint = {
   latitude: number;
   longitude: number;
@@ -10,17 +8,19 @@ export type GPSPoint = {
 
 export type StopPoint = {
   id: string;
-  name: string;
+  name: string;                    // Nom saisi par l'utilisateur
   coordinates: [number, number];
   timestamp: number;
   duration: number;
   isStart: boolean;
   isEnd: boolean;
+  isManual?: boolean;              // ✅ TRUE si ajouté manuellement
+  isConfirmed?: boolean;           // ✅ TRUE si confirmé par l'utilisateur
 };
 
 export type LineInfo = {
-  id: string;           // lineId personnalisé
-  name: string;         // direction
+  id: string;
+  name: string;
   number: string;
   type: "gbaka" | "woro-woro" | "bus" | "taxi";
   color: string;
@@ -28,49 +28,30 @@ export type LineInfo = {
 };
 
 export type TripData = {
-  // Identifiants
   id: string;
-  lineId: string;               // ✅ nouveau : ex: "GES-ADJ-01"
-  
-  // Ligne
+  lineId: string;
   type: "gbaka" | "woro-woro" | "bus" | "taxi";
-  direction: string;            // ✅ nouveau : ex: "Gesco → Adjamé"
-  
-  // Départ
+  direction: string;
   start: {
     name: string;
-    latitude: number;           // ✅ nouveau
-    longitude: number;          // ✅ nouveau
+    latitude: number;
+    longitude: number;
   };
-  
-  // Arrivée
   end: {
     name: string;
-    latitude: number;           // ✅ nouveau
-    longitude: number;          // ✅ nouveau
+    latitude: number;
+    longitude: number;
   };
-  
-  // Tarif
-  fare: number;                 // ✅ nouveau (remplace price)
-  
-  // Statistiques
-  distance: number;             // ✅ en km
-  duration: number;             // ✅ en secondes
-  averageSpeed: number;         // ✅ en km/h
-  maxSpeed: number;             // ✅ en km/h
-  
-  // Données brutes
+  fare: number;
+  distance: number;
+  duration: number;
+  averageSpeed: number;
+  maxSpeed: number;
   points: GPSPoint[];
   stops: StopPoint[];
-  
-  // Temps
-  startedAt: string;            // ✅ nouveau
-  endedAt: string;              // ✅ nouveau
-  
-  // Qualité
+  startedAt: string;
+  endedAt: string;
   quality: number;
-  
-  // Métadonnées
   isComplete: boolean;
   notes?: string;
 };
