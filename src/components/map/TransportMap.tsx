@@ -77,7 +77,7 @@ function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number
 }
 
 // ============================================
-// COMPOSANT DE SUIVI FLUIDE (SANS ROTATION)
+// COMPOSANT DE SUIVI FLUIDE
 // ============================================
 
 function MapFollower({ 
@@ -142,25 +142,21 @@ function MapFollower({
   }, [map, onDragStart]);
 
   // ============================================
-  // SUIVI FLUIDE (SANS ROTATION)
+  // SUIVI FLUIDE
   // ============================================
   useEffect(() => {
-    // Ne suivre que si isFollowing est actif et pas d'interaction utilisateur
     if (!isFollowing || isUserInteracting) return;
 
     if (lastPosition && position) {
-      // Animation fluide
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
 
-      // Zoom smooth vers la nouvelle position
       map.flyTo(position, 17, {
         animate: true,
         duration: 1.2,
       });
     } else if (position && !lastPosition) {
-      // Premier positionnement
       map.flyTo(position, 17, {
         animate: true,
         duration: 1.5,
@@ -239,12 +235,6 @@ export default function TransportMap({
     }
   };
 
-  useEffect(() => {
-    if (isRecording && livePosition && isFollowing && !isUserInteracting) {
-      // Le suivi est géré par MapFollower
-    }
-  }, [livePosition, isRecording, isFollowing, isUserInteracting]);
-
   // ============================================
   // RENDU
   // ============================================
@@ -264,7 +254,7 @@ export default function TransportMap({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
-        {/* ===== SUIVI FLUIDE (MODE WAZE SANS ROTATION) ===== */}
+        {/* ===== SUIVI FLUIDE ===== */}
         {livePosition && isRecording && (
           <MapFollower
             position={[livePosition.latitude, livePosition.longitude]}
@@ -345,4 +335,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-            }
+  }
