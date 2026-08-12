@@ -8,6 +8,7 @@ import {
   Circle,
   useMap,
   useMapEvents,
+  Popup,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -61,18 +62,31 @@ const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 
 // ============================================
+// CALCUL DU CAP (BEARING)
+// ============================================
+function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number | null {
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const lat1Rad = lat1 * Math.PI / 180;
+  const lat2Rad = lat2 * Math.PI / 180;
+  
+  const x = Math.sin(dLon) * Math.cos(lat2Rad);
+  const y = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
+  
+  const bearing = (Math.atan2(x, y) * 180 / Math.PI + 360) % 360;
+  return bearing;
+}
+
+// ============================================
 // COMPOSANT DE SUIVI ORIENTÉ (WAZE)
 // ============================================
 
 function MapFollower({ 
   position, 
   isFollowing, 
-  onMapClick,
   onDragStart
 }: { 
   position: [number, number];
   isFollowing: boolean;
-  onMapClick?: () => void;
   onDragStart?: () => void;
 }) {
   const map = useMap();
@@ -81,7 +95,7 @@ function MapFollower({
   const animationRef = useRef<any>(null);
 
   // ============================================
-  // DÉTECTION DES INTERACTIONS UTILISATEUR
+  // DÉTECTION DES INTERACTIONS UTILISATEUR (SOURIS)
   // ============================================
   useMapEvents({
     dragstart() {
@@ -98,17 +112,37 @@ function MapFollower({
     mouseup() {
       setIsUserInteracting(false);
     },
-    touchstart() {
-      setIsUserInteracting(true);
-      if (onDragStart) onDragStart();
-    },
-    touchend() {
-      setIsUserInteracting(false);
-    },
   });
 
   // ============================================
-  // SUIVI ORIENTÉ
+  // DÉTECTION DES INTERACTIONS UTILISATEUR (TACTILE)
+  // ============================================
+  useEffect(() => {
+    const mapInstance = map;
+    if (!mapInstance) return;
+
+    const container = mapInstance.getContainer();
+
+    const handleTouchStart = () => {
+      setIsUserInteracting(true);
+      if (onDragStart) onDragStart();
+    };
+
+    const handleTouchEnd = () => {
+      setIsUserInteracting(false);
+    };
+
+    container.addEventListener('touchstart', handleTouchStart);
+    container.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [map, onDragStart]);
+
+  // ============================================
+  // SUIVI ORIENTÉ AVEC ROTATION
   // ============================================
   useEffect(() => {
     // Ne suivre que si isFollowing est actif et pas d'interaction utilisateur
@@ -136,7 +170,12 @@ function MapFollower({
 
       // Rotation de la carte pour suivre la direction
       if (bearing !== null && !isNaN(bearing)) {
-        map.setBearing(bearing, { animate: true, duration: 0.8 });
+        try {
+          map.setBearing(bearing, { animate: true, duration: 0.8 });
+        } catch (e) {
+          // Certaines versions de Leaflet ne supportent pas setBearing
+          console.log('setBearing non supporté');
+        }
       }
     } else if (position && !lastPosition) {
       // Premier positionnement
@@ -144,28 +183,17 @@ function MapFollower({
         animate: true,
         duration: 1.5,
       });
-      map.setBearing(0, { animate: true, duration: 0.5 });
+      try {
+        map.setBearing(0, { animate: true, duration: 0.5 });
+      } catch (e) {
+        // Ignorer si non supporté
+      }
     }
 
     setLastPosition(position);
   }, [position, map, isFollowing, isUserInteracting]);
 
   return null;
-}
-
-// ============================================
-// CALCUL DU CAP (BEARING)
-// ============================================
-function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number | null {
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const lat1Rad = lat1 * Math.PI / 180;
-  const lat2Rad = lat2 * Math.PI / 180;
-  
-  const x = Math.sin(dLon) * Math.cos(lat2Rad);
-  const y = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
-  
-  const bearing = (Math.atan2(x, y) * 180 / Math.PI + 360) % 360;
-  return bearing;
 }
 
 // ============================================
@@ -195,6 +223,20 @@ export default function TransportMap({
   const mapRef = useRef<any>(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isUserInteracting, setIsUserInteracting] = useState(false);
+
+  // ============================================
+  // EXPOSER LES FONCTIONS AU PARENT
+  // ============================================
+  useEffect(() => {
+    if (mapRef.current && onMapReady) {
+      onMapReady({
+        ...mapRef.current,
+        recenter: handleRecenter,
+        toggleFollow: () => setIsFollowing(prev => !prev),
+        isFollowing: () => isFollowing,
+      });
+    }
+  }, [onMapReady, isFollowing]);
 
   // ============================================
   // GESTION DU SUIVI
@@ -227,19 +269,8 @@ export default function TransportMap({
   }, [livePosition, isRecording, isFollowing, isUserInteracting]);
 
   // ============================================
-  // EXPOSER LA FONCTION DE RECENTRAGE
+  // RENDU
   // ============================================
-  useEffect(() => {
-    if (mapRef.current && onMapReady) {
-      onMapReady({
-        ...mapRef.current,
-        recenter: handleRecenter,
-        isFollowing: () => isFollowing,
-        toggleFollow: () => setIsFollowing(prev => !prev),
-      });
-    }
-  }, [onMapReady, isFollowing]);
-
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
@@ -250,14 +281,13 @@ export default function TransportMap({
         style={{ background: "#e8ecf1" }}
         ref={mapRef}
         zoomControl={false}
-        bearing={0}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
-        {/* ===== SUIVI ORIENTÉ ===== */}
+        {/* ===== SUIVI ORIENTÉ (MODE WAZE) ===== */}
         {livePosition && isRecording && (
           <MapFollower
             position={[livePosition.latitude, livePosition.longitude]}
@@ -266,7 +296,7 @@ export default function TransportMap({
           />
         )}
 
-        {/* ===== TRACÉ ===== */}
+        {/* ===== TRACÉ GPS ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline positions={routePositions} color="#2563EB" weight={20} opacity={0.12} lineJoin="round" lineCap="round" />
@@ -276,11 +306,25 @@ export default function TransportMap({
           </>
         )}
 
-        {/* ===== MARQUEURS ===== */}
-        {firstPoint && <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon} />}
-        {lastPoint && points.length > 1 && <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon} />}
+        {/* ===== POINT DE DÉPART ===== */}
+        {firstPoint && (
+          <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon}>
+            <Popup>
+              <div className="text-sm font-bold text-green-600">🏁 Départ</div>
+            </Popup>
+          </Marker>
+        )}
 
-        {/* ===== ARRÊTS ===== */}
+        {/* ===== POINT D'ARRIVÉE ===== */}
+        {lastPoint && points.length > 1 && (
+          <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon}>
+            <Popup>
+              <div className="text-sm font-bold text-red-600">🏁 Arrivée</div>
+            </Popup>
+          </Marker>
+        )}
+
+        {/* ===== ARRÊTS SUR LA CARTE ===== */}
         {stops.map((stop, index) => {
           if (stop.isStart || stop.isEnd) return null;
           const isManual = stop.isManual || false;
@@ -296,13 +340,16 @@ export default function TransportMap({
                   <p className="text-xs text-gray-500">
                     {isManual ? "📌 Ajouté manuellement" : "🛑 Détecté automatiquement"}
                   </p>
+                  {stop.duration > 0 && (
+                    <p className="text-xs text-gray-500">⏱️ {Math.round(stop.duration)}s</p>
+                  )}
                 </div>
               </Popup>
             </Marker>
           );
         })}
 
-        {/* ===== POSITION GPS ===== */}
+        {/* ===== POSITION GPS EN DIRECT ===== */}
         {livePosition && (
           <>
             <Marker position={[livePosition.latitude, livePosition.longitude]} icon={liveIcon} />
