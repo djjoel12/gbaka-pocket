@@ -44,7 +44,7 @@ export default function Home() {
   const [endPointName, setEndPointName] = useState("");
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [stopsCount, setStopsCount] = useState(0); // ✅ AJOUTÉ
+  const [stopsCount, setStopsCount] = useState(0);
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
@@ -119,13 +119,21 @@ export default function Home() {
   };
 
   const handleRecenter = () => {
+    console.log("🔍 handleRecenter appelé");
     if (mapRef.current && livePosition) {
+      console.log("📍 Recentrage sur:", livePosition.latitude, livePosition.longitude);
       mapRef.current.setView(
         [livePosition.latitude, livePosition.longitude],
         16,
         { animate: true, duration: 0.5 }
       );
+    } else {
+      console.log("⚠️ mapRef ou livePosition null");
     }
+  };
+
+  const toggleSheet = () => {
+    setIsSheetExpanded(!isSheetExpanded);
   };
 
   const lineInfo: LineInfo | null = lineName ? {
@@ -194,7 +202,10 @@ export default function Home() {
           points={points}
           livePosition={livePosition}
           isRecording={status === "recording"}
-          onMapReady={(map) => { mapRef.current = map; }}
+          onMapReady={(map) => { 
+            mapRef.current = map; 
+            console.log("🗺️ Carte prête");
+          }}
         />
       </div>
 
@@ -210,6 +221,7 @@ export default function Home() {
           <button
             onClick={handleRecenter}
             className="h-10 w-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center text-lg hover:bg-black/80 transition"
+            title="Recentrer sur ma position"
           >
             🧭
           </button>
@@ -228,8 +240,11 @@ export default function Home() {
         className="absolute bottom-0 left-0 right-0 z-10 bg-[#12121a] rounded-t-3xl shadow-2xl border-t border-white/5 max-h-[95vh] overflow-hidden"
       >
         {/* ===== HANDLE ===== */}
-        <div className="flex justify-center pt-3 pb-2">
-          <div className="w-12 h-1.5 rounded-full bg-white/20" />
+        <div 
+          className="flex justify-center pt-3 pb-2 cursor-pointer"
+          onClick={toggleSheet}
+        >
+          <div className="w-12 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition" />
         </div>
 
         <div className="px-5 pb-6 overflow-y-auto max-h-[90vh]">
@@ -243,6 +258,12 @@ export default function Home() {
               <h1 className="text-lg font-bold text-white tracking-tight">PASS GBAKA</h1>
               <p className="text-[10px] text-white/40 font-medium tracking-wider">Collecte de trajets GPS professionnelle</p>
             </div>
+            <button 
+              onClick={toggleSheet}
+              className="ml-auto text-white/40 hover:text-white/70 text-xs transition"
+            >
+              {isSheetExpanded ? "Réduire ▲" : "Déplier ▼"}
+            </button>
           </div>
 
           {/* ========================================================= */}
@@ -443,14 +464,10 @@ export default function Home() {
                           <p className="text-[8px] text-white/30 uppercase">Arrêts</p>
                           <p className="text-sm font-bold text-white">{stopsCount}</p>
                         </div>
-                        <div className="text-center">
-                          <p className="text-[8px] text-white/30 uppercase">Qualité</p>
-                          <p className="text-sm font-bold text-white">0%</p>
-                        </div>
                       </div>
                     </motion.div>
                   )}
-                </AnimatePresence>
+       </AnimatePresence>
               </div>
 
               <GpsRecorder
@@ -512,7 +529,7 @@ export default function Home() {
               </button>
             </>
           )}
-
+          
           {/* ========================================================= */}
           {/* ===== FOOTER COMMUN ===== */}
           {/* ========================================================= */}
@@ -522,9 +539,10 @@ export default function Home() {
               <span className="text-[10px] text-green-400">✅</span>
             </div>
             <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
-            </div>
+          </div>
         </div>
       </motion.div>
     </div>
   );
 }
+          
