@@ -43,6 +43,7 @@ type GpsRecorderProps = {
   price?: string;
   minDistance?: number;
   maxAccuracy?: number;
+  onStopsCountChange?: (count: number) => void; // ✅ AJOUTÉ
 };
 
 function detectSpike(
@@ -80,6 +81,7 @@ export default function GpsRecorder({
   price = "",
   minDistance = 5,
   maxAccuracy = 50,
+  onStopsCountChange, // ✅ AJOUTÉ
 }: GpsRecorderProps) {
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [gpsStatus, setGpsStatus] = useState("En attente");
@@ -103,6 +105,16 @@ export default function GpsRecorder({
   const watchIdRef = useRef<number | null>(null);
   const lastPointRef = useRef<GPSPoint | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // ============================================
+  // REMONTER LE NOMBRE D'ARRÊTS
+  // ============================================
+  useEffect(() => {
+    if (onStopsCountChange) {
+      const totalStops = stops.filter(s => !s.isStart && !s.isEnd).length + userStops.length;
+      onStopsCountChange(totalStops);
+    }
+  }, [stops, userStops, onStopsCountChange]);
 
   // ============================================
   // CHRONOMÈTRE
@@ -608,4 +620,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-}
+    }
