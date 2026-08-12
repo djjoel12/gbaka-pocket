@@ -8,14 +8,27 @@ export type GPSPoint = {
 
 export type StopPoint = {
   id: string;
-  name: string;                    // Nom saisi par l'utilisateur
+  name: string;
   coordinates: [number, number];
   timestamp: number;
   duration: number;
   isStart: boolean;
   isEnd: boolean;
-  isManual?: boolean;              // ✅ TRUE si ajouté manuellement
-  isConfirmed?: boolean;           // ✅ TRUE si confirmé par l'utilisateur
+  isManual?: boolean;
+  isConfirmed?: boolean;
+};
+
+export type POI = {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  type: "gbaka_stop";
+  lineIds: string[];
+  confirmedBy: string;
+  confirmedAt: string;
+  isVerified: boolean;
+  createdAt: string;
 };
 
 export type LineInfo = {
