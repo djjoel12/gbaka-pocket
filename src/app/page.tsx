@@ -43,6 +43,7 @@ export default function Home() {
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0); // ✅ AJOUTÉ
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
@@ -90,6 +91,21 @@ export default function Home() {
   }, [startPointName, destination]);
 
   // ============================================
+  // CHRONOMÈTRE
+  // ============================================
+  useEffect(() => {
+    if (status === "recording") {
+      const interval = setInterval(() => {
+        setElapsedTime(prev => prev + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+    if (status === "idle" || status === "paused") {
+      setElapsedTime(0);
+    }
+  }, [status]);
+
+  // ============================================
   // ACTIONS
   // ============================================
   const handleStartTrip = () => setShowDestinationInput(true);
@@ -119,6 +135,18 @@ export default function Home() {
     color: "#ffffff",
     estimatedPrice: price ? parseInt(price) : 0,
   } : null;
+
+  // ============================================
+  // FORMATAGE
+  // ============================================
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    if (h > 0) return `${h}h ${m}m`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+  };
 
   // ============================================
   // RENDU
@@ -498,10 +526,3 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
   return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
 }
-
-function formatTime(seconds: number): string {
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
-  if (m > 0) return `${m}m ${s}s`;
-  return `${s}s`;
-            }
