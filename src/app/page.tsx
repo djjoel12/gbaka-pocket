@@ -130,16 +130,26 @@ export default function Home() {
         />
       </div>
 
-      {/* ===== BOUTON COMPAS ===== */}
-      {status === "recording" && livePosition && (
-        <button
-          onClick={handleRecenter}
-          className="absolute bottom-[calc(50vh+80px)] right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-xl border border-gray-200 text-xl hover:scale-110 transition active:scale-95"
-          title="Recentrer sur ma position"
-        >
-          🧭
-        </button>
-      )}
+      // Dans page.tsx, remplacer le bouton compas par :
+
+{/* ===== BOUTON COMPAS ===== */}
+{status === "recording" && livePosition && (
+  <button
+    onClick={() => {
+      // Activer le suivi mode Waze
+      if (mapRef.current?.toggleFollow) {
+        mapRef.current.toggleFollow();
+      }
+      if (mapRef.current?.recenter) {
+        mapRef.current.recenter();
+      }
+    }}
+    className="absolute bottom-[calc(50vh+80px)] right-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-xl border border-gray-200 text-xl hover:scale-110 transition active:scale-95"
+    title="Activer/Désactiver le suivi"
+  >
+    🧭
+  </button>
+)}
 
       {/* ===== FENÊTRE 50% - BLANCHE ===== */}
       <div className="absolute bottom-0 left-0 right-0 z-10 h-[50vh] min-h-[320px] bg-white shadow-2xl border-t border-gray-200">
