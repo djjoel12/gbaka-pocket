@@ -21,6 +21,7 @@ import {
 } from "@/utils/tripUtils";
 import { saveTripToSupabase } from "@/utils/supabaseUtils";
 import { convertToGbakaFormat } from "@/utils/tripConverter";
+import StopManager from "@/components/stops/StopManager";
 
 type GpsRecorderProps = {
   status: "idle" | "recording" | "paused";
@@ -91,6 +92,11 @@ export default function GpsRecorder({
   const [finalPrice, setFinalPrice] = useState(price || "");
   const [syncStatus, setSyncStatus] = useState<"idle" | "success" | "error">("idle");
   const [syncMessage, setSyncMessage] = useState("");
+
+  // ===== GESTION DES ARRÊTS =====
+  const [pendingStop, setPendingStop] = useState<StopPoint | null>(null);
+  const [userStops, setUserStops] = useState<StopPoint[]>([]);
+  const [showStopConfirmation, setShowStopConfirmation] = useState(false);
 
   const watchIdRef = useRef<number | null>(null);
   const lastPointRef = useRef<GPSPoint | null>(null);
@@ -178,6 +184,9 @@ export default function GpsRecorder({
     setCurrentSpeed(null);
     setTripSaved(false);
     setStops([]);
+    setUserStops([]);
+    setPendingStop(null);
+    setShowStopConfirmation(false);
     setShowPriceInput(false);
     setSyncStatus("idle");
     setSyncMessage("");
@@ -231,8 +240,25 @@ export default function GpsRecorder({
           const updatedPoints = [...previousPoints, newPoint];
           onPointsChange(updatedPoints);
           
+          // ===== DÉTECTION DES ARRÊTS =====
           if (updatedPoints.length % 10 === 0) {
             const detectedStops = detectStops(updatedPoints);
+            
+            // Nouvel arrêt détecté ?
+            const newStop = detectedStops[detectedStops.length - 1];
+            if (newStop && !newStop.isStart && !newStop.isEnd) {
+              // Vérifier si cet arrêt a déjà été proposé
+              const existingStop = userStops.find(s => 
+                Math.abs(s.coordinates[0] - newStop.coordinates[0]) < 0.0001 &&
+                Math.abs(s.coordinates[1] - newStop.coordinates[1]) < 0.0001
+              );
+              
+              if (!existingStop && !pendingStop) {
+                setPendingStop(newStop);
+                setShowStopConfirmation(true);
+              }
+            }
+            
             setStops(detectedStops);
           }
           
@@ -265,7 +291,41 @@ export default function GpsRecorder({
   };
 
   // ============================================
-  // SAUVEGARDE AVEC PRIX - CONVERSION GBAKA FORMAT
+  // GESTION DES ARRÊTS
+  // ============================================
+
+  const handleConfirmStop = (name: string) => {
+    if (pendingStop) {
+      const confirmedStop: StopPoint = {
+        ...pendingStop,
+        name: name,
+        isConfirmed: true,
+        isManual: false,
+      };
+      setUserStops(prev => [...prev, confirmedStop]);
+      setPendingStop(null);
+      setShowStopConfirmation(false);
+      setStops(prev => prev.map(s => 
+        s.id === pendingStop.id ? confirmedStop : s
+      ));
+      console.log(`🛑 Arrêt confirmé: ${name}`);
+    }
+  };
+
+  const handleIgnoreStop = () => {
+    setPendingStop(null);
+    setShowStopConfirmation(false);
+    console.log('🛑 Arrêt ignoré');
+  };
+
+  const handleManualStopAdded = (stop: StopPoint) => {
+    setUserStops(prev => [...prev, stop]);
+    setStops(prev => [...prev, stop]);
+    console.log(`📌 Arrêt manuel ajouté: ${stop.name}`);
+  };
+
+  // ============================================
+  // SAUVEGARDE AVEC PRIX
   // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
@@ -274,10 +334,16 @@ export default function GpsRecorder({
     }
 
     try {
-      // 1. Détection des arrêts
+      // ===== RÉCUPÉRER TOUS LES ARRÊTS =====
+      const allStops = [...stops.filter(s => !s.isManual && !s.isStart && !s.isEnd), ...userStops];
+      
+      // Détection des arrêts
       const detectedStops = await detectStops(points);
       
-      // 2. Géocodage du point d'arrivée
+      // Fusionner les arrêts détectés et les arrêts manuels
+      const finalStops = [...detectedStops, ...userStops];
+      
+      // Géocodage du point d'arrivée
       let endName = endPointName;
       if (!endName && detectedStops.length > 0) {
         const lastStop = detectedStops[detectedStops.length - 1];
@@ -287,38 +353,30 @@ export default function GpsRecorder({
         );
       }
 
-      // 3. Calcul des statistiques
       const averageSpeed = calculateAverageSpeed(points);
       const maxSpeed = calculateMaxSpeed(points);
       const quality = calculateQuality(points);
-      
-      const startPoint = detectedStops.length > 0 ? detectedStops[0] : null;
-      const endPoint = detectedStops.length > 1 ? detectedStops[detectedStops.length - 1] : null;
 
-      // 4. Conversion au format Gbaka Pocket (JSON cible)
+      // Conversion au format Gbaka Pocket
       const tripData = convertToGbakaFormat(
-        points,                         // points GPS
-        detectedStops,                  // arrêts détectés
-        destination || "Trajet",        // destination
-        startPointName || "Départ inconnu", // nom du départ
-        endName || "Arrivée inconnue",  // nom de l'arrivée
-        tripPrice,                      // prix
-        totalDistance,                  // distance en mètres
-        elapsedTime,                    // durée en secondes
-        averageSpeed,                   // vitesse moyenne en km/h
-        maxSpeed,                       // vitesse max en km/h
-        quality,                        // qualité
-        lineInfo?.name || `${startPointName} → ${destination}`, // nom de la ligne
-        lineInfo?.type || "gbaka"       // type
+        points,
+        finalStops,
+        destination || "Trajet",
+        startPointName || "Départ inconnu",
+        endName || "Arrivée inconnue",
+        tripPrice,
+        totalDistance,
+        elapsedTime,
+        averageSpeed,
+        maxSpeed,
+        quality,
+        lineInfo?.name || `${startPointName} → ${destination}`,
+        lineInfo?.type || "gbaka"
       );
 
-      console.log('📦 Données converties au format Gbaka:');
-      console.log(`📍 Ligne: ${tripData.direction}`);
-      console.log(`📏 Distance: ${tripData.distance} km`);
-      console.log(`💰 Tarif: ${tripData.fare} FCFA`);
+      console.log(`🛑 ${finalStops.length} arrêts enregistrés`);
 
       // ===== SAUVEGARDE LOCALE =====
-      // Sauvegarder au format ancien pour compatibilité
       const oldTripData: any = {
         id: tripData.id,
         line: {
@@ -350,8 +408,6 @@ export default function GpsRecorder({
       saveTrip(oldTripData);
       setTripSaved(true);
       setShowPriceInput(false);
-
-      console.log('💾 Trajet sauvegardé localement');
 
       // ===== ENVOI VERS SUPABASE =====
       try {
@@ -435,6 +491,9 @@ export default function GpsRecorder({
       setCurrentSpeed(null);
       setTripSaved(false);
       setStops([]);
+      setUserStops([]);
+      setPendingStop(null);
+      setShowStopConfirmation(false);
       setShowPriceInput(false);
       setFinalPrice("");
       setSyncStatus("idle");
@@ -465,11 +524,13 @@ export default function GpsRecorder({
   }, []);
 
   const isRecording = status === "recording";
+  const allStops = [...stops, ...userStops];
 
   return (
     <>
       {isRecording && !showPriceInput && (
-        <div className="w-full">
+        <div className="w-full space-y-2">
+          {/* STATS */}
           <div className="grid grid-cols-3 gap-2 w-full">
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
               <p className="text-[10px] text-gray-400 font-medium uppercase">Points</p>
@@ -489,13 +550,25 @@ export default function GpsRecorder({
             </div>
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
               <p className="text-[10px] text-gray-400 font-medium uppercase">Arrêts</p>
-              <p className="text-lg font-bold text-gray-800">{stops.length}</p>
+              <p className="text-lg font-bold text-gray-800">{allStops.length}</p>
             </div>
             <div className="bg-gray-50 border border-green-200 rounded-lg p-2 text-center">
               <p className="text-[10px] text-gray-400 font-medium uppercase">Qualité</p>
               <p className="text-lg font-bold text-green-600">{points.length > 10 ? `${calculateQuality(points)}%` : "--"}</p>
             </div>
           </div>
+
+          {/* ===== STOP MANAGER ===== */}
+          <StopManager
+            isRecording={isRecording}
+            currentPosition={livePosition}
+            onStopAdded={handleManualStopAdded}
+            detectedStop={pendingStop}
+            onConfirmStop={handleConfirmStop}
+            onIgnoreStop={handleIgnoreStop}
+          />
+
+          {/* BOUTON TERMINER */}
           <div className="flex items-center justify-between w-full mt-2">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-gray-400">🛰️</span>
@@ -549,4 +622,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-                      }
+      }
