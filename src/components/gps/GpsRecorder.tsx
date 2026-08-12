@@ -28,7 +28,7 @@ type GpsRecorderProps = {
   setStatus: Dispatch<SetStateAction<"idle" | "recording" | "paused">>;
   onPointsChange: (points: GPSPoint[]) => void;
   onLivePositionChange: (point: GPSPoint | null) => void;
-  livePosition?: GPSPoint | null;  // ✅ Ajouté pour StopManager
+  livePosition?: GPSPoint | null;
   destination?: string;
   lineInfo?: {
     id: string;
@@ -72,7 +72,7 @@ export default function GpsRecorder({
   setStatus,
   onPointsChange,
   onLivePositionChange,
-  livePosition = null,  // ✅ Ajouté
+  livePosition = null,
   destination,
   lineInfo = null,
   startPointName = "",
@@ -531,98 +531,83 @@ export default function GpsRecorder({
   return (
     <>
       {isRecording && !showPriceInput && (
-        <div className="w-full space-y-2">
-          {/* STATS */}
-          <div className="grid grid-cols-3 gap-2 w-full">
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Points</p>
-              <p className="text-lg font-bold text-gray-800">{points.length}</p>
-            </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Distance</p>
-              <p className="text-lg font-bold text-gray-800">{totalDistance > 0 ? `${(totalDistance/1000).toFixed(1)} km` : "--"}</p>
-            </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Vitesse</p>
-              <p className="text-lg font-bold text-gray-800">{formatSpeed(currentSpeed)}</p>
-            </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Temps</p>
-              <p className="text-lg font-bold text-gray-800">{formatTime(elapsedTime)}</p>
-            </div>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Arrêts</p>
-              <p className="text-lg font-bold text-gray-800">{allStops.length}</p>
-            </div>
-            <div className="bg-gray-50 border border-green-200 rounded-lg p-2 text-center">
-              <p className="text-[10px] text-gray-400 font-medium uppercase">Qualité</p>
-              <p className="text-lg font-bold text-green-600">{points.length > 10 ? `${calculateQuality(points)}%` : "--"}</p>
-            </div>
-          </div>
-
-          {/* ===== STOP MANAGER ===== */}
+        <div className="w-full">
+          {/* ===== STOP MANAGER (Fenêtres 4 et 5) ===== */}
           <StopManager
             isRecording={isRecording}
-            currentPosition={livePosition}  // ✅ Maintenant disponible
+            currentPosition={livePosition}
             onStopAdded={handleManualStopAdded}
             detectedStop={pendingStop}
             onConfirmStop={handleConfirmStop}
             onIgnoreStop={handleIgnoreStop}
           />
 
-          {/* BOUTON TERMINER */}
+          {/* ===== BOUTON TERMINER ===== */}
           <div className="flex items-center justify-between w-full mt-2">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] text-gray-400">🛰️</span>
-              <span className="text-[10px] text-gray-500">{gpsStatus}</span>
+              <span className="text-[10px] text-white/30">🛰️</span>
+              <span className="text-[10px] text-white/40">{gpsStatus}</span>
             </div>
             <div className="flex items-center gap-3">
               {syncStatus === "success" && (
-                <span className="text-[10px] text-green-600 font-medium">✅ {syncMessage}</span>
+                <span className="text-[10px] text-green-400">✅ {syncMessage}</span>
               )}
               {syncStatus === "error" && (
-                <span className="text-[10px] text-red-500 font-medium">❌ {syncMessage}</span>
+                <span className="text-[10px] text-red-400">❌ {syncMessage}</span>
               )}
               <button
                 onClick={stopRecording}
-                className="rounded-lg bg-red-600 border-2 border-red-400 px-5 py-2 text-sm font-bold text-white hover:bg-red-700 transition"
+                className="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition"
               >
                 ⏹ Terminer
               </button>
-              {tripSaved && <span className="text-sm text-green-600 font-bold">✅</span>}
+              {tripSaved && <span className="text-sm text-green-400">✅</span>}
             </div>
           </div>
         </div>
       )}
 
+      {/* ========================================================= */}
+      {/* ===== FENÊTRE 7 : SAISIE PRIX ===== */}
+      {/* ========================================================= */}
       {showPriceInput && (
-        <div className="flex flex-wrap items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200 w-full">
-          <span className="text-sm font-bold text-gray-800">💰 Prix ?</span>
-          <input
-            type="number"
-            value={finalPrice}
-            onChange={(e) => setFinalPrice(e.target.value)}
-            placeholder="250"
-            className="w-24 bg-white border border-gray-300 rounded-lg px-3 py-2 text-base text-gray-700 text-center outline-none focus:border-blue-400"
-            autoFocus
-          />
-          <button
-            onClick={handlePriceSubmit}
-            disabled={!finalPrice || parseInt(finalPrice) <= 0}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-40 transition"
-          >
-            
-            ✅ Sauvegarder
-          </button>
-          <button
-            onClick={() => { setShowPriceInput(false); setStatus("paused"); setGpsStatus("Terminé"); }}
-            className="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 transition"
-          >
-            Passer
-          </button>
-          {error && <span className="text-sm text-red-500">{error}</span>}
+        <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl p-4 mb-3">
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-lg">💰</span>
+            <p className="text-sm font-bold text-white">Prix du trajet ?</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <input
+              type="number"
+              value={finalPrice}
+              onChange={(e) => setFinalPrice(e.target.value)}
+              placeholder="250"
+              className="flex-1 min-w-[100px] bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-white/20 text-center outline-none focus:border-blue-500/50"
+              autoFocus
+            />
+            <div className="flex gap-2">
+              <button
+                onClick={handlePriceSubmit}
+                disabled={!finalPrice || parseInt(finalPrice) <= 0}
+                className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl px-4 py-2.5 text-sm font-bold text-white hover:scale-[1.02] disabled:opacity-40 transition"
+              >
+                ✅ Sauvegarder
+              </button>
+              <button
+                onClick={() => {
+                  setShowPriceInput(false);
+                  setStatus("paused");
+                  setGpsStatus("Terminé");
+                }}
+                className="bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-white/40 hover:bg-white/10 transition"
+              >
+                Passer
+              </button>
+            </div>
+          </div>
+          {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
         </div>
       )}
     </>
   );
-}
+    }
