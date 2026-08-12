@@ -77,7 +77,7 @@ function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number
 }
 
 // ============================================
-// COMPOSANT DE SUIVI ORIENTÉ (WAZE)
+// COMPOSANT DE SUIVI FLUIDE (SANS ROTATION)
 // ============================================
 
 function MapFollower({ 
@@ -142,52 +142,29 @@ function MapFollower({
   }, [map, onDragStart]);
 
   // ============================================
-  // SUIVI ORIENTÉ AVEC ROTATION
+  // SUIVI FLUIDE (SANS ROTATION)
   // ============================================
   useEffect(() => {
     // Ne suivre que si isFollowing est actif et pas d'interaction utilisateur
     if (!isFollowing || isUserInteracting) return;
 
     if (lastPosition && position) {
-      // Calculer le cap entre la dernière position et la nouvelle
-      const lat1 = lastPosition[0];
-      const lon1 = lastPosition[1];
-      const lat2 = position[0];
-      const lon2 = position[1];
-      
-      const bearing = calculateBearing(lat1, lon1, lat2, lon2);
-
       // Animation fluide
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
 
-      // Zoom smooth vers la nouvelle position avec rotation
+      // Zoom smooth vers la nouvelle position
       map.flyTo(position, 17, {
         animate: true,
         duration: 1.2,
       });
-
-      // Rotation de la carte pour suivre la direction
-      if (bearing !== null && !isNaN(bearing)) {
-        try {
-          map.setBearing(bearing, { animate: true, duration: 0.8 });
-        } catch (e) {
-          // Certaines versions de Leaflet ne supportent pas setBearing
-          console.log('setBearing non supporté');
-        }
-      }
     } else if (position && !lastPosition) {
       // Premier positionnement
       map.flyTo(position, 17, {
         animate: true,
         duration: 1.5,
       });
-      try {
-        map.setBearing(0, { animate: true, duration: 0.5 });
-      } catch (e) {
-        // Ignorer si non supporté
-      }
     }
 
     setLastPosition(position);
@@ -287,7 +264,7 @@ export default function TransportMap({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
-        {/* ===== SUIVI ORIENTÉ (MODE WAZE) ===== */}
+        {/* ===== SUIVI FLUIDE (MODE WAZE SANS ROTATION) ===== */}
         {livePosition && isRecording && (
           <MapFollower
             position={[livePosition.latitude, livePosition.longitude]}
@@ -368,4 +345,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-  }
+            }
