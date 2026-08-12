@@ -532,7 +532,7 @@ export default function GpsRecorder({
     <>
       {isRecording && !showPriceInput && (
         <div className="w-full">
-          {/* ===== STOP MANAGER (Fenêtres 4 et 5) ===== */}
+          {/* ===== STOP MANAGER ===== */}
           <StopManager
             isRecording={isRecording}
             currentPosition={livePosition}
@@ -567,9 +567,7 @@ export default function GpsRecorder({
         </div>
       )}
 
-      {/* ========================================================= */}
       {/* ===== FENÊTRE 7 : SAISIE PRIX ===== */}
-      {/* ========================================================= */}
       {showPriceInput && (
         <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl p-4 mb-3">
           <div className="flex items-center gap-3 mb-3">
@@ -610,4 +608,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-    }
+}
