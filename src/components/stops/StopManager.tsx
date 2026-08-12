@@ -27,121 +27,101 @@ export default function StopManager({
   if (!isRecording) return null;
 
   // ============================================
-  // AJOUT MANUEL
+  // FENÊTRE 4 : CONFIRMATION D'ARRÊT
   // ============================================
-  const handleManualAdd = () => {
-    if (!currentPosition) return;
-    setShowManualInput(true);
-  };
-
-  const confirmManualStop = () => {
-    if (!currentPosition || !manualStopName.trim()) return;
-
-    const newStop: StopPoint = {
-      id: `manual-${Date.now()}`,
-      name: manualStopName.trim(),
-      coordinates: [currentPosition.latitude, currentPosition.longitude],
-      timestamp: currentPosition.timestamp,
-      duration: 0,
-      isStart: false,
-      isEnd: false,
-      isManual: true,
-      isConfirmed: true,
-    };
-
-    onStopAdded(newStop);
-    setShowManualInput(false);
-    setManualStopName("");
-  };
+  if (detectedStop) {
+    return (
+      <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl p-4 mb-3">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg">🛑</span>
+          <p className="text-sm font-medium text-white">Arrêt détecté !</p>
+        </div>
+        <p className="text-xs text-white/40 mb-3">
+          📍 {detectedStop.coordinates[0].toFixed(4)}, {detectedStop.coordinates[1].toFixed(4)}
+        </p>
+        <input
+          type="text"
+          value={stopName}
+          onChange={(e) => setStopName(e.target.value)}
+          placeholder="Nom de l'arrêt (ex: Gare Nord)"
+          className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-blue-500/50 mb-3"
+          autoFocus
+        />
+        <div className="flex gap-3">
+          <button
+            onClick={() => {
+              if (stopName.trim()) {
+                onConfirmStop(stopName.trim());
+                setStopName("");
+              }
+            }}
+            className="flex-1 bg-gradient-to-r from-green-500 to-green-600 rounded-xl py-2.5 text-sm font-bold text-white hover:scale-[1.02] transition"
+          >
+            ✅ Confirmer
+          </button>
+          <button
+            onClick={() => {
+              onIgnoreStop();
+              setStopName("");
+            }}
+            className="flex-1 bg-white/5 border border-white/10 rounded-xl py-2.5 text-sm font-medium text-white/40 hover:bg-white/10 transition"
+          >
+            ❌ Ignorer
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // ============================================
-  // RENDU
+  // FENÊTRE 5 : AJOUT MANUEL D'ARRÊT
   // ============================================
   return (
-    <div className="space-y-2 w-full">
-      {/* Détection automatique */}
-      {detectedStop && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <div className="flex items-center gap-2">
-            <span className="text-lg">🛑</span>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-blue-800">Arrêt détecté !</p>
-              <p className="text-xs text-blue-600">
-                📍 {detectedStop.coordinates[0].toFixed(4)}, {detectedStop.coordinates[1].toFixed(4)}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-2 flex gap-2">
-            <input
-              type="text"
-              value={stopName}
-              onChange={(e) => setStopName(e.target.value)}
-              placeholder="Nom de l'arrêt (ex: Gare Nord)"
-              className="flex-1 bg-white border border-blue-200 rounded px-2 py-1 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:border-blue-400"
-              autoFocus
-            />
-          </div>
-
-          <div className="mt-2 flex gap-2">
-            <button
-              onClick={() => {
-                if (stopName.trim()) {
-                  onConfirmStop(stopName.trim());
-                  setStopName("");
-                }
-              }}
-              className="flex-1 bg-green-600 text-white text-sm font-medium px-3 py-1.5 rounded hover:bg-green-700 transition"
-            >
-              ✅ Confirmer
-            </button>
-            <button
-              onClick={() => {
-                onIgnoreStop();
-                setStopName("");
-              }}
-              className="flex-1 bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1.5 rounded hover:bg-gray-300 transition"
-            >
-              ❌ Ignorer
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Ajout manuel */}
+    <div className="mb-3">
       {!showManualInput ? (
         <button
-          onClick={handleManualAdd}
-          className="w-full bg-purple-100 hover:bg-purple-200 text-purple-700 text-sm font-medium px-3 py-2 rounded-lg transition flex items-center justify-center gap-2"
+          onClick={() => setShowManualInput(true)}
+          className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 text-sm font-medium text-white/60 hover:bg-white/10 transition flex items-center justify-center gap-2"
         >
-          <span>➕</span> Ajouter un arrêt manuellement
+          <span className="text-lg">➕</span> Ajouter un arrêt manuellement
         </button>
       ) : (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <div className="flex items-center gap-2">
+        <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl p-4">
+          <div className="flex items-center gap-2 mb-3">
             <span className="text-lg">📌</span>
-            <div className="flex-1">
-              <p className="text-sm font-medium text-purple-800">Ajout manuel</p>
-              <p className="text-xs text-purple-600">📍 Position actuelle</p>
-            </div>
+            <p className="text-sm font-medium text-white">Ajout manuel</p>
           </div>
-
-          <div className="mt-2 flex gap-2">
-            <input
-              type="text"
-              value={manualStopName}
-              onChange={(e) => setManualStopName(e.target.value)}
-              placeholder="Nom de l'arrêt"
-              className="flex-1 bg-white border border-purple-200 rounded px-2 py-1 text-sm text-gray-700 placeholder:text-gray-400 outline-none focus:border-purple-400"
-              autoFocus
-            />
-          </div>
-
-          <div className="mt-2 flex gap-2">
+          <p className="text-xs text-white/40 mb-3">📍 Position actuelle</p>
+          <input
+            type="text"
+            value={manualStopName}
+            onChange={(e) => setManualStopName(e.target.value)}
+            placeholder="Nom de l'arrêt"
+            className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-blue-500/50 mb-3"
+            autoFocus
+          />
+          <div className="flex gap-3">
             <button
-              onClick={confirmManualStop}
+              onClick={() => {
+                if (manualStopName.trim() && currentPosition) {
+                  const newStop: StopPoint = {
+                    id: `manual-${Date.now()}`,
+                    name: manualStopName.trim(),
+                    coordinates: [currentPosition.latitude, currentPosition.longitude],
+                    timestamp: currentPosition.timestamp,
+                    duration: 0,
+                    isStart: false,
+                    isEnd: false,
+                    isManual: true,
+                    isConfirmed: true,
+                  };
+                  onStopAdded(newStop);
+                  setShowManualInput(false);
+                  setManualStopName("");
+                }
+              }}
               disabled={!manualStopName.trim()}
-              className="flex-1 bg-purple-600 text-white text-sm font-medium px-3 py-1.5 rounded hover:bg-purple-700 disabled:opacity-40 transition"
+              className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl py-2.5 text-sm font-bold text-white hover:scale-[1.02] disabled:opacity-40 transition"
             >
               ✅ Ajouter
             </button>
@@ -150,7 +130,7 @@ export default function StopManager({
                 setShowManualInput(false);
                 setManualStopName("");
               }}
-              className="flex-1 bg-gray-200 text-gray-700 text-sm font-medium px-3 py-1.5 rounded hover:bg-gray-300 transition"
+              className="flex-1 bg-white/5 border border-white/10 rounded-xl py-2.5 text-sm font-medium text-white/40 hover:bg-white/10 transition"
             >
               ❌ Annuler
             </button>
@@ -159,4 +139,4 @@ export default function StopManager({
       )}
     </div>
   );
-      }
+  }
