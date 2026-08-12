@@ -28,6 +28,7 @@ type GpsRecorderProps = {
   setStatus: Dispatch<SetStateAction<"idle" | "recording" | "paused">>;
   onPointsChange: (points: GPSPoint[]) => void;
   onLivePositionChange: (point: GPSPoint | null) => void;
+  livePosition?: GPSPoint | null;  // ✅ Ajouté pour StopManager
   destination?: string;
   lineInfo?: {
     id: string;
@@ -71,6 +72,7 @@ export default function GpsRecorder({
   setStatus,
   onPointsChange,
   onLivePositionChange,
+  livePosition = null,  // ✅ Ajouté
   destination,
   lineInfo = null,
   startPointName = "",
@@ -561,7 +563,7 @@ export default function GpsRecorder({
           {/* ===== STOP MANAGER ===== */}
           <StopManager
             isRecording={isRecording}
-            currentPosition={livePosition}
+            currentPosition={livePosition}  // ✅ Maintenant disponible
             onStopAdded={handleManualStopAdded}
             detectedStop={pendingStop}
             onConfirmStop={handleConfirmStop}
@@ -609,6 +611,7 @@ export default function GpsRecorder({
             disabled={!finalPrice || parseInt(finalPrice) <= 0}
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 disabled:opacity-40 transition"
           >
+            
             ✅ Sauvegarder
           </button>
           <button
@@ -622,4 +625,4 @@ export default function GpsRecorder({
       )}
     </>
   );
-      }
+}
