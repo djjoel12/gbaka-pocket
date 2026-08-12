@@ -43,7 +43,8 @@ export default function Home() {
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0); // ✅ AJOUTÉ
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [stopsCount, setStopsCount] = useState(0); // ✅ AJOUTÉ
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
@@ -146,6 +147,39 @@ export default function Home() {
     if (h > 0) return `${h}h ${m}m`;
     if (m > 0) return `${m}m ${s}s`;
     return `${s}s`;
+  };
+
+  // ============================================
+  // CALCULS STATS
+  // ============================================
+  const calculateTotalDistance = (pts: GPSPoint[]): number => {
+    if (pts.length < 2) return 0;
+    let total = 0;
+    for (let i = 1; i < pts.length; i++) {
+      const dist = calculateDistance(
+        pts[i-1].latitude, pts[i-1].longitude,
+        pts[i].latitude, pts[i].longitude
+      );
+      total += dist;
+    }
+    return total / 1000;
+  };
+
+  const calculateAverageSpeed = (pts: GPSPoint[]): number => {
+    const speeds = pts.filter(p => p.speed !== null).map(p => p.speed!);
+    if (speeds.length === 0) return 0;
+    const avg = speeds.reduce((a, b) => a + b, 0) / speeds.length;
+    return avg * 3.6;
+  };
+
+  const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+    const R = 6371000;
+    const phi1 = (lat1 * Math.PI) / 180;
+    const phi2 = (lat2 * Math.PI) / 180;
+    const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+    const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+    const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
+    return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
   };
 
   // ============================================
@@ -411,7 +445,7 @@ export default function Home() {
                         </div>
                         <div className="text-center">
                           <p className="text-[8px] text-white/30 uppercase">Qualité</p>
-                          <p className="text-sm font-bold text-green-400">{quality}%</p>
+                          <p className="text-sm font-bold text-white">0%</p>
                         </div>
                       </div>
                     </motion.div>
@@ -430,6 +464,7 @@ export default function Home() {
                 livePosition={livePosition}
                 onPointsChange={setPoints}
                 onLivePositionChange={setLivePosition}
+                onStopsCountChange={setStopsCount}
                 minDistance={2}
                 maxAccuracy={150}
               />
@@ -454,6 +489,7 @@ export default function Home() {
                     <p className="text-xs text-white/40">{points.length} points enregistrés</p>
                     {lineName && <p className="text-xs text-white/40">🚌 {lineName}</p>}
                     {price && <p className="text-xs text-white/40">💰 {price} FCFA</p>}
+                    {stopsCount > 0 && <p className="text-xs text-white/40">🛑 {stopsCount} arrêts</p>}
                   </div>
                 </div>
               </div>
@@ -486,43 +522,9 @@ export default function Home() {
               <span className="text-[10px] text-green-400">✅</span>
             </div>
             <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
-          </div>
+            </div>
         </div>
       </motion.div>
     </div>
   );
-}
-
-// ============================================
-// UTILITAIRES
-// ============================================
-
-function calculateTotalDistance(points: GPSPoint[]): number {
-  if (points.length < 2) return 0;
-  let total = 0;
-  for (let i = 1; i < points.length; i++) {
-    const dist = calculateDistance(
-      points[i-1].latitude, points[i-1].longitude,
-      points[i].latitude, points[i].longitude
-    );
-    total += dist;
-  }
-  return total / 1000;
-}
-
-function calculateAverageSpeed(points: GPSPoint[]): number {
-  const speeds = points.filter(p => p.speed !== null).map(p => p.speed!);
-  if (speeds.length === 0) return 0;
-  const avg = speeds.reduce((a, b) => a + b, 0) / speeds.length;
-  return avg * 3.6;
-}
-
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371000;
-  const phi1 = (lat1 * Math.PI) / 180;
-  const phi2 = (lat2 * Math.PI) / 180;
-  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
-  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
-  const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
-  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
 }
