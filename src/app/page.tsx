@@ -8,6 +8,7 @@ import { reverseGeocode } from "@/utils/tripUtils";
 import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
+import { fetchHistoricalStops } from "@/utils/supabaseUtils"; // ✅ NOUVEAU IMPORT
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -50,6 +51,9 @@ export default function Home() {
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
   
+  // ✅ NOUVEAU : État pour les arrêts historiques
+  const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([]);
+  
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
@@ -65,6 +69,17 @@ export default function Home() {
       setPois(data);
     };
     loadPOIs();
+  }, []);
+
+  // ============================================
+  // RÉCUPÉRER LES ARRÊTS HISTORIQUES (✅ NOUVEAU)
+  // ============================================
+  useEffect(() => {
+    const loadHistoricalStops = async () => {
+      const stopsData = await fetchHistoricalStops();
+      setHistoricalStops(stopsData);
+    };
+    loadHistoricalStops();
   }, []);
 
   // ============================================
@@ -216,6 +231,7 @@ export default function Home() {
           onMapReady={(map) => { mapRef.current = map; }}
           stops={stops}
           pois={pois}
+          historicalStops={historicalStops} // ✅ NOUVEAU : Envoi des arrêts historiques
         />
       </div>
 
@@ -552,5 +568,4 @@ export default function Home() {
       </motion.div>
     </div>
   );
-          }
-              
+}
