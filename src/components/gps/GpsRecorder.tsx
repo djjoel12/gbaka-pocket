@@ -43,7 +43,8 @@ type GpsRecorderProps = {
   price?: string;
   minDistance?: number;
   maxAccuracy?: number;
-  onStopsCountChange?: (count: number) => void; // ✅ AJOUTÉ
+  onStopsCountChange?: (count: number) => void;
+  onStopsChange?: (stops: StopPoint[]) => void; // ✅ NOUVEAU
 };
 
 function detectSpike(
@@ -81,7 +82,8 @@ export default function GpsRecorder({
   price = "",
   minDistance = 5,
   maxAccuracy = 50,
-  onStopsCountChange, // ✅ AJOUTÉ
+  onStopsCountChange,
+  onStopsChange, // ✅ NOUVEAU
 }: GpsRecorderProps) {
   const [points, setPoints] = useState<GPSPoint[]>([]);
   const [gpsStatus, setGpsStatus] = useState("En attente");
@@ -97,7 +99,6 @@ export default function GpsRecorder({
   const [syncStatus, setSyncStatus] = useState<"idle" | "success" | "error">("idle");
   const [syncMessage, setSyncMessage] = useState("");
 
-  // ===== GESTION DES ARRÊTS =====
   const [pendingStop, setPendingStop] = useState<StopPoint | null>(null);
   const [userStops, setUserStops] = useState<StopPoint[]>([]);
   const [showStopConfirmation, setShowStopConfirmation] = useState(false);
@@ -107,14 +108,18 @@ export default function GpsRecorder({
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   // ============================================
-  // REMONTER LE NOMBRE D'ARRÊTS
+  // REMONTER LES ARRÊTS
   // ============================================
   useEffect(() => {
+    const totalStops = stops.filter(s => !s.isStart && !s.isEnd).length + userStops.length;
     if (onStopsCountChange) {
-      const totalStops = stops.filter(s => !s.isStart && !s.isEnd).length + userStops.length;
       onStopsCountChange(totalStops);
     }
-  }, [stops, userStops, onStopsCountChange]);
+    if (onStopsChange) {
+      const allStops = [...stops.filter(s => !s.isStart && !s.isEnd), ...userStops];
+      onStopsChange(allStops);
+    }
+  }, [stops, userStops, onStopsCountChange, onStopsChange]);
 
   // ============================================
   // CHRONOMÈTRE
@@ -254,14 +259,11 @@ export default function GpsRecorder({
           const updatedPoints = [...previousPoints, newPoint];
           onPointsChange(updatedPoints);
           
-          // ===== DÉTECTION DES ARRÊTS =====
           if (updatedPoints.length % 10 === 0) {
             const detectedStops = detectStops(updatedPoints);
             
-            // Nouvel arrêt détecté ?
             const newStop = detectedStops[detectedStops.length - 1];
             if (newStop && !newStop.isStart && !newStop.isEnd) {
-              // Vérifier si cet arrêt a déjà été proposé
               const existingStop = userStops.find(s => 
                 Math.abs(s.coordinates[0] - newStop.coordinates[0]) < 0.0001 &&
                 Math.abs(s.coordinates[1] - newStop.coordinates[1]) < 0.0001
@@ -304,10 +306,6 @@ export default function GpsRecorder({
     watchIdRef.current = watchId;
   };
 
-  // ============================================
-  // GESTION DES ARRÊTS
-  // ============================================
-
   const handleConfirmStop = (name: string) => {
     if (pendingStop) {
       const confirmedStop: StopPoint = {
@@ -338,9 +336,6 @@ export default function GpsRecorder({
     console.log(`📌 Arrêt manuel ajouté: ${stop.name}`);
   };
 
-  // ============================================
-  // SAUVEGARDE AVEC PRIX
-  // ============================================
   const saveTripWithPrice = async (tripPrice: number) => {
     if (points.length === 0) {
       setError("Aucun point GPS enregistré");
@@ -348,16 +343,12 @@ export default function GpsRecorder({
     }
 
     try {
-      // ===== RÉCUPÉRER TOUS LES ARRÊTS =====
       const allStops = [...stops.filter(s => !s.isManual && !s.isStart && !s.isEnd), ...userStops];
       
-      // Détection des arrêts
       const detectedStops = await detectStops(points);
       
-      // Fusionner les arrêts détectés et les arrêts manuels
       const finalStops = [...detectedStops, ...userStops];
       
-      // Géocodage du point d'arrivée
       let endName = endPointName;
       if (!endName && detectedStops.length > 0) {
         const lastStop = detectedStops[detectedStops.length - 1];
@@ -371,7 +362,6 @@ export default function GpsRecorder({
       const maxSpeed = calculateMaxSpeed(points);
       const quality = calculateQuality(points);
 
-      // Conversion au format Gbaka Pocket
       const tripData = convertToGbakaFormat(
         points,
         finalStops,
@@ -390,7 +380,6 @@ export default function GpsRecorder({
 
       console.log(`🛑 ${finalStops.length} arrêts enregistrés`);
 
-      // ===== SAUVEGARDE LOCALE =====
       const oldTripData: any = {
         id: tripData.id,
         line: {
@@ -423,7 +412,6 @@ export default function GpsRecorder({
       setTripSaved(true);
       setShowPriceInput(false);
 
-      // ===== ENVOI VERS SUPABASE =====
       try {
         const result = await saveTripToSupabase(tripData);
         if (result.success) {
@@ -459,9 +447,6 @@ export default function GpsRecorder({
     }
   };
 
-  // ============================================
-  // TERMINER LE TRAJET
-  // ============================================
   const stopRecording = () => {
     stopGPS();
 
@@ -480,9 +465,6 @@ export default function GpsRecorder({
     }
   };
 
-  // ============================================
-  // VALIDATION PRIX
-  // ============================================
   const handlePriceSubmit = () => {
     const priceValue = parseInt(finalPrice);
     if (priceValue > 0) {
@@ -492,9 +474,6 @@ export default function GpsRecorder({
     }
   };
 
-  // ============================================
-  // RESET
-  // ============================================
   useEffect(() => {
     if (status === "idle") {
       stopGPS();
@@ -524,9 +503,6 @@ export default function GpsRecorder({
     }
   }, [status]);
 
-  // ============================================
-  // NETTOYAGE
-  // ============================================
   useEffect(() => {
     return () => {
       stopGPS();
@@ -544,7 +520,6 @@ export default function GpsRecorder({
     <>
       {isRecording && !showPriceInput && (
         <div className="w-full">
-          {/* ===== STOP MANAGER ===== */}
           <StopManager
             isRecording={isRecording}
             currentPosition={livePosition}
@@ -554,7 +529,6 @@ export default function GpsRecorder({
             onIgnoreStop={handleIgnoreStop}
           />
 
-          {/* ===== BOUTON TERMINER ===== */}
           <div className="flex items-center justify-between w-full mt-2">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-white/30">🛰️</span>
@@ -579,7 +553,6 @@ export default function GpsRecorder({
         </div>
       )}
 
-      {/* ===== FENÊTRE 7 : SAISIE PRIX ===== */}
       {showPriceInput && (
         <div className="bg-[#1a1a2e] border border-white/10 rounded-2xl p-4 mb-3">
           <div className="flex items-center gap-3 mb-3">
