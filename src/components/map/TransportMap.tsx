@@ -23,6 +23,7 @@ type TransportMapProps = {
   onMapReady?: (map: any) => void;
   stops?: StopPoint[];
   pois?: POI[];
+  historicalStops?: StopPoint[]; // ✅ NOUVEAU
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -73,6 +74,7 @@ export default function TransportMap({
   onMapReady,
   stops = [],
   pois = [],
+  historicalStops = [], // ✅ NOUVEAU
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -185,6 +187,24 @@ export default function TransportMap({
           </Marker>
         ))}
 
+        {/* ========================================================= */}
+        {/* ===== ARRÊTS HISTORIQUES (Trajets passés) ✅ NOUVEAU ===== */}
+        {/* ========================================================= */}
+        {historicalStops.map((stop, index) => (
+          <Marker
+            key={`hist-${index}`}
+            position={[stop.coordinates[0], stop.coordinates[1]]}
+            icon={createIcon("#9CA3AF", "", false)} // Icône grise
+          >
+            <Popup>
+              <div className="text-sm text-gray-400">
+                <p className="font-bold text-gray-600">{stop.name || "Arrêt Gbaka"}</p>
+                <p className="text-xs text-gray-500">📍 Enregistré précédemment</p>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
         {/* ===== POSITION GPS EN DIRECT ===== */}
         {livePosition && (
           <>
@@ -204,4 +224,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-}
+        }
