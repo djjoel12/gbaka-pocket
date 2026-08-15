@@ -6,6 +6,7 @@ import GpsRecorder from "@/components/gps/GpsRecorder";
 import type { LineInfo } from "@/types/trip";
 import { reverseGeocode } from "@/utils/tripUtils";
 import { motion, AnimatePresence } from "framer-motion";
+import { fetchAllPOIs, POI } from "@/utils/poiUtils";
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -45,12 +46,25 @@ export default function Home() {
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [stopsCount, setStopsCount] = useState(0);
+  const [pois, setPois] = useState<POI[]>([]);
+  const [stops, setStops] = useState<StopPoint[]>([]);
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
 
   const mapRef = useRef<any>(null);
+
+  // ============================================
+  // RÉCUPÉRER LES POI
+  // ============================================
+  useEffect(() => {
+    const loadPOIs = async () => {
+      const data = await fetchAllPOIs();
+      setPois(data);
+    };
+    loadPOIs();
+  }, []);
 
   // ============================================
   // AUTODÉTECTION
@@ -119,16 +133,12 @@ export default function Home() {
   };
 
   const handleRecenter = () => {
-    console.log("🔍 handleRecenter appelé");
     if (mapRef.current && livePosition) {
-      console.log("📍 Recentrage sur:", livePosition.latitude, livePosition.longitude);
       mapRef.current.setView(
         [livePosition.latitude, livePosition.longitude],
         16,
         { animate: true, duration: 0.5 }
       );
-    } else {
-      console.log("⚠️ mapRef ou livePosition null");
     }
   };
 
@@ -202,10 +212,9 @@ export default function Home() {
           points={points}
           livePosition={livePosition}
           isRecording={status === "recording"}
-          onMapReady={(map) => { 
-            mapRef.current = map; 
-            console.log("🗺️ Carte prête");
-          }}
+          onMapReady={(map) => { mapRef.current = map; }}
+          stops={stops}
+          pois={pois}
         />
       </div>
 
@@ -221,7 +230,6 @@ export default function Home() {
           <button
             onClick={handleRecenter}
             className="h-10 w-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center text-lg hover:bg-black/80 transition"
-            title="Recentrer sur ma position"
           >
             🧭
           </button>
@@ -240,11 +248,8 @@ export default function Home() {
         className="absolute bottom-0 left-0 right-0 z-10 bg-[#12121a] rounded-t-3xl shadow-2xl border-t border-white/5 max-h-[95vh] overflow-hidden"
       >
         {/* ===== HANDLE ===== */}
-        <div 
-          className="flex justify-center pt-3 pb-2 cursor-pointer"
-          onClick={toggleSheet}
-        >
-          <div className="w-12 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition" />
+        <div className="flex justify-center pt-3 pb-2" onClick={toggleSheet}>
+          <div className="w-12 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition cursor-pointer" />
         </div>
 
         <div className="px-5 pb-6 overflow-y-auto max-h-[90vh]">
@@ -467,7 +472,7 @@ export default function Home() {
                       </div>
                     </motion.div>
                   )}
-       </AnimatePresence>
+                </AnimatePresence>
               </div>
 
               <GpsRecorder
@@ -482,6 +487,7 @@ export default function Home() {
                 onPointsChange={setPoints}
                 onLivePositionChange={setLivePosition}
                 onStopsCountChange={setStopsCount}
+                onStopsChange={setStops}
                 minDistance={2}
                 maxAccuracy={150}
               />
@@ -525,11 +531,12 @@ export default function Home() {
                 }}
                 className="w-full bg-white/10 border border-white/20 rounded-xl py-4 text-base font-bold text-white hover:bg-white/20 transition"
               >
+                
                 🔄 Nouveau trajet
-              </button>
+                </button>
             </>
           )}
-          
+
           {/* ========================================================= */}
           {/* ===== FOOTER COMMUN ===== */}
           {/* ========================================================= */}
@@ -544,5 +551,5 @@ export default function Home() {
       </motion.div>
     </div>
   );
-}
-          
+          }
+              
