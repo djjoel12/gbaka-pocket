@@ -6,16 +6,15 @@ import {
   Marker,
   Polyline,
   Circle,
-  useMap,
-  useMapEvents,
   Popup,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { StopPoint, GPSPoint } from "@/types/trip";
+import { POI } from "@/utils/poiUtils";
 
 type TransportMapProps = {
   points: GPSPoint[];
@@ -23,6 +22,7 @@ type TransportMapProps = {
   isRecording?: boolean;
   onMapReady?: (map: any) => void;
   stops?: StopPoint[];
+  pois?: POI[];
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -57,117 +57,10 @@ function createIcon(color: string, label: string = "", isPulsing: boolean = fals
 
 const startIcon = createIcon("#22C55E", "🏁");
 const endIcon = createIcon("#EF4444", "🏁");
-const liveIcon = createIcon("#2563EB", "", true);
+const liveIcon = createIcon("#3B82F6", "", true);
 const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
-
-// ============================================
-// CALCUL DU CAP (BEARING)
-// ============================================
-function calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number | null {
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-  const lat1Rad = lat1 * Math.PI / 180;
-  const lat2Rad = lat2 * Math.PI / 180;
-  
-  const x = Math.sin(dLon) * Math.cos(lat2Rad);
-  const y = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
-  
-  const bearing = (Math.atan2(x, y) * 180 / Math.PI + 360) % 360;
-  return bearing;
-}
-
-// ============================================
-// COMPOSANT DE SUIVI FLUIDE
-// ============================================
-
-function MapFollower({ 
-  position, 
-  isFollowing, 
-  onDragStart
-}: { 
-  position: [number, number];
-  isFollowing: boolean;
-  onDragStart?: () => void;
-}) {
-  const map = useMap();
-  const [lastPosition, setLastPosition] = useState<[number, number] | null>(null);
-  const [isUserInteracting, setIsUserInteracting] = useState(false);
-  const animationRef = useRef<any>(null);
-
-  // ============================================
-  // DÉTECTION DES INTERACTIONS UTILISATEUR (SOURIS)
-  // ============================================
-  useMapEvents({
-    dragstart() {
-      setIsUserInteracting(true);
-      if (onDragStart) onDragStart();
-    },
-    dragend() {
-      setIsUserInteracting(false);
-    },
-    mousedown() {
-      setIsUserInteracting(true);
-      if (onDragStart) onDragStart();
-    },
-    mouseup() {
-      setIsUserInteracting(false);
-    },
-  });
-
-  // ============================================
-  // DÉTECTION DES INTERACTIONS UTILISATEUR (TACTILE)
-  // ============================================
-  useEffect(() => {
-    const mapInstance = map;
-    if (!mapInstance) return;
-
-    const container = mapInstance.getContainer();
-
-    const handleTouchStart = () => {
-      setIsUserInteracting(true);
-      if (onDragStart) onDragStart();
-    };
-
-    const handleTouchEnd = () => {
-      setIsUserInteracting(false);
-    };
-
-    container.addEventListener('touchstart', handleTouchStart);
-    container.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [map, onDragStart]);
-
-  // ============================================
-  // SUIVI FLUIDE
-  // ============================================
-  useEffect(() => {
-    if (!isFollowing || isUserInteracting) return;
-
-    if (lastPosition && position) {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-
-      map.flyTo(position, 17, {
-        animate: true,
-        duration: 1.2,
-      });
-    } else if (position && !lastPosition) {
-      map.flyTo(position, 17, {
-        animate: true,
-        duration: 1.5,
-      });
-    }
-
-    setLastPosition(position);
-  }, [position, map, isFollowing, isUserInteracting]);
-
-  return null;
-}
+const poiIcon = createIcon("#F59E0B", "📍", false);
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -179,6 +72,7 @@ export default function TransportMap({
   isRecording = false,
   onMapReady,
   stops = [],
+  pois = [],
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -194,81 +88,34 @@ export default function TransportMap({
   const routePositions: [number, number][] = points.map((point) => [point.latitude, point.longitude]);
 
   const mapRef = useRef<any>(null);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [isUserInteracting, setIsUserInteracting] = useState(false);
 
-  // ============================================
-  // EXPOSER LES FONCTIONS AU PARENT
-  // ============================================
   useEffect(() => {
     if (mapRef.current && onMapReady) {
-      onMapReady({
-        ...mapRef.current,
-        recenter: handleRecenter,
-        toggleFollow: () => setIsFollowing(prev => !prev),
-        isFollowing: () => isFollowing,
-      });
+      onMapReady(mapRef.current);
     }
-  }, [onMapReady, isFollowing]);
+  }, [onMapReady]);
 
-  // ============================================
-  // GESTION DU SUIVI
-  // ============================================
-  const handleUserInteraction = () => {
-    setIsUserInteracting(true);
-    setIsFollowing(false);
-  };
-
-  const handleRecenter = () => {
-    if (livePosition) {
-      setIsFollowing(true);
-      setIsUserInteracting(false);
-      
-      const map = mapRef.current;
-      if (map) {
-        map.flyTo(
-          [livePosition.latitude, livePosition.longitude],
-          17,
-          { animate: true, duration: 1.5 }
-        );
-      }
-    }
-  };
-
-  // ============================================
-  // RENDU
-  // ============================================
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
         center={displayPosition}
-        zoom={15}
+        zoom={13}
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
-        style={{ background: "#e8ecf1" }}
+        style={{ background: "#0a0e17" }}
         ref={mapRef}
-        zoomControl={false}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?label_color=ffffff"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        {/* ===== SUIVI FLUIDE ===== */}
-        {livePosition && isRecording && (
-          <MapFollower
-            position={[livePosition.latitude, livePosition.longitude]}
-            isFollowing={isFollowing && !isUserInteracting}
-            onDragStart={handleUserInteraction}
-          />
-        )}
-
-        {/* ===== TRACÉ GPS ===== */}
+        {/* ===== TRACÉ ===== */}
         {routePositions.length > 1 && (
           <>
-            <Polyline positions={routePositions} color="#2563EB" weight={20} opacity={0.12} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#2563EB" weight={10} opacity={0.2} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#2563EB" weight={5} opacity={0.85} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#3B82F6" weight={20} opacity={0.12} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#3B82F6" weight={10} opacity={0.2} lineJoin="round" lineCap="round" />
+            <Polyline positions={routePositions} color="#3B82F6" weight={5} opacity={0.85} lineJoin="round" lineCap="round" />
             <Polyline positions={routePositions} color="#60A5FA" weight={2} opacity={0.6} lineJoin="round" lineCap="round" dashArray="10 14" />
           </>
         )}
@@ -291,13 +138,13 @@ export default function TransportMap({
           </Marker>
         )}
 
-        {/* ===== ARRÊTS SUR LA CARTE ===== */}
+        {/* ===== ARRÊTS DU TRAJET EN COURS ===== */}
         {stops.map((stop, index) => {
           if (stop.isStart || stop.isEnd) return null;
           const isManual = stop.isManual || false;
           return (
             <Marker
-              key={stop.id || index}
+              key={stop.id || `stop-${index}`}
               position={[stop.coordinates[0], stop.coordinates[1]]}
               icon={isManual ? manualStopIcon : stopIcon}
             >
@@ -316,6 +163,28 @@ export default function TransportMap({
           );
         })}
 
+        {/* ===== POI PERMANENTS ===== */}
+        {pois.map((poi) => (
+          <Marker
+            key={poi.id}
+            position={[poi.latitude, poi.longitude]}
+            icon={poiIcon}
+          >
+            <Popup>
+              <div className="text-sm">
+                <p className="font-bold text-orange-600">📍 {poi.name}</p>
+                <p className="text-xs text-gray-500">🛑 Arrêt permanent</p>
+                {poi.line_ids && poi.line_ids.length > 0 && (
+                  <p className="text-xs text-gray-500">🚌 Lignes: {poi.line_ids.join(', ')}</p>
+                )}
+                {poi.is_verified && (
+                  <p className="text-xs text-green-500">✅ Vérifié</p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
         {/* ===== POSITION GPS EN DIRECT ===== */}
         {livePosition && (
           <>
@@ -324,8 +193,8 @@ export default function TransportMap({
               center={[livePosition.latitude, livePosition.longitude]}
               radius={livePosition.accuracy}
               pathOptions={{
-                color: "#2563EB",
-                fillColor: "#2563EB",
+                color: "#3B82F6",
+                fillColor: "#3B82F6",
                 fillOpacity: 0.08,
                 weight: 1.5,
               }}
@@ -335,4 +204,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-  }
+}
