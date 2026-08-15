@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabase'
-import { TripData } from '@/types/trip'
+import { TripData, StopPoint } from '@/types/trip'
 
 export const saveTripToSupabase = async (tripData: TripData) => {
   console.log('📤 Envoi vers Supabase...')
@@ -66,3 +66,37 @@ export const saveTripToSupabase = async (tripData: TripData) => {
     return { success: false, error }
   }
 }
+
+// ============================================
+// RÉCUPÉRER LES ARRÊTS HISTORIQUES DES TRAJETS
+// ============================================
+export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
+  try {
+    // On prend les 100 derniers trajets pour avoir une bonne couverture
+    const { data, error } = await supabase
+      .from('trips')
+      .select('stops_json')
+      .order('date', { ascending: false })
+      .limit(100);
+
+    if (error || !data) {
+      console.error('❌ Erreur récupération arrêts historiques:', error);
+      return [];
+    }
+
+    // On regroupe tous les arrêts de tous les trajets en une seule liste
+    const allStops = data.flatMap(trip => trip.stops_json || []);
+    
+    // On filtre les doublons (pour ne pas avoir 50 marqueurs au même endroit)
+    const uniqueStops = allStops.filter((stop: StopPoint, index: number, self: StopPoint[]) =>
+      index === self.findIndex((t) => 
+        t.coordinates[0] === stop.coordinates[0] && t.coordinates[1] === stop.coordinates[1]
+      )
+    );
+
+    return uniqueStops;
+  } catch (error) {
+    console.error('❌ Erreur:', error);
+    return [];
+  }
+};
