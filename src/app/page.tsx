@@ -477,7 +477,7 @@ export default function Home() {
                 <span className="text-xs font-medium text-green-400">Trajet terminé</span>
               </div>
 
-              div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✅</span>
                   <div>
