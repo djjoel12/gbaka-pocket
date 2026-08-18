@@ -198,7 +198,7 @@ export default function TransportMap({
         {historicalStops.map((stop, index) => (
           <Marker
             key={`hist-${index}`}
-            position={[stop.coordinates[1], stop.coordinates[0]]}
+            position={[stop.coordinates[0], stop.coordinates[1]]}
             icon={historicalStopIcon} // ✅ Utilise la nouvelle icône blanche avec 🚏
           >
             <Popup>
