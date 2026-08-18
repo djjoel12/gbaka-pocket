@@ -23,7 +23,7 @@ type TransportMapProps = {
   onMapReady?: (map: any) => void;
   stops?: StopPoint[];
   pois?: POI[];
-  historicalStops?: StopPoint[]; // ✅ NOUVEAU
+  historicalStops?: StopPoint[];
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -64,6 +64,16 @@ const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 const poiIcon = createIcon("#F59E0B", "📍", false);
 
 // ============================================
+// ✅ NOUVELLE ICÔNE TRÈS VISIBLE POUR LES ARRÊTS HISTORIQUES
+// ============================================
+const historicalStopIcon = L.divIcon({
+  html: `<div style="background: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(255,255,255,0.8); border: 2px solid #3B82F6; font-size: 18px;">🚏</div>`,
+  className: "",
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+});
+
+// ============================================
 // COMPOSANT PRINCIPAL
 // ============================================
 
@@ -74,7 +84,7 @@ export default function TransportMap({
   onMapReady,
   stops = [],
   pois = [],
-  historicalStops = [], // ✅ NOUVEAU
+  historicalStops = [],
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -101,7 +111,7 @@ export default function TransportMap({
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
         center={displayPosition}
-        zoom={13}
+        zoom={15} // ✅ Zoom réglé sur 15 pour voir les arrêts immédiatement
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
         style={{ background: "#0a0e17" }}
@@ -112,7 +122,6 @@ export default function TransportMap({
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
-        {/* ===== TRACÉ ===== */}
         {routePositions.length > 1 && (
           <>
             <Polyline positions={routePositions} color="#3B82F6" weight={20} opacity={0.12} lineJoin="round" lineCap="round" />
@@ -122,7 +131,6 @@ export default function TransportMap({
           </>
         )}
 
-        {/* ===== POINT DE DÉPART ===== */}
         {firstPoint && (
           <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon}>
             <Popup>
@@ -131,7 +139,6 @@ export default function TransportMap({
           </Marker>
         )}
 
-        {/* ===== POINT D'ARRIVÉE ===== */}
         {lastPoint && points.length > 1 && (
           <Marker position={[lastPoint.latitude, lastPoint.longitude]} icon={endIcon}>
             <Popup>
@@ -140,7 +147,6 @@ export default function TransportMap({
           </Marker>
         )}
 
-        {/* ===== ARRÊTS DU TRAJET EN COURS ===== */}
         {stops.map((stop, index) => {
           if (stop.isStart || stop.isEnd) return null;
           const isManual = stop.isManual || false;
@@ -165,7 +171,6 @@ export default function TransportMap({
           );
         })}
 
-        {/* ===== POI PERMANENTS ===== */}
         {pois.map((poi) => (
           <Marker
             key={poi.id}
@@ -188,24 +193,23 @@ export default function TransportMap({
         ))}
 
         {/* ========================================================= */}
-        {/* ===== ARRÊTS HISTORIQUES (Trajets passés) ✅ NOUVEAU ===== */}
+        {/* ===== ARRÊTS HISTORIQUES (TRÈS VISIBLES) ===== */}
         {/* ========================================================= */}
         {historicalStops.map((stop, index) => (
           <Marker
             key={`hist-${index}`}
             position={[stop.coordinates[0], stop.coordinates[1]]}
-            icon={createIcon("#9CA3AF", "", false)} // Icône grise
+            icon={historicalStopIcon} // ✅ Utilise la nouvelle icône blanche avec 🚏
           >
             <Popup>
-              <div className="text-sm text-gray-400">
-                <p className="font-bold text-gray-600">{stop.name || "Arrêt Gbaka"}</p>
-                <p className="text-xs text-gray-500">📍 Enregistré précédemment</p>
+              <div className="text-sm text-gray-800">
+                <p className="font-bold">{stop.name || "Arrêt Gbaka"}</p>
+                <p className="text-xs text-gray-500">📍 Arrêt enregistré</p>
               </div>
             </Popup>
           </Marker>
         ))}
 
-        {/* ===== POSITION GPS EN DIRECT ===== */}
         {livePosition && (
           <>
             <Marker position={[livePosition.latitude, livePosition.longitude]} icon={liveIcon} />
@@ -224,4 +228,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-        }
+              }
