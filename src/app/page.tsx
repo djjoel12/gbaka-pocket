@@ -8,7 +8,7 @@ import { reverseGeocode } from "@/utils/tripUtils";
 import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
-import { fetchHistoricalStops } from "@/utils/supabaseUtils"; // ✅ NOUVEAU IMPORT
+import { fetchHistoricalStops } from "@/utils/supabaseUtils";
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -51,7 +51,7 @@ export default function Home() {
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
   
-  // ✅ NOUVEAU : État pour les arrêts historiques
+  // ✅ État pour les arrêts historiques
   const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([]);
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
@@ -60,9 +60,6 @@ export default function Home() {
 
   const mapRef = useRef<any>(null);
 
-  // ============================================
-  // RÉCUPÉRER LES POI
-  // ============================================
   useEffect(() => {
     const loadPOIs = async () => {
       const data = await fetchAllPOIs();
@@ -71,9 +68,7 @@ export default function Home() {
     loadPOIs();
   }, []);
 
-  // ============================================
-  // RÉCUPÉRER LES ARRÊTS HISTORIQUES (✅ NOUVEAU)
-  // ============================================
+  // ✅ Charger les arrêts historiques
   useEffect(() => {
     const loadHistoricalStops = async () => {
       const stopsData = await fetchHistoricalStops();
@@ -82,9 +77,6 @@ export default function Home() {
     loadHistoricalStops();
   }, []);
 
-  // ============================================
-  // AUTODÉTECTION
-  // ============================================
   useEffect(() => {
     if (showDestinationInput && !startPointName && navigator.geolocation) {
       setIsAutoDetecting(true);
@@ -110,9 +102,6 @@ export default function Home() {
     }
   }, [showDestinationInput]);
 
-  // ============================================
-  // GÉNÉRATION LIGNE
-  // ============================================
   useEffect(() => {
     if (startPointName && destination) {
       const startMain = startPointName.split(',')[0].trim();
@@ -121,9 +110,6 @@ export default function Home() {
     }
   }, [startPointName, destination]);
 
-  // ============================================
-  // CHRONOMÈTRE
-  // ============================================
   useEffect(() => {
     if (status === "recording") {
       const interval = setInterval(() => {
@@ -136,9 +122,6 @@ export default function Home() {
     }
   }, [status]);
 
-  // ============================================
-  // ACTIONS
-  // ============================================
   const handleStartTrip = () => setShowDestinationInput(true);
 
   const confirmDestination = () => {
@@ -171,9 +154,6 @@ export default function Home() {
     estimatedPrice: price ? parseInt(price) : 0,
   } : null;
 
-  // ============================================
-  // FORMATAGE
-  // ============================================
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600);
     const m = Math.floor((seconds % 3600) / 60);
@@ -183,9 +163,6 @@ export default function Home() {
     return `${s}s`;
   };
 
-  // ============================================
-  // CALCULS STATS
-  // ============================================
   const calculateTotalDistance = (pts: GPSPoint[]): number => {
     if (pts.length < 2) return 0;
     let total = 0;
@@ -216,13 +193,9 @@ export default function Home() {
     return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
   };
 
-  // ============================================
-  // RENDU
-  // ============================================
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#0a0a0f]">
       
-      {/* ===== CARTE ===== */}
       <div className="absolute inset-0 z-0">
         <TransportMap
           points={points}
@@ -231,11 +204,10 @@ export default function Home() {
           onMapReady={(map) => { mapRef.current = map; }}
           stops={stops}
           pois={pois}
-          historicalStops={historicalStops} // ✅ NOUVEAU : Envoi des arrêts historiques
+          historicalStops={historicalStops} // ✅ Envoi des arrêts historiques
         />
       </div>
 
-      {/* ===== CONTROLES CARTE ===== */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         <button className="h-10 w-10 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white flex items-center justify-center text-sm hover:bg-black/80 transition">
           🗺️
@@ -253,7 +225,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* ===== BOTTOM SHEET ===== */}
       <motion.div
         drag="y"
         dragConstraints={{ top: 0, bottom: 0 }}
@@ -264,14 +235,12 @@ export default function Home() {
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
         className="absolute bottom-0 left-0 right-0 z-10 bg-[#12121a] rounded-t-3xl shadow-2xl border-t border-white/5 max-h-[95vh] overflow-hidden"
       >
-        {/* ===== HANDLE ===== */}
         <div className="flex justify-center pt-3 pb-2" onClick={toggleSheet}>
           <div className="w-12 h-1.5 rounded-full bg-white/20 hover:bg-white/40 transition cursor-pointer" />
         </div>
 
         <div className="px-5 pb-6 overflow-y-auto max-h-[90vh]">
           
-          {/* ===== EN-TÊTE COMMUN ===== */}
           <div className="flex items-center gap-3 mb-4">
             <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center text-xl flex-shrink-0">
               🚌
@@ -288,9 +257,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* ========================================================= */}
-          {/* ===== FENÊTRE 1 : ACCUEIL (IDLE) ===== */}
-          {/* ========================================================= */}
           {!showDestinationInput && status === "idle" && (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-500/30 mb-4 w-fit">
@@ -315,9 +281,6 @@ export default function Home() {
             </>
           )}
 
-          {/* ========================================================= */}
-          {/* ===== FENÊTRE 2 : SAISIE ===== */}
-          {/* ========================================================= */}
           {showDestinationInput && (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-500/30 mb-4 w-fit">
@@ -410,9 +373,6 @@ export default function Home() {
             </>
           )}
 
-          {/* ========================================================= */}
-          {/* ===== FENÊTRE 3 : ENREGISTREMENT ===== */}
-          {/* ========================================================= */}
           {status === "recording" && (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 mb-4 w-fit">
@@ -430,7 +390,6 @@ export default function Home() {
                 {lineName && <span className="text-[10px] text-white/30">🚌 {lineName}</span>}
               </div>
 
-              {/* ===== TABLEAU DE BORD ===== */}
               <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-3">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider">Tableau de bord</h3>
@@ -511,9 +470,6 @@ export default function Home() {
             </>
           )}
 
-          {/* ========================================================= */}
-          {/* ===== FENÊTRE 6 : FIN DE TRAJET (PAUSED) ===== */}
-          {/* ========================================================= */}
           {status === "paused" && (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/20 border border-green-500/30 mb-4 w-fit">
@@ -521,7 +477,7 @@ export default function Home() {
                 <span className="text-xs font-medium text-green-400">Trajet terminé</span>
               </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4">
+              div className="bg-white/5 border border-white/10 rounded-2xl p-4 mb-4">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">✅</span>
                   <div>
@@ -548,15 +504,11 @@ export default function Home() {
                 }}
                 className="w-full bg-white/10 border border-white/20 rounded-xl py-4 text-base font-bold text-white hover:bg-white/20 transition"
               >
-                
                 🔄 Nouveau trajet
-                </button>
+              </button>
             </>
           )}
 
-          {/* ========================================================= */}
-          {/* ===== FOOTER COMMUN ===== */}
-          {/* ========================================================= */}
           <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-white/30">Supabase</span>
