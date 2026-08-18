@@ -18,18 +18,16 @@ export const saveTripToSupabase = async (tripData: TripData) => {
       ? tripData.stops.map(s => `${s.coordinates[1]} ${s.coordinates[0]}`).join(',')
       : null
 
-    // Insertion dans la table trips existante
     const { data, error } = await supabase
       .from('trips')
       .insert([{
-        // Colonnes existantes
         line_name: tripData.direction,
         destination: tripData.end.name,
         start_point_name: tripData.start.name,
         end_point_name: tripData.end.name,
         route: `LINESTRING(${routeString})`,
         stops: stopsString ? `MULTIPOINT(${stopsString})` : null,
-        total_distance: tripData.distance * 1000,  // km → m
+        total_distance: tripData.distance * 1000,
         duration: tripData.duration,
         average_speed: tripData.averageSpeed,
         max_speed: tripData.maxSpeed,
@@ -40,8 +38,6 @@ export const saveTripToSupabase = async (tripData: TripData) => {
         stops_json: tripData.stops,
         date: tripData.startedAt,
         is_verified: false,
-        
-        // Nouvelles colonnes ajoutées
         line_id: tripData.lineId,
         type: tripData.type,
         direction: tripData.direction,
@@ -68,11 +64,10 @@ export const saveTripToSupabase = async (tripData: TripData) => {
 }
 
 // ============================================
-// RÉCUPÉRER LES ARRÊTS HISTORIQUES DES TRAJETS
+// RÉCUPÉRER LES ARRÊTS HISTORIQUES (GBAKA)
 // ============================================
 export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
   try {
-    // On prend les 100 derniers trajets pour avoir une bonne couverture
     const { data, error } = await supabase
       .from('trips')
       .select('stops_json')
@@ -80,14 +75,13 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       .limit(100);
 
     if (error || !data) {
-      console.error('❌ Erreur récupération arrêts historiques:', error);
+      console.error('❌ Erreur récupération arrêts:', error);
       return [];
     }
 
-    // On regroupe tous les arrêts de tous les trajets en une seule liste
     const allStops = data.flatMap(trip => trip.stops_json || []);
     
-    // On filtre les doublons (pour ne pas avoir 50 marqueurs au même endroit)
+    // Filtre les doublons pour ne pas surcharger la carte
     const uniqueStops = allStops.filter((stop: StopPoint, index: number, self: StopPoint[]) =>
       index === self.findIndex((t) => 
         t.coordinates[0] === stop.coordinates[0] && t.coordinates[1] === stop.coordinates[1]
