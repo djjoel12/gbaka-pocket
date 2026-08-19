@@ -52,26 +52,7 @@ export default function Home() {
   const [stops, setStops] = useState<StopPoint[]>([]);
   
   // ✅ État pour les arrêts historiques
-  const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([
-  {
-    id: "manual-1786548190933",
-    name: "Sable",
-    coordinates: [5.3564114, -4.0661127],
-    isManual: true,
-  },
-  {
-    id: "manual-1786548298082",
-    name: "Escalier",
-    coordinates: [5.3574683, -4.0601366],
-    isManual: true,
-  },
-  {
-    id: "manual-1786548419223",
-    name: "Carrefour policier",
-    coordinates: [5.359888, -4.0454839],
-    isManual: true,
-  },
-]);
+  
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
@@ -87,6 +68,35 @@ export default function Home() {
   }, []);
 
   // ✅ Charger les arrêts historiques
+  const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([
+  {
+    id: "manual-1786548190933",
+    name: "Sable",
+    coordinates: [5.3564114, -4.0661127],
+    timestamp: Date.now(),
+    duration: 0,
+    isStart: false,
+    isEnd: false,
+  },
+  {
+    id: "manual-1786548298082",
+    name: "Escalier",
+    coordinates: [5.3574683, -4.0601366],
+    timestamp: Date.now(),
+    duration: 0,
+    isStart: false,
+    isEnd: false,
+  },
+  {
+    id: "manual-1786548419223",
+    name: "Carrefour policier",
+    coordinates: [5.359888, -4.0454839],
+    timestamp: Date.now(),
+    duration: 0,
+    isStart: false,
+    isEnd: false,
+  },
+]);
   useEffect(() => {
     const loadHistoricalStops = async () => {
       const stopsData = await fetchHistoricalStops();
