@@ -67,10 +67,25 @@ const poiIcon = createIcon("#F59E0B", "📍", false);
 // ✅ NOUVELLE ICÔNE TRÈS VISIBLE POUR LES ARRÊTS HISTORIQUES
 // ============================================
 const historicalStopIcon = L.divIcon({
-  html: `<div style="background: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(255,255,255,0.8); border: 2px solid #3B82F6; font-size: 18px;">🚏</div>`,
+  html: `
+    <div style="
+      background: white; 
+      border-radius: 50%; 
+      width: 44px; 
+      height: 44px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      box-shadow: 0 0 20px rgba(59,130,246,0.9), 0 0 60px rgba(59,130,246,0.4);
+      border: 4px solid #3B82F6; 
+      font-size: 24px;
+    ">
+      🚏
+    </div>
+  `,
   className: "",
-  iconSize: [32, 32],
-  iconAnchor: [16, 16],
+  iconSize: [44, 44],
+  iconAnchor: [22, 22],
 });
 
 // ============================================
