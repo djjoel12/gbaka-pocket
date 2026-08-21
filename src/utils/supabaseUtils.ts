@@ -92,7 +92,6 @@ export const saveTripToSupabase = async (tripData: TripData) => {
   }
 }
 
-
 // ======================================================
 // RÉCUPÉRER LES ARRÊTS ENREGISTRÉS DANS stops_json
 // ======================================================
@@ -106,168 +105,168 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       .order('date', { ascending: false })
       .limit(100)
 
-    // ✅ NOUVEAU CODE (à mettre) :
-  if (error) {
-    console.error('❌ ERREUR SUPABASE STOPS:', error)
-    throw new Error(
-      `Impossible de récupérer les arrêts : ${
-        error.message || 'Erreur Supabase'
-      }`
-    )
-  }
+    // ✅ VÉRIFICATION DE L'ERREUR ICI
+    if (error) {
+      console.error('❌ ERREUR SUPABASE STOPS:', error)
+      throw new Error(
+        `Impossible de récupérer les arrêts : ${
+          error.message || 'Erreur Supabase'
+        }`
+      )
+    }
 
     if (!data || data.length === 0) {
-      console.warn(
-        '⚠️ Aucun trajet contenant stops_json'
-      )
-
+      console.log('ℹ️ Aucun trajet trouvé')
       return []
     }
 
-    const allStops: StopPoint[] = []
+    const historicalStops: StopPoint[] = []
 
     for (const trip of data) {
+      let stops: any = trip.stops_json
 
-      let stops: unknown = trip.stops_json
-
-      // ------------------------------------------
-      // Si Supabase renvoie une chaîne JSON
-      // ------------------------------------------
-
+      // Si stops_json est enregistré comme texte JSON
       if (typeof stops === 'string') {
         try {
           stops = JSON.parse(stops)
-        } catch (error) {
-          console.warn(
-            '⚠️ stops_json impossible à parser:',
+        } catch (e) {
+          console.error(
+            '❌ Impossible de lire stops_json:',
             stops
           )
-
           continue
         }
       }
 
-      // ------------------------------------------
-      // On veut obligatoirement un tableau
-      // ------------------------------------------
-
+      // On attend un tableau
       if (!Array.isArray(stops)) {
+        console.warn(
+          '⚠️ stops_json n’est pas un tableau:',
+          stops
+        )
         continue
       }
 
-      // ------------------------------------------
-      // Vérifier chaque arrêt
-      // ------------------------------------------
+      for (let i = 0; i < stops.length; i++) {
+        const stop = stops[i]
 
-      for (const stop of stops) {
+        if (!stop) continue
 
-        if (!stop || typeof stop !== 'object') {
+        // Récupération des coordonnées
+        let coordinates = stop.coordinates
+
+        // Vérifier que coordinates existe
+        if (!Array.isArray(coordinates)) {
+          console.warn(
+            '⚠️ Arrêt sans coordinates:',
+            stop
+          )
           continue
         }
 
-        const s = stop as Partial<StopPoint>
-
-        if (
-          typeof s.id !== 'string' ||
-          typeof s.name !== 'string' ||
-          !Array.isArray(s.coordinates) ||
-          s.coordinates.length < 2
-        ) {
+        if (coordinates.length < 2) {
+          console.warn(
+            '⚠️ Coordonnées incomplètes:',
+            coordinates
+          )
           continue
         }
 
-        const latitude = Number(s.coordinates[0])
-        const longitude = Number(s.coordinates[1])
+        const latitude = Number(coordinates[0])
+        const longitude = Number(coordinates[1])
 
+        // Vérifier les coordonnées
         if (
           !Number.isFinite(latitude) ||
           !Number.isFinite(longitude)
         ) {
+          console.warn(
+            '⚠️ Coordonnées invalides:',
+            coordinates
+          )
           continue
         }
 
-        // ------------------------------------------
-        // Créer un StopPoint propre
-        // ------------------------------------------
+        // Créer un arrêt propre
+        const historicalStop: StopPoint = {
+          id:
+            typeof stop.id === 'string'
+              ? stop.id
+              : `historical-stop-${Date.now()}-${i}`,
 
-        allStops.push({
-          id: s.id,
-          name: s.name,
+          name:
+            typeof stop.name === 'string'
+              ? stop.name
+              : 'Arrêt enregistré',
 
-          // IMPORTANT :
-          // [latitude, longitude]
           coordinates: [
             latitude,
             longitude,
           ],
 
           timestamp:
-            typeof s.timestamp === 'number'
-              ? s.timestamp
+            typeof stop.timestamp === 'number'
+              ? stop.timestamp
               : Date.now(),
 
           duration:
-            typeof s.duration === 'number'
-              ? s.duration
+            typeof stop.duration === 'number'
+              ? stop.duration
               : 0,
 
           isStart:
-            typeof s.isStart === 'boolean'
-              ? s.isStart
+            typeof stop.isStart === 'boolean'
+              ? stop.isStart
               : false,
 
           isEnd:
-            typeof s.isEnd === 'boolean'
-              ? s.isEnd
+            typeof stop.isEnd === 'boolean'
+              ? stop.isEnd
               : false,
 
           isManual:
-            typeof s.isManual === 'boolean'
-              ? s.isManual
+            typeof stop.isManual === 'boolean'
+              ? stop.isManual
               : false,
 
           isConfirmed:
-            typeof s.isConfirmed === 'boolean'
-              ? s.isConfirmed
+            typeof stop.isConfirmed === 'boolean'
+              ? stop.isConfirmed
               : false,
-        })
+        }
+
+        historicalStops.push(historicalStop)
       }
     }
 
-    // ==================================================
-    // SUPPRIMER LES DOUBLONS
-    // ==================================================
-
-    const uniqueStops: StopPoint[] = []
-
-    for (const stop of allStops) {
-
-      const alreadyExists = uniqueStops.some(
-        existing =>
-          existing.coordinates[0] ===
-            stop.coordinates[0] &&
-          existing.coordinates[1] ===
-            stop.coordinates[1]
-      )
-
-      if (!alreadyExists) {
-        uniqueStops.push(stop)
+    // Supprimer les doublons
+    const uniqueStops = historicalStops.filter(
+      (stop, index, array) => {
+        return (
+          index ===
+          array.findIndex(
+            other =>
+              other.coordinates[0] ===
+                stop.coordinates[0] &&
+              other.coordinates[1] ===
+                stop.coordinates[1]
+          )
+        )
       }
-    }
+    )
 
     console.log(
-      `🚏 ${uniqueStops.length} arrêts historiques récupérés`
+      `🚏 ${uniqueStops.length} arrêts récupérés depuis Supabase`
     )
 
     return uniqueStops
 
   } catch (error) {
-
     console.error(
-      '❌ Erreur fetchHistoricalStops:',
+      '❌ fetchHistoricalStops:',
       error
     )
 
-    return []
+    throw error // ✅ On relance l'erreur pour que page.tsx la capte
   }
       }
