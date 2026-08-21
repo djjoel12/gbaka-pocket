@@ -106,14 +106,15 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       .order('date', { ascending: false })
       .limit(100)
 
-    if (error) {
-      console.error(
-        '❌ Erreur récupération stops_json:',
-        error
-      )
-
-      return []
-    }
+    // ✅ NOUVEAU CODE (à mettre) :
+  if (error) {
+    console.error('❌ ERREUR SUPABASE STOPS:', error)
+    throw new Error(
+      `Impossible de récupérer les arrêts : ${
+        error.message || 'Erreur Supabase'
+      }`
+    )
+  }
 
     if (!data || data.length === 0) {
       console.warn(
