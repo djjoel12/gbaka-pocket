@@ -73,14 +73,31 @@ export default function Home() {
 
 
 // Charger les arrêts enregistrés dans Supabase
+// ✅ NOUVEAU CODE (à mettre) :
 useEffect(() => {
   const loadHistoricalStops = async () => {
-    const stopsData = await fetchHistoricalStops()
-    setHistoricalStops(stopsData)
+    try {
+      const stopsData = await fetchHistoricalStops()
+      
+      console.log(`🚏 ${stopsData.length} arrêts chargés`)
+      
+      setHistoricalStops(stopsData)
+      
+    } catch (error) {
+      console.error('❌ Impossible de charger les arrêts:', error)
+      
+      alert(
+        error instanceof Error
+          ? error.message
+          : 'Impossible de charger les arrêts'
+      )
+      
+      setHistoricalStops([])
+    }
   }
-
+  
   loadHistoricalStops()
-}, [])
+}, []);
   
 
   useEffect(() => {
