@@ -7,12 +7,13 @@ import {
   Polyline,
   Circle,
   Popup,
+  useMap, // ✅ AJOUTER useMap
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react"; // ✅ Vérifier que useEffect est importé
 import { StopPoint, GPSPoint } from "@/types/trip";
 import { POI } from "@/utils/poiUtils";
 
@@ -89,6 +90,51 @@ const historicalStopIcon = L.divIcon({
 });
 
 // ============================================
+// ✅ COMPOSANT POUR ZOOMER SUR LE PREMIER ARRÊT HISTORIQUE
+// ============================================
+function ZoomToHistoricalStop({
+  historicalStops,
+}: {
+  historicalStops: StopPoint[];
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!historicalStops || historicalStops.length === 0) {
+      console.log("ℹ️ Aucun arrêt historique à afficher");
+      return;
+    }
+
+    const stop = historicalStops[0];
+
+    const latitude = Number(stop.coordinates[0]);
+    const longitude = Number(stop.coordinates[1]);
+
+    console.log("🚏 ARRÊT RÉCUPÉRÉ :", stop);
+    console.log("📍 Latitude :", latitude);
+    console.log("📍 Longitude :", longitude);
+
+    if (
+      !Number.isFinite(latitude) ||
+      !Number.isFinite(longitude)
+    ) {
+      console.error("❌ Coordonnées invalides :", stop.coordinates);
+      return;
+    }
+
+    map.setView(
+      [latitude, longitude],
+      17,
+      {
+        animate: true,
+      }
+    );
+  }, [historicalStops, map]);
+
+  return null;
+}
+
+// ============================================
 // COMPOSANT PRINCIPAL
 // ============================================
 
@@ -126,16 +172,21 @@ export default function TransportMap({
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
         center={displayPosition}
-        zoom={15} // ✅ Zoom réglé sur 15 pour voir les arrêts immédiatement
+        zoom={15}
         scrollWheelZoom={true}
         className="relative z-0 h-full w-full"
         style={{ background: "#0a0e17" }}
         ref={mapRef}
       >
+        {/* ✅ AJOUTER LE COMPOSANT ICI - JUSTE APRÈS L'OUVERTURE DE MapContainer */}
+        <ZoomToHistoricalStop
+          historicalStops={historicalStops}
+        />
+
         <TileLayer
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-/>
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+        />
 
         {routePositions.length > 1 && (
           <>
@@ -214,7 +265,7 @@ export default function TransportMap({
           <Marker
             key={`hist-${index}`}
             position={[stop.coordinates[0], stop.coordinates[1]]}
-            icon={historicalStopIcon} // ✅ Utilise la nouvelle icône blanche avec 🚏
+            icon={historicalStopIcon}
           >
             <Popup>
               <div className="text-sm text-gray-800">
@@ -243,5 +294,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-}
-              
+    }
