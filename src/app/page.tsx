@@ -70,7 +70,7 @@ export default function Home() {
 
   // ✅ Charger les arrêts historiques
   // État pour les arrêts historiques
-const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([])
+
 
 // Charger les arrêts enregistrés dans Supabase
 useEffect(() => {
