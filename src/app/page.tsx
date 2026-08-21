@@ -46,6 +46,7 @@ export default function Home() {
   const [startPointName, setStartPointName] = useState("");
   const [endPointName, setEndPointName] = useState("");
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
+  const [historicalStops, setHistoricalStops] = useState<StopPoint[]>([])
   const [elapsedTime, setElapsedTime] = useState(0);
   const [stopsCount, setStopsCount] = useState(0);
   const [pois, setPois] = useState<POI[]>([]);
