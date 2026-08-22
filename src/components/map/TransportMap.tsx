@@ -7,7 +7,7 @@ import {
   Polyline,
   Circle,
   Popup,
-  useMap, // ✅ AJOUTER useMap
+  
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -92,47 +92,7 @@ const historicalStopIcon = L.divIcon({
 // ============================================
 // ✅ COMPOSANT POUR ZOOMER SUR LE PREMIER ARRÊT HISTORIQUE
 // ============================================
-function ZoomToHistoricalStop({
-  historicalStops,
-}: {
-  historicalStops: StopPoint[];
-}) {
-  const map = useMap();
 
-  useEffect(() => {
-    if (!historicalStops || historicalStops.length === 0) {
-      console.log("ℹ️ Aucun arrêt historique à afficher");
-      return;
-    }
-
-    const stop = historicalStops[0];
-
-    const latitude = Number(stop.coordinates[0]);
-    const longitude = Number(stop.coordinates[1]);
-
-    console.log("🚏 ARRÊT RÉCUPÉRÉ :", stop);
-    console.log("📍 Latitude :", latitude);
-    console.log("📍 Longitude :", longitude);
-
-    if (
-      !Number.isFinite(latitude) ||
-      !Number.isFinite(longitude)
-    ) {
-      console.error("❌ Coordonnées invalides :", stop.coordinates);
-      return;
-    }
-
-    map.setView(
-      [latitude, longitude],
-      17,
-      {
-        animate: true,
-      }
-    );
-  }, [historicalStops, map]);
-
-  return null;
-}
 
 // ============================================
 // COMPOSANT PRINCIPAL
@@ -179,10 +139,7 @@ export default function TransportMap({
         ref={mapRef}
       >
         {/* ✅ AJOUTER LE COMPOSANT ICI - JUSTE APRÈS L'OUVERTURE DE MapContainer */}
-        <ZoomToHistoricalStop
-          historicalStops={historicalStops}
-        />
-
+        
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
