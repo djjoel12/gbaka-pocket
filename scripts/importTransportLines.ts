@@ -2,23 +2,17 @@ import fs from "fs";
 import path from "path";
 import { createClient } from "@supabase/supabase-js";
 
-// Utilise la clé ANON (publique) au lieu de SERVICE_ROLE
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error(
-    "NEXT_PUBLIC_SUPABASE_URL ou NEXT_PUBLIC_SUPABASE_ANON_KEY manquant"
-  );
+  console.error("❌ Variables Supabase manquantes");
+  process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Le fichier est à la racine du projet
-const filePath = path.join(
-  process.cwd(),
-  "gbaka_pocket_lignes_informelles.geojson"
-);
+const filePath = path.join(process.cwd(), "gbaka_pocket_lignes_informelles.geojson");
 
 console.log(`📂 Lecture du fichier : ${filePath}`);
 
@@ -26,7 +20,6 @@ const geojson = JSON.parse(fs.readFileSync(filePath, "utf8"));
 
 const rows = geojson.features.map((feature: any) => {
   const p = feature.properties;
-
   return {
     external_id: p.line_id,
     name: p.name,
@@ -45,25 +38,22 @@ const rows = geojson.features.map((feature: any) => {
 
 console.log(`📦 ${rows.length} lignes à importer...`);
 
-const batchSize = 25;
+async function importData() {
+  const batchSize = 25;
 
-for (let i = 0; i < rows.length; i += batchSize) {
-  const batch = rows.slice(i, i + batchSize);
-
-  const { error } = await supabase
-    .from("transport_lines")
-    .upsert(batch, {
+  for (let i = 0; i < rows.length; i += batchSize) {
+    const batch = rows.slice(i, i + batchSize);
+    const { error } = await supabase.from("transport_lines").upsert(batch, {
       onConflict: "external_id",
     });
-
-  if (error) {
-    console.error("❌ Erreur :", error);
-    process.exit(1);
+    if (error) {
+      console.error("❌ Erreur :", error);
+      process.exit(1);
+    }
+    console.log(`✅ ${Math.min(i + batchSize, rows.length)}/${rows.length} importées`);
   }
 
-  console.log(
-    `✅ ${Math.min(i + batchSize, rows.length)}/${rows.length} importées`
-  );
+  console.log("🎉 Import terminé !");
 }
 
-console.log("🎉 Import terminé !");
+importData();
