@@ -7,13 +7,13 @@ import {
   Polyline,
   Circle,
   Popup,
-  
+  GeoJSON, // ✅ AJOUT
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-import { useEffect, useRef } from "react"; // ✅ Vérifier que useEffect est importé
+import { useEffect, useRef } from "react";
 import { StopPoint, GPSPoint } from "@/types/trip";
 import { POI } from "@/utils/poiUtils";
 
@@ -25,6 +25,7 @@ type TransportMapProps = {
   stops?: StopPoint[];
   pois?: POI[];
   historicalStops?: StopPoint[];
+  transportLines?: any[]; // ✅ AJOUT
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -64,9 +65,6 @@ const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 const poiIcon = createIcon("#F59E0B", "📍", false);
 
-// ============================================
-// ✅ NOUVELLE ICÔNE TRÈS VISIBLE POUR LES ARRÊTS HISTORIQUES
-// ============================================
 const historicalStopIcon = L.divIcon({
   html: `
     <div style="
@@ -89,15 +87,6 @@ const historicalStopIcon = L.divIcon({
   iconAnchor: [22, 22],
 });
 
-// ============================================
-// ✅ COMPOSANT POUR ZOOMER SUR LE PREMIER ARRÊT HISTORIQUE
-// ============================================
-
-
-// ============================================
-// COMPOSANT PRINCIPAL
-// ============================================
-
 export default function TransportMap({
   points,
   livePosition,
@@ -106,6 +95,7 @@ export default function TransportMap({
   stops = [],
   pois = [],
   historicalStops = [],
+  transportLines = [], // ✅ AJOUT
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -138,12 +128,18 @@ export default function TransportMap({
         style={{ background: "#0a0e17" }}
         ref={mapRef}
       >
-        {/* ✅ AJOUTER LE COMPOSANT ICI - JUSTE APRÈS L'OUVERTURE DE MapContainer */}
-        
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         />
+
+        {/* ===== LIGNES DE TRANSPORT ===== */}
+        {transportLines?.map((line) => (
+          <GeoJSON
+            key={line.id}
+            data={line.geometry}
+          />
+        ))}
 
         {routePositions.length > 1 && (
           <>
@@ -215,9 +211,6 @@ export default function TransportMap({
           </Marker>
         ))}
 
-        {/* ========================================================= */}
-        {/* ===== ARRÊTS HISTORIQUES (TRÈS VISIBLES) ===== */}
-        {/* ========================================================= */}
         {historicalStops.map((stop, index) => (
           <Marker
             key={`hist-${index}`}
@@ -251,4 +244,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-    }
+        }
