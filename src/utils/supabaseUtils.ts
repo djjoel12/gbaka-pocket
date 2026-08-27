@@ -269,4 +269,24 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
 
     throw error // ✅ On relance l'erreur pour que page.tsx la capte
   }
-      }
+}
+
+// ======================================================
+// ✅ NOUVEAU : RÉCUPÉRER LES LIGNES DE TRANSPORT
+// ======================================================
+
+export const fetchTransportLines = async () => {
+  const { data, error } = await supabase
+    .from("transport_lines")
+    .select("*")
+    .limit(1);
+
+  if (error) {
+    console.error("❌ Erreur transport_lines :", error);
+    throw error;
+  }
+
+  console.log("🚌 Ligne récupérée :", data);
+
+  return data || [];
+};
