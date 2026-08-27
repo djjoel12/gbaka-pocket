@@ -3,7 +3,7 @@
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
 
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic"; 
 import { useState, useEffect, useRef } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 import type { LineInfo } from "@/types/trip";
