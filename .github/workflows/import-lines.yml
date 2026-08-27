@@ -1,4 +1,4 @@
-name: Importer les lignes de transport
+name: Importer les arrêts de transport
 
 on:
   workflow_dispatch:
@@ -19,8 +19,8 @@ jobs:
       - name: Installer les dépendances
         run: npm install
 
-      - name: Lancer l'import
-        run: npx tsx scripts/importTransportLines.ts
+      - name: Lancer l'import des arrêts
+        run: npx tsx scripts/importStopsFromCsv.ts
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
