@@ -1,9 +1,6 @@
 "use client";
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
-
-import dynamicImport from "next/dynamic"; 
+import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 import type { LineInfo } from "@/types/trip";
@@ -11,7 +8,8 @@ import { reverseGeocode } from "@/utils/tripUtils";
 import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
-import { fetchHistoricalStops, fetchTransportLines } from "@/utils/supabaseUtils";
+import { fetchHistoricalStops } from "@/utils/supabaseUtils";
+import { fetchTransportLines } from "@/utils/supabaseUtils"; // ✅ AJOUT
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -54,7 +52,7 @@ export default function Home() {
   const [stopsCount, setStopsCount] = useState(0);
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
-  const [transportLines, setTransportLines] = useState<any[]>([]);
+  const [transportLines, setTransportLines] = useState<any[]>([]); // ✅ AJOUT
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
@@ -70,50 +68,39 @@ export default function Home() {
     loadPOIs();
   }, []);
 
-  // Charger les arrêts enregistrés dans Supabase
+  // Charger les arrêts historiques
   useEffect(() => {
     const loadHistoricalStops = async () => {
       try {
         const stopsData = await fetchHistoricalStops()
-        
         console.log(`🚏 ${stopsData.length} arrêts chargés`)
-        
         setHistoricalStops(stopsData)
-        
       } catch (error) {
         console.error('❌ Impossible de charger les arrêts:', error)
-        
         alert(
           error instanceof Error
             ? error.message
             : 'Impossible de charger les arrêts'
         )
-        
         setHistoricalStops([])
       }
     }
-    
     loadHistoricalStops()
   }, []);
 
-  // Charger les lignes de transport
+  // ✅ Charger les lignes de transport
   useEffect(() => {
     const loadTransportLines = async () => {
       try {
         const lines = await fetchTransportLines();
-
-        console.log("🚌 Lignes récupérées :", lines);
-
-        // TEST : seulement la première ligne
+        console.log("🚌 Lignes récupérées:", lines);
         setTransportLines(lines.slice(0, 1));
       } catch (error) {
-        console.error("❌ Erreur lignes transport :", error);
+        console.error("❌ Erreur lignes transport:", error);
       }
     };
-
     loadTransportLines();
   }, []);
-  
 
   useEffect(() => {
     if (showDestinationInput && !startPointName && navigator.geolocation) {
@@ -243,7 +230,7 @@ export default function Home() {
           stops={stops}
           pois={pois}
           historicalStops={historicalStops}
-          transportLines={transportLines}
+          transportLines={transportLines} // ✅ AJOUT
         />
       </div>
 
@@ -493,8 +480,7 @@ export default function Home() {
               <GpsRecorder
                 status={status}
                 setStatus={setStatus}
-
-              destination={destination}
+                destination={destination}
                 lineInfo={lineInfo}
                 startPointName={startPointName}
                 endPointName={endPointName}
@@ -554,9 +540,12 @@ export default function Home() {
               <span className="text-[10px] text-white/30">Supabase</span>
               <span className="text-[10px] text-green-400">✅</span>
             </div>
-            <span className="text-[10px] text-white/20">Conditions d'Utilisation</span> 
-            </div>
+            <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
+          </div>
         </div>
+      </motion.div>
+    </div>
+    </div>
       </motion.div>
     </div>
   );
