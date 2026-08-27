@@ -47,7 +47,6 @@ export const saveTripToSupabase = async (tripData: TripData) => {
 
         quality: tripData.quality,
 
-        // Données JSON
         points_json: tripData.points,
         stops_json: tripData.stops,
 
@@ -105,7 +104,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       .order('date', { ascending: false })
       .limit(100)
 
-    // ✅ VÉRIFICATION DE L'ERREUR ICI
     if (error) {
       console.error('❌ ERREUR SUPABASE STOPS:', error)
       throw new Error(
@@ -125,7 +123,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
     for (const trip of data) {
       let stops: any = trip.stops_json
 
-      // Si stops_json est enregistré comme texte JSON
       if (typeof stops === 'string') {
         try {
           stops = JSON.parse(stops)
@@ -138,7 +135,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
         }
       }
 
-      // On attend un tableau
       if (!Array.isArray(stops)) {
         console.warn(
           '⚠️ stops_json n’est pas un tableau:',
@@ -152,10 +148,8 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
 
         if (!stop) continue
 
-        // Récupération des coordonnées
         let coordinates = stop.coordinates
 
-        // Vérifier que coordinates existe
         if (!Array.isArray(coordinates)) {
           console.warn(
             '⚠️ Arrêt sans coordinates:',
@@ -175,7 +169,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
         const latitude = Number(coordinates[0])
         const longitude = Number(coordinates[1])
 
-        // Vérifier les coordonnées
         if (
           !Number.isFinite(latitude) ||
           !Number.isFinite(longitude)
@@ -187,7 +180,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
           continue
         }
 
-        // Créer un arrêt propre
         const historicalStop: StopPoint = {
           id:
             typeof stop.id === 'string'
@@ -239,7 +231,6 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       }
     }
 
-    // Supprimer les doublons
     const uniqueStops = historicalStops.filter(
       (stop, index, array) => {
         return (
@@ -267,26 +258,30 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
       error
     )
 
-    throw error // ✅ On relance l'erreur pour que page.tsx la capte
+    throw error
   }
 }
 
 // ======================================================
-// ✅ NOUVEAU : RÉCUPÉRER LES LIGNES DE TRANSPORT
+// ✅ RÉCUPÉRER LES LIGNES DE TRANSPORT (AJOUT)
 // ======================================================
 
 export const fetchTransportLines = async () => {
-  const { data, error } = await supabase
-    .from("transport_lines")
-    .select("*")
-    .limit(1);
+  try {
+    const { data, error } = await supabase
+      .from("transport_lines")
+      .select("*")
+      .limit(1);
 
-  if (error) {
-    console.error("❌ Erreur transport_lines :", error);
-    throw error;
+    if (error) {
+      console.error("❌ Erreur transport_lines:", error);
+      throw error;
+    }
+
+    console.log(`🚌 ${data?.length || 0} ligne(s) récupérée(s)`);
+    return data || [];
+  } catch (error) {
+    console.error("❌ fetchTransportLines:", error);
+    return [];
   }
-
-  console.log("🚌 Ligne récupérée :", data);
-
-  return data || [];
 };
