@@ -1,0 +1,185 @@
+@id	@lat	@lon	name	highway	public_transport	operator	shelter	official_status
+1227889258	5.3158647	-4.0148847	Gare lagunaire Aqualines du Plateau		platform			
+6899034705	5.3003331	-4.0027516	Gare de Bassam	bus_stop	platform			unofficial
+6899034708	5.3072484	-4.0051860	Pharmacie Nanan Yamousso	bus_stop	platform			unofficial
+6899034709	5.3099574	-4.0061407	Descente du Pont	bus_stop	platform			unofficial
+6899053348	5.3101491	-4.0061218	Nanan Yamousso	bus_stop	platform			unofficial
+6899053349	5.3003494	-4.0026642	Gare de Bassam	bus_stop	platform			unofficial
+6926943110	5.3037023	-4.0040298	Pharmacie Notre-Dame	bus_stop	platform		no	
+6935494511	5.3101948	-4.0149692	Terminus Marche Treichville	bus_stop	platform		no	
+6969221530	5.3141434	-4.0177429	Arrêt GL Plateau	bus_stop	platform		no	
+7044975089	5.3143858	-4.0170439	Gare Lagunaire Plateau STL		platform			
+7044975090	5.3135839	-4.0100701	Gare Lagunaire Treichville STL		platform			
+7046964142	5.3108107	-4.0158590	Gare Lagunaire de Treichville Sotra		platform			
+7047063325	5.3140748	-4.0176640	Gare Lagunaire du Plateau Sotra		platform			
+7054593049	5.2987194	-4.0014656	Grand Carrefour de Treichville	bus_stop	platform			unofficial
+7054593050	5.2998985	-3.9982536	Feux Collège Autoroute	bus_stop	platform			unofficial
+7054593051	5.3004826	-3.9964603	Solibra	bus_stop	platform			unofficial
+7054593081	5.2994752	-4.0026612	Gare de Bassam	bus_stop	platform			unofficial
+7056277272	5.2981499	-4.0031198	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+7056277274	5.3089927	-4.0169063	Gare bateau-bus	bus_stop	platform			unofficial
+7056277275	5.3091966	-4.0166887	Gare bateau-bus	bus_stop	platform			unofficial
+7056277277	5.2983135	-4.0039095	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+7079693847	5.3110380	-4.0153262	Gare lagunaire Aqualines Treichville		platform			
+7085040032	5.3084008	-4.0188590	En bas du pont	bus_stop	platform			unofficial
+7085040033	5.2978320	-4.0141390	Cimivoire	bus_stop	platform			unofficial
+7085040042	5.2976598	-4.0140975	Cimivoire	bus_stop	platform			unofficial
+7085040043	5.2998665	-4.0166918	Après le feu	bus_stop	platform			unofficial
+7085040044	5.3026687	-4.0205978	CDCI	bus_stop	platform			unofficial
+7085040045	5.3039894	-4.0218256	Dinor	bus_stop	platform			unofficial
+7085040046	5.3076990	-4.0202612	Après le Pont	bus_stop	platform			unofficial
+7837854396	5.3016045	-4.0105623	Rue 12	bus_stop	platform			unofficial
+7837854397	5.3016739	-4.0105274	Rue 12	bus_stop	platform			unofficial
+7837854398	5.2997777	-4.0073812	Marché Samsung	bus_stop	platform			unofficial
+7840790285	5.2911823	-3.9901100	Mairie de Marcory	bus_stop	platform			unofficial
+7840790387	5.2908229	-3.9902304	Mairie de Marcory	bus_stop	platform			unofficial
+8815763925	5.3101034	-4.0150520	Terminus Marche Treichville	bus_stop	platform		no	
+9271804739	5.3016372	-4.0031856	Clinique la Rosette	bus_stop	platform			unofficial
+9271876736	5.2984899	-4.0016070	Grand Carrefour de Treichville	bus_stop	platform			unofficial
+9300351940	5.2897129	-4.0083911	Arrêt	bus_stop	platform		no	unofficial
+9300351946	5.2954764	-4.0048392	CHU de Treicvhille	bus_stop	platform		no	unofficial
+9300351947	5.2964610	-4.0062366	Palais	bus_stop	platform		no	unofficial
+9300351948	5.2987556	-4.0110302	Deuxième Station	bus_stop	platform		no	unofficial
+9300351949	5.3013615	-4.0137082	Sitarail	bus_stop	platform		no	unofficial
+9300351950	5.3045406	-4.0148271	ITS	bus_stop	platform		no	unofficial
+9300351951	5.3080055	-4.0160502	Cité Policière	bus_stop	platform		no	unofficial
+9300351952	5.3099737	-4.0128037	Mairie de Treichville	bus_stop	platform		no	unofficial
+9300351953	5.3105408	-4.0111688	A la Station	bus_stop	platform		no	unofficial
+9300351958	5.3110286	-4.0112299	CIE	bus_stop	platform			unofficial
+9300351959	5.3087232	-4.0179108	Dispensaire du Pont FHB	bus_stop	platform			unofficial
+9300351960	5.3051301	-4.0227205	Direction Generale du Port	bus_stop	platform			unofficial
+9300351961	5.3000915	-4.0168025	Au Feu	bus_stop	platform			unofficial
+9300351962	5.2938378	-4.0085003	Arrêt	bus_stop	platform			unofficial
+9300530491	5.2991309	-4.0117287	Deuxième Station	bus_stop	platform		no	unofficial
+9300530492	5.3078974	-4.0194034	Moulin	bus_stop	platform		no	unofficial
+9300530493	5.3095559	-4.0156605	FIF	bus_stop	platform		no	unofficial
+10556361880	5.3058082	-3.9980418	Marché Bellville	bus_stop	platform		no	
+10556361881	5.3054343	-3.9991482	Arret Belleville	bus_stop	platform		no	
+10556361882	5.3046478	-4.0013878	Carrefour Entente	bus_stop	platform		no	
+10556361883	5.3039881	-4.0032385	Eglise Notre-Dame de la Paix	bus_stop	platform		no	
+10556361884	5.3050430	-4.0072873	Avenue 16	bus_stop	platform		no	unofficial
+10556361885	5.3083641	-4.0088524	Arret Texaco	bus_stop	platform		no	unofficial
+10556361886	5.3080576	-4.0096819	Station Corlay	bus_stop	platform		no	unofficial
+10556361887	5.3072931	-4.0118115	Pharmacie du Grand Marché / Rond-point Treichville	bus_stop	platform		no	unofficial
+10556361888	5.3096086	-4.0132231	Marché de Treichville	bus_stop	platform		no	unofficial
+10556365490	5.3096413	-4.0131573	Marché de Treichville	bus_stop	platform		no	unofficial
+10556365491	5.3084415	-4.0127349	Pharmacie Roy	bus_stop	platform		no	unofficial
+10556365492	5.3077471	-4.0124881	Foire de Chine	bus_stop	platform		no	unofficial
+10556365493	5.3072330	-4.0118645	Pharmacie du Grand Marché / Rond-point Treichville	bus_stop	platform		no	unofficial
+10556365494	5.3059551	-4.0118605	Avenue 11 Rue 12 / Pharmacie Rue 12	bus_stop	platform		no	
+10556365495	5.3037904	-4.0110827	Avenue 14 Rue 12	bus_stop	platform		no	
+10556365496	5.3038265	-4.0108641	Tyson	bus_stop	platform		no	
+10556365497	5.3044835	-4.0090603	Pharmacie Alpha 16	bus_stop	platform		no	
+10556365498	5.3059444	-4.0045716	Carrefour St Jean Bosco	bus_stop	platform		no	
+10556365499	5.3039287	-4.0039010	Pharmacie Notre-Dame	bus_stop	platform		no	
+10556365500	5.3041163	-4.0030548	Eglise Notre-Dame de la Paix	bus_stop	platform		no	
+10556365501	5.3047479	-4.0012966	Carrefour Entente	bus_stop	platform		no	
+10556365502	5.3054904	-3.9991763	Arret Belleville	bus_stop	platform		no	
+10556365503	5.3058696	-3.9980692	Marché Bellville	bus_stop	platform		no	
+10556394811	5.2984770	-4.0051536	Palais des Sports	bus_stop	platform			unofficial
+10556394812	5.2995894	-4.0074268	Marché Samsung	bus_stop	platform			unofficial
+10556394813	5.3010890	-4.0102203	Carrefour Cacomiaf	bus_stop	platform			unofficial
+10556394814	5.3032416	-4.0140452	Siège Coris Bank	bus_stop	platform			unofficial
+10556394815	5.3035795	-4.0161413	Carrefour CTOP Zone 2	bus_stop	platform			unofficial
+10556394816	5.3085350	-4.0187310	En bas du pont	bus_stop	platform			unofficial
+10556394817	5.3093015	-4.0163559	Station OLA	bus_stop	platform			unofficial
+10556394818	5.3097795	-4.0147533	Terminus Marché Treichville	bus_stop	platform			unofficial
+10556394819	5.3094711	-4.0156250	FIF	bus_stop	platform			unofficial
+10556394820	5.3104579	-4.0130293	Mairie de Treichville	bus_stop	platform			unofficial
+10556394821	5.3104058	-4.0130018	Mairie de Treichville	bus_stop	platform			unofficial
+10556394822	5.3090304	-4.0163358	Station OLA	bus_stop	platform			unofficial
+10556394823	5.3077431	-4.0158972	Carrefour Flamboyant	bus_stop	platform			unofficial
+10556394824	5.3058042	-4.0152039	Commissariat du 2ᵉ Arrondissement de Treichville	bus_stop	platform			unofficial
+10556394825	5.3040108	-4.0145454	Pharmacie Sainte-Jeanne	bus_stop	platform			unofficial
+10556394826	5.3012512	-4.0100876	Carrefour Cacomiaf	bus_stop	platform			unofficial
+10556394827	5.3004667	-4.0086606	Kabalane	bus_stop	platform			unofficial
+10556394828	5.2986025	-4.0049484	Palais des Sports	bus_stop	platform			unofficial
+10556409603	5.3083894	-3.9911029	Carrefour des Banques	bus_stop	platform		no	
+10556418957	5.3082352	-3.9910881	Carrefour des Banques	bus_stop	platform		no	
+10556418958	5.3070848	-3.9943457	Pharmacie des Lagunes	bus_stop	platform		no	
+10556449445	5.3045543	-4.0113549	Pharmacie la Grace	bus_stop	platform		no	
+10556449446	5.3024484	-4.0106052	Avenue 18 Rue 12	bus_stop	platform		no	
+10556449447	5.3016385	-4.0101700	Station Total	bus_stop	platform		no	
+10556449448	5.3029926	-4.0103913	Avenue 18 Rue 13	bus_stop	platform		no	
+10556449449	5.3042832	-4.0108332	Avenue 15 Rue 13	bus_stop	platform		no	
+10556449450	5.3061447	-4.0114997	Avenue 11 Rue 13	bus_stop	platform		no	
+10556449451	5.3077217	-4.0125820	Foire de Chine	bus_stop	platform		no	unofficial
+10556747533	5.3002023	-4.0085855	Kabalane	bus_stop	platform			unofficial
+10556747534	5.3039707	-4.0146285	Pharmacie Sainte-Jeanne	bus_stop	platform			unofficial
+10556747535	5.3058028	-4.0152870	Commissariat du 2ᵉ Arrondissement de Treichville	bus_stop	platform			unofficial
+10556747536	5.3063944	-4.0154909	District Sanitaire Trechville/Marcory	bus_stop	platform			unofficial
+10556747537	5.3089863	-4.0169332	Gare bateau-bus	bus_stop	platform			unofficial
+10556747538	5.3081691	-4.0172075	Hôpital General	bus_stop	platform			unofficial
+10556747539	5.3073759	-4.0170224	Carrefour Ecole	bus_stop	platform			unofficial
+10556747540	5.3049162	-4.0160353	Château	bus_stop	platform			unofficial
+10556747541	5.3022748	-4.0118773	Ex Pharmacie Mockey	bus_stop	platform			unofficial
+10556842056	5.3000634	-4.0061380	Ancien Terminus 67	bus_stop	platform			unofficial
+10556842057	5.3015377	-4.0060575	Avenue 24	bus_stop	platform			unofficial
+10556842058	5.3019837	-4.0062104	Avenue 23	bus_stop	platform			unofficial
+10556842059	5.3024003	-4.0063727	Avenue 22	bus_stop	platform			unofficial
+10556842060	5.3028637	-4.0065269	Avenue 21	bus_stop	platform			unofficial
+10556842061	5.3032937	-4.0066731	Avenue 20	bus_stop	platform			unofficial
+10556842062	5.3037170	-4.0068313	Avenue 19	bus_stop	platform			unofficial
+10556842063	5.3041590	-4.0069883	Avenue 18	bus_stop	platform			unofficial
+10556842064	5.3045797	-4.0071411	Avenue 17	bus_stop	platform			unofficial
+10556842065	5.3055611	-4.0074764	Avenue 15	bus_stop	platform			unofficial
+10556842066	5.3059310	-4.0076078	Avenue 14	bus_stop	platform			unofficial
+10556842067	5.3063664	-4.0077768	Avenue 13	bus_stop	platform			unofficial
+10556842068	5.3067970	-4.0079062	Avenue 12	bus_stop	platform			unofficial
+10556842069	5.3072584	-4.0080759	Avenue 11	bus_stop	platform			unofficial
+10556842070	5.3076857	-4.0082227	Avenue 10	bus_stop	platform			unofficial
+10556842071	5.3089543	-4.0086713	Avenue 7	bus_stop	platform			unofficial
+10556842072	5.3094056	-4.0088309	Avenue 6	bus_stop	platform			unofficial
+10556842073	5.3097742	-4.0089691	Avenue 5	bus_stop	platform			unofficial
+10556842074	5.3101908	-4.0091179	Avenue 4	bus_stop	platform			unofficial
+10556842075	5.3105453	-4.0092500	Avenue 3	bus_stop	platform			unofficial
+10556842076	5.3114721	-4.0095642	Cité Sopim	bus_stop	platform			unofficial
+10556842077	5.3128678	-4.0100768	Gare Lagunaire Treichville STL	bus_stop	platform			unofficial
+10556842078	5.3128895	-4.0100292	Gare Lagunaire Treichville STL	bus_stop	platform			unofficial
+10570456609	5.3196597	-4.0154077	Mosquée du Plateau	bus_stop	platform			unofficial
+10572388501	5.2988416	-4.0042752	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+10572474177	5.2951376	-4.0028821	CHU de Treichville	bus_stop	platform			unofficial
+10572492532	5.3191509	-4.0154667	Mosquée du Plateau	bus_stop	platform			unofficial
+10572492533	5.3196050	-4.0139137	Escalier	bus_stop	platform			unofficial
+10572525212	5.2952434	-4.0028905	CHU de Treichville	bus_stop	platform			unofficial
+10572525213	5.2958667	-4.0017345	Papigraph	bus_stop	platform			unofficial
+10572525214	5.2964666	-4.0010217	Poubelle	bus_stop	platform			unofficial
+10574064220	5.2988281	-4.0050339	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+10582507591	5.3190396	-4.0160209	Bon Prix	bus_stop	platform			unofficial
+10584654881	5.3193325	-4.0150087	Feu de la Mosquée	bus_stop	platform			unofficial
+10588511565	5.2985703	-4.0045123	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+10588536153	5.3018061	-4.0114179	Maison de la Literie	bus_stop	platform			unofficial
+10588536154	5.3043072	-4.0156116	Pacsi	bus_stop	platform			unofficial
+10588536155	5.3049616	-4.0162526	Quipux	bus_stop	platform			unofficial
+10588536156	5.3057681	-4.0170050	Gardien's	bus_stop	platform			unofficial
+10588536157	5.3066481	-4.0177935	Carrefour Mondial Menage	bus_stop	platform			unofficial
+10591673045	5.3174273	-4.0194309	Place de la Republique	bus_stop	platform			unofficial
+10591673046	5.3165158	-4.0191798	Gare Sud	bus_stop	platform			unofficial
+10591673047	5.2994169	-4.0024765	Gare de Bassam	bus_stop	platform			unofficial
+10591673049	5.3039447	-4.0040279	Notre Dame	bus_stop	platform			unofficial
+10591673050	5.3060298	-4.0047265	Avenue 16	bus_stop	platform			unofficial
+10591673051	5.3088441	-4.0057104	Nanan Yamousso	bus_stop	platform			unofficial
+10592313982	5.3077404	-3.9924735	Feu du Residentiel	bus_stop	platform		no	
+10598532887	5.2983876	-4.0030038	Treichvile Gare de Bassam	bus_stop	platform			unofficial
+10614211950	5.3102946	-4.0041281	Mosquée Libanaise	bus_stop	platform			unofficial
+10649796298	5.3020398	-3.9941888	Solibra	bus_stop	platform			unofficial
+10844094646	5.3084765	-3.9997137	Piscine Etat	bus_stop	platform		no	
+10844094647	5.3074260	-3.9939002	Pharmacie des Lagunes	bus_stop	platform		no	
+10844232131	5.3102564	-4.0035032	Mosquée Libanaise	bus_stop	platform			unofficial
+10844232134	5.3081623	-3.9995038	Piscine Etat	bus_stop	platform		no	
+10846665598	5.3192997	-4.0185853	Seen Hotel Abidjan Plateau	bus_stop	platform		no	
+10846665599	5.3188142	-4.0162970	Mosquée Libanaise	bus_stop	platform		no	
+10846665600	5.3175165	-4.0164061	Sociam	bus_stop	platform		no	
+10846665601	5.3153244	-4.0176596	Gare Sud	bus_stop	platform		no	
+10846665602	5.3188277	-4.0190690	Pharmacie du memorial	bus_stop	platform		no	
+10855579564	5.3094003	-4.0058389	Avenue 8	bus_stop	platform			unofficial
+10855579565	5.3094497	-4.0059435	Avenue 8	bus_stop	platform			unofficial
+10863748338	5.3073214	-4.0051157	Pharmacie Nanan Yamousso	bus_stop	platform			unofficial
+10863748339	5.2996749	-4.0024573	Gare de Bassam	bus_stop	platform			unofficial
+10863748340	5.2995901	-4.0024761	Gare de Bassam	bus_stop	platform			unofficial
+10863748341	5.3012393	-4.0030801	Arras 2	bus_stop	platform			unofficial
+10870183966	5.2998004	-4.0016131	Gare de Bassam	bus_stop	platform			unofficial
+10870183967	5.3081557	-4.0025948	Lycee Professionnel Commercial 2 de Treichville	bus_stop	platform			unofficial
+11009848905	5.3100701	-4.0147992	Terminus Marché TREICHVILLE	bus_stop	platform			
+11097057905	5.3102531	-4.0150712	Terminus Marché Treichville	bus_stop	platform			
+12800189302	5.3106111	-4.0144220	Terminus 67 marché de treichville	bus_stop				

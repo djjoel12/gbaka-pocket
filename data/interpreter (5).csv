@@ -1,0 +1,929 @@
+@id	@lat	@lon	name	highway	public_transport	operator	shelter	official_status
+244527514	5.3462979	-3.9927755	Devant Campus	bus_stop	platform		no	unofficial
+775786985	5.3312269	-3.9578180	Carrefour Philadelphie	bus_stop	platform			unofficial
+3040900026	5.3577164	-3.9644733	9 Kilo	bus_stop	platform			unofficial
+3142681418	5.3807202	-3.9644698		bus_stop	platform			
+5953580661	5.3802148	-3.9673260	Pharmacie Val de Grace	bus_stop	platform			official
+5953580666	5.3695413	-3.9587073	Pharmacie du bonheur	bus_stop	platform			
+5954541438	5.3358519	-3.9767958	Ambassade des USA	bus_stop	platform			
+5958266386	5.3806539	-3.9881294	ESIT	bus_stop	platform		no	
+5958266387	5.3735181	-3.9843171	Commissariat 30e Arrondissement	bus_stop	platform			
+5958266388	5.3701109	-3.9813021	Paroisse St Bernard	bus_stop	platform			
+5958266389	5.3667415	-3.9795819	Djire Telecom	bus_stop	platform			official
+5958266390	5.3573659	-3.9782153	Pharmacie St Ange	bus_stop	platform			official
+5958266391	5.3558842	-3.9780178	Andre Malraux	bus_stop	platform			
+5958266392	5.3541895	-3.9773239	Terminus 705 Riviera 2	bus_stop	platform			
+6815808830	5.3580852	-3.9641507	Station Shell Riviera 3	bus_stop	platform			
+6815808832	5.3802452	-3.9672641	Pharmacie Val de Grace	bus_stop	platform			
+6815808833	5.3865761	-3.9744202	CNPS Angre	bus_stop	platform			official
+6815808841	5.3776576	-3.9634252	Commissariat 35è Art.	bus_stop	platform			
+6815808843	5.3864094	-3.9744900	CNPS Angre	bus_stop	platform			official
+6815808846	5.3832198	-3.9725215	Groupe scolaire St Marc	bus_stop	platform			official
+6815808847	5.3833082	-3.9725091	Groupe Scolaire St Marc	bus_stop	platform			
+6820855647	5.3310014	-3.9728755	Golf Hotel	bus_stop	platform			
+6820855648	5.3309390	-3.9730680	Golf Hotel	bus_stop	platform			
+6903347576	5.3299690	-3.9339946	Ancien Marché	bus_stop	platform			unofficial
+6903347577	5.3310541	-3.9353196	La ferme	bus_stop	platform			unofficial
+6903347579	5.3354153	-3.9393712	Pharmacie Bonne Fortune	bus_stop	platform			unofficial
+6903347580	5.3384154	-3.9427407	2 poteaux	bus_stop	platform			unofficial
+6903347581	5.3399480	-3.9450320	Carrefour Antenne	bus_stop	platform			unofficial
+6903347582	5.3459350	-3.9457017	Carrefour Akouédo / Synacassi 2	bus_stop	platform			unofficial
+6903347583	5.3461351	-3.9471571	École	bus_stop	platform			unofficial
+6903347584	5.3458036	-3.9505396	2ème rond-point	bus_stop	platform			unofficial
+6903544090	5.3301187	-3.9339759	Ancien Marché	bus_stop	platform			unofficial
+6903639366	5.3705649	-3.9761407	Attoban camp	bus_stop	platform			unofficial
+6903639367	5.3694267	-3.9776678	Escalier	bus_stop	platform			unofficial
+6903639368	5.3673241	-3.9794320	Pharmacie Saint Bernard	bus_stop	platform		no	unofficial
+6903639369	5.3658343	-3.9793478	Carrefour Garage	bus_stop	platform			unofficial
+6903639371	5.3642087	-3.9790994	Jules ferry	bus_stop	platform			unofficial
+6903639373	5.3589924	-3.9783160	Doraville	bus_stop	platform			official
+6903639374	5.3571667	-3.9780678	Pharmacie Saint ange	bus_stop	platform			unofficial
+6903639375	5.3562750	-3.9777617	André Malraux	bus_stop	platform			unofficial
+6903968407	5.3673561	-3.9796924	Pharmacie Saint Bernard	bus_stop	platform		no	unofficial
+6903968408	5.3655779	-3.9794498	Carrefour Garage	bus_stop	platform			unofficial
+6915696792	5.3587403	-3.9635319	Terminus 701 9Km	bus_stop	platform			official
+6916181081	5.3700062	-3.9983308	Pharmacie les 2 Pltx	bus_stop	platform		no	official
+6916280444	5.3875127	-3.9927256	GM Cosmetic	bus_stop	platform		yes	official
+6916280445	5.3796847	-3.9953378	One Tech Africa	bus_stop	platform		yes	official
+6916280446	5.3737207	-3.9983542	NSIA BANK	bus_stop	platform		no	official
+6916280447	5.3701724	-3.9981283	Pharmacie les 2 Pltx	bus_stop	platform		no	official
+6933080257	5.3353723	-3.9996752	PMI Cocody 1	bus_stop	platform		no	official
+6933080263	5.3391939	-3.9789297	Mosquee du Golf 2	bus_stop	platform		no	
+6933080264	5.3326803	-3.9810967	Carrefour Policier	bus_stop	platform		no	official
+6948222230	5.3417576	-3.9522725	Brandon & Mcain	bus_stop	platform		no	official
+6948222234	5.3392333	-3.9452136	Universite Internationale	bus_stop	platform			unofficial
+6948222235	5.3385917	-3.9428439	Ecole Scarables	bus_stop	platform			unofficial
+6948222236	5.3355172	-3.9393644	Carrefour UIPA	bus_stop	platform			unofficial
+6948222238	5.3307248	-3.9348771	Centre de Sante M'badon	bus_stop	platform			unofficial
+6948270621	5.3305385	-3.9347577	Centre de Sante M'badon	bus_stop	platform			unofficial
+6948270622	5.3350722	-3.9390561	Carrefour UIPA	bus_stop	platform			unofficial
+6948270623	5.3390287	-3.9451434	Universite Internationale	bus_stop	platform			unofficial
+6948270624	5.3329114	-3.9418454	Ambassade de Chine	bus_stop	platform			unofficial
+6948270625	5.3538332	-3.9568581	Pharmacie St Pierre des Rosiers	bus_stop	platform			official
+6948695731	5.3346312	-3.9906777	Entree Sud Universite FHB	bus_stop	platform		no	
+6948695745	5.3344007	-3.9909146	Entree Sud Universite FHB	bus_stop	platform		no	
+6948920966	5.3595594	-3.9256817	Sodeci Abatta	bus_stop	platform		no	unofficial
+6951182064	5.3297660	-3.9539321	Chantier	bus_stop	platform			unofficial
+6951182066	5.3414479	-3.9524120	Brandon & Mcain	bus_stop	platform			official
+6964184463	5.3883091	-3.9928235	Terminus BACI les Perles	bus_stop	platform		no	official
+6970095634	5.3841166	-3.9875704	Pharmacie 7 Lys	bus_stop	platform		no	
+6970095635	5.3643008	-3.9791570	Jules Ferry	bus_stop	platform			official
+6979431047	5.3888607	-3.9750245	CIE 8e Tranche Djibi	bus_stop	platform		no	official
+6979431048	5.3839137	-3.9737651	Pharmacie Hermes	bus_stop	platform		no	official
+7051810982	5.3501138	-3.9893487	Ecole de Police	bus_stop	platform			unofficial
+7051810984	5.3530660	-3.9797464	Mitterand Riviera 2	bus_stop	platform			unofficial
+7051811086	5.3529853	-3.9788968	Station Total Riviera 2	bus_stop	platform			unofficial
+7051811087	5.3544600	-3.9909077	Vallon	bus_stop	platform			unofficial
+7051905151	5.3490415	-3.9993949	SODEFOR	bus_stop	platform			unofficial
+7051905152	5.3494341	-3.9919236	Carrefour CHU	bus_stop	platform			unofficial
+7051905154	5.3445878	-3.9724797	Marché Anono	bus_stop	platform			unofficial
+7051905157	5.3445390	-3.9724441	Marché Anono	bus_stop	platform			unofficial
+7051905160	5.3500924	-3.9778259	Au Lavage	bus_stop	platform			unofficial
+7051905161	5.3510311	-3.9809205	A la Mosquée	bus_stop	platform			unofficial
+7051905162	5.3494034	-3.9912477	Carrefour CHU	bus_stop	platform			unofficial
+7052162361	5.3673438	-3.9457347	Nouveau Camp	bus_stop	platform			unofficial
+7052162362	5.3719142	-3.9324155	Playce Palmeraie	bus_stop	platform			unofficial
+7052162363	5.3728469	-3.9287925	Nouveau Goudron	bus_stop	platform			unofficial
+7052162373	5.3699835	-3.9387314	Carrefour Faya	bus_stop	platform			unofficial
+7052340403	5.3546376	-3.9904813	Vallon-1er Pont	bus_stop	platform			unofficial
+7052340407	5.3310206	-3.9579682	Carrefour Philadelphie	bus_stop	platform			unofficial
+7052340408	5.3344811	-3.9560298	Banny	bus_stop	platform			unofficial
+7052340409	5.3371750	-3.9537035	Maison Blanche	bus_stop	platform			unofficial
+7052340410	5.3452694	-3.9526910	Mel Théodore	bus_stop	platform			unofficial
+7052340411	5.3512376	-3.9545052	Bon Pasteur	bus_stop	platform			unofficial
+7052340412	5.3567343	-3.9670200	Cap Nord	bus_stop	platform			unofficial
+7052994961	5.3578447	-3.9651288	9 Kilo - Supermarché CDCI	bus_stop	platform			unofficial
+7052994962	5.3538255	-3.9553626	Chez Momo / Glacier	bus_stop	platform			unofficial
+7052994964	5.3484376	-3.9409704	Akouédo basket	bus_stop	platform			unofficial
+7052994966	5.3536652	-3.9409302	Pharmacie	bus_stop	platform			unofficial
+7052994967	5.3554189	-3.9407734	Carrefour Akouédo village	bus_stop	platform			unofficial
+7052994968	5.3603993	-3.9399876	Carrefour Village	bus_stop	platform			unofficial
+7052994969	5.3588507	-3.9420013	Nouveau pont	bus_stop	platform			unofficial
+7052994970	5.3574960	-3.9464832	Devant le camp	bus_stop	platform			unofficial
+7052994971	5.3584115	-3.9500902	Da Carmen	bus_stop	platform			unofficial
+7056143583	5.3809122	-3.9878869	UIA	bus_stop	platform		no	unofficial
+7056198867	5.3642676	-3.9792294	Jules ferry	bus_stop	platform			unofficial
+7056198868	5.3706110	-3.9761945	Attoban camp	bus_stop	platform			unofficial
+7056202786	5.3876795	-3.9871305	Côte d'Ivoire Télécom / Puissance 6	bus_stop	platform			unofficial
+7056202787	5.3743750	-3.9849861	Pharmacie Dunia	bus_stop	platform			unofficial
+7056202789	5.3537590	-3.9778085	Riviera 2	bus_stop	platform			unofficial
+7056202790	5.3570316	-3.9785124	Pharmacie Saint Ange	bus_stop	platform			unofficial
+7056202791	5.3619080	-3.9788693	Hôtel Manhatan	bus_stop	platform			unofficial
+7056202792	5.3697406	-3.9809434	Église Saint Bernard	bus_stop	platform			unofficial
+7056202793	5.3735592	-3.9843625	Commisariat 30è Art.	bus_stop	platform			unofficial
+7056202794	5.3878792	-3.9872063	Côte d'Ivoire Télécom / Puissance 6	bus_stop	platform			unofficial
+7056202800	5.3538358	-3.9777998	Riviera 2	bus_stop	platform			unofficial
+7056217830	5.3538378	-3.9775175	Riviera 2	bus_stop	platform			unofficial
+7057184298	5.3566138	-3.9678052	Cap Nord	bus_stop	platform			
+7057184299	5.3584671	-3.9639542	9 Kilo	bus_stop	platform			
+7057184300	5.3597316	-3.9618279	Warren	bus_stop	platform		no	unofficial
+7057184301	5.3702292	-3.9385383	Carrefour Faya	bus_stop	platform			unofficial
+7057184303	5.3741974	-3.9234777	Jules Verne	bus_stop	platform			unofficial
+7057184314	5.3743256	-3.9214982	Panneau Orange	bus_stop	platform			unofficial
+7057184315	5.3740305	-3.9232584	Jules Verne	bus_stop	platform			unofficial
+7057184316	5.3724342	-3.9295214	Nouveau Goudron	bus_stop	platform		no	unofficial
+7057184317	5.3717513	-3.9321224	Playce Palmeraie	bus_stop	platform			unofficial
+7057184319	5.3614581	-3.9585087	Après barrage	bus_stop	platform			unofficial
+7058023895	5.3750146	-3.9904665	Sococé Vallon	bus_stop	platform		no	unofficial
+7058023898	5.3644111	-3.9897532	Cash Center Vallon	bus_stop	platform		no	unofficial
+7058023899	5.3782310	-3.9979291	CEI	bus_stop	platform		no	unofficial
+7058050530	5.3735899	-3.9985393	SOCOCE 2 Pltx	bus_stop	platform		no	unofficial
+7058225063	5.3789367	-3.9717340	Mary's	bus_stop	platform		no	unofficial
+7058225064	5.3789634	-3.9717843	Mary's	bus_stop	platform		no	unofficial
+7058225066	5.3859298	-3.9743873	Cash Center 8ème Tranche	bus_stop	platform		no	unofficial
+7060277170	5.3603471	-3.9618668	Warren Palmeraie	bus_stop	platform			unofficial
+7060277171	5.3805750	-3.9643954	Pharmacie Rosiers	bus_stop	platform			unofficial
+7060277172	5.3808721	-3.9646855	Termunis des Rosiers	bus_stop	platform			unofficial
+7060277173	5.3812913	-3.9647388	Termunis des Rosiers	bus_stop	platform			unofficial
+7060277174	5.3737955	-3.9616972	Quick Market	bus_stop	platform			unofficial
+7060277175	5.3715851	-3.9648132	Carrefour Sacré Coeur	bus_stop	platform			unofficial
+7060277177	5.3603634	-3.9618018	Warren Palmeraie	bus_stop	platform			unofficial
+7060486566	5.3622165	-3.9594126	Gare Palmeraie	bus_stop	platform			unofficial
+7060486567	5.3628420	-3.9595487	Station	bus_stop	platform			unofficial
+7060486568	5.3659533	-3.9604227	Petro Ivoire	bus_stop	platform			unofficial
+7060486569	5.3667122	-3.9603172	King Cash	bus_stop	platform			unofficial
+7060486570	5.3695475	-3.9602964	Chez Miss Zahui	bus_stop	platform			unofficial
+7060486571	5.3833115	-3.9563294	Rond-point Saint Viateur	bus_stop	platform			unofficial
+7060486572	5.3849164	-3.9533937	Palmeraie SIPIM 4	bus_stop	platform			unofficial
+7060486573	5.3848590	-3.9533441	Palmeraie SIPIM 4	bus_stop	platform			unofficial
+7060486574	5.3835051	-3.9558144	Carrefour Saint Viateur	bus_stop	platform			unofficial
+7060486576	5.3609186	-3.9619070	Warren Palmeraie	bus_stop	platform			unofficial
+7066086747	5.3718141	-3.9982422	SOCOCE 2 Plateaux	bus_stop	platform		no	unofficial
+7066239480	5.3783072	-3.9978513	CEI	bus_stop	platform		no	unofficial
+7066239481	5.3844544	-3.9859001	Carrefour Cascade	bus_stop	platform		no	unofficial
+7066239483	5.3836643	-3.9823508	Termunis Aghien Zinsou	bus_stop	platform		no	unofficial
+7066239484	5.3843276	-3.9857452	Carrefour Cascade	bus_stop	platform		no	unofficial
+7066277285	5.3836500	-3.9824129	Termunis Aghien Zinsou	bus_stop	platform		no	unofficial
+7066654373	5.3771676	-3.9931682	Carrefour Sainte Cécile	bus_stop	platform		no	unofficial
+7066654374	5.3771769	-3.9925620	Carrefour Sainte Cécile	bus_stop	platform		no	unofficial
+7066654375	5.3723568	-3.9903539	Pharmacie Arc-en-ciel	bus_stop	platform		no	unofficial
+7066654378	5.3771123	-3.9930195	Carrefour Sainte Cécile	bus_stop	platform		no	unofficial
+7066654379	5.3789855	-3.9997047	Carrefour Gadji	bus_stop	platform		no	unofficial
+7083105178	5.3460466	-3.9494898	Jacques Prévert / Synacassi 1	bus_stop	platform			unofficial
+7083105179	5.3463377	-3.9456414	Carrefour Akouédo / Synacassi 2	bus_stop	platform			unofficial
+7083105180	5.3632112	-3.9368927	Carrefour Decharge	bus_stop	platform			unofficial
+7083105181	5.3635290	-3.9353223	Signature Immobilier	bus_stop	platform			unofficial
+7083105182	5.3637680	-3.9328493	Laurier 9	bus_stop	platform			unofficial
+7083105183	5.3616557	-3.9302824	Groupe scolaire Les Adorables	bus_stop	platform			unofficial
+7083105184	5.3601923	-3.9286637	Quincaillerie Dieudonné	bus_stop	platform			unofficial
+7083115485	5.3582588	-3.9263168	Arrêt SOTRA	bus_stop	platform			unofficial
+7083115486	5.3717597	-3.9306999	Menuiserie	bus_stop	platform			unofficial
+7083115487	5.3672576	-3.9455020	Nouveau Camp	bus_stop	platform			unofficial
+7083115488	5.3596515	-3.9615650	Commissariat	bus_stop	platform			unofficial
+7083115489	5.3584685	-3.9636008	9 Kilo	bus_stop	platform			unofficial
+7083153374	5.3610121	-3.9596620	Après barrage	bus_stop	platform			unofficial
+7083153375	5.3628707	-3.9563683	Socoprix	bus_stop	platform			unofficial
+7083153376	5.3653997	-3.9496641	Deux Poteaux	bus_stop	platform			unofficial
+7083153377	5.3663857	-3.9475834	Carrefour CFA	bus_stop	platform			unofficial
+7083191190	5.3652948	-3.9494079	Deux Poteaux	bus_stop	platform			unofficial
+7098748072	5.3592149	-3.9627157	Chic Shop	bus_stop	platform			unofficial
+7098748074	5.3711625	-3.9350903	Petit portail Génie 2000	bus_stop	platform			unofficial
+7098748075	5.3744832	-3.9216001	Panneau Orange	bus_stop	platform			unofficial
+7098748083	5.3624675	-3.9566740	Socoprix	bus_stop	platform			unofficial
+7098748084	5.3529693	-3.9792502	Riviera 2	bus_stop	platform			unofficial
+7160556542	5.3351493	-3.9961171	Feu PDCI	bus_stop	platform			unofficial
+7160556543	5.3390831	-3.9787459	Feu Mosquée Golf	bus_stop	platform			unofficial
+7160556544	5.3466577	-3.9752631	Gorille carrefour	bus_stop	platform			unofficial
+7160556546	5.3527309	-3.9768831	Rond-point Riviera 2	bus_stop	platform			unofficial
+7160556547	5.3527522	-3.9767919	Rond-point Riviera 2	bus_stop	platform			unofficial
+7160556548	5.3510631	-3.9763856	Station First Petroleum	bus_stop	platform			unofficial
+7160556549	5.3402488	-3.9747494	Carrefour Flambeau	bus_stop	platform			unofficial
+7160556550	5.3381016	-3.9756735	Rond-point Axa	bus_stop	platform			unofficial
+7160556551	5.3350058	-3.9966651	Feu PDCI	bus_stop	platform			unofficial
+7160672810	5.3607992	-3.9978634	ENA	bus_stop	platform		no	unofficial
+7160672811	5.3693720	-3.9983663	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+7160672812	5.3852048	-3.9931762	Opera	bus_stop	platform		no	unofficial
+7160672816	5.3747302	-3.9983288	Carrefour 12ème arrondissement	bus_stop	platform			unofficial
+7160672817	5.3690181	-3.9981115	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+7160738666	5.3854838	-3.9929737	Opera	bus_stop	platform		no	unofficial
+7160738667	5.3771042	-3.9979123	Snedai	bus_stop	platform		no	unofficial
+7171567234	5.3600674	-3.9617317	Warren Palmeraie	bus_stop	platform		no	unofficial
+7171567235	5.3736801	-3.9616545	Pharmacie Rosiers	bus_stop	platform		no	unofficial
+7171567236	5.3883795	-3.9750646	CIE 8e Tranche Djibi	bus_stop	platform		no	unofficial
+7183549114	5.3600120	-3.9617759	Warren Palmeraie	bus_stop	platform		no	unofficial
+7183549115	5.3676412	-3.9638372	Garage	bus_stop	platform			unofficial
+7183549119	5.3868604	-3.9744987	CNPS	bus_stop	platform			unofficial
+7183549120	5.3829463	-3.9690886	Groupe Scolaire les Petites Abeilles	bus_stop	platform			unofficial
+7643846396	5.3697271	-3.9807818	Église Saint Bernard	bus_stop	platform			unofficial
+7834873583	5.3572661	-3.9638463	Gare Wôro-Wôrô 9 Kilo	bus_stop	platform			unofficial
+7834873584	5.3484199	-3.9409359	Akouédo basket	bus_stop	platform			unofficial
+7834978086	5.3574230	-3.9640300	Gare Wôro-Wôrô 9 Kilo	bus_stop	platform			unofficial
+7835761635	5.3552398	-3.9607993	Pharmacie St Agathe	bus_stop	platform			unofficial
+7835761642	5.3328980	-3.9574948	Institut Britanique	bus_stop	platform			unofficial
+7835784412	5.3538525	-3.9578924	Pharmacie Saint-Pierre des Rosées	bus_stop	platform			unofficial
+7835819027	5.3584858	-3.9652075	Gare de taxi Riviera Bonoumin	bus_stop	platform			unofficial
+7835819028	5.3653770	-3.9691316	Pharmacie Saint Jean Paul II	bus_stop	platform			unofficial
+7835819029	5.3747889	-3.9705129	Abri 2000	bus_stop	platform			unofficial
+7835819030	5.3748563	-3.9703144	Abri 2000	bus_stop	platform			unofficial
+7835819031	5.3704748	-3.9684811	Église des Assemblées de Dieu	bus_stop	platform			unofficial
+7835819032	5.3678324	-3.9677060	Paul Ndré	bus_stop	platform			unofficial
+7835819033	5.3584965	-3.9651505	Gare de taxi Riviera Bonoumin	bus_stop	platform			unofficial
+7835899826	5.3633147	-3.9597063	O'Burger	bus_stop	platform		no	unofficial
+7835899829	5.3628888	-3.9593676	Station	bus_stop	platform			unofficial
+7835899830	5.3790142	-3.9531127	Enica	bus_stop	platform		no	unofficial
+7835947938	5.3696036	-3.9602534	Chez Miss Zahui	bus_stop	platform			unofficial
+7835947939	5.3627385	-3.9597807	Station	bus_stop	platform			unofficial
+7836077585	5.3630169	-3.9597137	Station	bus_stop	platform			unofficial
+7836077586	5.3715403	-3.9577341	Carrefour Guiraud	bus_stop	platform		no	unofficial
+7836077587	5.3830843	-3.9681855	Carrefour Belle Côte	bus_stop	platform		no	unofficial
+7836077589	5.3874012	-3.9747937	SGBCI	bus_stop	platform			
+7836077593	5.3630911	-3.9594112	Station	bus_stop	platform			unofficial
+7836121074	5.3396092	-3.9751464	Leader price	bus_stop	platform			unofficial
+7836121075	5.3406787	-3.9746837	Carrefour Flambeau	bus_stop	platform			unofficial
+7836121076	5.3454243	-3.9748970	Carrefour marché	bus_stop	platform			unofficial
+7836121077	5.3477904	-3.9755957	Carrefour garage	bus_stop	platform			unofficial
+7836121079	5.3453402	-3.9747844	Carrefour marché	bus_stop	platform			unofficial
+7836121081	5.3395678	-3.9750579	Feu de Leader price	bus_stop	platform			unofficial
+7840850687	5.3519217	-3.9717467	Elysée Viera	bus_stop	platform			unofficial
+7840850688	5.3534973	-3.9697257	Carrefour Alpha	bus_stop	platform			unofficial
+7840850689	5.3514088	-3.9763415	Station Riviera 2	bus_stop	platform			unofficial
+7840862585	5.3513028	-3.9762374	Station Riviera 2	bus_stop	platform			unofficial
+7840862887	5.3573796	-3.9643740	9 Kilo	bus_stop	platform			unofficial
+7842766286	5.3467182	-3.9945931	CHU de Cocody	bus_stop	platform		no	unofficial
+7842766287	5.3464711	-3.9946666	CHU de Cocody	bus_stop	platform		no	unofficial
+7842766486	5.3445739	-3.9979867	Cocotier	bus_stop	platform		no	unofficial
+7842766585	5.3454350	-3.9971446	INSAAC	bus_stop	platform		no	unofficial
+7842767185	5.3419503	-3.9993044	Sup Elite	bus_stop	platform		no	unofficial
+7842767186	5.3381180	-3.9998201	Allocodrome	bus_stop	platform		no	unofficial
+7843264988	5.3462155	-3.9459970	Carrefour Akouédo / Synacassi 2	bus_stop	platform			unofficial
+7843272185	5.3532937	-3.9741714	Cité Universitaire	bus_stop	platform			unofficial
+7843272685	5.3459542	-3.9495562	Jacques Prévert / Synacassi 1	bus_stop	platform			unofficial
+7843524985	5.3512227	-3.9763494	Station Riviera 2	bus_stop	platform			unofficial
+7843524986	5.3530206	-3.9765190	Pharmacie de la 2	bus_stop	platform			unofficial
+7843525285	5.3463684	-3.9526092	Cité Belles Fleurs Riviera 3	bus_stop	platform			unofficial
+7843525886	5.3359572	-3.9581345	Lamiyia	bus_stop	platform			unofficial
+7876565392	5.3851073	-3.9912142	Cash Ivoire	bus_stop	platform		no	unofficial
+7876565393	5.3852795	-3.9927735	Opera	bus_stop	platform		no	unofficial
+7876565394	5.3849912	-3.9830348	Termunis Pont Soro	bus_stop	platform		no	unofficial
+7876590801	5.3844744	-3.9944623	Allocodrome Chez Rose	bus_stop	platform		no	unofficial
+7876590802	5.3806037	-3.9854421	Cascades	bus_stop	platform		no	unofficial
+7876590804	5.3805984	-3.9853267	Cascades	bus_stop	platform		no	unofficial
+7876590805	5.3851948	-3.9927806	Opera	bus_stop	platform		no	unofficial
+7876590806	5.3807853	-3.9950672	Station Service Total Las Palmas	bus_stop	platform		no	unofficial
+7876590807	5.3799935	-3.9962286	Lavage Professionel	bus_stop	platform		no	unofficial
+7876641853	5.3790835	-3.9996066	Carrefour Gadji	bus_stop	platform		no	unofficial
+7876641854	5.3845559	-3.9875127	Station Service Shell	bus_stop	platform		no	unofficial
+7876641855	5.3838615	-3.9931762	Organisation Mondiale de la Santé	bus_stop	platform		no	unofficial
+7884163084	5.3618046	-3.9899864	2 Plateaux Vallon	bus_stop	platform		no	unofficial
+7884215688	5.3623954	-3.9967865	ENA	bus_stop	platform		no	unofficial
+7884296056	5.3706237	-3.9998737	Eglise	bus_stop	platform		no	unofficial
+7884296057	5.3731206	-3.9999401	SOCOCE	bus_stop	platform		no	unofficial
+7884296058	5.3743827	-3.9954360	Pizzaria	bus_stop	platform		no	unofficial
+7884296059	5.3739558	-3.9920966	Commissariat du 12è	bus_stop	platform		no	unofficial
+7884296060	5.3739958	-3.9951704	Grand Portail	bus_stop	platform		no	unofficial
+7884296061	5.3738963	-3.9921040	Commissariat du 12è	bus_stop	platform		no	unofficial
+7884296062	5.3748443	-3.9981464	Boulangerie le Roi du Pain	bus_stop	platform		no	unofficial
+7884348009	5.3805116	-3.9945120	Las Palmas	bus_stop	platform		no	unofficial
+8785439646	5.3316686	-3.9624134	Sol Beni	bus_stop	platform			
+8785439647	5.3316484	-3.9652693	Riviera Beach	bus_stop	platform			
+8785439648	5.3317037	-3.9685708	Siege Orange	bus_stop	platform			
+8785439649	5.3325855	-3.9815207	Carrefour Policier	bus_stop	platform		no	official
+8785439650	5.3363311	-3.9766240	Ambassade de Russie	bus_stop	platform			official
+8785439651	5.3382321	-3.9775123	Mosquee du Golf	bus_stop	platform		no	
+8785459386	5.3355060	-3.9994776	PMI Cocody 1	bus_stop	platform		no	official
+8785459389	5.3384364	-3.9772958	Mosquee du Golf 1	bus_stop	platform		no	
+8785459390	5.3362801	-3.9764992	Ambassade de Russie	bus_stop	platform			official
+8785459391	5.3318170	-3.9687890	Siege Orange	bus_stop	platform			
+8785459392	5.3317980	-3.9645200	Riviera Beach	bus_stop	platform			
+8785459393	5.3315786	-3.9591733	Sol Beni	bus_stop	platform			
+8785459395	5.3300201	-3.9544236	Carrefour Assurance SAHAM	bus_stop	platform			unofficial
+8785622600	5.3832378	-3.9720490	Groupe Scolaire St Marc	bus_stop	platform			official
+8785622601	5.3829586	-3.9690223	Groupe Scolaire les Petites Abeilles	bus_stop	platform			official
+8785622602	5.3829904	-3.9680667	Carrefour Belle Cote	bus_stop	platform			official
+8785622603	5.3807524	-3.9674159	Pharmacie Val de Grace	bus_stop	platform			official
+8785622604	5.3794960	-3.9645614	Appolos Sport	bus_stop	platform			official
+8785622610	5.3636001	-3.9621915	Centre Hospitalier Palmeraie	bus_stop	platform			official
+8785622611	5.3621950	-3.9660108	Abidjan Mail	bus_stop	platform			official
+8785622612	5.3586861	-3.9649546	Orange Abidjan mall	bus_stop	platform			
+8785676980	5.3794442	-3.9643582	Appolos Sport	bus_stop	platform			official
+8785676981	5.3789154	-3.9661415	Carrefour Figuier	bus_stop	platform			official
+8785676983	5.3829916	-3.9706218	Marry Coffa	bus_stop	platform			
+8785676984	5.3829104	-3.9688333	Supermarce Belle Cote	bus_stop	platform			official
+8785676985	5.3851152	-3.9742084	Pharmacie Hermes	bus_stop	platform			official
+8785676986	5.3887248	-3.9751656	CIE 8e Tranche Djibi	bus_stop	platform		no	official
+8804863188	5.3299052	-3.9543346	Carrefour Assurance SAHAM	bus_stop	platform			unofficial
+8804892040	5.3319811	-3.9410971	Ambassade de Chine	bus_stop	platform			unofficial
+8821232097	5.3586133	-3.9783866	Doraville	bus_stop	platform		no	official
+8821232098	5.3606830	-3.9786986	Clim Auto	bus_stop	platform		no	official
+8821232099	5.3643888	-3.9792276	Jules Ferry	bus_stop	platform			official
+8821232100	5.3676902	-3.9797179	Mini Pressing	bus_stop	platform			official
+8821232101	5.3712222	-3.9821371	SARITEL	bus_stop	platform			
+8821232102	5.3744897	-3.9851775	Pharmacie Dunia	bus_stop	platform			
+8821232103	5.3775865	-3.9864625	SODECI	bus_stop	platform			
+8821232104	5.3777234	-3.9875915	AIMAS	bus_stop	platform			
+8821232105	5.3827761	-3.9878510	Business School	bus_stop	platform		no	
+8821232106	5.3843706	-3.9876579	Pharmacie 7 Lys	bus_stop	platform		no	
+8821232107	5.3875027	-3.9872702	CI telecom	bus_stop	platform			
+8821263508	5.3554528	-3.9775846	André Malraux	bus_stop	platform			official
+8821263509	5.3572290	-3.9780885	Pharmacie St Ange	bus_stop	platform			official
+8821263511	5.3675114	-3.9796306	Pharmacie St Bernard	bus_stop	platform			official
+8821263512	5.3696651	-3.9807395	Paroisse St Bernard	bus_stop	platform			
+8821263513	5.3713461	-3.9821313	SARITEL	bus_stop	platform			
+8821263514	5.3734742	-3.9841443	Commissariat 30e Arrondissement	bus_stop	platform			
+8821263515	5.3742782	-3.9848796	Pharmacie Dunia	bus_stop	platform			
+8821263516	5.3766376	-3.9855449	Résidences Odelia	bus_stop	platform			
+8821296317	5.3776944	-3.9863148	SODECI	bus_stop	platform			
+8821296318	5.3799586	-3.9880650	ESIT	bus_stop	platform		no	
+8821296319	5.3825123	-3.9877339	JHPIEGO	bus_stop	platform		no	
+8821296320	5.3850260	-3.9874414	Station Shell 7e Tranche	bus_stop	platform		no	
+8821296321	5.3882565	-3.9870428	Noces de Canaan	bus_stop	platform			
+8821319228	5.3799695	-3.9953012	Station Total Aghien	bus_stop	platform		yes	official
+8821319229	5.3768545	-3.9980310	CESAM	bus_stop	platform			official
+8821319232	5.3594232	-3.9992447	VIPnet	bus_stop	platform		yes	official
+9289193509	5.3684560	-3.9986980	Gare 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+9289193510	5.3616855	-3.9900953	2 Plateaux Vallon	bus_stop	platform		no	unofficial
+9289193512	5.3684102	-3.9986980	Gare 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+9289210040	5.3691249	-3.9984199	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+9289210041	5.3833175	-3.9736229	Immeuble CGK	bus_stop	platform		no	unofficial
+9289210042	5.3834277	-3.9737644	Immeuble CGK	bus_stop	platform		no	unofficial
+9289220169	5.3779360	-3.9972988	Carrefour Duncan	bus_stop	platform		no	unofficial
+9289220170	5.3806138	-3.9946481	Las Palmas	bus_stop	platform		no	unofficial
+9289258034	5.3682514	-3.9983220	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+9289258035	5.3884065	-3.9927967	Ancien SONATT	bus_stop	platform		no	unofficial
+9289276507	5.3878364	-3.9874376	Puissance 6	bus_stop	platform			unofficial
+9293711889	5.3553734	-3.9671368	Cap Nord	bus_stop	platform			unofficial
+9293711890	5.3573228	-3.9641105	9 Kilo	bus_stop	platform			unofficial
+9293711892	5.3492806	-3.9539355	Mosquée de la Riviera 3	bus_stop	platform			unofficial
+9293711894	5.3492325	-3.9540254	Mosquée de la Riviera 3	bus_stop	platform			unofficial
+9296225023	5.3789013	-3.9669496	Carrefour Figuier	bus_stop	platform			unofficial
+9296225024	5.3831438	-3.9682104	Carrefour Belle Côte	bus_stop	platform		no	unofficial
+9296225025	5.3872757	-3.9691436	Hôtel Belle Côte	bus_stop	platform			unofficial
+9296225027	5.3872937	-3.9690772	Hôtel Belle Côte	bus_stop	platform			unofficial
+9296225028	5.3750813	-3.9657600	La Poubelle	bus_stop	platform			unofficial
+9296285892	5.3647995	-3.9601367	Rond-Point de la Palmeraie	bus_stop	platform			unofficial
+9296285894	5.3788884	-3.9588654	1ère barrière Programme 4	bus_stop	platform			
+9325540085	5.3395771	-3.9999984	Feu Mermoz	bus_stop	platform		no	unofficial
+9325540086	5.3723642	-3.9904377	Leader Price	bus_stop	platform		no	unofficial
+9325540087	5.3796866	-3.9940982	Las Palmas	bus_stop	platform		no	unofficial
+9325540088	5.3796414	-3.9940624	Las Palmas	bus_stop	platform		no	unofficial
+9325540089	5.3733335	-3.9904243	Indian Bazaar	bus_stop	platform		no	unofficial
+9325540090	5.3709722	-3.9901232	Ambassade du Benin	bus_stop	platform		no	unofficial
+9325540091	5.3638054	-3.9896947	SIB	bus_stop	platform		no	unofficial
+9325540092	5.3621270	-3.9896196	Chez Paul	bus_stop	platform		no	unofficial
+9325540093	5.3569957	-3.9905074	Advans CI	bus_stop	platform		no	unofficial
+9328317069	5.3537777	-3.9558359	Glacier	bus_stop	platform			unofficial
+9328317070	5.3545465	-3.9617726	Reconciliation	bus_stop	platform			unofficial
+9328317071	5.3552048	-3.9645031	Cité Allabra	bus_stop	platform			unofficial
+9328317072	5.3534852	-3.9703538	Au Carrefour	bus_stop	platform			unofficial
+9328317073	5.3553199	-3.9685629	Sainte Famille	bus_stop	platform			unofficial
+9328317074	5.3552599	-3.9644799	Cité Allabra	bus_stop	platform			unofficial
+9328317075	5.3386020	-3.9522058	Carrefour Affi	bus_stop	platform			unofficial
+10218963489	5.3492221	-3.9758925	Chez Rifat	bus_stop	platform			unofficial
+10218963490	5.3478513	-3.9755291	Carrefour garage	bus_stop	platform			unofficial
+10218963491	5.3465276	-3.9751535	Gorille carrefour	bus_stop	platform			unofficial
+10218963492	5.3459863	-3.9749856	Carrefour lavage	bus_stop	platform			unofficial
+10218963494	5.3415067	-3.9742290	Carrefour chefferie	bus_stop	platform			unofficial
+10218963495	5.3389918	-3.9790313	Carrefour Mosquée Golf	bus_stop	platform			unofficial
+10218963496	5.3377764	-3.9847561	Campus 2 portail	bus_stop	platform			unofficial
+10218963497	5.3367852	-3.9859039	District de Police de Cocody	bus_stop	platform			unofficial
+10218963498	5.3344550	-3.9904029	Campus 1 portail	bus_stop	platform			unofficial
+10218963499	5.3346729	-3.9937477	Carrefour Kadafy	bus_stop	platform			unofficial
+10218963500	5.3351984	-3.9983720	Carrefour NSIA	bus_stop	platform			unofficial
+10219015673	5.3355563	-3.9994624	Feu de pâtisserie	bus_stop	platform			unofficial
+10219015674	5.3353585	-3.9979476	Pharmacie Saint Marie	bus_stop	platform			unofficial
+10219015675	5.3347997	-3.9933744	Carrefour Kadhafi	bus_stop	platform			unofficial
+10219015676	5.3346554	-3.9904086	Campus 2 portail	bus_stop	platform			unofficial
+10219015677	5.3369912	-3.9859467	District de Police de Cocody	bus_stop	platform			unofficial
+10219015678	5.3379568	-3.9849343	Campus 1 portail	bus_stop	platform			unofficial
+10219015679	5.3381534	-3.9757843	Rond-point Axa	bus_stop	platform			unofficial
+10219015680	5.3416365	-3.9742757	Carrefour chefferie	bus_stop	platform			unofficial
+10219015681	5.3441366	-3.9745282	Coco	bus_stop	platform			unofficial
+10219015682	5.3461276	-3.9750906	Pharmacie Saint Pierre	bus_stop	platform			unofficial
+10219015683	5.3493804	-3.9760780	Chez Rifat	bus_stop	platform			unofficial
+10219015684	5.3501208	-3.9762567	Carrefour des prix	bus_stop	platform			unofficial
+10219015685	5.3511083	-3.9765073	Carrefour SGBCI	bus_stop	platform			unofficial
+10219084138	5.3366327	-3.9999866	Carrefour pâtisserie	bus_stop	platform		no	unofficial
+10219084139	5.3391509	-3.9998971	Avant le feu Mermoz	bus_stop	platform		no	unofficial
+10219084140	5.3395539	-3.9998395	Feu Mermoz	bus_stop	platform		no	unofficial
+10219090530	5.3417226	-3.9994251	Sup Elite	bus_stop	platform		no	unofficial
+10219090531	5.3444348	-3.9984370	Station	bus_stop	platform		no	unofficial
+10219090532	5.3457173	-3.9971370	INSAAC	bus_stop	platform		no	unofficial
+10219284898	5.3594245	-3.9537705	Carrefour CMA	bus_stop	platform			unofficial
+10219284899	5.3590974	-3.9525059	Clinique médicale Saint Viateur	bus_stop	platform			unofficial
+10219284900	5.3587322	-3.9511239	Rond-point de l'ancien camp	bus_stop	platform			unofficial
+10219284901	5.3585392	-3.9500946	Da Carmen	bus_stop	platform			unofficial
+10219284902	5.3581760	-3.9489064	Carrefour béton	bus_stop	platform			unofficial
+10219284903	5.3579223	-3.9475626	Camp ivoire	bus_stop	platform			unofficial
+10219284904	5.3577140	-3.9465728	Ancien Camp Akouedo	bus_stop	platform			unofficial
+10219284905	5.3574911	-3.9452022	Carrefour termitières	bus_stop	platform			unofficial
+10219284906	5.3592589	-3.9416926	Nouveau pont	bus_stop	platform			unofficial
+10219284907	5.3603098	-3.9399076	Carrefour Village	bus_stop	platform			unofficial
+10219284908	5.3573348	-3.9403930	1er étage	bus_stop	platform			unofficial
+10219284909	5.3566231	-3.9405097	Carrefour marché	bus_stop	platform			unofficial
+10219284910	5.3554087	-3.9406646	Carrefour Akouédo village	bus_stop	platform			unofficial
+10219284911	5.3567260	-3.9405996	Carrefour marché	bus_stop	platform			unofficial
+10219284912	5.3574817	-3.9404735	1er étage	bus_stop	platform			unofficial
+10219284913	5.3585352	-3.9402844	Le lapin	bus_stop	platform			unofficial
+10219284914	5.3593270	-3.9401543	Immeuble assurance	bus_stop	platform			unofficial
+10219284915	5.3579544	-3.9430431	Carrefour bambou	bus_stop	platform			unofficial
+10219284916	5.3576273	-3.9437404	Antenne	bus_stop	platform			unofficial
+10219299417	5.3574176	-3.9444003	Garage Koné	bus_stop	platform			unofficial
+10219299418	5.3573101	-3.9453920	Carrefour termitières	bus_stop	platform			unofficial
+10219299419	5.3577728	-3.9476229	Camp ivoire	bus_stop	platform			unofficial
+10219299420	5.3581346	-3.9490230	Carrefour béton	bus_stop	platform			unofficial
+10219299421	5.3586727	-3.9511373	Rond-point de l'ancien camp	bus_stop	platform			unofficial
+10219299422	5.3590439	-3.9527822	Clinique médicale Saint Viateur	bus_stop	platform			unofficial
+10219299423	5.3594365	-3.9542453	Carrefour CMA	bus_stop	platform			unofficial
+10219299424	5.3611683	-3.9578723	Gare Palmeraie DGI	bus_stop	platform			unofficial
+10234827985	5.3678151	-3.9379003	Gare Faya	bus_stop	platform			unofficial
+10234827986	5.3649270	-3.9371020	ATCI 1er portail	bus_stop	platform			unofficial
+10234827987	5.3635407	-3.9367301	Bon Prix	bus_stop	platform			unofficial
+10234827988	5.3618293	-3.9384759	Petit portail	bus_stop	platform			unofficial
+10234827989	5.3536576	-3.9408678	Pharmacie	bus_stop	platform			unofficial
+10234827990	5.3619163	-3.9385481	Petit portail	bus_stop	platform			unofficial
+10234827991	5.3650604	-3.9372291	ATCI 1er portail	bus_stop	platform			unofficial
+10234827992	5.3667351	-3.9376838	ATCI	bus_stop	platform			unofficial
+10234827993	5.3677933	-3.9379819	Gare Faya	bus_stop	platform			unofficial
+10265528613	5.3896483	-3.9273508	Carrefour Clinique	bus_stop	platform			unofficial
+10265528614	5.3888752	-3.9256744	Carrefour Chateau	bus_stop	platform			unofficial
+10265528615	5.3872636	-3.9273629	Carrefour Prestige	bus_stop	platform			unofficial
+10265528616	5.3859084	-3.9288086	A l'antenne	bus_stop	platform			unofficial
+10265528617	5.3849591	-3.9299271	Carrefour Souade	bus_stop	platform			unofficial
+10265528618	5.3843837	-3.9319333	Carrefour Virage	bus_stop	platform			unofficial
+10265528619	5.3826546	-3.9318113	Pharmacie Ephrata	bus_stop	platform			unofficial
+10265528620	5.3804075	-3.9312024	Carrefour Ephrata	bus_stop	platform			unofficial
+10265528621	5.3787945	-3.9308021	Cité BNETD	bus_stop	platform			unofficial
+10265528622	5.3762643	-3.9301309	Carrefour Laureades	bus_stop	platform			unofficial
+10265528623	5.3741854	-3.9289668	Nouveau goudron Abatta	bus_stop	platform			unofficial
+10265580836	5.3746434	-3.9291599	Nouveau goudron Abatta	bus_stop	platform			unofficial
+10265580837	5.3753484	-3.9294443	Carrefour Eglise	bus_stop	platform			unofficial
+10265580838	5.3765060	-3.9303535	Carrefour Laureades	bus_stop	platform			unofficial
+10265580839	5.3777010	-3.9307022	Garage	bus_stop	platform			unofficial
+10265580840	5.3793540	-3.9311327	Carrefour Clinique	bus_stop	platform			unofficial
+10265580841	5.3805209	-3.9314854	Carrefour Ephrata	bus_stop	platform			unofficial
+10265580842	5.3827467	-3.9320634	Pharmacie Ephrata	bus_stop	platform			unofficial
+10265580843	5.3840685	-3.9324014	Maquis Virage	bus_stop	platform			unofficial
+10265580844	5.3846600	-3.9317322	Carrefour Virage	bus_stop	platform			unofficial
+10265580845	5.3851047	-3.9301309	Carrefour CMA	bus_stop	platform			unofficial
+10265580846	5.3856481	-3.9294201	Carrefour Minicar	bus_stop	platform			unofficial
+10265580847	5.3863958	-3.9286275	A l'antenne	bus_stop	platform			unofficial
+10265580848	5.3876816	-3.9272489	Carrefour Prestige	bus_stop	platform			unofficial
+10265580849	5.3892571	-3.9256677	Rond Point du Chateau	bus_stop	platform			unofficial
+10265580850	5.3894787	-3.9268747	Carrefour Ecole	bus_stop	platform			unofficial
+10265580851	5.3895828	-3.9274997	Carrefour Clinique	bus_stop	platform			unofficial
+10268582066	5.3874472	-3.9271114	Carrefour Prestige	bus_stop	platform			unofficial
+10268582067	5.3871925	-3.9256908	Carrefour Chateau	bus_stop	platform			unofficial
+10268582068	5.3869906	-3.9244406	Carrefour Sylla	bus_stop	platform			unofficial
+10268582070	5.3862556	-3.9205940	Cité Prestige	bus_stop	platform			unofficial
+10268582071	5.3862422	-3.9206795	Cité Prestige	bus_stop	platform			unofficial
+10268582072	5.3867643	-3.9229828	Carrefour terre ivoire	bus_stop	platform			unofficial
+10268582073	5.3867029	-3.9232041	Carrefour terre ivoire	bus_stop	platform			unofficial
+10268582074	5.3871328	-3.9257059	Carrefour Chateau	bus_stop	platform			unofficial
+10268582075	5.3788853	-3.9309986	Cité BNETD	bus_stop	platform			unofficial
+10268582076	5.3773725	-3.9304273	Garage	bus_stop	platform			unofficial
+10268582077	5.3741227	-3.9290024	Nouveau goudron Abatta	bus_stop	platform			unofficial
+10273846207	5.3894581	-3.9252760	Rond Point du Chateau	bus_stop	platform			unofficial
+10276806528	5.3743790	-3.9288978	Nouveau goudron Abatta	bus_stop	platform			unofficial
+10276820718	5.3891259	-3.9253604	Rond Point du Chateau	bus_stop	platform			unofficial
+10276820719	5.3744637	-3.9289357	Nouveau goudron Abatta	bus_stop	platform			unofficial
+10289441892	5.3775976	-3.9972110	Carrefour Duncan	bus_stop	platform		no	unofficial
+10289441893	5.3771780	-3.9952895	RTI Publicité	bus_stop	platform		no	unofficial
+10289441894	5.3716249	-3.9902368	BOA Agence Rue des jardins	bus_stop	platform		no	unofficial
+10289441895	5.3684065	-3.9897479	Nuit Saigon	bus_stop	platform		no	unofficial
+10289441896	5.3670273	-3.9896811	Mr Chou	bus_stop	platform		no	unofficial
+10289441898	5.3661960	-3.9897752	Club House	bus_stop	platform		no	unofficial
+10289441899	5.3685211	-3.9898583	Nuit Saigon	bus_stop	platform		no	unofficial
+10289441900	5.3692158	-3.9899496	Pharmacie Saint Joseph	bus_stop	platform		no	unofficial
+10289441901	5.3717351	-3.9903373	BOA Agence Rue des jardins	bus_stop	platform		no	unofficial
+10289441902	5.3733088	-3.9905883	Indian Bazaar	bus_stop	platform		no	unofficial
+10289441903	5.3738888	-3.9904354	Carrefour 12ème	bus_stop	platform		no	unofficial
+10289441904	5.3739813	-3.9905284	Carrefour 12ème	bus_stop	platform		no	unofficial
+10289441905	5.3748716	-3.9905161	Akwaba	bus_stop	platform		no	unofficial
+10289441907	5.3771002	-3.9954062	RTI Publicité	bus_stop	platform		no	unofficial
+10290362012	5.3746628	-3.9904472	Akwaba	bus_stop	platform		no	unofficial
+10290362014	5.3732441	-3.9853350	Justice du commerce	bus_stop	platform			unofficial
+10290362015	5.3738357	-3.9844648	Commisariat 30è Art.	bus_stop	platform			unofficial
+10290362016	5.3722397	-3.9829778	Assurance Royale	bus_stop	platform			unofficial
+10290362017	5.3713759	-3.9821676	Carrefour Grande Mosquée	bus_stop	platform			unofficial
+10290362018	5.3674291	-3.9795016	Pharmacie Saint Bernard	bus_stop	platform			unofficial
+10290362020	5.3688602	-3.9801511	Carrefour Boulangerie	bus_stop	platform			unofficial
+10290362022	5.3712770	-3.9821606	Ancien SARITEL	bus_stop	platform			unofficial
+10290362023	5.3716620	-3.9825074	Cité Abri 2000	bus_stop	platform			unofficial
+10290362024	5.3725115	-3.9833685	Assurance Royale	bus_stop	platform			unofficial
+10290362025	5.3737412	-3.9847390	Commisariat 30è Art.	bus_stop	platform			unofficial
+10290362026	5.3729489	-3.9855485	Carrefour Gobelet	bus_stop	platform		no	unofficial
+10290362027	5.3724368	-3.9860998	Eglise Cema	bus_stop	platform		no	unofficial
+10290362028	5.3718807	-3.9884863	Ambassade du Mali	bus_stop	platform		no	unofficial
+10290362029	5.3717919	-3.9885438	Ambassade du Mali	bus_stop	platform		no	unofficial
+10290362030	5.3718007	-3.9892139	Immigration Canada	bus_stop	platform		no	unofficial
+10290362031	5.3716882	-3.9894078	Immigration Canada	bus_stop	platform		no	unofficial
+10293232214	5.3321689	-3.9225979	Miami beach	bus_stop	platform			unofficial
+10293232215	5.3380202	-3.9232323	Carrefour Garage	bus_stop	platform			unofficial
+10293232216	5.3395558	-3.9227796	Oribat	bus_stop	platform			unofficial
+10293232217	5.3423292	-3.9220347	Carrefour Sicta	bus_stop	platform			unofficial
+10293232218	5.3447246	-3.9224370	Carrefour Beceao	bus_stop	platform			unofficial
+10293232219	5.3467729	-3.9229023	Garba Choco	bus_stop	platform			unofficial
+10293232220	5.3473952	-3.9230271	Gare Nouveau Goudron	bus_stop	platform			unofficial
+10293232221	5.3482070	-3.9232041	ComZone	bus_stop	platform			unofficial
+10293232222	5.3495196	-3.9235079	Pancho	bus_stop	platform			unofficial
+10293232223	5.3502126	-3.9236762	Carrefour Cyber	bus_stop	platform			unofficial
+10293232224	5.3517241	-3.9240383	Carrefour Veninzoir	bus_stop	platform			unofficial
+10293232225	5.3532463	-3.9243802	Carrefour Coquivoire	bus_stop	platform			unofficial
+10293232226	5.3547151	-3.9246847	Carrefour Lapin	bus_stop	platform			unofficial
+10293232227	5.3555309	-3.9248805	Carrefour Drogba	bus_stop	platform			unofficial
+10293232228	5.3581360	-3.9254813	AB Center	bus_stop	platform			unofficial
+10293232229	5.3595540	-3.9258709	Sodeci Abatta	bus_stop	platform			unofficial
+10293232230	5.3606489	-3.9261545	Prumux	bus_stop	platform			unofficial
+10293232231	5.3616196	-3.9264160	Carrefour Lumière	bus_stop	platform			unofficial
+10293232232	5.3637987	-3.9270021	Ferronnerie	bus_stop	platform			unofficial
+10293232233	5.3666534	-3.9277706	Carrefour Policier	bus_stop	platform			unofficial
+10293232234	5.3703160	-3.9287764	Gare Nouveau Goudron	bus_stop	platform			unofficial
+10293246985	5.3716605	-3.9289172	Terminus Nouveau Goudron	bus_stop	platform			unofficial
+10293246987	5.3687664	-3.9281192	Carrefour El vivo	bus_stop	platform			unofficial
+10293246988	5.3666828	-3.9275466	Carrefour Policier	bus_stop	platform			unofficial
+10293246989	5.3638401	-3.9268237	Ferronnerie	bus_stop	platform			unofficial
+10293246990	5.3617985	-3.9262860	Carrefour Lumière	bus_stop	platform			unofficial
+10293246991	5.3606502	-3.9259869	Prumux	bus_stop	platform			unofficial
+10293246992	5.3578315	-3.9252345	AB Center	bus_stop	platform			unofficial
+10293246993	5.3553413	-3.9246351	Carrefour Drogba	bus_stop	platform			unofficial
+10293246994	5.3545669	-3.9244540	Carrefour Lapin	bus_stop	platform			unofficial
+10293246995	5.3530600	-3.9241160	Carrefour Mosquée	bus_stop	platform			unofficial
+10293246996	5.3516653	-3.9238264	Carrefour Veninzoir	bus_stop	platform			unofficial
+10293246997	5.3503521	-3.9235226	Carrefour Cyber	bus_stop	platform			unofficial
+10293246998	5.3498053	-3.9233784	Pancho	bus_stop	platform			unofficial
+10293246999	5.3490589	-3.9232121	Bananier	bus_stop	platform			unofficial
+10293247000	5.3482698	-3.9230472	ComZone	bus_stop	platform			unofficial
+10293247001	5.3475421	-3.9228621	Mondial Beton	bus_stop	platform			unofficial
+10293247002	5.3439689	-3.9220843	Carrefour le blanc	bus_stop	platform			unofficial
+10293247003	5.3421809	-3.9218630	Carrefour Sicta	bus_stop	platform			unofficial
+10293247004	5.3395304	-3.9226194	Oribat	bus_stop	platform			unofficial
+10293247005	5.3376850	-3.9231263	Carrefour Garage	bus_stop	platform			unofficial
+10293247006	5.3322944	-3.9224195	Miami beach	bus_stop	platform			unofficial
+10293290885	5.3515311	-3.9754845	Au Lavage	bus_stop	platform			unofficial
+10293290887	5.3539422	-3.9576914	Pharmacie Saint-Pierre des Rosées	bus_stop	platform			unofficial
+10293290888	5.3510813	-3.9543971	Bon Pasteur	bus_stop	platform			unofficial
+10293290889	5.3479747	-3.9527805	Lycée Américain	bus_stop	platform			unofficial
+10293290890	5.3455212	-3.9524728	Mel Théodore	bus_stop	platform			unofficial
+10293290891	5.3410902	-3.9522290	Brandon	bus_stop	platform			unofficial
+10293312731	5.3309087	-3.9571703	Ancien Terminus M'pouto	bus_stop	platform			unofficial
+10293312732	5.3302876	-3.9551592	Chantier	bus_stop	platform			unofficial
+10293312733	5.3298914	-3.9539562	Coqivoire	bus_stop	platform			unofficial
+10293312739	5.3352046	-3.9441681	Panier d'Or	bus_stop	platform			unofficial
+10293312740	5.3402833	-3.9452630	Carrefour Antenne	bus_stop	platform			unofficial
+10293312741	5.3463541	-3.9527457	Cité Belles Fleurs Riviera 3	bus_stop	platform			unofficial
+10293312742	5.3482550	-3.9531153	Lycée Américain	bus_stop	platform			unofficial
+10293312743	5.3498998	-3.9544757	Ancien Garage	bus_stop	platform			unofficial
+10293312745	5.3552369	-3.9609812	Pharmacie St Agathe	bus_stop	platform			unofficial
+10293312746	5.3552789	-3.9669321	Cap Nord	bus_stop	platform			unofficial
+10293312747	5.3534169	-3.9681969	Sainte Famille	bus_stop	platform			unofficial
+10293356480	5.3545116	-3.9625299	Boutique Bleue	bus_stop	platform			unofficial
+10293356481	5.3369363	-3.9536907	Maison Blanche	bus_stop	platform			unofficial
+10293356482	5.3341421	-3.9561253	Banny	bus_stop	platform			unofficial
+10293372514	5.3386437	-3.9524268	Carrefour Affi	bus_stop	platform			unofficial
+10293372515	5.3417004	-3.9524518	Brandon	bus_stop	platform			unofficial
+10293470011	5.3324427	-3.9365625	Carrefour Martin	bus_stop	platform			unofficial
+10293470012	5.3333270	-3.9373995	A la foire	bus_stop	platform			unofficial
+10293470013	5.3343829	-3.9383841	Carrefour Université	bus_stop	platform			unofficial
+10293470014	5.3366589	-3.9405057	Carrefour Valinbet	bus_stop	platform			unofficial
+10293470015	5.3377304	-3.9416751	Carrefour Akwaba	bus_stop	platform			unofficial
+10293470017	5.3569229	-3.9629692	Gare 9 Kilo	bus_stop	platform			unofficial
+10293476051	5.3565270	-3.9628834	Gare 9 Kilo	bus_stop	platform			unofficial
+10293476052	5.3458917	-3.9524013	Mel Théodore	bus_stop	platform			unofficial
+10293476053	5.3461066	-3.9456381	Carrefour Akouédo / Synacassi 2	bus_stop	platform			unofficial
+10293476054	5.3400498	-3.9449582	Carrefour Antenne	bus_stop	platform			unofficial
+10293476055	5.3377031	-3.9415162	Carrefour Akwaba	bus_stop	platform			unofficial
+10293476056	5.3353910	-3.9391954	Pharmacie Bonne Fortune	bus_stop	platform			unofficial
+10293476057	5.3345925	-3.9384753	Carrefour Université	bus_stop	platform			unofficial
+10293476058	5.3333119	-3.9372743	A la foire	bus_stop	platform			unofficial
+10293476059	5.3324400	-3.9364864	Carrefour Martin	bus_stop	platform			unofficial
+10293476060	5.3311287	-3.9352841	La ferme	bus_stop	platform			unofficial
+10295064212	5.3327900	-3.9573215	Institut Britanique	bus_stop	platform			unofficial
+10295064218	5.3302055	-3.9552832	Chantier	bus_stop	platform			unofficial
+10295064219	5.3310087	-3.9577475	Carrefour Philadelphie	bus_stop	platform			unofficial
+10295106738	5.3477410	-3.9415759	Au guerré	bus_stop	platform			unofficial
+10295106739	5.3474112	-3.9422786	Elishama	bus_stop	platform			unofficial
+10295106740	5.3468143	-3.9434373	Carrefour Mosquée	bus_stop	platform			unofficial
+10295106741	5.3466995	-3.9439496	A l'etage	bus_stop	platform			unofficial
+10295106742	5.3534122	-3.9698066	Carrefour Alpha	bus_stop	platform			unofficial
+10295106743	5.3518520	-3.9717381	Elysée Viera	bus_stop	platform			unofficial
+10295136978	5.3398722	-3.9452056	Carrefour Antenne	bus_stop	platform			unofficial
+10295136979	5.3350932	-3.9439335	Panier d'Or	bus_stop	platform			unofficial
+10295136980	5.3313731	-3.9404427	Ambassade de Chine	bus_stop	platform			unofficial
+10295136986	5.3331450	-3.9421821	Ambassade de Chine	bus_stop	platform			unofficial
+10295136987	5.3359438	-3.9448535	Cité de doyen	bus_stop	platform			unofficial
+10295139991	5.3467182	-3.9440636	A l'etage	bus_stop	platform			unofficial
+10296715481	5.3631485	-3.9976086	Farandole	bus_stop	platform		no	unofficial
+10296715482	5.3653386	-3.9976049	Carrefour macaci	bus_stop	platform		no	unofficial
+10296715483	5.3685982	-3.9983052	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10296715484	5.3713594	-3.9983469	Banque SGBCI	bus_stop	platform		no	unofficial
+10296715485	5.3725217	-3.9985420	Petit Carrefour	bus_stop	platform		no	unofficial
+10296715486	5.3749419	-3.9985643	Carrefour 12ème arrondissement	bus_stop	platform		no	unofficial
+10296715487	5.3894793	-3.9926642	Mahikari	bus_stop	platform		no	unofficial
+10296727806	5.3777825	-3.9971714	Carrefour Duncan	bus_stop	platform		no	unofficial
+10296727807	5.3736153	-3.9983429	SOCOCE 2 Pltx	bus_stop	platform		no	unofficial
+10296727808	5.3726252	-3.9983448	Petit Carrefour	bus_stop	platform		no	unofficial
+10296745509	5.3712880	-3.9981169	Banque SGBCI	bus_stop	platform		no	unofficial
+10296745510	5.3650912	-3.9973967	Carrefour macaci	bus_stop	platform		no	unofficial
+10296745511	5.3631605	-3.9974061	Farandole	bus_stop	platform		no	unofficial
+10296745512	5.3607183	-3.9976595	ENA	bus_stop	platform		no	unofficial
+10296810721	5.3589906	-3.9784619	Doraville	bus_stop	platform			unofficial
+10296810722	5.3600060	-3.9786205	Garage Al bayan	bus_stop	platform			unofficial
+10296810723	5.3648094	-3.9793372	Polyclinique Sacré-Coeur	bus_stop	platform			unofficial
+10296810724	5.3694771	-3.9777064	Escalier	bus_stop	platform			unofficial
+10296810725	5.3600178	-3.9785028	Garage Al bayan	bus_stop	platform			unofficial
+10302264765	5.3684280	-3.9999286	Carrefour Mendiant	bus_stop	platform		no	unofficial
+10302264766	5.3690482	-3.9999106	Gare de Yopougon - 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10302264767	5.3709822	-3.9999287	Eglise	bus_stop	platform		no	unofficial
+10302264768	5.3715283	-3.9997765	Rue des Maquis	bus_stop	platform		no	unofficial
+10302264769	5.3748944	-3.9981698	Boulangerie le Roi du Pain	bus_stop	platform		no	unofficial
+10302264770	5.3749064	-3.9961910	Pharmacie Maestro	bus_stop	platform		no	unofficial
+10302264771	5.3739851	-3.9949666	Grand Portail	bus_stop	platform		no	unofficial
+10302264772	5.3748250	-3.9962420	Pharmacie Maestro	bus_stop	platform		no	unofficial
+10302264773	5.3720758	-3.9995847	SOCOCE	bus_stop	platform		no	unofficial
+10302264774	5.3714506	-3.9997755	Rue des Maquis	bus_stop	platform		no	unofficial
+10302264775	5.3689420	-3.9998623	Gare de Yopougon - 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10302584653	5.3616690	-3.9925714	Ambassade du Togo	bus_stop	platform		no	unofficial
+10302584654	5.3624101	-3.9946830	Escaliers	bus_stop	platform		no	unofficial
+10302604936	5.3657762	-3.9974034	Pharmacie Orchid	bus_stop	platform		no	unofficial
+10302604937	5.3625129	-3.9971808	Orange Côte d'Ivoire	bus_stop	platform		no	unofficial
+10302604938	5.3625209	-3.9953314	International Cocoa Organization (ICCO)	bus_stop	platform		no	unofficial
+10302604939	5.3624475	-3.9943913	Escaliers	bus_stop	platform		no	unofficial
+10302604940	5.3617865	-3.9916849	Résidence Bertile	bus_stop	platform		no	unofficial
+10302604941	5.3617919	-3.9927752	Ambassade du Togo	bus_stop	platform		no	unofficial
+10308544391	5.3887978	-3.9869803	Chawarma +	bus_stop	platform			unofficial
+10308544392	5.3866641	-3.9872687	Café de Versailles	bus_stop	platform			unofficial
+10308544393	5.3800550	-3.9880653	ESIT	bus_stop	platform		no	unofficial
+10308544394	5.3786116	-3.9882701	Clinique Médicale Sacré Coeur	bus_stop	platform			unofficial
+10308544395	5.3779026	-3.9881042	Pharmacie Tera	bus_stop	platform			unofficial
+10308544396	5.3776583	-3.9861448	SODECI	bus_stop	platform			unofficial
+10308544397	5.3708233	-3.9816836	EPP Attoban	bus_stop	platform			unofficial
+10308544398	5.3687452	-3.9799573	3ème Barrière	bus_stop	platform			unofficial
+10308544399	5.3676015	-3.9796565	Pharmacie Saint Bernard	bus_stop	platform		no	unofficial
+10308544400	5.3590546	-3.9783181	Doraville	bus_stop	platform			unofficial
+10308544401	5.3545034	-3.9776442	Riviera 2 - Gare annexe	bus_stop	platform			unofficial
+10308544403	5.3708020	-3.9817326	EPP Attoban	bus_stop	platform			unofficial
+10308544404	5.3775408	-3.9859986	SODECI	bus_stop	platform			unofficial
+10308544405	5.3778999	-3.9883509	Pharmacie Tera	bus_stop	platform			unofficial
+10308544406	5.3794181	-3.9882423	Hôtel La Forge	bus_stop	platform			unofficial
+10308544407	5.3799989	-3.9881927	ESIT	bus_stop	platform		no	unofficial
+10308544408	5.3809869	-3.9880881	UIA	bus_stop	platform		no	unofficial
+10308591409	5.3839203	-3.9877407	Top Auto	bus_stop	platform		no	unofficial
+10308591410	5.3852609	-3.9875261	Station Shell 7e Tranche	bus_stop	platform		no	unofficial
+10308591411	5.3867950	-3.9873505	Café de Versailles	bus_stop	platform			unofficial
+10308591413	5.3888084	-3.9870876	Chawarma +	bus_stop	platform			unofficial
+10308625141	5.3677690	-3.9797377	1ère Barrière	bus_stop	platform			unofficial
+10308625142	5.3682297	-3.9798389	2ème Barrière	bus_stop	platform			unofficial
+10308625143	5.3687270	-3.9800394	3ème Barrière	bus_stop	platform			unofficial
+10308625144	5.3691603	-3.9803693	4ème Barrière	bus_stop	platform			unofficial
+10308625145	5.3787959	-3.9883281	Clinique Médicale Sacré Coeur	bus_stop	platform			unofficial
+10308658605	5.3835665	-3.9876536	Top Auto	bus_stop	platform		no	unofficial
+10308658606	5.3691950	-3.9803197	4ème Barrière	bus_stop	platform			unofficial
+10308658607	5.3678171	-3.9796753	1ère Barrière	bus_stop	platform			unofficial
+10308658608	5.3682911	-3.9797665	2ème Barrière	bus_stop	platform			unofficial
+10308815074	5.3809268	-3.9962004	Las Palmas	bus_stop	platform		no	unofficial
+10308815075	5.3822514	-3.9960690	Ecole Maternelle	bus_stop	platform		no	unofficial
+10308815076	5.3830625	-3.9955701	Marché de Aghien	bus_stop	platform		no	unofficial
+10308815077	5.3839263	-3.9947151	Carrefour Mosquée	bus_stop	platform		no	unofficial
+10308815078	5.3854692	-3.9941579	Pharmacie les Perles	bus_stop	platform		no	unofficial
+10308815079	5.3852255	-3.9921758	Cerao	bus_stop	platform		no	unofficial
+10308815080	5.3851941	-3.9918660	Pharmacie Magnificat	bus_stop	platform		no	unofficial
+10308815081	5.3847442	-3.9882074	Flamboyant	bus_stop	platform		no	unofficial
+10308815082	5.3846560	-3.9874363	Station Service Shell	bus_stop	platform		no	unofficial
+10308815083	5.3845065	-3.9849298	Alliance CI	bus_stop	platform		no	unofficial
+10308815084	5.3850446	-3.9836718	Afor	bus_stop	platform		no	unofficial
+10308815085	5.3848109	-3.9825574	Ron-point Zinsou	bus_stop	platform		no	unofficial
+10308815086	5.3807332	-3.9873800	Restaurant Africain	bus_stop	platform		no	unofficial
+10308815087	5.3850593	-3.9915508	Cash Ivoire	bus_stop	platform		no	unofficial
+10308815088	5.3809108	-3.9960797	Las Palmas	bus_stop	platform		no	unofficial
+10308929518	5.3604500	-3.9656152	Université des Lagune	bus_stop	platform			unofficial
+10308929519	5.3614354	-3.9659035	Gossio	bus_stop	platform			unofficial
+10308929520	5.3623313	-3.9661530	Abidjan Mall	bus_stop	platform			unofficial
+10308929521	5.3640898	-3.9666988	Infes	bus_stop	platform			unofficial
+10308929522	5.3658844	-3.9672071	Ahmed Outtara	bus_stop	platform			unofficial
+10308929523	5.3668137	-3.9675048	Pizza Express	bus_stop	platform			unofficial
+10308929524	5.3677443	-3.9677851	Paul Ndré	bus_stop	platform			unofficial
+10308929525	5.3693012	-3.9682397	Saint Joseph	bus_stop	platform			unofficial
+10308929526	5.3704335	-3.9685696	Église des Assemblées de Dieu	bus_stop	platform			unofficial
+10308929527	5.3701050	-3.9705464	Eglise Réveil	bus_stop	platform			unofficial
+10308929528	5.3714629	-3.9708737	Laurier 6	bus_stop	platform			unofficial
+10308929529	5.3730652	-3.9705384	Gravier	bus_stop	platform			unofficial
+10308929530	5.3725364	-3.9706577	Carrefour Linda Kouassi	bus_stop	platform			unofficial
+10308929531	5.3745205	-3.9720324	Carrefour IUA	bus_stop	platform			unofficial
+10308929532	5.3759866	-3.9724790	Ecole Muguet	bus_stop	platform			unofficial
+10308929533	5.3756074	-3.9722811	Ecole Muguet	bus_stop	platform			unofficial
+10308929534	5.3744665	-3.9717246	Carrefour IUA	bus_stop	platform			unofficial
+10308929535	5.3728969	-3.9704941	Gravier	bus_stop	platform			unofficial
+10308929536	5.3723348	-3.9706001	Carrefour Linda Kouassi	bus_stop	platform			unofficial
+10308929537	5.3711982	-3.9707654	Laurier 6	bus_stop	platform			unofficial
+10308929538	5.3701210	-3.9704566	Eglise Réveil	bus_stop	platform			unofficial
+10308929539	5.3694788	-3.9702608	Bleu blanc	bus_stop	platform			unofficial
+10308929540	5.3681012	-3.9698514	AIST	bus_stop	platform			unofficial
+10308929541	5.3667883	-3.9694514	Avocatier	bus_stop	platform			unofficial
+10308929542	5.3660032	-3.9692080	Cocotier	bus_stop	platform			unofficial
+10308929543	5.3651960	-3.9689928	Beau Soleil	bus_stop	platform			unofficial
+10308929544	5.3644076	-3.9687480	Carrefour Djédjé Mady	bus_stop	platform			unofficial
+10308929545	5.3637814	-3.9685442	Valoris	bus_stop	platform			unofficial
+10308929546	5.3626391	-3.9681948	Siriki Konaté	bus_stop	platform			unofficial
+10308929547	5.3620289	-3.9677496	La maison de la destinée	bus_stop	platform			unofficial
+10308929548	5.3623527	-3.9660510	Abidjan Mall	bus_stop	platform			unofficial
+10308929549	5.3613379	-3.9657480	Gossio	bus_stop	platform			unofficial
+10308929550	5.3602830	-3.9654261	Université des Lagune	bus_stop	platform			unofficial
+10311330179	5.3627277	-3.9597539	Station	bus_stop	platform			unofficial
+10311330180	5.3630408	-3.9605607	Salle du Royaume	bus_stop	platform		no	unofficial
+10311330181	5.3787528	-3.9667096	Carrefour Figuier	bus_stop	platform		no	unofficial
+10311349220	5.3894880	-3.9752068	KFC 8eme tranche	bus_stop	platform		no	unofficial
+10311349221	5.3884092	-3.9749104	CIE 8e Tranche Djibi	bus_stop	platform		no	unofficial
+10311349222	5.3854878	-3.9741366	Star 12	bus_stop	platform		no	unofficial
+10311349223	5.3799014	-3.9728089	Rond-Point CNPS	bus_stop	platform		no	unofficial
+10311349224	5.3790689	-3.9712773	Mary's	bus_stop	platform		no	unofficial
+10311349225	5.3783659	-3.9699899	Shish	bus_stop	platform			unofficial
+10311349226	5.3778412	-3.9690477	Pharmacie Saint Moise	bus_stop	platform			unofficial
+10311349227	5.3770775	-3.9676262	CDCI	bus_stop	platform			unofficial
+10311349228	5.3765420	-3.9665848	Zoe de Cho	bus_stop	platform			unofficial
+10311349229	5.3756875	-3.9659116	Rond-Point ADO	bus_stop	platform			unofficial
+10311349230	5.3731561	-3.9652724	Walebo	bus_stop	platform			unofficial
+10311349231	5.3722547	-3.9650060	Walebo 2	bus_stop	platform			unofficial
+10311349232	5.3677530	-3.9631050	Cité du Bonheur	bus_stop	platform			unofficial
+10311349233	5.3659777	-3.9603543	Petro Ivoire	bus_stop	platform			unofficial
+10311349234	5.3639631	-3.9596990	Rond-Point de la Palmeraie	bus_stop	platform			unofficial
+10311349235	5.3628332	-3.9596667	Station	bus_stop	platform			unofficial
+10314834888	5.3828883	-3.9932982	Mosquée Aghien	bus_stop	platform		no	unofficial
+10314834892	5.3828798	-3.9934631	Mosquée Aghien	bus_stop	platform		no	unofficial
+10314834893	5.3854987	-3.9931478	Opera	bus_stop	platform		no	unofficial
+10316599907	5.3630411	-3.9594144	Station	bus_stop	platform			unofficial
+10316599908	5.3663143	-3.9605389	Samer	bus_stop	platform			
+10316647710	5.3704510	-3.9617636	Fatima	bus_stop	platform			
+10316647711	5.3715059	-3.9611997	Groupe Scolaire Divine Grâce	bus_stop	platform			
+10316647712	5.3729055	-3.9604059	Cabine Bleue	bus_stop	platform			
+10316647713	5.3740921	-3.9625001	Barrière 1	bus_stop	platform			
+10316647714	5.3756291	-3.9629650	Barrière 4	bus_stop	platform			
+10316647715	5.3761035	-3.9630896	Barrière 5	bus_stop	platform			
+10316647716	5.3765677	-3.9632168	Rosiers 1er Programme	bus_stop	platform			
+10316647717	5.3771307	-3.9634002	Rond-point Commissariat 35è Art.	bus_stop	platform			
+10316647718	5.3776902	-3.9635679	Commissariat 35è Art.	bus_stop	platform			
+10316647719	5.3803533	-3.9674018	Pharmacie Val de Grace	bus_stop	platform			
+10316647720	5.3832201	-3.9723492	Groupe Scolaire St Marc	bus_stop	platform			
+10316647721	5.3895401	-3.9753668	KFC 8eme tranche	bus_stop	platform		no	unofficial
+10316684112	5.3874959	-3.9746687	SGBCI	bus_stop	platform			
+10316684113	5.3833997	-3.9735246	Immeuble CGK	bus_stop	platform		no	unofficial
+10316684114	5.3788604	-3.9667208	Carrefour Figuier	bus_stop	platform		no	unofficial
+10316684115	5.3794709	-3.9639995	Programme 3	bus_stop	platform			
+10316684116	5.3765921	-3.9631194	Rosiers 1er Programme	bus_stop	platform			
+10316684117	5.3741472	-3.9624030	Barrière 1	bus_stop	platform			
+10316684118	5.3724025	-3.9623388	Kanafrik	bus_stop	platform			
+10316684119	5.3711714	-3.9629859	Vitalia	bus_stop	platform			
+10316684120	5.3663736	-3.9605158	Samer	bus_stop	platform			
+10316826926	5.3675651	-3.9628718	Cité du Bonheur	bus_stop	platform			unofficial
+10316826927	5.3676239	-3.9635378	Pharmacie Saint-Paul	bus_stop	platform			unofficial
+10316826928	5.3686161	-3.9640886	Cours des Comptes	bus_stop	platform			unofficial
+10316826929	5.3715744	-3.9648795	Carrefour Sacré Coeur	bus_stop	platform			unofficial
+10316826930	5.3722452	-3.9650744	Walebo 2	bus_stop	platform			unofficial
+10316826931	5.3731772	-3.9653444	Walebo	bus_stop	platform			unofficial
+10316826932	5.3762691	-3.9664143	Rond-Point ADO	bus_stop	platform			unofficial
+10316826933	5.3773921	-3.9683973	Depot Carrefour	bus_stop	platform			unofficial
+10316826934	5.3784091	-3.9702364	Shish	bus_stop	platform			unofficial
+10316826935	5.3790051	-3.9713381	Mary's	bus_stop	platform		no	unofficial
+10316826936	5.3803212	-3.9732460	Rond-Point CNPS	bus_stop	platform		no	unofficial
+10316826937	5.3867107	-3.9745782	CNPS	bus_stop	platform			unofficial
+10316919736	5.3663116	-3.9604144	Samer	bus_stop	platform			
+10316919747	5.3884086	-3.9549467	Kimi	bus_stop	platform			unofficial
+10316919748	5.3826666	-3.9567183	Rond-point Saint Viateur	bus_stop	platform			unofficial
+10316919749	5.3784605	-3.9591084	Rond-point Programme 4	bus_stop	platform			unofficial
+10316919750	5.3761665	-3.9603111	Pharmacie Marie Esther	bus_stop	platform			unofficial
+10316919751	5.3714966	-3.9576556	Carrefour Guiraud	bus_stop	platform			unofficial
+10316919752	5.3688904	-3.9590636	Carrefour Marché	bus_stop	platform			unofficial
+10316919753	5.3674203	-3.9598634	Paris Baguette	bus_stop	platform			unofficial
+10345409257	5.3746808	-3.9559545	Pharmacie Marthe Robin	bus_stop	platform			unofficial
+10345409258	5.3741146	-3.9562650	Cabine Jaune	bus_stop	platform			unofficial
+10345409259	5.3641606	-3.9615744	Sous l'Arbre	bus_stop	platform			unofficial
+10345772746	5.3675707	-3.9598592	Paris Baguette	bus_stop	platform			unofficial
+10345772747	5.3689180	-3.9591390	Carrefour Marché	bus_stop	platform			unofficial
+10345772748	5.3695629	-3.9587823	Pharmacie du bonheur	bus_stop	platform			
+10345772750	5.3741527	-3.9563227	Cabine Jaune	bus_stop	platform			unofficial
+10345772751	5.3747115	-3.9560142	Pharmacie Marthe Robin	bus_stop	platform			unofficial
+10345772752	5.3790736	-3.9531617	Enica	bus_stop	platform		no	unofficial
+10537141260	5.3857095	-3.9552793	Pharmacie Saint Viateur Palmeraie	bus_stop	platform			
+10537141261	5.3807840	-3.9578435	2ème barrière Programme 4	bus_stop	platform			
+10537141262	5.3770120	-3.9630899	Rond-point Commissariat 35è Art.	bus_stop	platform			
+10537141263	5.3761175	-3.9629947	Barrière 5	bus_stop	platform			
+10537141264	5.3729937	-3.9602897	Cabine Bleue	bus_stop	platform			
+10537278237	5.3732721	-3.9609200	Carrefour Marché	bus_stop	platform			unofficial
+10537278239	5.3761922	-3.9603688	Pharmacie Marie Esther	bus_stop	platform			unofficial
+10537278240	5.3780915	-3.9594153	Rond-point Programme 4	bus_stop	platform			unofficial
+10537278241	5.3790923	-3.9588936	1ère barrière Programme 4	bus_stop	platform			
+10537278242	5.3810977	-3.9578301	2ème barrière Programme 4	bus_stop	platform			
+10537278243	5.3831166	-3.9568537	Rond-point Saint Viateur	bus_stop	platform			unofficial
+10537278244	5.3857843	-3.9554483	Pharmacie Saint Viateur Palmeraie	bus_stop	platform			
+10538289698	5.3666414	-3.9634922	Hamed Ouattara	bus_stop	platform			
+10538297829	5.3858163	-3.9687185	Pharmacie Mont Carmel	bus_stop	platform		no	unofficial
+10538297830	5.3831272	-3.9681217	Carrefour Belle Côte	bus_stop	platform		no	unofficial
+10538297831	5.3768872	-3.9632159	Rond-point Commissariat 35è Art.	bus_stop	platform			
+10540006515	5.3771135	-3.9631516	Rond-point Commissariat 35è Art.	bus_stop	platform			
+10540066974	5.3829590	-3.9562570	Rond-point Saint Viateur	bus_stop	platform			unofficial
+10540066975	5.3817106	-3.9548837	Collège Saint-Viateur d'Abidjan	bus_stop	platform			
+10540066976	5.3805506	-3.9540646	La Communauté	bus_stop	platform			
+10540066977	5.3768124	-3.9548200	Carrefour Complexe	bus_stop	platform			
+10540113050	5.3633861	-3.9627358	Centre Hospitalier Palmeraie	bus_stop	platform			unofficial
+10540113051	5.3777744	-3.9690793	Pharmacie Saint Moise	bus_stop	platform			unofficial
+10540116943	5.3633447	-3.9626057	Centre Hospitalier Palmeraie	bus_stop	platform			unofficial
+10543441381	5.3689650	-3.9980088	2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10543441383	5.3772719	-3.9979978	Snedai	bus_stop	platform		no	unofficial
+10568343036	5.3732801	-3.9264482	55 Panneau	bus_stop	platform			unofficial
+10568343037	5.3713611	-3.9335443	Menuiserie	bus_stop	platform			unofficial
+10568343038	5.3707279	-3.9359761	Coqivoire	bus_stop	platform			unofficial
+10568343039	5.3656253	-3.9486730	Carrefour CFA	bus_stop	platform			unofficial
+10568343040	5.3649263	-3.9502770	Ferronnerie	bus_stop	platform			unofficial
+10568343041	5.3630937	-3.9554898	Agate Decor	bus_stop	platform			unofficial
+10570021086	5.3494275	-3.9950256	Ecole de Gendarmerie	bus_stop	platform			unofficial
+10570021087	5.3539994	-3.9766967	Riviera 2	bus_stop	platform			unofficial
+10570021088	5.3555296	-3.9711781	La case Ivoire	bus_stop	platform			
+10570021089	5.3556950	-3.9699466	Carrefour Alpha	bus_stop	platform			
+10570021090	5.3559034	-3.9699161	Carrefour Alpha	bus_stop	platform			
+10570292842	5.3787925	-3.9638945	Station Total Rosiers	bus_stop	platform			
+10570292843	5.3857402	-3.9688016	Pharmacie Mont Carmel	bus_stop	platform		no	unofficial
+10570414429	5.3627906	-3.9974148	Orange Côte d'Ivoire	bus_stop	platform		no	unofficial
+10570414430	5.3593964	-3.9993225	VIPNet	bus_stop	platform			unofficial
+10570456625	5.3677577	-3.9996041	Gare 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10570465253	5.3677143	-3.9996035	Gare 2 Plateaux Mobil	bus_stop	platform		no	unofficial
+10570465254	5.3621183	-3.9973920	Carrefour ENA	bus_stop	platform			unofficial
+10572474174	5.3466301	-3.9750545	Gorille carrefour	bus_stop	platform			unofficial
+10572474175	5.3297747	-3.9818144	Station Total HKB	bus_stop	platform			unofficial
+10572525216	5.3466648	-3.9750887	Gorille carrefour	bus_stop	platform			unofficial
+10573565030	5.3634943	-3.9625669	Centre Hospitalier Palmeraie	bus_stop	platform			unofficial
+10573565031	5.3665974	-3.9635653	Hamed Ouattara	bus_stop	platform			
+10574019735	5.3609981	-3.9586824	Après barrage	bus_stop	platform			unofficial
+10574052977	5.3578699	-3.9650634	Gare 9 Kilo	bus_stop	platform			unofficial
+10574065355	5.3575191	-3.9652303	9 Kilo	bus_stop	platform			unofficial
+10575294649	5.3578048	-3.9651518	9 Kilo - Supermarché CDCI	bus_stop	platform			unofficial
+10577379648	5.3532129	-3.9781864	Riviera 2	bus_stop	platform			unofficial
+10577379655	5.3537676	-3.9784738	Riviera 2	bus_stop	platform			unofficial
+10577586268	5.3499669	-3.9891396	Ecole de Police	bus_stop	platform			unofficial
+10577586269	5.3493135	-3.9963605	Ecole de Gendarmerie	bus_stop	platform			unofficial
+10588309376	5.3789094	-3.9668503	Carrefour Figuier	bus_stop	platform		no	unofficial
+10593632401	5.3622659	-3.9592731	Gare Palmeraie	bus_stop	platform			unofficial
+10593632402	5.3608825	-3.9590062	Carrefour Palmeraie	bus_stop	platform			unofficial
+10593632403	5.3590159	-3.9626621	Chic Shop	bus_stop	platform			unofficial
+10595928885	5.3684480	-3.9984055	Mobil	bus_stop	platform			unofficial
+10595928886	5.3597276	-3.9988652	Universiré de Grand Bassam	bus_stop	platform			unofficial
+10595979535	5.3884773	-3.9926083	Ancien SONATT	bus_stop	platform		no	unofficial
+10595979536	5.3870086	-3.9929677	Quincaillerie	bus_stop	platform		no	unofficial
+10595979537	5.3870660	-3.9927900	Quincaillerie	bus_stop	platform		no	unofficial
+10600797393	5.3563735	-3.9678669	Cap Nord	bus_stop	platform			unofficial
+10603671214	5.3528804	-3.9770347	Riviera 2	bus_stop	platform			unofficial
+10603671215	5.3523116	-3.9789471	Station Total Riviera 2	bus_stop	platform			unofficial
+10603671216	5.3458115	-3.9972948	INSAAC	bus_stop	platform		no	unofficial
+10603671217	5.3622085	-3.9593763	Gare Palmeraie	bus_stop	platform			unofficial
+10608601639	5.3546096	-3.9741674	Riviera 2	bus_stop	platform			unofficial
+10608601649	5.3736340	-3.9258716	55 Panneau	bus_stop	platform			unofficial
+10608601650	5.3720544	-3.9309289	Boulangerie Francaise	bus_stop	platform			unofficial
+10608601651	5.3695015	-3.9412071	Premier Etage	bus_stop	platform			unofficial
+10608601652	5.3687397	-3.9426030	Premier Etage	bus_stop	platform			unofficial
+10608601653	5.3660926	-3.9476833	Garage CFA	bus_stop	platform			unofficial
+10608601654	5.3638828	-3.9535117	Ferronnerie	bus_stop	platform			unofficial
+10608601655	5.3641739	-3.9531805	Ferronnerie	bus_stop	platform			unofficial
+10608601656	5.3634836	-3.9545940	Petit Carrefour	bus_stop	platform			
+10608601657	5.3553106	-3.9712062	La case Ivoire	bus_stop	platform			
+10613484970	5.3643962	-3.9896729	Cash Center Vallon	bus_stop	platform		no	unofficial
+10650105062	5.3619548	-3.9677502	La maison de la destinée	bus_stop	platform			unofficial
+10650105063	5.3628334	-3.9683390	Siriki Konaté	bus_stop	platform			unofficial
+10650105064	5.3637467	-3.9686421	Valoris	bus_stop	platform			unofficial
+10650105065	5.3644784	-3.9688727	Carrefour Djédjé Mady	bus_stop	platform			unofficial
+10650105066	5.3668564	-3.9695714	Avocatier	bus_stop	platform			unofficial
+10650105067	5.3683024	-3.9699939	AIST	bus_stop	platform			unofficial
+10650105068	5.3698072	-3.9704338	Bleu blanc	bus_stop	platform			unofficial
+10650105069	5.3740118	-3.9703520	Cash Express	bus_stop	platform			unofficial
+10650105070	5.3760126	-3.9664822	Rond-Point ADO	bus_stop	platform			unofficial
+10650105071	5.3754926	-3.9682028	Immeuble Tamadja	bus_stop	platform			unofficial
+10650105072	5.3739971	-3.9702769	Cash Express	bus_stop	platform			unofficial
+10650105073	5.3703614	-3.9692000	Oscar 3	bus_stop	platform			unofficial
+10650105074	5.3693172	-3.9681512	Saint Joseph	bus_stop	platform			unofficial
+10650105075	5.3668150	-3.9674217	Pizza Express	bus_stop	platform			unofficial
+10650105076	5.3654290	-3.9669952	Ahmed Outtara	bus_stop	platform			unofficial
+10650105077	5.3645518	-3.9667457	Aboussouan	bus_stop	platform			unofficial
+10654157092	5.3768411	-3.9548770	Carrefour Complexe	bus_stop	platform			
+10654157093	5.3884293	-3.9550835	Kimi	bus_stop	platform			unofficial
+10654157095	5.3737508	-3.9616093	Quick Market	bus_stop	platform			unofficial
+10654157096	5.3703533	-3.9617327	Fatima	bus_stop	platform			
+10654157098	5.3626010	-3.9593294	Station	bus_stop	platform			unofficial
+10654221687	5.3800002	-3.9963184	Lavage Professionel	bus_stop	platform		no	unofficial
+10654234385	5.3861708	-3.9999642	Maternelle la Providence	bus_stop	platform		no	unofficial
+10833795516	5.3490202	-3.9988182	SODEFOR	bus_stop	platform			unofficial
+10834116938	5.3537270	-3.9803130	Collège Pierre Monty	bus_stop	platform			unofficial
+10834116939	5.3667349	-3.9795875	Djire Telecom	bus_stop	platform			unofficial
+10839438839	5.3499202	-3.9887895	Ecole de Police	bus_stop	platform			unofficial
+10844893053	5.3596292	-3.9994183	VIPNet	bus_stop	platform			unofficial
+10855568860	5.3576767	-3.9644887	9 Kilo	bus_stop	platform			unofficial
+10855940191	5.3577207	-3.9437686	Antenne	bus_stop	platform			unofficial
+10855940192	5.3581093	-3.9431396	Carrefour bambou	bus_stop	platform			unofficial
+10855940193	5.3604473	-3.9403246	Carrefour Village	bus_stop	platform			unofficial
+10855940198	5.3575965	-3.9266038	Gare Abatta	bus_stop	platform			unofficial
+10855940199	5.3575645	-3.9266615	Gare Abatta	bus_stop	platform			unofficial
+10855940200	5.3581861	-3.9263738	Pharmacie Eau Vive	bus_stop	platform			unofficial
+10855940201	5.3598865	-3.9283311	Avant AB Center	bus_stop	platform			unofficial
+10855940202	5.3601936	-3.9288206	Avant AB Center	bus_stop	platform			unofficial
+10855940203	5.3636812	-3.9331363	Laurier 9	bus_stop	platform			unofficial
+10855940204	5.3634155	-3.9367741	Carrefour Decharge	bus_stop	platform			unofficial
+10855955005	5.3610815	-3.9591511	Carrefour Palmeraie	bus_stop	platform			unofficial
+10855955006	5.3492625	-3.9970071	Carrefour Cocody	bus_stop	platform			unofficial
+10856019041	5.3537370	-3.9775007	Riviera 2	bus_stop	platform			unofficial
+10856019042	5.3722280	-3.9311354	Menuiserie	bus_stop	platform			unofficial
+10856099230	5.3547952	-3.9600858	Station Corlay	bus_stop	platform			unofficial
+10856099231	5.3462108	-3.9472434	École	bus_stop	platform			unofficial
+10856099232	5.3391178	-3.9436063	Groupe Scolaire les scarabées	bus_stop	platform			unofficial
+10856099233	5.3487545	-3.9535975	Pharmacie de la Riviera 3	bus_stop	platform			unofficial
+10856099234	5.3547298	-3.9601274	Station Corlay	bus_stop	platform			unofficial
+10863322856	5.3708999	-3.9360627	Coqivoire	bus_stop	platform			unofficial
+10866022951	5.3493685	-3.9973815	Carrefour Cocody	bus_stop	platform			unofficial
+10870376802	5.3467476	-3.9952710	CHU de Cocody	bus_stop	platform		no	unofficial
+10870376804	5.3466047	-3.9954896	INFS	bus_stop	platform		no	unofficial
+10910005863	5.3852350	-3.9930023	Opera	bus_stop	platform		no	unofficial

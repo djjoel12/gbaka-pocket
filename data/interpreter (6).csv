@@ -1,0 +1,141 @@
+@id	@lat	@lon	name	highway	public_transport	operator	shelter	official_status
+1227889258	5.3158647	-4.0148847	Gare lagunaire Aqualines du Plateau		platform			
+6899034709	5.3099574	-4.0061407	Descente du Pont	bus_stop	platform			unofficial
+6899053347	5.3251137	-4.0152171	Feux du plateau	bus_stop	platform			unofficial
+6899053348	5.3101491	-4.0061218	Nanan Yamousso	bus_stop	platform			unofficial
+6927037625	5.3310139	-4.0238251	Terminus Cité Administrative	bus_stop	platform			
+6935494511	5.3101948	-4.0149692	Terminus Marche Treichville	bus_stop	platform		no	
+6969221530	5.3141434	-4.0177429	Arrêt GL Plateau	bus_stop	platform		no	
+7044975088	5.3109066	-4.0344058	Gare Lagunaire Yopougon STL		platform			
+7044975089	5.3143858	-4.0170439	Gare Lagunaire Plateau STL		platform			
+7044975090	5.3135839	-4.0100701	Gare Lagunaire Treichville STL		platform			
+7046964142	5.3108107	-4.0158590	Gare Lagunaire de Treichville Sotra		platform			
+7046964143	5.3107009	-4.0347196	Gare Lagunaire Abobo Doumé Sotra		platform			
+7047063325	5.3140748	-4.0176640	Gare Lagunaire du Plateau Sotra		platform			
+7079693847	5.3110380	-4.0153262	Gare lagunaire Aqualines Treichville		platform			
+7085040047	5.3264057	-4.0274254	Garage	bus_stop	platform			unofficial
+8296653793	5.3225168	-4.0343324	Gare lagunaire de SIDIBE		platform			
+8815763925	5.3101034	-4.0150520	Terminus Marche Treichville	bus_stop	platform		no	
+9300351952	5.3099737	-4.0128037	Mairie de Treichville	bus_stop	platform		no	unofficial
+9300351953	5.3105408	-4.0111688	A la Station	bus_stop	platform		no	unofficial
+9300351954	5.3219679	-4.0127256	Djekanou	bus_stop	platform		no	unofficial
+9300351958	5.3110286	-4.0112299	CIE	bus_stop	platform			unofficial
+9300530494	5.3269076	-4.0167859	À la Station	bus_stop	platform		no	unofficial
+10296715479	5.3281436	-4.0052012	Hôtel Ivoire	bus_stop	platform		no	unofficial
+10556394818	5.3097795	-4.0147533	Terminus Marché Treichville	bus_stop	platform			unofficial
+10556394820	5.3104579	-4.0130293	Mairie de Treichville	bus_stop	platform			unofficial
+10556394821	5.3104058	-4.0130018	Mairie de Treichville	bus_stop	platform			unofficial
+10556842073	5.3097742	-4.0089691	Avenue 5	bus_stop	platform			unofficial
+10556842074	5.3101908	-4.0091179	Avenue 4	bus_stop	platform			unofficial
+10556842075	5.3105453	-4.0092500	Avenue 3	bus_stop	platform			unofficial
+10556842076	5.3114721	-4.0095642	Cité Sopim	bus_stop	platform			unofficial
+10556842077	5.3128678	-4.0100768	Gare Lagunaire Treichville STL	bus_stop	platform			unofficial
+10556842078	5.3128895	-4.0100292	Gare Lagunaire Treichville STL	bus_stop	platform			unofficial
+10570421407	5.3198226	-4.0156082	Terminus Mosquée du Plateau	bus_stop	platform			unofficial
+10570456609	5.3196597	-4.0154077	Mosquée du Plateau	bus_stop	platform			unofficial
+10570456610	5.3213983	-4.0158798	BCEAO	bus_stop	platform			unofficial
+10570456611	5.3217241	-4.0164725	SGBCI - Pyramide	bus_stop	platform			unofficial
+10570456612	5.3220967	-4.0179920	Pharmacie Centrale	bus_stop	platform			unofficial
+10570456613	5.3241424	-4.0185607	Mövenpick Hotel Abidjan	bus_stop	platform			unofficial
+10570456614	5.3253922	-4.0217981	Imprimerie Nationale	bus_stop	platform			unofficial
+10570456615	5.3260439	-4.0217927	Espace Médical St Paul	bus_stop	platform			unofficial
+10570456616	5.3270961	-4.0217820	Finance	bus_stop	platform			unofficial
+10570456617	5.3289695	-4.0217605	Notre Dame du Plateau	bus_stop	platform			unofficial
+10570456618	5.3300204	-4.0217203	Direction de la Police Criminelle	bus_stop	platform			unofficial
+10570456619	5.3314519	-4.0217297	Immeuble CCIA	bus_stop	platform			unofficial
+10570456620	5.3326163	-4.0217605	ONI	bus_stop	platform			unofficial
+10570456621	5.3358323	-4.0217042	Chantier de la tour F	bus_stop	platform			unofficial
+10570456622	5.3366756	-4.0217458	Commandement Superieur	bus_stop	platform			unofficial
+10570587964	5.3241917	-4.0217540	Gare Externat Saint Paul	bus_stop	platform			unofficial
+10570598771	5.3244956	-4.0221150	Gare Externat Saint Paul	bus_stop	platform			unofficial
+10572492530	5.3206906	-4.0189757	Super U Abidjan Plateau	bus_stop	platform			unofficial
+10572492531	5.3200122	-4.0187806	Rue des Banques	bus_stop	platform			unofficial
+10572492532	5.3191509	-4.0154667	Mosquée du Plateau	bus_stop	platform			unofficial
+10572492533	5.3196050	-4.0139137	Escalier	bus_stop	platform			unofficial
+10572492534	5.3201615	-4.0120087	Casting	bus_stop	platform			unofficial
+10574007005	5.3245142	-4.0221021	Gare Externat Saint Paul	bus_stop	platform			unofficial
+10575294651	5.3199949	-4.0154885	Mosquée	bus_stop	platform		no	unofficial
+10575294652	5.3204573	-4.0156293	ONECI	bus_stop	platform		no	unofficial
+10575294653	5.3221729	-4.0161348	Pyramide	bus_stop	platform		no	unofficial
+10575294654	5.3235685	-4.0167615	Nostalgie	bus_stop	platform		no	unofficial
+10575294655	5.3239124	-4.0169585	Hippopotamus	bus_stop	platform		no	unofficial
+10575294656	5.3242651	-4.0159489	AIP	bus_stop	platform		no	unofficial
+10577298985	5.3207004	-4.0195813	Super U	bus_stop	platform			unofficial
+10577298986	5.3197518	-4.0134081	MTN	bus_stop	platform			unofficial
+10577298991	5.3243894	-4.0219663	Gare Externat Saint Paul	bus_stop	platform			unofficial
+10577586270	5.3250371	-4.0217712	Externat	bus_stop	platform			unofficial
+10577586271	5.3282072	-4.0217712	Fonction Publique	bus_stop	platform			unofficial
+10577586272	5.3340059	-4.0217788	La Poste	bus_stop	platform			unofficial
+10580224044	5.3200051	-4.0154317	Mosquée	bus_stop	platform		no	unofficial
+10582507591	5.3190396	-4.0160209	Bon Prix	bus_stop	platform			unofficial
+10582507592	5.3200855	-4.0122540	Dorex	bus_stop	platform			unofficial
+10584654881	5.3193325	-4.0150087	Feu de la Mosquée	bus_stop	platform			unofficial
+10589076404	5.3137695	-4.0348792	Lycée Attécoubé	bus_stop	platform			unofficial
+10589080706	5.3136981	-4.0347511	Lycée Attécoubé	bus_stop	platform			unofficial
+10591673044	5.3197955	-4.0195338	Rue des Banques	bus_stop	platform			unofficial
+10591673045	5.3174273	-4.0194309	Place de la Republique	bus_stop	platform			unofficial
+10591673046	5.3165158	-4.0191798	Gare Sud	bus_stop	platform			unofficial
+10594422061	5.3205210	-4.0345117	Pinasse Locodjro	bus_stop	platform			unofficial
+10594430766	5.3205744	-4.0343696	Pinasse Locodjro	bus_stop	platform			unofficial
+10839920785	5.3208532	-4.0205072	District du Plateau	bus_stop	platform			unofficial
+10839920786	5.3215126	-4.0207625	Police Economique	bus_stop	platform			unofficial
+10839920787	5.3210152	-4.0191286	Super U	bus_stop	platform			unofficial
+10839920788	5.3241215	-4.0218628	Gare Externat Saint Paul	bus_stop	platform			unofficial
+10839920789	5.3241549	-4.0234604	Conseil Economique et Social	bus_stop	platform			unofficial
+10839920790	5.3242317	-4.0238857	Service Technique	bus_stop	platform			unofficial
+10839920791	5.3261437	-4.0239599	Pharmacie et Laboratoire du Boulevard Carde	bus_stop	platform			unofficial
+10840175905	5.3369086	-4.0139541	PISAM	bus_stop	platform			unofficial
+10840175906	5.3377328	-4.0108265	La Corniche	bus_stop	platform			unofficial
+10840175907	5.3285944	-4.0070428	Grande Chancellerie de l'Ordre National	bus_stop	platform			unofficial
+10840175908	5.3285149	-4.0070428	Grande Chancellerie de l'Ordre National	bus_stop	platform			unofficial
+10840175909	5.3344206	-4.0099911	Cerfam	bus_stop	platform			unofficial
+10840175910	5.3392050	-4.0262268	INSP	bus_stop	platform			unofficial
+10844094641	5.3360356	-4.0236357	Hôpital de Police Plateau	bus_stop	platform		no	
+10844094642	5.3307141	-4.0194955	Palais de Justice du Plateau	bus_stop	platform		no	
+10844094643	5.3252769	-4.0190515	RTI	bus_stop	platform		no	
+10844094644	5.3261466	-4.0195516	Commissariat du 1ᵉʳ Arrondissement du Plateau	bus_stop	platform		no	
+10844232128	5.3329336	-4.0238259	Musée des Civilisations de Côte d’Ivoire	bus_stop	platform		no	
+10844232129	5.3309395	-4.0238721	Cité Administrative	bus_stop	platform		no	
+10844232130	5.3253043	-4.0223545	Pharmacie du Longchamp	bus_stop	platform			unofficial
+10844232135	5.3314706	-4.0239364	Cité Administrative	bus_stop	platform		no	
+10844232136	5.3336320	-4.0238922	Musée des Civilisations de Côte d’Ivoire	bus_stop	platform		no	
+10844333482	5.3391141	-4.0261305	INSP	bus_stop	platform			unofficial
+10844333483	5.3330399	-4.0241412	Musée des Civilisations de Côte d’Ivoire	bus_stop	platform		no	
+10844333484	5.3252894	-4.0202708	Pigier Côte d'Ivoire	bus_stop	platform		no	
+10844405168	5.3320372	-4.0202490	Cathédrale Saint Paul	bus_stop	platform		no	
+10844405169	5.3206966	-4.0197562	Super U	bus_stop	platform			unofficial
+10844405170	5.3318375	-4.0234212	Cité Administrative	bus_stop	platform		no	
+10844901374	5.3309390	-4.0227603	CCIA	bus_stop	platform			unofficial
+10844901375	5.3293602	-4.0227831	"Cours Supreme,Parquet Generale"	bus_stop	platform			unofficial
+10844901376	5.3255983	-4.0227915	Station Shell Plateau	bus_stop	platform			unofficial
+10844901377	5.3220574	-4.0210565	Collège Moderne du Plateau	bus_stop	platform			unofficial
+10844901378	5.3200685	-4.0188015	Rue des Banques	bus_stop	platform			unofficial
+10844901379	5.3295257	-4.0239646	Cour d'Arbitrage	bus_stop	platform		no	
+10844901380	5.3303072	-4.0239578	Pharmacie les Harmonies	bus_stop	platform		no	
+10846539650	5.3294969	-4.0238739	Cour d'Arbitrage	bus_stop	platform		no	
+10846539651	5.3256444	-4.0231565	Station Shell Plateau	bus_stop	platform			unofficial
+10846539652	5.3256057	-4.0232623	Station Shell Plateau	bus_stop	platform			unofficial
+10846665597	5.3222593	-4.0195670	Galerie du Parc	bus_stop	platform		no	
+10846665598	5.3192997	-4.0185853	Seen Hotel Abidjan Plateau	bus_stop	platform		no	
+10846665599	5.3188142	-4.0162970	Mosquée Libanaise	bus_stop	platform		no	
+10846665600	5.3175165	-4.0164061	Sociam	bus_stop	platform		no	
+10846665601	5.3153244	-4.0176596	Gare Sud	bus_stop	platform		no	
+10846665602	5.3188277	-4.0190690	Pharmacie du memorial	bus_stop	platform		no	
+10846665603	5.3330018	-4.0242209	Musée des Civilisations de Côte d’Ivoire	bus_stop	platform		no	
+10846719271	5.3360305	-4.0053960	Carrefour Lycée Classique	bus_stop	platform			unofficial
+10846719272	5.3345851	-4.0097153	Cerfam	bus_stop	platform			unofficial
+10846719273	5.3380510	-4.0210387	Cours UNESCO	bus_stop	platform			unofficial
+10855579563	5.3378159	-4.0178700	Nestle Cocody	bus_stop	platform			unofficial
+10856637712	5.3200810	-4.0187095	Chambre du Commerce	bus_stop	platform			unofficial
+10856637713	5.3203968	-4.0178606	Rue des Banques	bus_stop	platform			unofficial
+10856637714	5.3217602	-4.0180524	Pyramide	bus_stop	platform			unofficial
+10856637715	5.3230541	-4.0203725	Au Jardin	bus_stop	platform			unofficial
+10863014856	5.3229251	-4.0136121	Carrefour ancienne Station	bus_stop	platform			
+10870183962	5.3280281	-4.0174247	Stade Félix Houphouët-Boigny	bus_stop	platform		no	unofficial
+10870183963	5.3281350	-4.0171498	Stade Félix Houphouët-Boigny	bus_stop	platform		no	unofficial
+10870264386	5.3229232	-4.0207212	Collège Moderne du Plateau	bus_stop	platform			unofficial
+10870264387	5.3378346	-4.0238902	Cité Policière Plateau	bus_stop	platform			unofficial
+10870333608	5.3375916	-4.0106146	La Corniche	bus_stop	platform			unofficial
+11009848905	5.3100701	-4.0147992	Terminus Marché TREICHVILLE	bus_stop	platform			
+11097057905	5.3102531	-4.0150712	Terminus Marché Treichville	bus_stop	platform			
+12800189302	5.3106111	-4.0144220	Terminus 67 marché de treichville	bus_stop				

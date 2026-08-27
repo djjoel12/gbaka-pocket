@@ -1,0 +1,142 @@
+@id	@lat	@lon	name	highway	public_transport	operator	shelter	official_status
+3992199166	5.3005989	-3.9892884	Grand Carrefour de Marcory	bus_stop	platform			unofficial
+6917146062	5.3061086	-3.9857063	Commissariat du 9 ème	bus_stop	platform			
+7054593050	5.2998985	-3.9982536	Feux Collège Autoroute	bus_stop	platform			unofficial
+7054593051	5.3004826	-3.9964603	Solibra	bus_stop	platform			unofficial
+7054593053	5.2985331	-3.9856721	Cap Sud / Orca Deco	bus_stop	platform			unofficial
+7054593054	5.2960068	-3.9811745	Echangeur Marcory	bus_stop	platform			unofficial
+7054593055	5.2921247	-3.9741366	Hotel Ibis Marcory	bus_stop	platform			unofficial
+7054593077	5.2999960	-3.9888176	Grand Carrefour de Marcory	bus_stop	platform			unofficial
+7054999103	5.2924398	-3.9752054	SICOMEX Marcory	bus_stop	platform			unofficial
+7054999104	5.2962870	-3.9820196	Echangeur Marcory	bus_stop	platform			unofficial
+7054999105	5.2978587	-3.9849244	Siège de Orange Côte d'Ivoire	bus_stop	platform			unofficial
+7054999106	5.2988917	-3.9867624	Cap Sud	bus_stop	platform			unofficial
+7190927830	5.2900534	-3.9620680	Foyer Des Jeunes de Koumassi	bus_stop	platform			unofficial
+7190927836	5.2903926	-3.9612848	Centre Matthew Ray	bus_stop	platform			unofficial
+7190993874	5.3068711	-3.9639898	Gare de Wôrô-Wôrô d'Anoumabo	bus_stop	platform			unofficial
+7190993875	5.3029264	-3.9636565	Carrefour Sans fil	bus_stop	platform			unofficial
+7190993876	5.3016105	-3.9617830	Carrefour Entente	bus_stop	platform			unofficial
+7190993877	5.2995360	-3.9609515	Carrefour Ecole	bus_stop	platform			unofficial
+7190993881	5.2951479	-3.9600456	Pharmacie Saint François	bus_stop	platform			unofficial
+7190993882	5.2972365	-3.9623845	Trois Ampoules	bus_stop	platform			unofficial
+7190993883	5.3029972	-3.9637269	Carrefour Sans fil	bus_stop	platform			unofficial
+7190993884	5.3068745	-3.9640515	Gare de Wôrô-Wôrô d'Anoumabo	bus_stop	platform			unofficial
+7191438553	5.2971043	-3.9621967	Trois Ampoules	bus_stop	platform			unofficial
+7191438554	5.2903325	-3.9623979	Paroisse Saint Etienne de Koumassi	bus_stop	platform			unofficial
+7191438558	5.2905448	-3.9625025	Paroisse Saint Etienne de Koumassi	bus_stop	platform			unofficial
+7834785518	5.2900598	-3.9626563	Pharmacie Aniel	bus_stop	platform			unofficial
+7837854395	5.3070794	-3.9639549	Rue 12	bus_stop	platform			unofficial
+7837854399	5.2947647	-3.9785112	Boulevard	bus_stop	platform			unofficial
+7837854401	5.3070821	-3.9640468	Anoumabo sans fil	bus_stop	platform			unofficial
+7839982486	5.3117709	-3.9607728	Maison Blanche	bus_stop	platform		no	unofficial
+7839982587	5.3116330	-3.9687983	Carrefour Milieu	bus_stop	platform		no	unofficial
+7839982685	5.3034246	-3.9761717	Carrefour Lycée	bus_stop	platform		no	unofficial
+7839982686	5.3117442	-3.9663823	Au Bambou	bus_stop	platform		no	unofficial
+7839982785	5.3116811	-3.9688080	Carrefour Milieu	bus_stop	platform		no	unofficial
+7839982885	5.3032314	-3.9759833	Carrefour Lycée	bus_stop	platform		no	unofficial
+7840094085	5.3083247	-3.9835699	Gare Sotra Marcory	bus_stop	platform		no	unofficial
+7840094185	5.3117295	-3.9607805	Maison Blanche	bus_stop	platform		no	unofficial
+7840094285	5.3088982	-3.9772231	Pharmacie Roma	bus_stop	platform		no	unofficial
+7840094286	5.3084368	-3.9839226	Gare Sotra Marcory	bus_stop	platform		no	unofficial
+7840247785	5.3086859	-3.9640535	Ferraille	bus_stop	platform		no	unofficial
+7840247786	5.3117605	-3.9641654	Gare d'Adjamé	bus_stop	platform		no	unofficial
+7840676797	5.3116507	-3.9737027	Institut Froebel	bus_stop	platform		no	unofficial
+7840676798	5.3082779	-3.9614738	Carrefour Diabaté	bus_stop	platform		no	unofficial
+7840676799	5.3116247	-3.9707039	Carrefour Amangou	bus_stop	platform		no	unofficial
+7840690990	5.3082903	-3.9639437	Carrefour Marché	bus_stop	platform		no	unofficial
+7840690991	5.3083041	-3.9836619	Gare Sotra Marcory	bus_stop	platform		no	unofficial
+7840697489	5.3033070	-3.9761672	En bas du pont	bus_stop	platform		no	unofficial
+7840790185	5.2994889	-3.9796793	Hibiscus	bus_stop	platform			unofficial
+7840790285	5.2911823	-3.9901100	Mairie de Marcory	bus_stop	platform			unofficial
+7840790286	5.2995687	-3.9797324	Hibiscus	bus_stop	platform			unofficial
+7840790387	5.2908229	-3.9902304	Mairie de Marcory	bus_stop	platform			unofficial
+9271876733	5.2923459	-3.9751711	SICOMEX Marcory	bus_stop	platform			unofficial
+9271876734	5.2942029	-3.9785587	Pharmacie Elite	bus_stop	platform			unofficial
+9271876735	5.2954809	-3.9810536	Echangeur Marcory	bus_stop	platform			unofficial
+10548470108	5.3051939	-3.9639911	Pont de Sans fil	bus_stop	platform			unofficial
+10548528709	5.2975650	-3.9605136	Carrefour Saint François d'Assise	bus_stop	platform			unofficial
+10548528710	5.2976150	-3.9606249	Carrefour Saint François d'Assise	bus_stop	platform			unofficial
+10548528711	5.3003746	-3.9612740	Paroisse Saint François	bus_stop	platform			unofficial
+10548528712	5.3014923	-3.9615369	Carrefour Entente	bus_stop	platform			unofficial
+10548528713	5.3012058	-3.9632300	Pharmacie In Challah	bus_stop	platform			unofficial
+10548528714	5.3035955	-3.9638731	Carrefour Boulangerie	bus_stop	platform			unofficial
+10548528715	5.3063123	-3.9640890	Pont de Sans fil	bus_stop	platform			unofficial
+10548540815	5.2921820	-3.9628994	Carrefour St Etienne	bus_stop	platform			unofficial
+10548540816	5.3012653	-3.9633279	Pharmacie In Challah	bus_stop	platform			unofficial
+10548555747	5.2928818	-3.9611855	Grand Marché de Koumassi	bus_stop	platform			unofficial
+10548555748	5.2922622	-3.9628378	Carrefour St Etienne	bus_stop	platform			unofficial
+10556361880	5.3058082	-3.9980418	Marché Bellville	bus_stop	platform		no	
+10556361881	5.3054343	-3.9991482	Arret Belleville	bus_stop	platform		no	
+10556365502	5.3054904	-3.9991763	Arret Belleville	bus_stop	platform		no	
+10556365503	5.3058696	-3.9980692	Marché Bellville	bus_stop	platform		no	
+10556409603	5.3083894	-3.9911029	Carrefour des Banques	bus_stop	platform		no	
+10556409604	5.3079728	-3.9891268	Arrêt Lamartine	bus_stop	platform		no	
+10556409605	5.3070541	-3.9874785	Banque Populaire	bus_stop	platform		no	
+10556409606	5.3063679	-3.9862057	Carrefour Konankro	bus_stop	platform		no	
+10556409607	5.3036990	-3.9871848	Eglise Sainte Therèse	bus_stop	platform		no	
+10556418950	5.3037597	-3.9872901	Eglise Sainte Therèse	bus_stop	platform		no	
+10556418951	5.3068404	-3.9855547	Pharmacie TSF	bus_stop	platform		no	
+10556418952	5.3081037	-3.9848118	Station Shell Marcory	bus_stop	platform		no	
+10556418953	5.3088318	-3.9844486	Carrefour Plein	bus_stop	platform		no	
+10556418954	5.3097615	-3.9855105	Pharmacie Bethesda	bus_stop	platform		no	
+10556418955	5.3105567	-3.9869696	Nouvelle Clinique Farah	bus_stop	platform		no	
+10556418956	5.3097922	-3.9892501	Maurice	bus_stop	platform		no	
+10556418957	5.3082352	-3.9910881	Carrefour des Banques	bus_stop	platform		no	
+10556418958	5.3070848	-3.9943457	Pharmacie des Lagunes	bus_stop	platform		no	
+10570774238	5.2899439	-3.9625628	Pharmacie Aniel	bus_stop	platform			unofficial
+10570774241	5.2917471	-3.9739258	Hotel Ibis Marcory	bus_stop	platform			unofficial
+10570774242	5.2947219	-3.9792535	Ancien Koz	bus_stop	platform			unofficial
+10572525215	5.3074654	-3.9796579	Station Total INJS	bus_stop	platform			unofficial
+10572645782	5.2904594	-3.9714208	Grand Carrefour Koumassi	bus_stop	platform			unofficial
+10574051953	5.2997096	-3.9771856	Marché de Marcory	bus_stop	platform			unofficial
+10574071931	5.2996608	-3.9772124	Marché de Marcory	bus_stop	platform			unofficial
+10574071933	5.2995660	-3.9777261	2e Escalier	bus_stop	platform			unofficial
+10574071934	5.2971884	-3.9813021	Echangeur Marcory	bus_stop	platform			unofficial
+10574071935	5.3062862	-3.9858645	Commissariat du 9 ème	bus_stop	platform			
+10574071936	5.3073866	-3.9852583	Centre de Jeunesse	bus_stop	platform		no	
+10577379650	5.2999800	-3.9774541	Marché de Marcory	bus_stop	platform			unofficial
+10577379651	5.2985311	-3.9796270	1er Escalier	bus_stop	platform			unofficial
+10577379652	5.3017647	-3.9834043	Hôpital	bus_stop	platform			unofficial
+10577379653	5.3065947	-3.9806879	INJS	bus_stop	platform			unofficial
+10584979362	5.2915624	-3.9663287	Carrefour Grande Mosquée Koumassi	bus_stop	platform			unofficial
+10584979363	5.2937338	-3.9668369	Carrefour Placali	bus_stop	platform			unofficial
+10584979364	5.2964232	-3.9674136	Pharmacie Khaira	bus_stop	platform			unofficial
+10584979365	5.2977719	-3.9677395	Carrefour Garage	bus_stop	platform			unofficial
+10584979366	5.3000140	-3.9683162	Pharmacie du Canal	bus_stop	platform			unofficial
+10584979367	5.3018415	-3.9687078	Carrefour Millenium	bus_stop	platform			unofficial
+10584979368	5.3022321	-3.9670381	Carrefour Ibo	bus_stop	platform			unofficial
+10584979369	5.3028537	-3.9643425	Centre Médical Rahinah	bus_stop	platform			unofficial
+10584979370	5.3025098	-3.9657996	Carrefour Colombe	bus_stop	platform			unofficial
+10584979371	5.3033518	-3.9622892	Pharmacie des Sables	bus_stop	platform			unofficial
+10592313980	5.3025840	-3.9881243	Station Marcory	bus_stop	platform		no	
+10592313981	5.3041831	-3.9884904	Sainte Therese	bus_stop	platform		no	
+10592313982	5.3077404	-3.9924735	Feu du Residentiel	bus_stop	platform		no	
+10614605027	5.2918028	-3.9742291	Ancien Feu	bus_stop	platform			unofficial
+10614605028	5.2930594	-3.9764875	Aichi	bus_stop	platform			unofficial
+10614654297	5.2930821	-3.9758545	Aichi	bus_stop	platform			unofficial
+10614654298	5.2909214	-3.9719895	Univers des Meubles	bus_stop	platform			unofficial
+10614800242	5.2931115	-3.9763266	Aichi	bus_stop	platform			unofficial
+10649796298	5.3020398	-3.9941888	Solibra	bus_stop	platform			unofficial
+10844094646	5.3084765	-3.9997137	Piscine Etat	bus_stop	platform		no	
+10844094647	5.3074260	-3.9939002	Pharmacie des Lagunes	bus_stop	platform		no	
+10844094648	5.3105718	-3.9868813	Nouvelle Clinique Farah	bus_stop	platform		no	
+10844094649	5.3098968	-3.9893814	Maurice	bus_stop	platform		no	
+10844094650	5.3014112	-3.9769909	Marché Marcory	bus_stop	platform			
+10844094651	5.3014029	-3.9766723	Marché Marcory	bus_stop	platform			
+10844094653	5.3018590	-3.9782451	Antenne Sicogi	bus_stop	platform			
+10844094654	5.3027230	-3.9797563	Pharmacie Elishana	bus_stop	platform			
+10844094655	5.3060477	-3.9857478	Commissariat du 9 ème	bus_stop	platform			
+10844094656	5.3063232	-3.9862767	Carrefour Konankro	bus_stop	platform		no	
+10844094657	5.3083223	-3.9896503	Pharmacie PTT	bus_stop	platform		no	
+10844232134	5.3081623	-3.9995038	Piscine Etat	bus_stop	platform		no	
+10863014858	5.3014793	-3.9771375	Marché Marcory	bus_stop	platform			
+10863014860	5.3051003	-3.9840222	Station	bus_stop	platform		yes	
+10863014861	5.3068329	-3.9871974	Mosquée	bus_stop	platform		yes	
+10863419957	5.3083621	-3.9895924	Pharmacie PTT	bus_stop	platform		no	
+10863593476	5.3015191	-3.9771914	Marché Marcory	bus_stop	platform			
+10863593477	5.3030520	-3.9803675	Centre commercial	bus_stop	platform		no	
+10863593478	5.3035435	-3.9811595	Aby Raoul	bus_stop	platform		no	
+10863593479	5.3040289	-3.9821139	Nouvelle Boulangerie	bus_stop	platform		no	
+10863593480	5.3045275	-3.9829973	Carrefour Tantie Alice	bus_stop	platform		no	
+10863593481	5.3078648	-3.9890863	Arrêt Lamartine	bus_stop	platform		no	
+10870008557	5.3097865	-3.9854786	Pharmacie Bethesda	bus_stop	platform		no	
