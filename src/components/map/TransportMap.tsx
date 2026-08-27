@@ -130,7 +130,8 @@ export default function TransportMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          // Option 2 : Stadia Maps (labels blancs, fond sombre)
+url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
         {/* ===== LIGNES DE TRANSPORT ===== */}
