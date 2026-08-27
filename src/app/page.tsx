@@ -535,7 +535,7 @@ export default function Home() {
             </>
           )}
 
-          <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-white/30">Supabase</span>
               <span className="text-[10px] text-green-400">✅</span>
@@ -543,9 +543,6 @@ export default function Home() {
             <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
           </div>
         </div>
-      </motion.div>
-    </div>
-    </div>
       </motion.div>
     </div>
   );
