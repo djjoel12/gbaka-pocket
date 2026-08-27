@@ -8,7 +8,7 @@ import { reverseGeocode } from "@/utils/tripUtils";
 import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
-import { fetchHistoricalStops } from "@/utils/supabaseUtils";
+import { fetchHistoricalStops, fetchTransportLines } from "@/utils/supabaseUtils"; // ✅ AJOUT fetchTransportLines
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -51,6 +51,7 @@ export default function Home() {
   const [stopsCount, setStopsCount] = useState(0);
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
+  const [transportLines, setTransportLines] = useState<any[]>([]); // ✅ AJOUT
   
   // ✅ État pour les arrêts historiques
   
@@ -73,7 +74,6 @@ export default function Home() {
 
 
 // Charger les arrêts enregistrés dans Supabase
-// ✅ NOUVEAU CODE (à mettre) :
 useEffect(() => {
   const loadHistoricalStops = async () => {
     try {
@@ -97,6 +97,24 @@ useEffect(() => {
   }
   
   loadHistoricalStops()
+}, []);
+
+// ✅ NOUVEAU : Charger les lignes de transport
+useEffect(() => {
+  const loadTransportLines = async () => {
+    try {
+      const lines = await fetchTransportLines();
+
+      console.log("🚌 Lignes récupérées :", lines);
+
+      // TEST : seulement la première ligne
+      setTransportLines(lines.slice(0, 1));
+    } catch (error) {
+      console.error("❌ Erreur lignes transport :", error);
+    }
+  };
+
+  loadTransportLines();
 }, []);
   
 
@@ -227,7 +245,8 @@ useEffect(() => {
           onMapReady={(map) => { mapRef.current = map; }}
           stops={stops}
           pois={pois}
-          historicalStops={historicalStops} // ✅ Envoi des arrêts historiques
+          historicalStops={historicalStops}
+          transportLines={transportLines} // ✅ AJOUT
         />
       </div>
 
@@ -476,7 +495,8 @@ useEffect(() => {
 
               <GpsRecorder
                 status={status}
-                setStatus={setStatus}
+
+              setStatus={setStatus}
                 destination={destination}
                 lineInfo={lineInfo}
                 startPointName={startPointName}
