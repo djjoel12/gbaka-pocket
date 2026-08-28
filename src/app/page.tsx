@@ -247,7 +247,7 @@ useEffect(() => {
           historicalStops={historicalStops}
           transportLines={transportLines} // ✅ AJOUT
           osmStops={osmStops}  // ✅ AJOUTE CETTE LIGNE
-/>
+
         />
       </div>
 
@@ -552,14 +552,14 @@ useEffect(() => {
             </>
           )}
 
-                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
+                              <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-white/30">Supabase</span>
               <span className="text-[10px] text-green-400">✅</span>
             </div>
             <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
           </div>
-          </div>
+        </div>
       </motion.div>
     </div>
   );
