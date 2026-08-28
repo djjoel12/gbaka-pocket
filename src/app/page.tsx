@@ -9,8 +9,7 @@ import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
 import { fetchHistoricalStops } from "@/utils/supabaseUtils";
-import { fetchTransportLines } from "@/utils/supabaseUtils";
-import { fetchOsmStops } from "@/utils/supabaseUtils"; // ✅ AJOUT
+import { fetchTransportLines } from "@/utils/supabaseUtils"; // ✅ AJOUT
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -53,8 +52,7 @@ export default function Home() {
   const [stopsCount, setStopsCount] = useState(0);
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
-  const [transportLines, setTransportLines] = useState<any[]>([]);
-  const [osmStops, setOsmStops] = useState<any[]>([]); // ✅ AJOUT
+  const [transportLines, setTransportLines] = useState<any[]>([]); // ✅ AJOUT
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
@@ -90,7 +88,7 @@ export default function Home() {
     loadHistoricalStops()
   }, []);
 
-  // Charger les lignes de transport
+  // ✅ Charger les lignes de transport
   useEffect(() => {
     const loadTransportLines = async () => {
       try {
@@ -102,20 +100,6 @@ export default function Home() {
       }
     };
     loadTransportLines();
-  }, []);
-
-  // ✅ Charger les arrêts OSM
-  useEffect(() => {
-    const loadOsmStops = async () => {
-      try {
-        const stops = await fetchOsmStops();
-        console.log("🚏 Arrêts OSM récupérés:", stops);
-        setOsmStops(stops);
-      } catch (error) {
-        console.error("❌ Erreur chargement arrêts OSM:", error);
-      }
-    };
-    loadOsmStops();
   }, []);
 
   useEffect(() => {
@@ -246,8 +230,7 @@ export default function Home() {
           stops={stops}
           pois={pois}
           historicalStops={historicalStops}
-          transportLines={transportLines}
-          osmStops={osmStops} // ✅ AJOUT
+          transportLines={transportLines} // ✅ AJOUT
         />
       </div>
 
@@ -485,16 +468,6 @@ export default function Home() {
                           </p>
                         </div>
                         <div className="text-center">
-                          <p className="text-[8px] text-white/30 uppercase">Points</p>
-                          <p className="text-sm font-bold text-white">{points.length}</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-[8px] text-white/30 uppercase">Temps</p>
-                          <p className="text-sm font-bold text-white">
-                            {formatTime(elapsedTime)}
-                          </p>
-                        </div>
-                        <div className="text-center">
                           <p className="text-[8px] text-white/30 uppercase">Arrêts</p>
                           <p className="text-sm font-bold text-white">{stopsCount}</p>
                         </div>
@@ -562,14 +535,14 @@ export default function Home() {
             </>
           )}
 
-          <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/5">
             <div className="flex items-center gap-2">
               <span className="text-[10px] text-white/30">Supabase</span>
               <span className="text-[10px] text-green-400">✅</span>
             </div>
             <span className="text-[10px] text-white/20">Conditions d'Utilisation</span>
           </div>
-        </div>
+          </div>
       </motion.div>
     </div>
   );
