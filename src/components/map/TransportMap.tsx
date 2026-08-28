@@ -7,7 +7,7 @@ import {
   Polyline,
   Circle,
   Popup,
-  GeoJSON, // ✅ AJOUT
+  GeoJSON,
 } from "react-leaflet";
 
 import "leaflet/dist/leaflet.css";
@@ -25,8 +25,8 @@ type TransportMapProps = {
   stops?: StopPoint[];
   pois?: POI[];
   historicalStops?: StopPoint[];
-  transportLines?: any[]; // ✅ AJOUT
-  osmStops?: any[];  // ✅ AJOUTE CETTE LIGNE
+  transportLines?: any[];
+  osmStops?: any[];
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -66,9 +66,7 @@ const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 const poiIcon = createIcon("#F59E0B", "📍", false);
 
-
 const osmStopIcon = L.divIcon({
-
   html: `
     <div style="
       background: #3B82F6; 
@@ -84,7 +82,6 @@ const osmStopIcon = L.divIcon({
   iconSize: [12, 12],
   iconAnchor: [6, 6],
 });
-
 
 const historicalStopIcon = L.divIcon({
   html: `
@@ -108,7 +105,6 @@ const historicalStopIcon = L.divIcon({
   iconAnchor: [22, 22],
 });
 
-
 export default function TransportMap({
   points,
   livePosition,
@@ -117,7 +113,8 @@ export default function TransportMap({
   stops = [],
   pois = [],
   historicalStops = [],
-  transportLines = [], // ✅ AJOUT
+  transportLines = [],
+  osmStops = [],
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -152,31 +149,30 @@ export default function TransportMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          // Option 2 : Stadia Maps (labels blancs, fond sombre)
-url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?label_color=ffffff"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
-
         {/* ===== ARRÊTS OSM ===== */}
-{osmStops?.map((stop) => (
-  <Marker
-    key={stop.id}
-    position={[stop.lat, stop.lon]}
-    icon={osmStopIcon}
-  >
-    <Popup>
-      <div className="text-sm">
-        <p className="font-bold">{stop.name || "Arrêt sans nom"}</p>
-        {stop.operator && (
-          <p className="text-xs text-gray-500">🚌 {stop.operator}</p>
-        )}
-        {stop.status && (
-          <p className="text-xs text-gray-500">📌 {stop.status}</p>
-        )}
-      </div>
-    </Popup>
-  </Marker>
-))}
+        {osmStops?.map((stop) => (
+          <Marker
+            key={stop.id}
+            position={[stop.lat, stop.lon]}
+            icon={osmStopIcon}
+          >
+            <Popup>
+              <div className="text-sm">
+                <p className="font-bold">{stop.name || "Arrêt sans nom"}</p>
+                {stop.operator && (
+                  <p className="text-xs text-gray-500">🚌 {stop.operator}</p>
+                )}
+                {stop.status && (
+                  <p className="text-xs text-gray-500">📌 {stop.status}</p>
+                )}
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+
         {/* ===== LIGNES DE TRANSPORT ===== */}
         {transportLines?.map((line) => (
           <GeoJSON
@@ -288,4 +284,4 @@ url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?l
       </MapContainer>
     </div>
   );
-        }
+  }
