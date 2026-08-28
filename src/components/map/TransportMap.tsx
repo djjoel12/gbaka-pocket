@@ -66,6 +66,26 @@ const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 const poiIcon = createIcon("#F59E0B", "📍", false);
 
+
+const osmStopIcon = L.divIcon({
+
+  html: `
+    <div style="
+      background: #3B82F6; 
+      border-radius: 50%; 
+      width: 12px; 
+      height: 12px; 
+      border: 2px solid white;
+      box-shadow: 0 0 10px rgba(59,130,246,0.5);
+    ">
+    </div>
+  `,
+  className: "",
+  iconSize: [12, 12],
+  iconAnchor: [6, 6],
+});
+
+
 const historicalStopIcon = L.divIcon({
   html: `
     <div style="
@@ -87,6 +107,7 @@ const historicalStopIcon = L.divIcon({
   iconSize: [44, 44],
   iconAnchor: [22, 22],
 });
+
 
 export default function TransportMap({
   points,
@@ -135,6 +156,27 @@ export default function TransportMap({
 url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?label_color=ffffff"
         />
 
+
+        {/* ===== ARRÊTS OSM ===== */}
+{osmStops?.map((stop) => (
+  <Marker
+    key={stop.id}
+    position={[stop.lat, stop.lon]}
+    icon={osmStopIcon}
+  >
+    <Popup>
+      <div className="text-sm">
+        <p className="font-bold">{stop.name || "Arrêt sans nom"}</p>
+        {stop.operator && (
+          <p className="text-xs text-gray-500">🚌 {stop.operator}</p>
+        )}
+        {stop.status && (
+          <p className="text-xs text-gray-500">📌 {stop.status}</p>
+        )}
+      </div>
+    </Popup>
+  </Marker>
+))}
         {/* ===== LIGNES DE TRANSPORT ===== */}
         {transportLines?.map((line) => (
           <GeoJSON
