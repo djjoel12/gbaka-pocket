@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
 import { fetchHistoricalStops } from "@/utils/supabaseUtils";
 import { fetchTransportLines } from "@/utils/supabaseUtils"; // ✅ AJOUT
+import { fetchOSMStops } from "@/utils/supabaseUtils";
 
 const TransportMap = dynamic(
   () => import("@/components/map/TransportMap"),
@@ -57,6 +58,7 @@ export default function Home() {
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
   const [showDestinationInput, setShowDestinationInput] = useState(false);
+  const [osmStops, setOsmStops] = useState<any[]>([]);
 
   const mapRef = useRef<any>(null);
 
@@ -87,6 +89,19 @@ export default function Home() {
     }
     loadHistoricalStops()
   }, []);
+  // ✅ Charger les arrêts OSM
+useEffect(() => {
+  const loadOSMStops = async () => {
+    try {
+      const stops = await fetchOSMStops();
+      console.log("🚏 Arrêts OSM récupérés:", stops);
+      setOsmStops(stops);
+    } catch (error) {
+      console.error("❌ Erreur arrêts OSM:", error);
+    }
+  };
+  loadOSMStops();
+}, []);
 
   // ✅ Charger les lignes de transport
   useEffect(() => {
@@ -231,6 +246,8 @@ export default function Home() {
           pois={pois}
           historicalStops={historicalStops}
           transportLines={transportLines} // ✅ AJOUT
+          osmStops={osmStops}  // ✅ AJOUTE CETTE LIGNE
+/>
         />
       </div>
 
