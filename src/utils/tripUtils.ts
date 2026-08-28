@@ -1,220 +1,311 @@
-// src/utils/tripUtils.ts
-import { GPSPoint, StopPoint, TripData } from "@/types/trip";
+import { supabase } from '@/lib/supabase'
+import { TripData, StopPoint } from '@/types/trip'
 
-// ============================================
-// CALCUL DE DISTANCE
-// ============================================
-export const calculateDistance = (
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number => {
-  const R = 6371000;
-  const phi1 = (lat1 * Math.PI) / 180;
-  const phi2 = (lat2 * Math.PI) / 180;
-  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
-  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+export const saveTripToSupabase = async (tripData: TripData) => {
+  console.log('📤 Envoi vers Supabase...')
 
-  const a =
-    Math.sin(deltaPhi / 2) ** 2 +
-    Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) ** 2;
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-};
-
-// ============================================
-// GÉOCODAGE INVERSE
-// ============================================
-export const reverseGeocode = async (lat: number, lng: number): Promise<string> => {
   try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=16&accept-language=fr`
-    );
-    const data = await response.json();
-    
-    if (data && data.display_name) {
-      const parts = data.display_name.split(',');
-      return parts.slice(0, 3).join(',').trim();
+    if (!tripData.points || tripData.points.length === 0) {
+      console.warn('⚠️ Pas de points GPS')
+      return { success: false, error: 'Pas de points' }
     }
-    return "Lieu inconnu";
+
+    const routeString = tripData.points
+      .map(p => `${p.longitude} ${p.latitude}`)
+      .join(',')
+
+    const stopsString =
+      tripData.stops.length > 0
+        ? tripData.stops
+            .map(s => `${s.coordinates[1]} ${s.coordinates[0]}`)
+            .join(',')
+        : null
+
+    const { data, error } = await supabase
+      .from('trips')
+      .insert([{
+        line_name: tripData.direction,
+        destination: tripData.end.name,
+        start_point_name: tripData.start.name,
+        end_point_name: tripData.end.name,
+
+        route: `LINESTRING(${routeString})`,
+
+        stops: stopsString
+          ? `MULTIPOINT(${stopsString})`
+          : null,
+
+        total_distance: tripData.distance * 1000,
+        duration: tripData.duration,
+        average_speed: tripData.averageSpeed,
+        max_speed: tripData.maxSpeed,
+        price: tripData.fare,
+        price_per_km:
+          tripData.distance > 0
+            ? tripData.fare / tripData.distance
+            : 0,
+
+        quality: tripData.quality,
+
+        points_json: tripData.points,
+        stops_json: tripData.stops,
+
+        date: tripData.startedAt,
+        is_verified: false,
+
+        line_id: tripData.lineId,
+        type: tripData.type,
+        direction: tripData.direction,
+        fare: tripData.fare,
+        distance_km: tripData.distance,
+        duration_sec: tripData.duration,
+        avg_speed_kmh: tripData.averageSpeed,
+        max_speed_kmh: tripData.maxSpeed,
+        started_at: tripData.startedAt,
+        ended_at: tripData.endedAt,
+      }])
+
+    if (error) {
+      console.error('❌ Erreur Supabase:', error)
+
+      return {
+        success: false,
+        error,
+      }
+    }
+
+    console.log('✅ Trajet envoyé à Supabase !')
+
+    return {
+      success: true,
+      data,
+    }
+
   } catch (error) {
-    console.error("Erreur de géocodage:", error);
-    return "Lieu inconnu";
+    console.error('❌ Erreur:', error)
+
+    return {
+      success: false,
+      error,
+    }
   }
-};
+}
 
-// ============================================
-// DÉTECTION DES ARRÊTS
-// ============================================
-export const detectStops = (points: GPSPoint[]): StopPoint[] => {
-  if (points.length < 10) return [];
+// ======================================================
+// RÉCUPÉRER LES ARRÊTS ENREGISTRÉS DANS stops_json
+// ======================================================
 
-  const stops: StopPoint[] = [];
-  let currentStop: GPSPoint[] = [];
-  const STOP_THRESHOLD = 0.5;
-  const MIN_STOP_DURATION = 5;
+export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('trips')
+      .select('stops_json')
+      .not('stops_json', 'is', null)
+      .order('date', { ascending: false })
+      .limit(100)
 
-  for (let i = 0; i < points.length; i++) {
-    const point = points[i];
-    const speed = point.speed || 0;
+    if (error) {
+      console.error('❌ ERREUR SUPABASE STOPS:', error)
+      throw new Error(
+        `Impossible de récupérer les arrêts : ${
+          error.message || 'Erreur Supabase'
+        }`
+      )
+    }
 
-    if (speed < STOP_THRESHOLD) {
-      currentStop.push(point);
-    } else if (currentStop.length > 0) {
-      const duration =
-        (currentStop[currentStop.length - 1].timestamp -
-          currentStop[0].timestamp) /
-        1000;
+    if (!data || data.length === 0) {
+      console.log('ℹ️ Aucun trajet trouvé')
+      return []
+    }
 
-      if (duration >= MIN_STOP_DURATION) {
-        const centerLat =
-          currentStop.reduce((sum, p) => sum + p.latitude, 0) /
-          currentStop.length;
-        const centerLng =
-          currentStop.reduce((sum, p) => sum + p.longitude, 0) /
-          currentStop.length;
+    const historicalStops: StopPoint[] = []
 
-        stops.push({
-          id: `stop-${Date.now()}-${stops.length}`,
-          name: `Arrêt ${stops.length + 1}`,
-          coordinates: [centerLat, centerLng],
-          timestamp: currentStop[0].timestamp,
-          duration: duration,
-          isStart: stops.length === 0,
-          isEnd: false,
-        });
+    for (const trip of data) {
+      let stops: any = trip.stops_json
+
+      if (typeof stops === 'string') {
+        try {
+          stops = JSON.parse(stops)
+        } catch (e) {
+          console.error(
+            '❌ Impossible de lire stops_json:',
+            stops
+          )
+          continue
+        }
       }
 
-      currentStop = [];
+      if (!Array.isArray(stops)) {
+        console.warn(
+          '⚠️ stops_json n’est pas un tableau:',
+          stops
+        )
+        continue
+      }
+
+      for (let i = 0; i < stops.length; i++) {
+        const stop = stops[i]
+
+        if (!stop) continue
+
+        let coordinates = stop.coordinates
+
+        if (!Array.isArray(coordinates)) {
+          console.warn(
+            '⚠️ Arrêt sans coordinates:',
+            stop
+          )
+          continue
+        }
+
+        if (coordinates.length < 2) {
+          console.warn(
+            '⚠️ Coordonnées incomplètes:',
+            coordinates
+          )
+          continue
+        }
+
+        const latitude = Number(coordinates[0])
+        const longitude = Number(coordinates[1])
+
+        if (
+          !Number.isFinite(latitude) ||
+          !Number.isFinite(longitude)
+        ) {
+          console.warn(
+            '⚠️ Coordonnées invalides:',
+            coordinates
+          )
+          continue
+        }
+
+        const historicalStop: StopPoint = {
+          id:
+            typeof stop.id === 'string'
+              ? stop.id
+              : `historical-stop-${Date.now()}-${i}`,
+
+          name:
+            typeof stop.name === 'string'
+              ? stop.name
+              : 'Arrêt enregistré',
+
+          coordinates: [
+            latitude,
+            longitude,
+          ],
+
+          timestamp:
+            typeof stop.timestamp === 'number'
+              ? stop.timestamp
+              : Date.now(),
+
+          duration:
+            typeof stop.duration === 'number'
+              ? stop.duration
+              : 0,
+
+          isStart:
+            typeof stop.isStart === 'boolean'
+              ? stop.isStart
+              : false,
+
+          isEnd:
+            typeof stop.isEnd === 'boolean'
+              ? stop.isEnd
+              : false,
+
+          isManual:
+            typeof stop.isManual === 'boolean'
+              ? stop.isManual
+              : false,
+
+          isConfirmed:
+            typeof stop.isConfirmed === 'boolean'
+              ? stop.isConfirmed
+              : false,
+        }
+
+        historicalStops.push(historicalStop)
+      }
     }
+
+    const uniqueStops = historicalStops.filter(
+      (stop, index, array) => {
+        return (
+          index ===
+          array.findIndex(
+            other =>
+              other.coordinates[0] ===
+                stop.coordinates[0] &&
+              other.coordinates[1] ===
+                stop.coordinates[1]
+          )
+        )
+      }
+    )
+
+    console.log(
+      `🚏 ${uniqueStops.length} arrêts récupérés depuis Supabase`
+    )
+
+    return uniqueStops
+
+  } catch (error) {
+    console.error(
+      '❌ fetchHistoricalStops:',
+      error
+    )
+
+    throw error
   }
+}
 
-  if (currentStop.length > 0) {
-    const duration =
-      (currentStop[currentStop.length - 1].timestamp -
-        currentStop[0].timestamp) /
-      1000;
-    if (duration >= MIN_STOP_DURATION) {
-      const centerLat =
-        currentStop.reduce((sum, p) => sum + p.latitude, 0) /
-        currentStop.length;
-      const centerLng =
-        currentStop.reduce((sum, p) => sum + p.longitude, 0) /
-        currentStop.length;
+// ======================================================
+// RÉCUPÉRER LES LIGNES DE TRANSPORT
+// ======================================================
 
-      stops.push({
-        id: `stop-${Date.now()}-${stops.length}`,
-        name: `Arrêt ${stops.length + 1}`,
-        coordinates: [centerLat, centerLng],
-        timestamp: currentStop[0].timestamp,
-        duration: duration,
-        isStart: stops.length === 0,
-        isEnd: true,
-      });
+export const fetchTransportLines = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("transport_lines")
+      .select("*")
+      .limit(1);
+
+    if (error) {
+      console.error("❌ Erreur transport_lines:", error);
+      throw error;
     }
+
+    console.log(`🚌 ${data?.length || 0} ligne(s) récupérée(s)`);
+    return data || [];
+  } catch (error) {
+    console.error("❌ fetchTransportLines:", error);
+    return [];
   }
-
-  if (stops.length > 0) {
-    stops[0].isStart = true;
-    stops[stops.length - 1].isEnd = true;
-  }
-
-  return stops;
 };
 
-// ============================================
-// CALCUL DE LA QUALITÉ
-// ============================================
-export const calculateQuality = (points: GPSPoint[]): number => {
-  if (points.length === 0) return 0;
+// ======================================================
+// RÉCUPÉRER LES ARRÊTS OSM
+// ======================================================
 
-  let score = 100;
+export const fetchOsmStops = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("osm_stops")
+      .select("*")
+      .limit(100);
 
-  const avgAccuracy =
-    points.reduce((sum, p) => sum + p.accuracy, 0) / points.length;
-  if (avgAccuracy > 50) score -= 25;
-  else if (avgAccuracy > 30) score -= 15;
-  else if (avgAccuracy > 20) score -= 5;
-
-  let spikes = 0;
-  for (let i = 1; i < points.length; i++) {
-    const dist = calculateDistance(
-      points[i - 1].latitude,
-      points[i - 1].longitude,
-      points[i].latitude,
-      points[i].longitude
-    );
-    if (dist > 50) spikes++;
-  }
-  if (spikes > points.length * 0.1) score -= 20;
-
-  if (points.length < 50) score -= 20;
-
-  const duration = points[points.length - 1].timestamp - points[0].timestamp;
-  if (duration < 60 * 1000) score -= 20;
-
-  return Math.max(0, Math.min(100, score));
-};
-
-// ============================================
-// CALCUL DE LA VITESSE MOYENNE
-// ============================================
-export const calculateAverageSpeed = (points: GPSPoint[]): number => {
-  const speeds = points.filter((p) => p.speed !== null).map((p) => p.speed!);
-  if (speeds.length === 0) return 0;
-  const avg = speeds.reduce((sum, s) => sum + s, 0) / speeds.length;
-  return avg * 3.6;
-};
-
-// ============================================
-// CALCUL DE LA VITESSE MAX
-// ============================================
-export const calculateMaxSpeed = (points: GPSPoint[]): number => {
-  const speeds = points.filter((p) => p.speed !== null).map((p) => p.speed!);
-  if (speeds.length === 0) return 0;
-  return Math.max(...speeds) * 3.6;
-};
-
-// ============================================
-// CALCUL DU TEMPS EN MOUVEMENT
-// ============================================
-export const calculateMovingTime = (points: GPSPoint[]): number => {
-  if (points.length < 2) return 0;
-  let movingTime = 0;
-  for (let i = 1; i < points.length; i++) {
-    const speed = points[i].speed || 0;
-    if (speed > 0.5) {
-      movingTime += (points[i].timestamp - points[i - 1].timestamp) / 1000;
+    if (error) {
+      console.error("❌ Erreur osm_stops:", error);
+      throw error;
     }
+
+    console.log(`🚏 ${data?.length || 0} arrêts récupérés`);
+    return data || [];
+  } catch (error) {
+    console.error("❌ fetchOsmStops:", error);
+    return [];
   }
-  return movingTime;
-};
-
-// ============================================
-// SAUVEGARDE DES TRAJETS
-// ============================================
-export const saveTrip = (trip: TripData): void => {
-  const savedTrips = JSON.parse(localStorage.getItem("trips") || "[]");
-  savedTrips.push(trip);
-  localStorage.setItem("trips", JSON.stringify(savedTrips));
-};
-
-export const getTrips = (): TripData[] => {
-  return JSON.parse(localStorage.getItem("trips") || "[]");
-};
-
-export const getTrip = (id: string): TripData | null => {
-  const trips = getTrips();
-  return trips.find((t) => t.id === id) || null;
-};
-
-export const deleteTrip = (id: string): void => {
-  const trips = getTrips().filter((t) => t.id !== id);
-  localStorage.setItem("trips", JSON.stringify(trips));
-};
-
-export const clearAllTrips = (): void => {
-  localStorage.removeItem("trips");
 };
