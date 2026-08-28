@@ -156,7 +156,7 @@ export default function TransportMap({
         {osmStops?.map((stop) => (
           <Marker
             key={stop.id}
-            position={[stop.lat, stop.lon]}
+            position={[stop.latitude, stop.longitude]}  // ✅ Ces colonnes existent
             icon={osmStopIcon}
           >
             <Popup>
