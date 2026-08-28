@@ -99,7 +99,7 @@ export const findLineIntersections = async (line1Id: string, line2Id: string, ra
 };
 
 // ============================================
-// TROUVER UN ITINÉRAIRE COMPLET
+// TYPES
 // ============================================
 export interface RouteStep {
   type: 'walk' | 'bus' | 'transfer';
@@ -120,6 +120,27 @@ export interface RouteResult {
   message?: string;
 }
 
+// ============================================
+// UTILITAIRES
+// ============================================
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371000;
+  const phi1 = (lat1 * Math.PI) / 180;
+  const phi2 = (lat2 * Math.PI) / 180;
+  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
+  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
+  const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
+  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
+}
+
+function estimateDuration(dist1: number, dist2: number): number {
+  const avgDist = (dist1 + dist2) / 2;
+  return Math.max(10, Math.round(avgDist / 1000 * 5));
+}
+
+// ============================================
+// TROUVER UN ITINÉRAIRE COMPLET (CORRIGÉ)
+// ============================================
 export const findRoute = async (startLat: number, startLng: number, endLat: number, endLng: number): Promise<RouteResult> => {
   try {
     // 1. Trouver les lignes proches du départ
@@ -143,10 +164,12 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
         if (startLine.line_id === endLine.line_id) {
           // ✅ LIGNE DIRECTE
           const stops = await findLineStops(startLine.line_id, 50);
-          const startStop = stops.find(s => 
+          
+          // ✅ CORRECTION : Typage explicite des paramètres
+          const startStop = stops.find((s: any) => 
             calculateDistance(startLat, startLng, s.latitude, s.longitude) < 100
           );
-          const endStop = stops.find(s => 
+          const endStop = stops.find((s: any) => 
             calculateDistance(endLat, endLng, s.latitude, s.longitude) < 100
           );
 
@@ -171,15 +194,15 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
         // 🔄 VÉRIFIER LES INTERSECTIONS
         const intersections = await findLineIntersections(startLine.line_id, endLine.line_id, 50);
         if (intersections.length > 0) {
-          // 🔄 CORRESPONDANCE TROUVÉE
           const stop = intersections[0];
           const stops1 = await findLineStops(startLine.line_id, 50);
           const stops2 = await findLineStops(endLine.line_id, 50);
           
-          const startStop = stops1.find(s => 
+          // ✅ CORRECTION : Typage explicite des paramètres
+          const startStop = stops1.find((s: any) => 
             calculateDistance(startLat, startLng, s.latitude, s.longitude) < 100
           );
-          const endStop = stops2.find(s => 
+          const endStop = stops2.find((s: any) => 
             calculateDistance(endLat, endLng, s.latitude, s.longitude) < 100
           );
 
@@ -249,23 +272,3 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
     };
   }
 };
-
-// ============================================
-// UTILITAIRES
-// ============================================
-
-function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const R = 6371000;
-  const phi1 = (lat1 * Math.PI) / 180;
-  const phi2 = (lat2 * Math.PI) / 180;
-  const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
-  const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
-  const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
-  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
-}
-
-function estimateDuration(dist1: number, dist2: number): number {
-  // Estimation : 1 km = 5 minutes
-  const avgDist = (dist1 + dist2) / 2;
-  return Math.max(10, Math.round(avgDist / 1000 * 5));
-                                    }
