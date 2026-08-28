@@ -53,7 +53,7 @@ export default function Home() {
   const [stopsCount, setStopsCount] = useState(0);
   const [pois, setPois] = useState<POI[]>([]);
   const [stops, setStops] = useState<StopPoint[]>([]);
-  const [transportLines, setTransportLines] = useState<any[]>([]); // ✅ AJOUT
+  const [transportLines, setTransportLines] = useState<any[]>([]); // ✅ AJOU
   
   const [isAutoDetecting, setIsAutoDetecting] = useState(false);
   const [gpsReady, setGpsReady] = useState(false);
