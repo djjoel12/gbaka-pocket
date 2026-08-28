@@ -261,6 +261,31 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
     throw error
   }
 }
+// ======================================================
+// RÉCUPÉRER LES ARRÊTS OSM
+// ======================================================
+
+export const fetchOSMStops = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("osm_stops")
+      .select("*")
+      .limit(100); // ✅ On commence avec 100 arrêts pour tester
+
+    if (error) {
+      console.error("❌ Erreur osm_stops:", error);
+      throw error;
+    }
+
+    console.log(`🚏 ${data?.length || 0} arrêts récupérés`);
+    return data || [];
+  } catch (error) {
+    console.error("❌ fetchOSMStops:", error);
+    return [];
+  }
+};
+
+
 
 // ======================================================
 // ✅ RÉCUPÉRER LES LIGNES DE TRANSPORT (AJOUT)
