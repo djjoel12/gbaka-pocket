@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import GpsRecorder from "@/components/gps/GpsRecorder";
 import type { LineInfo } from "@/types/trip";
 import { reverseGeocode } from "@/utils/tripUtils";
+import Link from "next/link";  // ✅ AJOUTE CETTE LIGNE
 import type { StopPoint } from "@/types/trip";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchAllPOIs, POI } from "@/utils/poiUtils";
