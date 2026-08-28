@@ -324,6 +324,13 @@ useEffect(() => {
             </>
           )}
 
+          {/* Dans la fenêtre, après "Démarrer le trajet" ou ailleurs */}
+<Link
+  href="/search"
+  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 text-center text-sm text-white/60 hover:bg-white/10 hover:text-white/80 transition"
+>
+  🚌 Planifier un trajet
+</Link>
           {showDestinationInput && (
             <>
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-500/30 mb-4 w-fit">
