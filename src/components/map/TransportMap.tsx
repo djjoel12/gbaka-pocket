@@ -26,6 +26,7 @@ type TransportMapProps = {
   pois?: POI[];
   historicalStops?: StopPoint[];
   transportLines?: any[]; // ✅ AJOUT
+  osmStops?: any[];  // ✅ AJOUTE CETTE LIGNE
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
