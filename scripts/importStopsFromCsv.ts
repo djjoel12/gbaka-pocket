@@ -18,9 +18,15 @@ const getRowsFromCSV = (fileContent: string) => {
   const lines = fileContent.split("\n").filter(line => line.trim() !== "");
   if (lines.length < 2) return [];
 
-  const headers = lines[0].split("\t");
+  // Détection automatique du séparateur (virgule ou tabulation)
+  let separator = "\t"; // Par défaut on suppose une tabulation
+  if (lines[0].includes(",")) {
+    separator = ","; // Si on voit une virgule, on utilise la virgule
+  }
+
+  const headers = lines[0].split(separator);
   const rows = lines.slice(1).map((line) => {
-    const columns = line.split("\t");
+    const columns = line.split(separator);
     const obj: any = {};
     headers.forEach((header, index) => {
       obj[header] = columns[index]?.trim() ?? null;
