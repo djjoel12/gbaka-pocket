@@ -24,7 +24,7 @@ export interface RouteResult {
 }
 
 // ========================================================
-// GÉOCODAGE (Nominatim)
+// GEOCODAGE (Nominatim avec signature User-Agent)
 // ========================================================
 export const geocodeWithOSM = async (query: string) => {
   try {
@@ -34,7 +34,7 @@ export const geocodeWithOSM = async (query: string) => {
       )}&format=json&limit=5&countrycodes=ci&accept-language=fr`,
       {
         headers: {
-          'User-Agent': 'GbakaPocketApp/1.0 (contact: votre-email@example.com)'
+          'User-Agent': 'GbakaPocketApp/1.0 (contact: support@gbakapocket.ci)'
         }
       }
     );
@@ -57,12 +57,12 @@ export const geocodeWithOSM = async (query: string) => {
 };
 
 // ========================================================
-// RPC SUPABASE (Appels à la base de données)
+// REQUÊTES SUPABASE (Appels à la base de données)
 // ========================================================
 export const findNearbyLines = async (
   lat: number,
   lng: number,
-  radius: number = 600
+  radius: number = 400
 ) => {
   try {
     const { data, error } = await supabase.rpc('find_nearby_lines', {
@@ -81,17 +81,36 @@ export const findNearbyLines = async (
   }
 };
 
-export const findLineStops = async (lineId: string, radius: number = 150) => {
+// VERSION ULTRA-RAPIDE : Lit directement la table line_stops_order
+export const findLineStops = async (lineId: string) => {
   try {
-    const { data, error } = await supabase.rpc('find_line_stops', {
-      line_id: lineId,
-      radius_meters: radius,
-    });
+    const { data, error } = await supabase
+      .from('line_stops_order')
+      .select(`
+        stop_id,
+        stop_sequence,
+        osm_stops (
+          id,
+          name,
+          latitude,
+          longitude
+        )
+      `)
+      .eq('line_id', lineId)
+      .order('stop_sequence', { ascending: true });
+
     if (error) {
       console.error('❌ Erreur findLineStops :', error);
       return [];
     }
-    return data || [];
+
+    return (data || []).map((item: any) => ({
+      id: item.stop_id,
+      name: item.osm_stops?.name,
+      latitude: item.osm_stops?.latitude,
+      longitude: item.osm_stops?.longitude,
+      sequence: item.stop_sequence
+    }));
   } catch (error) {
     console.error('❌ Erreur findLineStops :', error);
     return [];
@@ -121,7 +140,7 @@ export const findLineIntersections = async (
 };
 
 // ========================================================
-// RÉCUPÉRER LES ARRÊTS ET LIGNES (Fonctions secondaires)
+// RÉCUPÉRATION SECONDAIRE DES DONNÉES
 // ========================================================
 export const fetchOSMStops = async (limit?: number) => {
   try {
@@ -203,7 +222,7 @@ function getClosestStop(
 }
 
 // ========================================================
-// MOTEUR D'ITINÉRAIRE (RECHERCHE RAPIDE)
+// MOTEUR D'ITINÉRAIRE PRINCIPAL
 // ========================================================
 export const findRoute = async (
   startLat: number,
@@ -212,9 +231,8 @@ export const findRoute = async (
   endLng: number
 ): Promise<RouteResult> => {
   try {
-    // 1. On cherche les lignes disponibles au départ et à l'arrivée (rayon étendu à 700m)
-    const startLines = await findNearbyLines(startLat, startLng, 700);
-    const endLines = await findNearbyLines(endLat, endLng, 700);
+    const startLines = await findNearbyLines(startLat, startLng, 400);
+    const endLines = await findNearbyLines(endLat, endLng, 400);
 
     console.log('📍 Lignes départ :', startLines.length);
     console.log('📍 Lignes arrivée :', endLines.length);
@@ -235,7 +253,7 @@ export const findRoute = async (
     for (const sLine of startLines) {
       for (const eLine of endLines) {
         if (sLine.line_id === eLine.line_id) {
-          const stops = await findLineStops(sLine.line_id, 200);
+          const stops = await findLineStops(sLine.line_id);
           const fromStop = getClosestStop(stops, startLat, startLng, 350);
           const toStop = getClosestStop(stops, endLat, endLng, 350);
 
@@ -249,8 +267,8 @@ export const findRoute = async (
                 type: 'bus',
                 lineId: sLine.line_id,
                 lineName: sLine.line_name,
-                fromStop: fromStop?.stop_name || 'Arrêt le plus proche',
-                toStop: toStop?.stop_name || 'Arrêt le plus proche',
+                fromStop: fromStop?.name || 'Arrêt le plus proche',
+                toStop: toStop?.name || 'Arrêt le plus proche',
                 duration,
                 price: 300,
               },
@@ -268,25 +286,23 @@ export const findRoute = async (
     // ==========================================
     let bestTransfer: RouteResult | null = null;
 
-    // SUPER OPTIMISATION : On télécharge tous les arrêts nécessaires d'un seul coup (en parallèle)
     const startLinesStopsCache: Record<string, any[]> = {};
     const endLinesStopsCache: Record<string, any[]> = {};
 
+    // Pré-chargement des arrêts en parallèle
     await Promise.all([
       ...startLines.map(async (l: any) => {
-        startLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
+        startLinesStopsCache[l.line_id] = await findLineStops(l.line_id);
       }),
       ...endLines.map(async (l: any) => {
-        endLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
+        endLinesStopsCache[l.line_id] = await findLineStops(l.line_id);
       }),
     ]);
 
-    // On parcourt les combinaisons pour trouver une correspondance commune
     for (const sLine of startLines) {
       for (const eLine of endLines) {
         if (sLine.line_id === eLine.line_id) continue;
 
-        // On cherche le point de croisement (très rapide en SQL)
         const intersections = await findLineIntersections(
           sLine.line_id,
           eLine.line_id,
@@ -294,14 +310,20 @@ export const findRoute = async (
         );
         if (intersections.length === 0) continue;
 
+        // Extraction propre du premier arrêt de correspondance trouvé
         const transferStop = intersections[0];
+        if (!transferStop || !transferStop.stop_name) continue;
 
-        // On pioche directement dans notre boîte locale (Zéro appel réseau ici !)
         const stopsA = startLinesStopsCache[sLine.line_id] || [];
         const stopsB = endLinesStopsCache[eLine.line_id] || [];
 
         const fromStop = getClosestStop(stopsA, startLat, startLng, 350);
         const toStop = getClosestStop(stopsB, endLat, endLng, 350);
+
+        // Calcul dynamique et intelligent des temps
+        const duration1 = estimateDuration(sLine.distance || 1500);
+        const duration2 = estimateDuration(eLine.distance || 1500);
+        const totalDuration = duration1 + duration2 + 5;
 
         const result: RouteResult = {
           steps: [
@@ -309,9 +331,9 @@ export const findRoute = async (
               type: 'bus',
               lineId: sLine.line_id,
               lineName: sLine.line_name,
-              fromStop: fromStop?.stop_name || 'Arrêt départ',
+              fromStop: fromStop?.name || 'Arrêt départ',
               toStop: transferStop.stop_name,
-              duration: 20,
+              duration: duration1,
               price: 250,
             },
             {
@@ -326,12 +348,12 @@ export const findRoute = async (
               lineId: eLine.line_id,
               lineName: eLine.line_name,
               fromStop: transferStop.stop_name,
-              toStop: toStop?.stop_name || 'Arrêt arrivée',
-              duration: 20,
+              toStop: toStop?.name || 'Arrêt arrivée',
+              duration: duration2,
               price: 250,
             },
           ],
-          totalDuration: 45,
+          totalDuration: totalDuration,
           totalPrice: 500,
           type: 'one_transfer',
         };
@@ -346,9 +368,6 @@ export const findRoute = async (
       return bestTransfer;
     }
 
-    // ==========================================
-    // TRAJET NON TROUVÉ
-    // ==========================================
     return {
       steps: [],
       totalDuration: 0,
