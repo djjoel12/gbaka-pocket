@@ -24,17 +24,16 @@ export interface RouteResult {
 }
 
 // ========================================================
-// GEOCODAGE (Nominatim)
+// GÉOCODAGE (Nominatim)
 // ========================================================
 export const geocodeWithOSM = async (query: string) => {
   try {
     const response = await fetch(
-      `https://openstreetmap.org{encodeURIComponent(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
         query
       )}&format=json&limit=5&countrycodes=ci&accept-language=fr`,
       {
         headers: {
-          // MODIFICATION ICI : On donne un nom à l'application pour qu'OpenStreetMap accepte la requête
           'User-Agent': 'GbakaPocketApp/1.0 (contact: votre-email@example.com)'
         }
       }
@@ -56,7 +55,6 @@ export const geocodeWithOSM = async (query: string) => {
     return [];
   }
 };
-
 
 // ========================================================
 // RPC SUPABASE (Appels à la base de données)
@@ -123,7 +121,7 @@ export const findLineIntersections = async (
 };
 
 // ========================================================
-// RECUPERER LES ARRETS ET LIGNES (Fonctions secondaires)
+// RÉCUPÉRER LES ARRÊTS ET LIGNES (Fonctions secondaires)
 // ========================================================
 export const fetchOSMStops = async (limit?: number) => {
   try {
@@ -205,7 +203,7 @@ function getClosestStop(
 }
 
 // ========================================================
-// MOTEUR D'ITINERAIRE (RECHERCHE RAPIDE)
+// MOTEUR D'ITINÉRAIRE (RECHERCHE RAPIDE)
 // ========================================================
 export const findRoute = async (
   startLat: number,
@@ -218,8 +216,8 @@ export const findRoute = async (
     const startLines = await findNearbyLines(startLat, startLng, 700);
     const endLines = await findNearbyLines(endLat, endLng, 700);
 
-    console.log('Lignes départ :', startLines.length);
-    console.log('Lignes arrivée :', endLines.length);
+    console.log('📍 Lignes départ :', startLines.length);
+    console.log('📍 Lignes arrivée :', endLines.length);
 
     if (startLines.length === 0 || endLines.length === 0) {
       return {
@@ -274,7 +272,7 @@ export const findRoute = async (
     const startLinesStopsCache: Record<string, any[]> = {};
     const endLinesStopsCache: Record<string, any[]> = {};
 
-        await Promise.all([
+    await Promise.all([
       ...startLines.map(async (l: any) => {
         startLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
       }),
@@ -282,7 +280,6 @@ export const findRoute = async (
         endLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
       }),
     ]);
-    
 
     // On parcourt les combinaisons pour trouver une correspondance commune
     for (const sLine of startLines) {
@@ -356,5 +353,17 @@ export const findRoute = async (
       steps: [],
       totalDuration: 0,
       totalPrice: 0,
-        type: 'none',message: 'Aucune ligne directe ou avec correspondance trouvée',};} catch (error) {console.error('❌ Erreur findRoute :', error);return {steps: [],totalDuration: 0,totalPrice: 0,type: 'none',message: 'Erreur lors de la recherche',};}};
-
+      type: 'none',
+      message: 'Aucune ligne directe ou avec correspondance trouvée',
+    };
+  } catch (error) {
+    console.error('❌ Erreur findRoute :', error);
+    return {
+      steps: [],
+      totalDuration: 0,
+      totalPrice: 0,
+      type: 'none',
+      message: 'Erreur lors de la recherche',
+    };
+  }
+};
