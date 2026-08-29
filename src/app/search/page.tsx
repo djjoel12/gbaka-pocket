@@ -5,6 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { geocodeWithOSM, findRoute, RouteResult } from "@/utils/routeUtils";
 import { supabase } from "@/lib/supabase";
+import "leaflet/dist/leaflet.css";
 
 // ✅ Import du composant de carte (client uniquement)
 const SearchMap = dynamic(
@@ -187,7 +188,7 @@ export default function SearchPage() {
       {/* Carte + Résultats */}
       <div className="flex-1 flex flex-col lg:flex-row relative min-h-[500px]">
         {/* Carte */}
-        <div className="flex-1 h-[400px] lg:h-auto bg-[#0a0e17] relative">
+        <div className="flex-1 h-[400px] lg:h-auto min-h-[400px] bg-[#0a0e17] relative">
           <SearchMap
             startCoords={startCoords}
             endCoords={endCoords}
@@ -262,4 +263,4 @@ export default function SearchPage() {
       </div>
     </div>
   );
-      }
+                }
