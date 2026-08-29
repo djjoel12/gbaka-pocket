@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { geocodeWithOSM, findRoute, RouteResult } from "@/utils/routeUtils";
-import { supabase } from '@/lib/supabase';
+import { supabase } from "@/lib/supabase";
 import dynamic from "next/dynamic";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Import dynamique de la carte (pas de SSR)
+// ✅ Carte chargée UNIQUEMENT côté client
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
   { ssr: false }
@@ -34,57 +34,31 @@ const Popup = dynamic(
   { ssr: false }
 );
 
-// Icône personnalisée pour les marqueurs
-const startIcon = L.divIcon({
-  html: `
-    <div style="
-      background: #22C55E; 
-      border-radius: 50%; 
-      width: 16px; 
-      height: 16px; 
-      border: 3px solid white;
-      box-shadow: 0 0 20px rgba(34,197,94,0.6);
-    ">
-    </div>
-  `,
-  className: "",
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-});
-
-const endIcon = L.divIcon({
-  html: `
-    <div style="
-      background: #EF4444; 
-      border-radius: 50%; 
-      width: 16px; 
-      height: 16px; 
-      border: 3px solid white;
-      box-shadow: 0 0 20px rgba(239,68,68,0.6);
-    ">
-    </div>
-  `,
-  className: "",
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-});
-
-const transferIcon = L.divIcon({
-  html: `
-    <div style="
-      background: #F59E0B; 
-      border-radius: 50%; 
-      width: 14px; 
-      height: 14px; 
-      border: 2px solid white;
-      box-shadow: 0 0 15px rgba(245,158,11,0.5);
-    ">
-    </div>
-  `,
-  className: "",
-  iconSize: [14, 14],
-  iconAnchor: [7, 7],
-});
+// ✅ Icônes créées APRÈS le chargement (côté client)
+const getIcons = () => {
+  if (typeof window === "undefined") return { startIcon: null, endIcon: null, transferIcon: null };
+  
+  return {
+    startIcon: L.divIcon({
+      html: `<div style="background:#22C55E;border-radius:50%;width:16px;height:16px;border:3px solid white;box-shadow:0 0 20px rgba(34,197,94,0.6);"></div>`,
+      className: "",
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    }),
+    endIcon: L.divIcon({
+      html: `<div style="background:#EF4444;border-radius:50%;width:16px;height:16px;border:3px solid white;box-shadow:0 0 20px rgba(239,68,68,0.6);"></div>`,
+      className: "",
+      iconSize: [16, 16],
+      iconAnchor: [8, 8],
+    }),
+    transferIcon: L.divIcon({
+      html: `<div style="background:#F59E0B;border-radius:50%;width:14px;height:14px;border:2px solid white;box-shadow:0 0 15px rgba(245,158,11,0.5);"></div>`,
+      className: "",
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    }),
+  };
+};
 
 export default function SearchPage() {
   const [start, setStart] = useState("");
@@ -96,10 +70,15 @@ export default function SearchPage() {
   const [endCoords, setEndCoords] = useState<{lat: number, lng: number, name: string} | null>(null);
   const [lineGeometry, setLineGeometry] = useState<any>(null);
   const [transferPoints, setTransferPoints] = useState<any[]>([]);
-  const [stopPoints, setStopPoints] = useState<any[]>([]);
   const [mapCenter, setMapCenter] = useState<[number, number]>([5.36, -4.02]);
+  const [isMounted, setIsMounted] = useState(false);
 
   const mapRef = useRef<any>(null);
+
+  // ✅ Marquer le composant comme monté (côté client)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleSearch = async () => {
     if (!start.trim() || !end.trim()) {
@@ -112,10 +91,8 @@ export default function SearchPage() {
     setResult(null);
     setLineGeometry(null);
     setTransferPoints([]);
-    setStopPoints([]);
 
     try {
-      // 1. Géocoder
       const startResults = await geocodeWithOSM(start);
       const endResults = await geocodeWithOSM(end);
 
@@ -148,10 +125,6 @@ export default function SearchPage() {
 
       setMapCenter([startPlace.latitude, startPlace.longitude]);
 
-      console.log("📍 Départ:", startPlace);
-      console.log("📍 Arrivée:", endPlace);
-
-      // 2. Recherche d'itinéraire
       const route = await findRoute(
         startPlace.latitude,
         startPlace.longitude,
@@ -161,11 +134,9 @@ export default function SearchPage() {
 
       setResult(route);
 
-      // 3. Charger la géométrie de la ligne pour la carte
       if (route.type !== 'none' && route.steps.length > 0) {
-        const busStep = route.steps.find(s => s.type === 'bus');
+        const busStep = route.steps.find((s: any) => s.type === 'bus');
         if (busStep && busStep.lineId) {
-          // Récupérer la géométrie de la ligne depuis Supabase
           const { data, error } = await supabase
             .from('transport_lines')
             .select('geometry')
@@ -177,10 +148,8 @@ export default function SearchPage() {
           }
         }
 
-        // Points de correspondance
-        const transferSteps = route.steps.filter(s => s.type === 'transfer');
+        const transferSteps = route.steps.filter((s: any) => s.type === 'transfer');
         if (transferSteps.length > 0) {
-          // Géocoder les noms des arrêts de correspondance
           const points = [];
           for (const step of transferSteps) {
             if (step.fromStop) {
@@ -214,6 +183,9 @@ export default function SearchPage() {
       default: return '❌ Aucun itinéraire';
     }
   };
+
+  // ✅ Récupérer les icônes (uniquement côté client)
+  const icons = isMounted ? getIcons() : { startIcon: null, endIcon: null, transferIcon: null };
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col">
@@ -273,9 +245,9 @@ export default function SearchPage() {
 
       {/* Carte + Résultats */}
       <div className="flex-1 flex flex-col lg:flex-row relative min-h-[500px]">
-        {/* Carte */}
+        {/* Carte - UNIQUEMENT côté client */}
         <div className="flex-1 h-[400px] lg:h-auto bg-[#0a0e17] relative">
-          {typeof window !== "undefined" && (
+          {isMounted && (
             <MapContainer
               center={mapCenter}
               zoom={14}
@@ -288,9 +260,8 @@ export default function SearchPage() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
-              {/* Point de départ */}
-              {startCoords && (
-                <Marker position={[startCoords.lat, startCoords.lng]} icon={startIcon}>
+              {startCoords && icons.startIcon && (
+                <Marker position={[startCoords.lat, startCoords.lng]} icon={icons.startIcon}>
                   <Popup>
                     <div className="text-sm font-bold text-green-600">🚀 Départ</div>
                     <div className="text-xs text-gray-500">{startCoords.name}</div>
@@ -298,9 +269,8 @@ export default function SearchPage() {
                 </Marker>
               )}
 
-              {/* Point d'arrivée */}
-              {endCoords && (
-                <Marker position={[endCoords.lat, endCoords.lng]} icon={endIcon}>
+              {endCoords && icons.endIcon && (
+                <Marker position={[endCoords.lat, endCoords.lng]} icon={icons.endIcon}>
                   <Popup>
                     <div className="text-sm font-bold text-red-600">🏁 Arrivée</div>
                     <div className="text-xs text-gray-500">{endCoords.name}</div>
@@ -308,7 +278,6 @@ export default function SearchPage() {
                 </Marker>
               )}
 
-              {/* Tracé de la ligne */}
               {lineGeometry && (
                 <Polyline
                   positions={lineGeometry.coordinates.map((c: any) => [c[1], c[0]])}
@@ -318,9 +287,8 @@ export default function SearchPage() {
                 />
               )}
 
-              {/* Points de correspondance */}
               {transferPoints.map((p, i) => (
-                <Marker key={i} position={[p.lat, p.lng]} icon={transferIcon}>
+                <Marker key={i} position={[p.lat, p.lng]} icon={icons.transferIcon}>
                   <Popup>
                     <div className="text-sm font-bold text-orange-500">🔄 Correspondance</div>
                     <div className="text-xs text-gray-500">{p.name}</div>
@@ -396,4 +364,4 @@ export default function SearchPage() {
       </div>
     </div>
   );
-    }
+}
