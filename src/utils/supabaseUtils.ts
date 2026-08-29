@@ -264,20 +264,26 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
 // ======================================================
 // RÉCUPÉRER LES ARRÊTS OSM
 // ======================================================
+// ======================================================
+// RÉCUPÉRER LES ARRÊTS OSM
+// ======================================================
 
-export const fetchOSMStops = async () => {
+export const fetchOSMStops = async (limit?: number) => {
   try {
-    const { data, error } = await supabase
-      .from("osm_stops")
-      .select("*")
-      .limit(100); // ✅ On commence avec 100 arrêts pour tester
+    let query = supabase.from("osm_stops").select("*");
+    
+    if (limit) {
+      query = query.limit(limit);
+    }
+    
+    const { data, error } = await query;
 
     if (error) {
       console.error("❌ Erreur osm_stops:", error);
       throw error;
     }
 
-    console.log(`🚏 ${data?.length || 0} arrêts récupérés`);
+    console.log(`🚏 ${data?.length || 0} arrêts OSM récupérés`);
     return data || [];
   } catch (error) {
     console.error("❌ fetchOSMStops:", error);
