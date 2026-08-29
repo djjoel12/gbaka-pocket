@@ -267,14 +267,15 @@ export const findRoute = async (
     const startLinesStopsCache: Record<string, any[]> = {};
     const endLinesStopsCache: Record<string, any[]> = {};
 
-    await Promise.all([
-      ...startLines.map(async (l) => {
+        await Promise.all([
+      ...startLines.map(async (l: any) => {
         startLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
       }),
-      ...endLines.map(async (l) => {
+      ...endLines.map(async (l: any) => {
         endLinesStopsCache[l.line_id] = await findLineStops(l.line_id, 200);
       }),
     ]);
+    
 
     // On parcourt les combinaisons pour trouver une correspondance commune
     for (const sLine of startLines) {
