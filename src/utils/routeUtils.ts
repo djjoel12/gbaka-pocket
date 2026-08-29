@@ -129,15 +129,15 @@ export const findRoute = async (
     // ------------------------------------------
     // CAS DU TRAJET DIRECT
     // ------------------------------------------
+     // CAS DU TRAJET DIRECT
     if (bestRoute.type_trajet === 'direct') {
       const duration = Math.max(10, Math.round((bestRoute.total_distance / 1000) * 4));
-      
       return {
         steps: [
           {
             type: 'bus',
             lineId: bestRoute.line1_id,
-            lineName: bestRoute.line1_name,
+            lineName: bestRoute.line1_name, // On utilise bien lineName pour ton écran
             fromStop: bestRoute.start_stop_name,
             toStop: bestRoute.end_stop_name,
             duration: duration,
@@ -150,19 +150,16 @@ export const findRoute = async (
       };
     }
 
-    // ------------------------------------------
-    // CAS DU TRAJET AVEC CORRESPONDANCE (1 CHANGEMENT)
-    // ------------------------------------------
+    // CAS AVEC CORRESPONDANCE
     const duration1 = Math.max(10, Math.round((bestRoute.dist_bus1 / 1000) * 4));
     const duration2 = Math.max(10, Math.round((bestRoute.dist_bus2 / 1000) * 4));
-    const totalDuration = duration1 + duration2 + 5; // +5 minutes de marche transfert
 
     return {
       steps: [
         {
           type: 'bus',
           lineId: bestRoute.line1_id,
-          lineName: bestRoute.line1_name,
+          lineName: bestRoute.line1_name, // Premier bus
           fromStop: bestRoute.start_stop_name,
           toStop: bestRoute.transfer_stop_name,
           duration: duration1,
@@ -178,26 +175,15 @@ export const findRoute = async (
         {
           type: 'bus',
           lineId: bestRoute.line2_id,
-          lineName: bestRoute.line2_name,
+          lineName: bestRoute.line2_name, // Deuxième bus
           fromStop: bestRoute.transfer_stop_name,
           toStop: bestRoute.end_stop_name,
           duration: duration2,
           price: 250,
         },
       ],
-      totalDuration: totalDuration,
+      totalDuration: duration1 + duration2 + 5,
       totalPrice: 500,
       type: 'one_transfer',
     };
-
-  } catch (error) {
-    console.error('❌ Erreur findRoute :', error);
-    return {
-      steps: [],
-      totalDuration: 0,
-      totalPrice: 0,
-      type: 'none',
-      message: 'Erreur lors de la recherche du trajet.',
-    };
-  }
-};
+    
