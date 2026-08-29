@@ -29,7 +29,7 @@ export interface RouteResult {
 export const geocodeWithOSM = async (query: string) => {
   try {
     const response = await fetch(
-      `https://openstreetmap.org{encodeURIComponent(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
         query
       )}&format=json&limit=5&countrycodes=ci&accept-language=fr`,
       {
