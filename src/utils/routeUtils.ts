@@ -31,7 +31,13 @@ export const geocodeWithOSM = async (query: string) => {
     const response = await fetch(
       `https://openstreetmap.org{encodeURIComponent(
         query
-      )}&format=json&limit=5&countrycodes=ci&accept-language=fr`
+      )}&format=json&limit=5&countrycodes=ci&accept-language=fr`,
+      {
+        headers: {
+          // MODIFICATION ICI : On donne un nom à l'application pour qu'OpenStreetMap accepte la requête
+          'User-Agent': 'GbakaPocketApp/1.0 (contact: votre-email@example.com)'
+        }
+      }
     );
     const data = await response.json();
 
@@ -50,6 +56,7 @@ export const geocodeWithOSM = async (query: string) => {
     return [];
   }
 };
+
 
 // ========================================================
 // RPC SUPABASE (Appels à la base de données)
