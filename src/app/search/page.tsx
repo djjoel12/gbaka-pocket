@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { geocodeWithOSM, findRoute, RouteResult } from "@/utils/routeUtils";
+import { supabase } from '@/lib/supabase';
 import dynamic from "next/dynamic";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
