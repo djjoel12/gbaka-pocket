@@ -272,8 +272,9 @@ export default function Home() {
                         <div className="flex items-start gap-3">
                           <span className="text-lg">🚌</span>
                           <div>
-                            <p className="font-medium text-white">{step.lineName}</p>
-                            <p className="text-xs text-white/60">📌 {step.fromStop} → {step.toStop}</p>
+                            <p className="font-medium text-white">{step.lineName || "Ligne de transport"}</p>
+                            <span className="text-xs text-white/60">{step.fromStop} ➔ {step.toStop}</span>
+                            
                             <p className="text-xs text-white/40">{step.duration} min • {step.price} FCFA</p>
                           </div>
                         </div>
