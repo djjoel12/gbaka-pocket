@@ -139,7 +139,6 @@ function calculateDistance(
 }
 
 function estimateDuration(distanceMeters: number): number {
-  // \~5 min par km + minimum 10 min
   return Math.max(10, Math.round((distanceMeters / 1000) * 5));
 }
 
@@ -165,7 +164,7 @@ function getClosestStop(
 }
 
 // ============================================
-// MOTEUR D'ITINÉRAIRE (basé sur les coordonnées)
+// MOTEUR D'ITINÉRAIRE
 // ============================================
 export const findRoute = async (
   startLat: number,
@@ -174,7 +173,6 @@ export const findRoute = async (
   endLng: number
 ): Promise<RouteResult> => {
   try {
-    // 1. Lignes proches du départ et de l'arrivée (coords)
     const startLines = await findNearbyLines(startLat, startLng, 700);
     const endLines = await findNearbyLines(endLat, endLng, 700);
 
@@ -192,8 +190,7 @@ export const findRoute = async (
     }
 
     // ============================================
-    // ÉTAPE A — TRAJET DIRECT
-    // Une même ligne passe près du départ ET de l'arrivée
+    // TRAJET DIRECT
     // ============================================
     for (const sLine of startLines) {
       for (const eLine of endLines) {
@@ -227,9 +224,7 @@ export const findRoute = async (
     }
 
     // ============================================
-    // ÉTAPE B — 1 CORRESPONDANCE
-    // Ligne A près du départ + Ligne B près de l'arrivée
-    // qui se croisent à un arrêt commun
+    // 1 CORRESPONDANCE
     // ============================================
     let bestTransfer: RouteResult | null = null;
 
@@ -245,7 +240,6 @@ export const findRoute = async (
 
         if (intersections.length === 0) continue;
 
-        // Prendre l'intersection la plus "centrale"
         const transferStop = intersections[0];
 
         const stopsA = await findLineStops(sLine.line_id, 200);
@@ -287,8 +281,6 @@ export const findRoute = async (
           type: 'one_transfer',
         };
 
-        // On garde la première correspondance trouvée
-        // (plus tard on pourra classer par distance)
         if (!bestTransfer) {
           bestTransfer = result;
         }
@@ -300,7 +292,7 @@ export const findRoute = async (
     }
 
     // ============================================
-    // ÉTAPE C — RIEN TROUVÉ
+    // RIEN TROUVÉ
     // ============================================
     return {
       steps: [],
