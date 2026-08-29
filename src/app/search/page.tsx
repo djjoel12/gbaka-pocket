@@ -36,7 +36,9 @@ const Popup = dynamic(
 
 // ✅ Icônes créées APRÈS le chargement (côté client)
 const getIcons = () => {
-  if (typeof window === "undefined") return { startIcon: null, endIcon: null, transferIcon: null };
+  if (typeof window === "undefined") {
+    return { startIcon: null, endIcon: null, transferIcon: null };
+  }
   
   return {
     startIcon: L.divIcon({
@@ -260,6 +262,7 @@ export default function SearchPage() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
 
+              {/* Point de départ */}
               {startCoords && icons.startIcon && (
                 <Marker position={[startCoords.lat, startCoords.lng]} icon={icons.startIcon}>
                   <Popup>
@@ -269,6 +272,7 @@ export default function SearchPage() {
                 </Marker>
               )}
 
+              {/* Point d'arrivée */}
               {endCoords && icons.endIcon && (
                 <Marker position={[endCoords.lat, endCoords.lng]} icon={icons.endIcon}>
                   <Popup>
@@ -278,6 +282,7 @@ export default function SearchPage() {
                 </Marker>
               )}
 
+              {/* Tracé de la ligne */}
               {lineGeometry && (
                 <Polyline
                   positions={lineGeometry.coordinates.map((c: any) => [c[1], c[0]])}
@@ -287,13 +292,16 @@ export default function SearchPage() {
                 />
               )}
 
+              {/* Points de correspondance */}
               {transferPoints.map((p, i) => (
-                <Marker key={i} position={[p.lat, p.lng]} icon={icons.transferIcon}>
-                  <Popup>
-                    <div className="text-sm font-bold text-orange-500">🔄 Correspondance</div>
-                    <div className="text-xs text-gray-500">{p.name}</div>
-                  </Popup>
-                </Marker>
+                icons.transferIcon && (
+                  <Marker key={i} position={[p.lat, p.lng]} icon={icons.transferIcon}>
+                    <Popup>
+                      <div className="text-sm font-bold text-orange-500">🔄 Correspondance</div>
+                      <div className="text-xs text-gray-500">{p.name}</div>
+                    </Popup>
+                  </Marker>
+                )
               ))}
             </MapContainer>
           )}
@@ -364,4 +372,4 @@ export default function SearchPage() {
       </div>
     </div>
   );
-}
+  }
