@@ -1,66 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { geocodeWithOSM, findRoute, RouteResult } from "@/utils/routeUtils";
 import { supabase } from "@/lib/supabase";
-import dynamic from "next/dynamic";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
-// ✅ Carte chargée UNIQUEMENT côté client
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
+// ✅ Import du composant de carte (client uniquement)
+const SearchMap = dynamic(
+  () => import("@/components/search/SearchMap"),
   { ssr: false }
 );
-
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
-);
-
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
-);
-
-const Polyline = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Polyline),
-  { ssr: false }
-);
-
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
-
-// ✅ Icônes créées APRÈS le chargement (côté client)
-const getIcons = () => {
-  if (typeof window === "undefined") {
-    return { startIcon: null, endIcon: null, transferIcon: null };
-  }
-  
-  return {
-    startIcon: L.divIcon({
-      html: `<div style="background:#22C55E;border-radius:50%;width:16px;height:16px;border:3px solid white;box-shadow:0 0 20px rgba(34,197,94,0.6);"></div>`,
-      className: "",
-      iconSize: [16, 16],
-      iconAnchor: [8, 8],
-    }),
-    endIcon: L.divIcon({
-      html: `<div style="background:#EF4444;border-radius:50%;width:16px;height:16px;border:3px solid white;box-shadow:0 0 20px rgba(239,68,68,0.6);"></div>`,
-      className: "",
-      iconSize: [16, 16],
-      iconAnchor: [8, 8],
-    }),
-    transferIcon: L.divIcon({
-      html: `<div style="background:#F59E0B;border-radius:50%;width:14px;height:14px;border:2px solid white;box-shadow:0 0 15px rgba(245,158,11,0.5);"></div>`,
-      className: "",
-      iconSize: [14, 14],
-      iconAnchor: [7, 7],
-    }),
-  };
-};
 
 export default function SearchPage() {
   const [start, setStart] = useState("");
@@ -73,14 +23,6 @@ export default function SearchPage() {
   const [lineGeometry, setLineGeometry] = useState<any>(null);
   const [transferPoints, setTransferPoints] = useState<any[]>([]);
   const [mapCenter, setMapCenter] = useState<[number, number]>([5.36, -4.02]);
-  const [isMounted, setIsMounted] = useState(false);
-
-  const mapRef = useRef<any>(null);
-
-  // ✅ Marquer le composant comme monté (côté client)
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleSearch = async () => {
     if (!start.trim() || !end.trim()) {
@@ -186,9 +128,6 @@ export default function SearchPage() {
     }
   };
 
-  // ✅ Récupérer les icônes (uniquement côté client)
-  const icons = isMounted ? getIcons() : { startIcon: null, endIcon: null, transferIcon: null };
-
   return (
     <div className="min-h-screen bg-[#0a0a0f] text-white flex flex-col">
       {/* Header */}
@@ -247,64 +186,15 @@ export default function SearchPage() {
 
       {/* Carte + Résultats */}
       <div className="flex-1 flex flex-col lg:flex-row relative min-h-[500px]">
-        {/* Carte - UNIQUEMENT côté client */}
+        {/* Carte */}
         <div className="flex-1 h-[400px] lg:h-auto bg-[#0a0e17] relative">
-          {isMounted && (
-            <MapContainer
-              center={mapCenter}
-              zoom={14}
-              className="h-full w-full"
-              style={{ background: "#0a0e17" }}
-              ref={mapRef}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-
-              {/* Point de départ */}
-              {startCoords && icons.startIcon && (
-                <Marker position={[startCoords.lat, startCoords.lng]} icon={icons.startIcon}>
-                  <Popup>
-                    <div className="text-sm font-bold text-green-600">🚀 Départ</div>
-                    <div className="text-xs text-gray-500">{startCoords.name}</div>
-                  </Popup>
-                </Marker>
-              )}
-
-              {/* Point d'arrivée */}
-              {endCoords && icons.endIcon && (
-                <Marker position={[endCoords.lat, endCoords.lng]} icon={icons.endIcon}>
-                  <Popup>
-                    <div className="text-sm font-bold text-red-600">🏁 Arrivée</div>
-                    <div className="text-xs text-gray-500">{endCoords.name}</div>
-                  </Popup>
-                </Marker>
-              )}
-
-              {/* Tracé de la ligne */}
-              {lineGeometry && (
-                <Polyline
-                  positions={lineGeometry.coordinates.map((c: any) => [c[1], c[0]])}
-                  color="#3B82F6"
-                  weight={4}
-                  opacity={0.9}
-                />
-              )}
-
-              {/* Points de correspondance */}
-              {transferPoints.map((p, i) => (
-                icons.transferIcon && (
-                  <Marker key={i} position={[p.lat, p.lng]} icon={icons.transferIcon}>
-                    <Popup>
-                      <div className="text-sm font-bold text-orange-500">🔄 Correspondance</div>
-                      <div className="text-xs text-gray-500">{p.name}</div>
-                    </Popup>
-                  </Marker>
-                )
-              ))}
-            </MapContainer>
-          )}
+          <SearchMap
+            startCoords={startCoords}
+            endCoords={endCoords}
+            lineGeometry={lineGeometry}
+            transferPoints={transferPoints}
+            mapCenter={mapCenter}
+          />
         </div>
 
         {/* Résultats */}
@@ -372,4 +262,4 @@ export default function SearchPage() {
       </div>
     </div>
   );
-  }
+      }
