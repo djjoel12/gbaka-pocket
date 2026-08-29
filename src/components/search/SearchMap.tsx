@@ -49,10 +49,21 @@ export default function SearchMap({
 
   useEffect(() => {
     setIsMounted(true);
+    console.log("✅ SearchMap monté");
+    console.log("🗺️ mapCenter:", mapCenter);
+    console.log("📍 startCoords:", startCoords);
+    console.log("📍 endCoords:", endCoords);
   }, []);
 
   if (!isMounted) {
-    return <div className="h-full w-full bg-[#0a0e17] flex items-center justify-center text-white/40">Chargement de la carte...</div>;
+    return (
+      <div className="h-full w-full bg-[#0a0e17] flex items-center justify-center text-white/40">
+        <div className="text-center">
+          <div className="text-4xl mb-2">🗺️</div>
+          <p>Chargement de la carte...</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -60,7 +71,7 @@ export default function SearchMap({
       center={mapCenter}
       zoom={14}
       className="h-full w-full"
-      style={{ background: "#0a0e17" }}
+      style={{ background: "#0a0e17", height: "100%", width: "100%" }}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -104,4 +115,4 @@ export default function SearchMap({
       ))}
     </MapContainer>
   );
-              }
+}
