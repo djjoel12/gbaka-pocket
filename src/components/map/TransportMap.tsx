@@ -27,6 +27,8 @@ type TransportMapProps = {
   historicalStops?: StopPoint[];
   transportLines?: any[];
   osmStops?: any[];
+  searchedLine?: any;
+  showResult?: boolean;
 };
 
 const defaultPosition: [number, number] = [5.3364, -4.0267];
@@ -115,6 +117,8 @@ export default function TransportMap({
   historicalStops = [],
   transportLines = [],
   osmStops = [],
+  searchedLine = null,
+  showResult = false,
 }: TransportMapProps) {
 
   const lastPoint = points.length > 0 ? points[points.length - 1] : null;
@@ -149,44 +153,54 @@ export default function TransportMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?label_color=ffffff"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* ===== ARRÊTS OSM ===== */}
-        {osmStops?.map((stop) => (
+        {/* ========================================================= */}
+        {/* ===== ARRÊTS OSM (TOUJOURS VISIBLES) ===== */}
+        {/* ========================================================= */}
+        {osmStops.map((stop, index) => (
           <Marker
-            key={stop.id}
-            position={[stop.latitude, stop.longitude]}  // ✅ Ces colonnes existent
+            key={stop.id || `osm-${index}`}
+            position={[stop.latitude, stop.longitude]}
             icon={osmStopIcon}
           >
             <Popup>
               <div className="text-sm">
                 <p className="font-bold">{stop.name || "Arrêt sans nom"}</p>
-                {stop.operator && (
-                  <p className="text-xs text-gray-500">🚌 {stop.operator}</p>
-                )}
-                {stop.status && (
-                  <p className="text-xs text-gray-500">📌 {stop.status}</p>
-                )}
+                <p className="text-xs text-gray-500">🚏 Arrêt de bus</p>
               </div>
             </Popup>
           </Marker>
         ))}
 
-        {/* ===== LIGNES DE TRANSPORT ===== */}
-        {transportLines?.map((line) => (
+        {/* ========================================================= */}
+        {/* ===== LIGNE RECHERCHÉE (UNIQUEMENT SI RÉSULTAT) ===== */}
+        {/* ========================================================= */}
+        {showResult && searchedLine && searchedLine.geometry && (
           <GeoJSON
-            key={line.id}
-            data={line.geometry}
+            key={searchedLine.id}
+            data={searchedLine.geometry}
+            style={() => ({
+              color: "#3B82F6",
+              weight: 6,
+              opacity: 0.95,
+            })}
           />
-        ))}
+        )}
 
-        {routePositions.length > 1 && (
+        {/* ========================================================= */}
+        {/* ===== POINTS DE DÉPART ET ARRIVÉE (SI RÉSULTAT) ===== */}
+        {/* ========================================================= */}
+        {showResult && searchedLine && (
           <>
-            <Polyline positions={routePositions} color="#3B82F6" weight={20} opacity={0.12} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#3B82F6" weight={10} opacity={0.2} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#3B82F6" weight={5} opacity={0.85} lineJoin="round" lineCap="round" />
-            <Polyline positions={routePositions} color="#60A5FA" weight={2} opacity={0.6} lineJoin="round" lineCap="round" dashArray="10 14" />
+            {livePosition && (
+              <Marker position={[livePosition.latitude, livePosition.longitude]} icon={startIcon}>
+                <Popup>
+                  <div className="text-sm font-bold text-green-600">🚀 Départ</div>
+                </Popup>
+              </Marker>
+            )}
           </>
         )}
 
