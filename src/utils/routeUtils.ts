@@ -10,7 +10,7 @@ export const geocodeWithOSM = async (query: string) => {
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=3&countrycodes=ci&accept-language=fr`
     );
     const data = await response.json();
-    
+
     if (data && data.length > 0) {
       return data.map((item: any) => ({
         name: item.display_name,
@@ -30,14 +30,13 @@ export const geocodeWithOSM = async (query: string) => {
 // ============================================
 // TROUVER LES LIGNES PROCHES D'UN POINT
 // ============================================
-export const findNearbyLines = async (lat: number, lng: number, radius: number = 200) => {
+export const findNearbyLines = async (lat: number, lng: number, radius: number = 600) => {
   try {
-    const { data, error } = await supabase
-      .rpc('find_nearby_lines', {
-        lat: lat,
-        lng: lng,
-        radius_meters: radius
-      });
+    const { data, error } = await supabase.rpc('find_nearby_lines', {
+      lat,
+      lng,
+      radius_meters: radius
+    });
 
     if (error) {
       console.error('❌ Erreur findNearbyLines:', error);
@@ -54,13 +53,12 @@ export const findNearbyLines = async (lat: number, lng: number, radius: number =
 // ============================================
 // TROUVER LES ARRÊTS D'UNE LIGNE
 // ============================================
-export const findLineStops = async (lineId: string, radius: number = 50) => {
+export const findLineStops = async (lineId: string, radius: number = 150) => {
   try {
-    const { data, error } = await supabase
-      .rpc('find_line_stops', {
-        line_id: lineId,
-        radius_meters: radius
-      });
+    const { data, error } = await supabase.rpc('find_line_stops', {
+      line_id: lineId,
+      radius_meters: radius
+    });
 
     if (error) {
       console.error('❌ Erreur findLineStops:', error);
@@ -77,14 +75,17 @@ export const findLineStops = async (lineId: string, radius: number = 50) => {
 // ============================================
 // TROUVER LES INTERSECTIONS DE 2 LIGNES
 // ============================================
-export const findLineIntersections = async (line1Id: string, line2Id: string, radius: number = 50) => {
+export const findLineIntersections = async (
+  line1Id: string,
+  line2Id: string,
+  radius: number = 200
+) => {
   try {
-    const { data, error } = await supabase
-      .rpc('find_line_intersections', {
-        line1_id: line1Id,
-        line2_id: line2Id,
-        radius_meters: radius
-      });
+    const { data, error } = await supabase.rpc('find_line_intersections', {
+      line1_id: line1Id,
+      line2_id: line2Id,
+      radius_meters: radius
+    });
 
     if (error) {
       console.error('❌ Erreur findLineIntersections:', error);
@@ -129,24 +130,31 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
   const phi2 = (lat2 * Math.PI) / 180;
   const deltaPhi = ((lat2 - lat1) * Math.PI) / 180;
   const deltaLambda = ((lon2 - lon1) * Math.PI) / 180;
-  const a = Math.sin(deltaPhi/2)**2 + Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda/2)**2;
-  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * R;
+  const a =
+    Math.sin(deltaPhi / 2) ** 2 +
+    Math.cos(phi1) * Math.cos(phi2) * Math.sin(deltaLambda / 2) ** 2;
+  return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * R;
 }
 
 function estimateDuration(dist1: number, dist2: number): number {
   const avgDist = (dist1 + dist2) / 2;
-  return Math.max(10, Math.round(avgDist / 1000 * 5));
+  return Math.max(10, Math.round((avgDist / 1000) * 5));
 }
 
 // ============================================
-// TROUVER UN ITINÉRAIRE COMPLET (CORRIGÉ)
+// TROUVER UN ITINÉRAIRE COMPLET
 // ============================================
-export const findRoute = async (startLat: number, startLng: number, endLat: number, endLng: number): Promise<RouteResult> => {
+export const findRoute = async (
+  startLat: number,
+  startLng: number,
+  endLat: number,
+  endLng: number
+): Promise<RouteResult> => {
   try {
-    // 1. Trouver les lignes proches du départ
-    const startLines = await findNearbyLines(startLat, startLng, 200);
-    // 2. Trouver les lignes proches de l'arrivée
-    const endLines = await findNearbyLines(endLat, endLng, 200);
+    // 1. Lignes proches du départ
+    const startLines = await findNearbyLines(startLat, startLng, 600);
+    // 2. Lignes proches de l'arrivée
+    const endLines = await findNearbyLines(endLat, endLng, 600);
 
     if (startLines.length === 0 || endLines.length === 0) {
       return {
@@ -158,19 +166,18 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
       };
     }
 
-    // 3. Vérifier les intersections entre les lignes de départ et d'arrivée
+    // 3. Chercher un trajet
     for (const startLine of startLines) {
       for (const endLine of endLines) {
+        // ✅ LIGNE DIRECTE
         if (startLine.line_id === endLine.line_id) {
-          // ✅ LIGNE DIRECTE
-          const stops = await findLineStops(startLine.line_id, 50);
-          
-          // ✅ CORRECTION : Typage explicite des paramètres
-          const startStop = stops.find((s: any) => 
-            calculateDistance(startLat, startLng, s.latitude, s.longitude) < 100
+          const stops = await findLineStops(startLine.line_id, 150);
+
+          const startStop = stops.find(
+            (s: any) => calculateDistance(startLat, startLng, s.latitude, s.longitude) < 200
           );
-          const endStop = stops.find((s: any) => 
-            calculateDistance(endLat, endLng, s.latitude, s.longitude) < 100
+          const endStop = stops.find(
+            (s: any) => calculateDistance(endLat, endLng, s.latitude, s.longitude) < 200
           );
 
           return {
@@ -191,19 +198,23 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
           };
         }
 
-        // 🔄 VÉRIFIER LES INTERSECTIONS
-        const intersections = await findLineIntersections(startLine.line_id, endLine.line_id, 50);
+        // 🔄 CORRESPONDANCE
+        const intersections = await findLineIntersections(
+          startLine.line_id,
+          endLine.line_id,
+          200
+        );
+
         if (intersections.length > 0) {
           const stop = intersections[0];
-          const stops1 = await findLineStops(startLine.line_id, 50);
-          const stops2 = await findLineStops(endLine.line_id, 50);
-          
-          // ✅ CORRECTION : Typage explicite des paramètres
-          const startStop = stops1.find((s: any) => 
-            calculateDistance(startLat, startLng, s.latitude, s.longitude) < 100
+          const stops1 = await findLineStops(startLine.line_id, 150);
+          const stops2 = await findLineStops(endLine.line_id, 150);
+
+          const startStop = stops1.find(
+            (s: any) => calculateDistance(startLat, startLng, s.latitude, s.longitude) < 200
           );
-          const endStop = stops2.find((s: any) => 
-            calculateDistance(endLat, endLng, s.latitude, s.longitude) < 100
+          const endStop = stops2.find(
+            (s: any) => calculateDistance(endLat, endLng, s.latitude, s.longitude) < 200
           );
 
           return {
@@ -243,7 +254,7 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
       }
     }
 
-    // ❌ AUCUN ITINÉRAIRE TROUVÉ
+    // ❌ AUCUN ITINÉRAIRE
     return {
       steps: [
         {
@@ -260,7 +271,6 @@ export const findRoute = async (startLat: number, startLng: number, endLat: numb
       type: 'none',
       message: 'Aucune ligne directe ou avec correspondance trouvée'
     };
-
   } catch (error) {
     console.error('❌ Erreur findRoute:', error);
     return {
