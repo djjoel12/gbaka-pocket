@@ -150,7 +150,7 @@ export const findRoute = async (
       };
     }
 
-    // CAS AVEC CORRESPONDANCE
+        // CAS AVEC CORRESPONDANCE
     const duration1 = Math.max(10, Math.round((bestRoute.dist_bus1 / 1000) * 4));
     const duration2 = Math.max(10, Math.round((bestRoute.dist_bus2 / 1000) * 4));
 
@@ -186,5 +186,14 @@ export const findRoute = async (
       totalPrice: 500,
       type: 'one_transfer',
     };
-  } // <--- Assure-toi que cette accolade ferme le bloc "catch"
+  } catch (error) {
+    console.error("❌ Erreur dans findRoute :", error);
+    return {
+      steps: [],
+      totalDuration: 0,
+      totalPrice: 0,
+      type: 'none',
+      message: "Une erreur est survenue lors du calcul de l'itinéraire.",
+    };
+  }
 };
