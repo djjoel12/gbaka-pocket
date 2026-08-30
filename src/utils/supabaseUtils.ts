@@ -297,19 +297,22 @@ export const fetchOSMStops = async (limit?: number) => {
 // ✅ RÉCUPÉRER LES LIGNES DE TRANSPORT (AJOUT)
 // ======================================================
 
+// ======================================================
+// RÉCUPÉRER TOUTES LES LIGNES DE TRANSPORT
+// ======================================================
+
 export const fetchTransportLines = async () => {
   try {
     const { data, error } = await supabase
       .from("transport_lines")
-      .select("*")
-      .limit(1);
+      .select("*");
 
     if (error) {
       console.error("❌ Erreur transport_lines:", error);
       throw error;
     }
 
-    console.log(`🚌 ${data?.length || 0} ligne(s) récupérée(s)`);
+    console.log(`🚌 ${data?.length || 0} lignes récupérées`);
     return data || [];
   } catch (error) {
     console.error("❌ fetchTransportLines:", error);
