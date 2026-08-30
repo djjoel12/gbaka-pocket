@@ -35,6 +35,7 @@ export default function Home() {
   const [points] = useState<GPSPoint[]>([]);
   const [livePosition] = useState<GPSPoint | null>(null);
   const [osmStops, setOsmStops] = useState<any[]>([]);
+  const [transportLines, setTransportLines] = useState<any[]>([]);  // ✅ AJOUT
   const [searchedLine, setSearchedLine] = useState<any>(null);
   const [showResult, setShowResult] = useState(false);
   
@@ -50,18 +51,6 @@ export default function Home() {
   const mapRef = useRef<any>(null);
 
 
-  useEffect(() => {
-  const loadTransportLines = async () => {
-    try {
-      const lines = await fetchTransportLines();
-      console.log(`🚌 ${lines.length} lignes chargées`);
-      setTransportLines(lines);
-    } catch (error) {
-      console.error('❌ Erreur lignes transport:', error);
-    }
-  };
-  loadTransportLines();
-}, []);
 
   // ============================================
   // CHARGEMENT DES ARRÊTS OSM UNIQUEMENT
@@ -77,6 +66,23 @@ export default function Home() {
       }
     };
     loadOSMStops();
+  }, []);
+
+  
+  // ============================================
+  // CHARGEMENT DES LIGNES DE TRANSPORT
+  // ============================================
+  useEffect(() => {
+    const loadTransportLines = async () => {
+      try {
+        const lines = await fetchTransportLines();
+        console.log(`🚌 ${lines.length} lignes chargées`);
+        setTransportLines(lines);
+      } catch (error) {
+        console.error('❌ Erreur lignes transport:', error);
+      }
+    };
+    loadTransportLines();
   }, []);
 
   // ============================================
