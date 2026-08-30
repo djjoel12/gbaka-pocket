@@ -264,6 +264,30 @@ export const fetchHistoricalStops = async (): Promise<StopPoint[]> => {
 // ======================================================
 // RÉCUPÉRER LES ARRÊTS OSM
 // ======================================================
+
+
+// ======================================================
+// RÉCUPÉRER TOUTES LES LIGNES DE TRANSPORT
+// ======================================================
+
+export const fetchTransportLines = async () => {
+  try {
+    const { data, error } = await supabase
+      .from("transport_lines")
+      .select("*");
+
+    if (error) {
+      console.error("❌ Erreur transport_lines:", error);
+      throw error;
+    }
+
+    console.log(`🚌 ${data?.length || 0} lignes récupérées`);
+    return data || [];
+  } catch (error) {
+    console.error("❌ fetchTransportLines:", error);
+    return [];
+  }
+};
 // ======================================================
 // RÉCUPÉRER LES ARRÊTS OSM
 // ======================================================
@@ -301,21 +325,3 @@ export const fetchOSMStops = async (limit?: number) => {
 // RÉCUPÉRER TOUTES LES LIGNES DE TRANSPORT
 // ======================================================
 
-export const fetchTransportLines = async () => {
-  try {
-    const { data, error } = await supabase
-      .from("transport_lines")
-      .select("*");
-
-    if (error) {
-      console.error("❌ Erreur transport_lines:", error);
-      throw error;
-    }
-
-    console.log(`🚌 ${data?.length || 0} lignes récupérées`);
-    return data || [];
-  } catch (error) {
-    console.error("❌ fetchTransportLines:", error);
-    return [];
-  }
-};
