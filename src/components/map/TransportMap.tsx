@@ -94,23 +94,6 @@ const stopIcon = createIcon("#F59E0B", "📍", false);
 const manualStopIcon = createIcon("#8B5CF6", "📍", false);
 const poiIcon = createIcon("#F59E0B", "📍", false);
 
-const osmStopIcon = L.divIcon({
-  html: `
-    <div style="
-      background: #3B82F6; 
-      border-radius: 50%; 
-      width: 12px; 
-      height: 12px; 
-      border: 2px solid white;
-      box-shadow: 0 0 10px rgba(59,130,246,0.5);
-    ">
-    </div>
-  `,
-  className: "",
-  iconSize: [12, 12],
-  iconAnchor: [6, 6],
-});
-
 const historicalStopIcon = L.divIcon({
   html: `
     <div style="
@@ -210,22 +193,8 @@ export default function TransportMap({
         })}
 
         {/* ========================================================= */}
-        {/* ===== ARRÊTS OSM ===== */}
+        {/* ===== ARRÊTS OSM - SUPPRIMÉS ===== */}
         {/* ========================================================= */}
-        {osmStops.map((stop, index) => (
-          <Marker
-            key={stop.id || `osm-${index}`}
-            position={[stop.latitude, stop.longitude]}
-            icon={osmStopIcon}
-          >
-            <Popup>
-              <div className="text-sm">
-                <p className="font-bold">{stop.name || "Arrêt sans nom"}</p>
-                <p className="text-xs text-gray-500">🚏 Arrêt de bus</p>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
 
         {firstPoint && (
           <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon}>
@@ -321,4 +290,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-                }
+         }
