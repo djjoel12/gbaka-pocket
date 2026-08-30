@@ -34,6 +34,32 @@ type TransportMapProps = {
 const defaultPosition: [number, number] = [5.3364, -4.0267];
 
 // ============================================
+// PALETTE DE COULEURS POUR LES LIGNES
+// ============================================
+const LINE_COLORS = [
+  "#3B82F6", // Bleu
+  "#EF4444", // Rouge
+  "#22C55E", // Vert
+  "#F59E0B", // Orange
+  "#8B5CF6", // Violet
+  "#EC4899", // Rose
+  "#06B6D4", // Cyan
+  "#F97316", // Orange foncé
+  "#14B8A6", // Turquoise
+  "#6366F1", // Indigo
+  "#84CC16", // Vert lime
+  "#D946EF", // Magenta
+  "#0EA5E9", // Bleu ciel
+  "#E11D48", // Rouge foncé
+  "#65A30D", // Vert olive
+  "#9333EA", // Violet foncé
+  "#0891B2", // Cyan foncé
+  "#EA580C", // Orange brûlé
+  "#4F46E5", // Bleu indigo
+  "#DB2777", // Rose foncé
+];
+
+// ============================================
 // CRÉATION D'ICÔNES
 // ============================================
 
@@ -107,6 +133,10 @@ const historicalStopIcon = L.divIcon({
   iconAnchor: [22, 22],
 });
 
+// ============================================
+// COMPOSANT PRINCIPAL
+// ============================================
+
 export default function TransportMap({
   points,
   livePosition,
@@ -141,6 +171,11 @@ export default function TransportMap({
     }
   }, [onMapReady]);
 
+  // ============================================
+  // AFFICHAGE DE TOUTES LES LIGNES AVEC COULEURS
+  // ============================================
+  const displayLines = showResult && searchedLine ? [searchedLine] : transportLines;
+
   return (
     <div className="relative isolate h-full w-full overflow-hidden">
       <MapContainer
@@ -157,7 +192,25 @@ export default function TransportMap({
         />
 
         {/* ========================================================= */}
-        {/* ===== ARRÊTS OSM (TOUJOURS VISIBLES) ===== */}
+        {/* ===== TOUTES LES LIGNES AVEC COULEURS DIFFÉRENTES ===== */}
+        {/* ========================================================= */}
+        {displayLines.map((line, index) => {
+          const color = LINE_COLORS[index % LINE_COLORS.length];
+          return (
+            <GeoJSON
+              key={line.id}
+              data={line.geometry}
+              style={() => ({
+                color: color,
+                weight: 4,
+                opacity: 0.85,
+              })}
+            />
+          );
+        })}
+
+        {/* ========================================================= */}
+        {/* ===== ARRÊTS OSM ===== */}
         {/* ========================================================= */}
         {osmStops.map((stop, index) => (
           <Marker
@@ -173,36 +226,6 @@ export default function TransportMap({
             </Popup>
           </Marker>
         ))}
-
-        {/* ========================================================= */}
-        {/* ===== LIGNE RECHERCHÉE (UNIQUEMENT SI RÉSULTAT) ===== */}
-        {/* ========================================================= */}
-        {showResult && searchedLine && searchedLine.geometry && (
-          <GeoJSON
-            key={searchedLine.id}
-            data={searchedLine.geometry}
-            style={() => ({
-              color: "#3B82F6",
-              weight: 6,
-              opacity: 0.95,
-            })}
-          />
-        )}
-
-        {/* ========================================================= */}
-        {/* ===== POINTS DE DÉPART ET ARRIVÉE (SI RÉSULTAT) ===== */}
-        {/* ========================================================= */}
-        {showResult && searchedLine && (
-          <>
-            {livePosition && (
-              <Marker position={[livePosition.latitude, livePosition.longitude]} icon={startIcon}>
-                <Popup>
-                  <div className="text-sm font-bold text-green-600">🚀 Départ</div>
-                </Popup>
-              </Marker>
-            )}
-          </>
-        )}
 
         {firstPoint && (
           <Marker position={[firstPoint.latitude, firstPoint.longitude]} icon={startIcon}>
@@ -298,4 +321,4 @@ export default function TransportMap({
       </MapContainer>
     </div>
   );
-  }
+                }
