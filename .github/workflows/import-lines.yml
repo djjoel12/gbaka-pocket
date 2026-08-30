@@ -1,26 +1,31 @@
-name: Importer les arrêts de transport
+name: VTC Database Sync
 
 on:
-  workflow_dispatch:
+  push:
+    paths:
+      - 'data/**' # S'exécute dès que vous ajoutez un fichier .json dans le dossier data
 
 jobs:
-  import:
+  run-import:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Récupérer le code
-        uses: actions/checkout@v5
+      - name: 📁 Récupérer le code du dépôt
+        uses: actions/checkout@v4
 
-      - name: Installer Node.js
-        uses: actions/setup-node@v5
+      - name: 🟢 Configurer l'environnement Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: '20'
 
-      - name: Installer les dépendances
-        run: npm install
+      - name: 📦 Installer le client Supabase
+        run: |
+          npm init -y
+          npm install @supabase/supabase-js
 
-      - name: Lancer l'import des arrêts
-        run: npx tsx scripts/importStopsFromCsv.ts
+      - name: 🚀 Lancer la conversion et l'importation PostGIS
         env:
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node import.js
+        
