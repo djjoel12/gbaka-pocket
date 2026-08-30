@@ -2,11 +2,12 @@ import fs from "fs";
 import path from "path";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// Lecture des variables identiques à celles des arrêts
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error("❌ Variables d'environnement Supabase manquantes dans GitHub Secrets");
+  console.error("❌ Variables d'environnement NEXT_PUBLIC_SUPABASE manquantes dans le processus.");
   process.exit(1);
 }
 
@@ -21,7 +22,7 @@ if (!fs.existsSync(dataDir)) {
 const files = fs.readdirSync(dataDir).filter(file => file.endsWith(".json"));
 
 if (files.length === 0) {
-  console.log("📂 Aucun fichier .json trouvé dans le dossier /data.");
+  console.log("📂 Aucun fichier .json trouvé.");
   process.exit(0);
 }
 
@@ -34,7 +35,7 @@ async function startImport() {
     const elements = osmData.elements || [];
     const relations = elements.filter(elem => elem.type === "relation");
     
-    console.log(`📦 ${relations.length} lignes de transport détectées dans ${file}.`);
+    console.log(`📦 ${relations.length} lignes de transport détectées.`);
 
     for (let i = 0; i < relations.length; i++) {
       const rel = relations[i];
@@ -56,11 +57,11 @@ async function startImport() {
       }
 
       if ((i + 1) % 10 === 0 || i === relations.length - 1) {
-        console.log(`⚡ Progression dans ${file} : ${i + 1}/${relations.length} lignes traitées`);
+        console.log(`⚡ Progression ${file} : ${i + 1}/${relations.length}`);
       }
     }
   }
-  console.log("🎉 Fin de l'importation. Vos itinéraires VTC sont prêts et indexés !");
+  console.log("🎉 Fin de l'importation automatique !");
 }
 
 startImport();
