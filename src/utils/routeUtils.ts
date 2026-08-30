@@ -188,4 +188,3 @@ export const findRoute = async (
     };
   } // <--- Assure-toi que cette accolade ferme le bloc "catch"
 };
-    
