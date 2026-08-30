@@ -16,7 +16,7 @@ jobs:
       - name: 🟢 Configurer l'environnement Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22' # Version moderne 22 recommandée par Supabase en 2026
+          node-version: '22' # Version moderne stable requise par Supabase en 2026
 
       - name: 📦 Installer le client Supabase
         run: |
@@ -25,7 +25,8 @@ jobs:
 
       - name: 🚀 Lancer la conversion et l'importation PostGIS
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          # On fait correspondre le script avec les vrais noms de vos secrets GitHub
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: node import.js
         
