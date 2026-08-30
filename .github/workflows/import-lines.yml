@@ -3,7 +3,7 @@ name: VTC Database Sync
 on:
   push:
     paths:
-      - 'data/**' # S'exécute dès que vous ajoutez un fichier .json dans le dossier data
+      - 'data/**' # S'exécute automatiquement dès qu'un fichier bouge dans data
 
 jobs:
   run-import:
@@ -11,22 +11,22 @@ jobs:
 
     steps:
       - name: 📁 Récupérer le code du dépôt
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: 🟢 Configurer l'environnement Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '22' # Obligatoire pour Supabase en 2026 (ignore l'alerte EBADENGINE)
+          node-version: 22
 
-      - name: 📦 Installer le client Supabase
+      - name: 📦 Installer les dépendances
         run: |
           npm init -y
           npm install @supabase/supabase-js
 
       - name: 🚀 Lancer la conversion et l'importation PostGIS
         env:
-          # On lie le script JS directement à vos deux vrais secrets existants
-          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # On utilise EXACTEMENT les mêmes variables que le script des arrêts
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: node import.js
         
