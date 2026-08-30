@@ -3,10 +3,10 @@ import path from "path";
 import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY; // Utilisation de la clé Anon
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
-  console.error("❌ Variables d'environnement Supabase (URL ou Anon Key) manquantes dans GitHub Secrets");
+  console.error("❌ Variables d'environnement Supabase manquantes dans GitHub Secrets");
   process.exit(1);
 }
 
@@ -41,7 +41,6 @@ async function startImport() {
       const tags = rel.tags || {};
       const waysWithGeometry = (rel.members || []).filter(m => m.type === "way" && m.geometry);
 
-      // Appel RPC
       const { error } = await supabase.rpc("import_osm_transport_line", {
         p_external_id: `relation/${rel.id}`,
         p_name: tags.name || `Ligne sans nom (${rel.id})`,
@@ -60,7 +59,6 @@ async function startImport() {
         console.log(`⚡ Progression dans ${file} : ${i + 1}/${relations.length} lignes traitées`);
       }
     }
-    console.log(`✅ Fichier ${file} entièrement traité.`);
   }
   console.log("🎉 Fin de l'importation. Vos itinéraires VTC sont prêts et indexés !");
 }
