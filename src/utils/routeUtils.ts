@@ -186,4 +186,6 @@ export const findRoute = async (
       totalPrice: 500,
       type: 'one_transfer',
     };
+  } // <--- Assure-toi que cette accolade ferme le bloc "catch"
+};
     
