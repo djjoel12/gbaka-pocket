@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { fetchOSMStops } from "@/utils/supabaseUtils";
 import { geocodeWithOSM, findRoute, RouteResult } from "@/utils/routeUtils";
+import { fetchTransportLines } from "@/utils/supabaseUtils";
 import { supabase } from "@/lib/supabase";
 
 const TransportMap = dynamic(
