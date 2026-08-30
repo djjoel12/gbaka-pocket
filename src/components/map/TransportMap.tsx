@@ -177,20 +177,32 @@ export default function TransportMap({
         {/* ========================================================= */}
         {/* ===== TOUTES LES LIGNES AVEC COULEURS DIFFÉRENTES ===== */}
         {/* ========================================================= */}
-        {displayLines.map((line, index) => {
-          const color = LINE_COLORS[index % LINE_COLORS.length];
-          return (
-            <GeoJSON
-              key={line.id}
-              data={line.geometry}
-              style={() => ({
-                color: color,
-                weight: 4,
-                opacity: 0.85,
-              })}
-            />
-          );
-        })}
+      {/* ========================================================= */}
+{/* ===== TOUTES LES LIGNES AVEC COULEURS ET POPUPS ===== */}
+{/* ========================================================= */}
+{displayLines.map((line, index) => {
+  const color = LINE_COLORS[index % LINE_COLORS.length];
+  return (
+    <GeoJSON
+      key={line.id}
+      data={line.geometry}
+      style={() => ({
+        color: color,
+        weight: 4,
+        opacity: 0.85,
+      })}
+      onEachFeature={(feature, layer) => {
+        layer.bindPopup(`
+          <div class="text-sm">
+            <p class="font-bold text-white">🚌 ${line.name || "Ligne sans nom"}</p>
+            ${line.type ? `<p class="text-xs text-gray-500">🏷️ Type: ${line.type}</p>` : ""}
+            ${line.distance ? `<p class="text-xs text-gray-500">📏 Distance: ${line.distance} km</p>` : ""}
+          </div>
+        `);
+      }}
+    />
+  );
+})}
 
         {/* ========================================================= */}
         {/* ===== ARRÊTS OSM - SUPPRIMÉS ===== */}
