@@ -181,6 +181,7 @@ export default function Home() {
           osmStops={osmStops}
           searchedLine={searchedLine}
           showResult={showResult}
+          transportLines={transportLines}  // ✅ AJOUTE CETTE LIGNE
         />
       </div>
 
