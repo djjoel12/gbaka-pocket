@@ -196,39 +196,40 @@ export default function TransportMap({
       })}
       onEachFeature={(feature, layer) => {
         layer.bindPopup(`
-          <div class="p-1 min-w-[200px] font-sans antialiased text-slate-800 dark:text-slate-100">
-            <!-- Header avec badge de couleur -->
-            <div class="flex items-center gap-2 pb-2 mb-2 border-b border-slate-100 dark:border-slate-700/60">
-              <span class="w-3 h-3 rounded-full shrink-0 shadow-sm" style="background-color: ${color};"></span>
-              <h3 class="font-bold text-sm tracking-tight text-slate-900 dark:text-white m-0">
-                ${lineName}
-              </h3>
-            </div>
-            
-            <!-- Corps des informations -->
-            <div class="space-y-1.5 text-xs">
-              ${line.type ? `
-                <div class="flex items-center justify-between gap-4 py-0.5">
-                  <span class="text-slate-400 dark:text-slate-500 font-medium">Type de réseau</span>
-                  <span class="px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold rounded-md uppercase tracking-wider text-[10px]">
-                    ${line.type}
-                  </span>
-                </div>
-              ` : ""}
-              
-              <!-- Exemple d'informations additionnelles si elles existent dans votre objet 'line' -->
-              ${line.operator ? `
-                <div class="flex items-center justify-between gap-4 py-0.5">
-                  <span class="text-slate-400 dark:text-slate-500 font-medium">Opérateur</span>
-                  <span class="text-slate-700 dark:text-slate-200 font-medium">${line.operator}</span>
-                </div>
-              ` : ""}
-            </div>
-          </div>
-        `, {
-          className: 'custom-leaflet-popup', // Optionnel : pour appliquer des ombres globales en CSS si besoin
-          maxWidth: 280
-        });
+  <div class="p-1 min-w-[200px] font-sans antialiased text-slate-800">
+    <!-- Header avec badge de couleur -->
+    <div class="flex items-center gap-2 pb-2 mb-2 border-b border-slate-200">
+      <span class="w-3 h-3 rounded-full shrink-0 shadow-sm" style="background-color: ${color};"></span>
+      <!-- ✅ Remplacement de text-slate-900 / dark:text-white par text-slate-900 ferme -->
+      <h3 class="font-bold text-sm tracking-tight text-slate-900 m-0 p-0" style="color: #0f172a !important;">
+        ${lineName}
+      </h3>
+    </div>
+    
+    <!-- Corps des informations -->
+    <div class="space-y-1.5 text-xs">
+      ${line.type ? `
+        <div class="flex items-center justify-between gap-4 py-0.5">
+          <span class="text-slate-500 font-medium">Type de réseau</span>
+          <span class="px-2 py-0.5 bg-slate-100 text-slate-800 font-bold rounded-md uppercase tracking-wider text-[10px]">
+            ${line.type}
+          </span>
+        </div>
+      ` : ""}
+      
+      ${line.operator ? `
+        <div class="flex items-center justify-between gap-4 py-0.5">
+          <span class="text-slate-500 font-medium">Opérateur</span>
+          <!-- ✅ Forçage d'une couleur sombre (text-slate-800) au lieu de text-slate-700/dark:text-200 -->
+          <span class="text-slate-800 font-semibold">${line.operator}</span>
+        </div>
+      ` : ""}
+    </div>
+  </div>
+`, {
+  maxWidth: 280
+});
+        
       }}
     />
   );
