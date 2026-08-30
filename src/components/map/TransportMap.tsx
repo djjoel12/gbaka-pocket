@@ -179,9 +179,12 @@ export default function TransportMap({
         {/* ========================================================= */}
       {/* ========================================================= */}
 {/* ===== TOUTES LES LIGNES AVEC COULEURS ET POPUPS ===== */}
-{/* ========================================================= */}
+
 {displayLines.map((line, index) => {
   const color = LINE_COLORS[index % LINE_COLORS.length];
+  // ✅ Récupère le nom, peu importe où il est
+  const lineName = line.name || line.line_name || "Ligne sans nom";
+  
   return (
     <GeoJSON
       key={line.id}
@@ -194,16 +197,14 @@ export default function TransportMap({
       onEachFeature={(feature, layer) => {
         layer.bindPopup(`
           <div class="text-sm">
-            <p class="font-bold text-white">🚌 ${line.name || "Ligne sans nom"}</p>
+            <p class="font-bold text-white">🚌 ${lineName}</p>
             ${line.type ? `<p class="text-xs text-gray-500">🏷️ Type: ${line.type}</p>` : ""}
-            ${line.distance ? `<p class="text-xs text-gray-500">📏 Distance: ${line.distance} km</p>` : ""}
           </div>
         `);
       }}
     />
   );
 })}
-
         {/* ========================================================= */}
         {/* ===== ARRÊTS OSM - SUPPRIMÉS ===== */}
         {/* ========================================================= */}
