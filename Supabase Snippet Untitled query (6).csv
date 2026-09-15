@@ -1,0 +1,978 @@
+id,name,lat_a,lng_a,lat_b,lng_b
+19a5c07a-6c8a-4ed8-90aa-18bd52ef6730,gbaka : Carrefour N'dotré → Samake,5.4433,-4.0694,5.4434,-4.0692
+6baf823d-e261-46c1-9f2e-9c039a736093,gbaka : Adjamé Liberté → Abobo Gare Mairie,5.3553,-4.0161,5.4192,-4.0148
+724baf63-432e-43b8-a1af-e4c74bce8a9d,gbaka : Treichville Gare de Bassam → Adjamé Liberté,5.2997,-4.0025,5.3534,-4.0161
+678d9a03-194b-4d52-9311-bfa17eca1a21,gbaka : Gare Anyama → Gendarmerie,5.4807,-4.0533,5.4274,-4.0216
+0c43af5b-ca6e-4a28-8f1f-47cddc9d1816,woro woro : Toit rouge Jean-Paul 2 → Sapeur Pompier,5.3306,-4.0474,5.3288,-4.0607
+6feb2fd4-12f5-4854-b84c-ec25feb9d9a6,gbaka : Angré Petro Ivoire → Abobo Gare,5.4213,-4.0154,5.4046,-3.9923
+0794757c-8ff8-462b-ae6d-3e313ccb0f75,woro woro : Sapeur Pompier → Toit rouge Jean-Paul 2,5.3306,-4.0474,5.3288,-4.0607
+a25a6826-103b-4d8a-99cc-64edf12a848f,woro woro : CIE → Soweto,5.286,-3.9514,5.2826,-3.9681
+dca6ca4a-f6bf-48b1-b584-d455d7e540d7,gbaka : Songon Agban → Siporex,5.3211,-4.2316,5.3177,-4.1968
+0cdd2327-cfe3-4704-bbc0-564ab240bba9,gbaka : Adjamé gare en haut → Cocody Attoban Camp,5.3504,-4.0227,5.3706,-3.9762
+75a472d3-b513-4e53-a6b1-9ff6e2289c8b,woro woro : Angré Terminus 81-82 → Riviera 2,5.3538,-3.9778,5.4029,-3.9853
+13e644e5-20f1-464e-acc4-cafd6c461290,gbaka : Cocody Riviera 2 → Adjamé Liberté,5.353,-3.9797,5.3528,-4.0128
+6e0edd4b-4075-4d79-98f2-cc1def652bfa,woro woro : Riviera 2 → Angré Terminus 81-82,5.3538,-3.9778,5.4033,-3.9853
+237d68ab-10b6-4a9e-b3cf-98f9964e2691,woro woro banalisé : Mairie d'Adjamé → Plateau Mosquée,5.3418,-4.0262,5.3242,-4.0242
+5fc40084-9c26-4769-9364-91a59fcdd92f,gbaka : Adjamé Liberté → Cocody Riviera 2,5.3534,-4.0146,5.353,-3.9789
+7c680360-89da-44aa-8f73-f664875f44b5,woro woro : Angré 22ème → Riviera 2,5.3538,-3.9775,5.398,-3.9905
+f6c92dbd-533e-4665-967e-9bfd02a3ac6d,woro woro : Riviera 2 → Angré 22ème,5.3538,-3.9778,5.398,-3.9905
+6c0203ac-e155-488d-bc9f-94b8cde3b963,woro woro : Riviera 2 → Attoban Camp,5.3538,-3.9778,5.3706,-3.9762
+0d270b3b-3f31-4aca-844b-1efb02f09aa7,woro woro : Attoban Camp → Riviera 2,5.3706,-3.9762,5.3538,-3.9778
+7a4038d0-6e24-4eb1-9a8b-9055f5b21157,woro woro : Vallon → Zoo,5.3644,-3.9898,5.3782,-4.0063
+8b97df7b-09dd-4362-964d-70bca357a38a,woro woro : Soweto → CIE,5.286,-3.9514,5.2826,-3.9681
+270dc7c6-a189-4b28-8306-49ad7653c18e,woro woro : Zoo → Vallon,5.3644,-3.9897,5.3782,-4.0063
+52c452f8-6841-4e08-8b5a-964ec62e964f,woro woro : Sococe Deux plateaux → Zoo,5.3736,-3.9985,5.3786,-4.0062
+c16d6560-03fc-42c7-a5b3-2e1dbc1fd887,gbaka : Cocody Riviera M'pouto → Adjamé gare en haut,5.3578,-3.9645,5.3503,-4.0225
+ecde6cdf-860b-48d2-a889-95b260920db5,woro woro : Zoo → Sococe Deux plateaux,5.3736,-3.9985,5.378,-4.0061
+854fa1fa-4d64-498c-b4cb-99f0eb400ca5,woro woro : Abobo Doumé → Toit rouge Jean-Paul 2,5.3307,-4.0474,5.3146,-4.0352
+217ffc5d-5f30-4810-ba48-16f86fbc3b31,gbaka: Gare Abobo Kennedy → Kennedy Marché,5.4223,-4.0164,5.4237,-4.0015
+fe26db78-69db-4221-a79c-ff927016ef11,gbaka : Cocody Akouédo → Adjamé gare en haut,5.3578,-3.9645,5.3503,-4.0225
+373081bd-b39a-42c5-92b1-4b8118c4e9c7,woro woro banalisé : Port Bouet → 9 kilo,5.2576,-3.9729,5.2661,-3.9616
+41857ad0-c991-438e-b83c-43a83bcc4d0f,gbaka: Kennedy Mosquée Ado → Gare Abobo Kennedy,5.4219,-4.0166,5.4236,-3.9978
+d04a86ab-5a79-4fc1-b905-5ede815c2559,woro woro : 8e Tranche CNPS en haut → Abobo Azur Mobile,5.3789,-3.9718,5.4,-4.0059
+59bc9fba-0c55-45fb-aa65-1103823183df,woro woro : Les Rosiers → Palmeraie,5.3604,-3.9618,5.3809,-3.9647
+c848fefa-b1c3-40a8-a4ef-e8bb21871fd9,woro woro : Palmeraie → Les Rosiers,5.3604,-3.9618,5.3813,-3.9648
+999c6d88-05aa-40ba-9121-048d38206a05,woro woro : Palmeraie SIPIM 4 → Carrefour 9km,5.3661,-3.9605,5.3661,-3.9605
+e07e78db-cecd-4633-96ed-c39f5f448972,woro woro : Abobo Azur Mobil → Angré Château,5.4,-4.0062,5.4152,-3.9773
+28442f4e-415a-4dcd-b1cb-9c69d660878c,woro woro : Carrefour 9km → Palmeraie SIPIM 4,5.3609,-3.962,5.3783,-3.9593
+ca18d597-8b13-4be8-8ed6-49293ce6f9e8,woro woro : Aghien → Zoo,5.3854,-3.9942,5.3786,-4.0062
+d7a64c24-f825-4593-901d-83a9a8b6e9bd,woro woro : Saint Jean → Abobo Azur Mobil,5.3334,-4.0042,5.4,-4.0059
+c18df89b-fa58-45bd-9db1-51fbc4aba8ad,woro woro : Zoo → Aghien,5.3864,-4.0006,5.3782,-4.0063
+7977f261-046a-4657-98e4-bcea43902bb7,woro woro : Attoban → Zoo,5.3674,-3.9795,5.3786,-4.0062
+47ca0ce3-bbce-4a83-a376-ded5a3a0639c,gbaka : Akouedo Attié → Adjamé gare en haut,5.3502,-4.023,5.3506,-4.023
+3bff6cc5-fdae-4d3b-8dd9-b6c21a596940,woro woro banalisé : Plateau Longchamp → Mairie d'Adjamé,5.3245,-4.0221,5.3418,-4.0262
+624755c7-b529-4559-93b3-ae98df1dc4c6,woro woro : Zoo → Attoban,5.3674,-3.9795,5.3782,-4.0063
+4f917e70-4517-4bb4-9aab-9b08c0890823,woro woro : Riviera 2 → Saint Jean,5.3527,-3.9768,5.336,-4.0036
+c9db93f9-cd99-4f01-96d6-5078998f7215,gbaka : Belle Ville → Angré Pétro Ivoire,5.4316,-3.9889,5.405,-3.9907
+fba1b259-5142-4e7a-948d-dd42e757ea0d,woro woro : Saint Jean → Riviera 2,5.3359,-4.0036,5.3375,-3.976
+a2a71d6c-52d0-43ab-8619-01aa195d12f1,woro woro : Angré Château → Saint Jean,5.4153,-3.9774,5.3365,-4.004
+5715f91a-05a5-4d4f-8ff4-f72c221eea19,woro woro : Saint Jean → Angré Château,5.3365,-4.0039,5.4152,-3.9773
+7e7452e7-4390-4604-bc8e-7a1d60f288f5,woro woro : Angré Pétro Ivoire → Saint Jean,5.4042,-3.9908,5.3365,-4.004
+775984d1-0622-4bd2-8c32-72550f3fb1f3,woro woro : Saint Jean → Angré Pétro Ivoire,5.3365,-4.0039,5.4046,-3.9907
+f6b176b3-a92a-42a1-8e63-719b65fa7d50,woro woro : Abobo Gare → Angré Petro Ivoire,5.4214,-4.0154,5.4046,-3.9923
+a15a39be-ab28-4ef0-b66e-c26f68dad06f,woro woro : Terminus 81-82 → Palmeraie,5.36,-3.9617,5.4038,-3.9849
+3d5429a4-264c-427e-ae9c-d58e1fb38957,woro woro : Palmeraie → Abobo Azur Mobil,5.3604,-3.9618,5.4,-4.0062
+182b7944-9d10-4b2c-bf70-e21ec4dac465,woro woro : Palmeraie → Terminus 81-82,5.3604,-3.9618,5.4038,-3.9849
+67540f85-64c1-485d-a1c2-b9cbfb692c2d,woro woro : Akouédo → 9 kilo,5.3484,-3.941,5.3573,-3.9639
+99d47689-7fd5-4729-8e11-55e83d715414,woro woro : 9 kilo → Akouédo,5.3484,-3.941,5.3575,-3.964
+70d9b5fc-bd55-471a-897a-de3d6a74d798,woro woro : Ciad Eden → 9 kilo,5.3284,-3.9403,5.3573,-3.9639
+1b219fd0-570a-4483-baa1-7f67662fc53a,woro woro : 9 kilo → Ciad Eden,5.3284,-3.9403,5.3575,-3.964
+2af3010b-9096-4e96-81b0-857e7e5b0f56,gbaka : Centre Culturel → Angré Château,5.4209,-4.0144,5.4152,-3.9773
+dbbfb464-6d7c-437d-a0bb-378a7f965418,gbaka : Dokui Azur → Liberté,5.3999,-4.0065,5.3561,-4.016
+a066ac34-7305-4f83-b38d-d4010600f0c4,gbaka : Liberté → Dokui Azur,5.3553,-4.0161,5.3988,-4.0065
+2429e406-a1d1-4f97-a619-29628b208a3b,woro woro : Sol Beni au bateau STL → 9 kilo,5.3251,-3.9601,5.3573,-3.9639
+09bb36ba-40b8-4f34-b5d9-cbd383cccf9c,woro woro : 9 kilo → Sol Beni au bateau STL,5.3251,-3.9601,5.3575,-3.964
+18cc181a-663a-475b-ac6a-481a3571e02c,woro woro : Abri 2000 → Bonoumin,5.3748,-3.9705,5.3585,-3.9652
+4668ca87-03a4-48b9-bfad-2083da87fee5,woro woro : Bonoumin → Abri 2000,5.3585,-3.9652,5.3749,-3.9703
+b2ea91a2-07a8-424b-8a65-b534f3047322,gbaka : Liberté → CIE,5.3553,-4.0161,5.4195,-4.0154
+e7ae17f9-1c0b-4d44-843c-71e6d28943bf,woro woro : CHU Angré → Station après barage,5.3664,-3.9606,5.3662,-3.9606
+befb4f56-4995-4427-9fd6-1a60eafa53c7,woro woro : Station après barage → CHU Angré,5.3661,-3.9605,5.3661,-3.9605
+66c46f45-90ec-44df-930d-a19973fbc0ab,gbaka : Liberté → Rivera 2,5.3534,-4.015,5.3529,-3.977
+5d014336-ba7a-474c-8cab-304ca198a781,woro woro : Rosier Programme 6 → Station après barage,5.3963,-3.9692,5.3784,-3.9592
+eee04242-0713-4bb2-8b20-dd3cc54ed2f2,woro woro : Station après barage → Rosier Programme 6,5.3663,-3.9605,5.3963,-3.9692
+1100488c-1f99-4cc4-92af-530e7a34b00d,woro woro : Angré Petro Ivoire → Station après barage,5.3663,-3.9605,5.4044,-3.9901
+17cf5ae5-8ebe-4344-8254-5998562b7362,woro woro : Sable → Koweit,5.3553,-4.0656,5.3355,-4.0623
+9663eae2-41f8-4261-84b5-c9f781353aee,gbaka : Liberté → Samake,5.3553,-4.0161,5.4145,-4.0063
+e6e82abe-398c-4f34-9fe3-6f8e77fd4f96,woro woro : Station après barage → Angré Petro Ivoire,5.3664,-3.9606,5.4044,-3.9905
+b89a79d2-b210-4670-ae92-850043f5dedb,woro woro : Anono → Riviera 2,5.3396,-3.9751,5.3527,-3.9768
+7e0b0738-42f9-41d8-a8a8-4d6daa287bbc,woro woro : Riviera 2 → Anono,5.3396,-3.9751,5.3527,-3.9768
+dfbdd836-3719-4f1f-a5d6-70c3c4703028,gbaka : M'Badon → 9 kilo,5.3287,-3.9324,5.3565,-3.9629
+28649976-fd22-4cb4-a99c-b2383aff0d6d,gbaka : Lycée Moderne d'Abobo → Zoo,5.4271,-4.0146,5.379,-4.0069
+824ef04c-a918-4d3f-b429-86f7ebe9f5f0,gbaka : 9 kilo → M'Badon,5.3566,-3.9631,5.3287,-3.9324
+d7cc0842-9c01-48fe-a22d-cbe9800358b1,woro-woro : Gare Wôro-Wôrô 9 Kilo → Riviera 2 Station,5.3578,-3.9645,5.3513,-3.9762
+394a8348-3391-4fc8-b5e4-ebfe2184b002,woro-woro : Riviera 2 Station → 9 Kilo,5.3514,-3.9763,5.3574,-3.9643
+f8847e94-cd65-4865-8663-668accc8340d,woro woro : Blockhauss → Saint Jean,5.3251,-4.0016,5.3357,-4.0039
+d9469b92-166a-430d-8cd3-58cf9506ea8b,woro woro : Saint Jean → Blockhauss,5.3357,-4.0041,5.3251,-4.0015
+272f1ad7-7602-45fe-8061-859e1c544d0b,woro-woro : CHU de Cocody → Blockauss,5.3466,-3.9946,5.3251,-4.0015
+66cfa445-3db6-421d-812a-9a3adddf94ef,woro-woro : Blockauss → CHU de Cocody,5.3251,-4.0015,5.3463,-3.9928
+cf36d623-d176-4068-bb20-195931ab0f79,woro-woro : La vie → Blockauss,5.3481,-4.0026,5.3251,-4.0015
+28e63e84-6ca5-40e4-bd5c-a6461eb0794f,gbaka : Rivera 2 → Liberté,5.3529,-3.977,5.3527,-4.0144
+a608f058-a18a-4dc8-bd98-88d91ee106b0,woro-woro : Blockauss → La vie,5.3251,-4.0015,5.3481,-4.0025
+7a4bb1e1-c0b4-4fda-9853-43cfe91ae301,woro-woro : Pâtisserie → Blockauss,5.3251,-4.0015,5.3366,-4
+147144aa-9d6f-4ac1-b1c1-de159713c578,woro-woro : Blockauss → Pâtisserie,5.3251,-4.0015,5.3367,-4
+5aee3559-2e4a-4100-8e83-1e25af6f2524,woro-woro : Akouédo → Riviera 2 Station,5.3484,-3.941,5.3513,-3.9762
+0f97fa3a-4f69-448f-a6f9-fdeac868d27c,woro-woro : Riviera 2 Station → Akouédo,5.3514,-3.9763,5.3484,-3.941
+1cc20c80-2d24-4931-966c-682a377f72d4,woro woro : Pont Soro → Zoo,5.3782,-4.0063,5.3849,-3.983
+b1ce8c27-7aa3-4354-8174-15125373597b,gbaka : 9 Kilo → Djeni Kobenan,5.3577,-3.9645,5.362,-4.0173
+84bb8a55-771f-484c-8a93-aa8d0c854bdc,woro woro : Zoo → Pont Soro,5.3782,-4.0063,5.3849,-3.983
+7b37656c-08e4-43e8-98fe-83ceadf76388,woro woro : Cascades → Zoo,5.3786,-4.0062,5.3806,-3.9854
+d6a75e3a-3cad-4d70-a13d-59519752109f,woro woro banalisé : Mairie d'Adjamé → Plateau Longchamp,5.3245,-4.0221,5.3418,-4.0262
+e2f61d67-303e-4569-bbb7-6d31d9b8497f,gbaka : Adjamé en Haut → Abatta,5.3504,-4.0229,5.3502,-4.023
+57b15669-1251-4e83-9b6b-cefb2bbd9379,woro woro : Zoo → Cascades,5.3782,-4.0062,5.3806,-3.9854
+30812ac6-8a43-40a8-bc9c-72b084e221e0,woro woro : Zinssou → Zoo,5.3782,-4.0063,5.3837,-3.9824
+b375c6b0-899e-4bf5-a107-c20f395058c5,gbaka : Liberté → Palmeraie,5.3534,-4.015,5.361,-3.9597
+a7390611-7c0d-4edd-8e76-f41b59b5a95d,gbaka : Ecole de Police → Liberté,5.3501,-3.9893,5.3521,-4.017
+02ce848b-0e12-47a0-8d42-72d08f10efa3,woro woro : Zoo → Zinssou,5.3782,-4.0062,5.3837,-3.9824
+d1f4c9b1-ee2f-4f94-870c-f51017d2fe7f,woro woro : 2 Plateaux Vallons → Gare carrefour 2 Plateaux,5.3649,-4.0156,5.3618,-3.99
+8a97a505-4ff6-4812-8bc9-6a892a23c8ba,woro woro : Gare carrefour 2 Plateaux → 2 Plateaux Vallons,5.3649,-4.0156,5.3617,-3.9901
+b403ac87-dc33-438f-99b2-a73e5d713f58,woro woro : Commissariat du 12è → Gare carrefour 2 plateaux,5.3739,-3.9921,5.3649,-4.0156
+70a4a01a-c4f0-4a67-bce6-37e9cca514af,woro woro : Gare carrefour 2 plateaux → Commissariat du 12è,5.3739,-3.9921,5.3649,-4.0156
+b8d238c0-7364-478e-9fd2-231b6f8b6372,woro woro : Zoo → Opera,5.3853,-3.9928,5.3782,-4.0063
+fe1e8fb7-3aa3-4396-a016-2af5f34587e4,woro woro : Opera → Zoo,5.3853,-3.9928,5.3782,-4.0063
+ee7581f7-2269-4430-9df3-20cf1836e5b4,woro woro : Koweit → Sable,5.3553,-4.0656,5.3355,-4.0623
+36f43eb3-fe5c-4c83-b93a-1ec74446bee0,woro woro : 2 Plateaux Vallons → 2 Plateaux Mobile,5.3618,-3.99,5.3684,-3.9987
+c47655c9-fac5-47ae-a4c6-e92121ca984b,gbaka : Yopougon Académie → Yopougon Siporex,5.3533,-4.0741,5.3238,-4.1067
+e066b38e-c24e-42d9-be2e-bace35c46f5d,woro woro : 2 Plateaux Mobile → 2 Plateaux Vallons,5.3684,-3.9987,5.3617,-3.9901
+3f30085a-477d-4961-9a83-a26858447e4f,woro woro : Angré CNPS → 2 Plateaux Mobile,5.3834,-3.9737,5.3691,-3.9984
+65a999c2-6e83-4372-98b6-b8489b100131,woro woro : 2 Plateaux Mobile → Angré CNPS,5.369,-3.9982,5.3834,-3.9737
+4808d7ba-dceb-4382-8e63-939db12d9f60,woro woro : Abobo Doumé → Koweit,5.3222,-4.0541,5.3113,-4.0359
+79388fa5-8ee1-4c9e-b8c9-528d439aa32b,woro woro : 2 Plateaux Mobile → Abobo Azur Mobil,5.369,-3.9982,5.4,-4.0062
+b66d1e5f-2f91-4cd8-8d3b-ee94e96e2bae,woro woro : Angré Château → 2 Plateaux Mobile,5.4152,-3.9773,5.3682,-3.9983
+abb3aaed-ade5-4229-a8c4-5add2f1a5699,woro woro : 2 Plateaux Mobile → Angré Château,5.369,-3.9982,5.4152,-3.9773
+31323953-d4d4-4788-869c-0f4b2f4a31ed,gbaka : Yopougon Boissy → Adjame Agban,5.3344,-4.055,5.3292,-4.0497
+f984c00a-2a91-40e1-9fba-290575ab6bd0,woro woro : Angré Nouveau CHU → 2 Plateaux Mobile,5.3999,-3.9564,5.3691,-3.9984
+60cbe1f6-0bf4-4214-8b4f-c18e57245774,woro woro : 2 Plateaux Mobile → Angré Nouveau CHU,5.369,-3.9982,5.3997,-3.9565
+2c70660a-15c4-4d63-92fd-6fbc626d2114,woro woro : Mosquée de la Riviera 3 → Riviera 2 Station,5.3578,-3.9645,5.3513,-3.9762
+76a1d677-8b80-4c54-916c-141604881288,woro woro : Riviera 2 Station → Mosquée de la Riviera 3,5.3514,-3.9763,5.3493,-3.954
+7f701c5a-fce2-489e-aa0f-cfd4801b5885,woro woro : Belle Côte- Palmeraie → Warren/Comissariat,5.3873,-3.9691,5.3663,-3.9605
+b3db799d-aebf-49e1-9c95-0583f36b69a6,woro woro : Warren/Comissariat → Belle Côte- Palmeraie,5.3601,-3.9618,5.3873,-3.9691
+b26c0d0d-ad9c-456b-816a-16c5fcf1ff3f,woro woro : CHU Angré → Warren/Comissariat,5.36,-3.9617,5.366,-3.9604
+a29386d9-f369-44c9-b92a-6648d5052a6e,woro woro : Warren/Comissariat → CHU Angré,5.3601,-3.9618,5.366,-3.9606
+1bde0605-8484-4427-ad40-c04029d348c6,woro woro : Vallon/ Las Palmas → SGBCI Cocody,5.3496,-3.9913,5.3369,-4.0039
+7773cb16-2655-4c71-a95f-32472a41bb1c,woro woro : SGBCI Cocody → Vallon/ Las Palmas,5.3396,-4.0035,5.3797,-3.9941
+3504dec7-83da-4803-a148-d5c0a02c413d,gbaka : Adjamé Liberté → Carrefour Lokoa,5.3534,-4.0161,5.3193,-4.0997
+b5b01e42-2e86-4c1d-b8d6-130bc2e3e9ee,woro woro : Akouedo village → Palmeraie DGI,5.3603,-3.9565,5.3611,-3.9578
+cc6a92d9-63c4-4262-b2b8-6fae27bbc062,woro woro : Palmeraie DGI → Akouedo village,5.3608,-3.9581,5.3611,-3.9578
+3018874a-406b-4bfc-a9ac-fa8bc55f1455,gbaka : Koweit → Sable,5.3553,-4.0656,5.3355,-4.0623
+10fa1f39-e034-4787-befa-794f034463f2,gbaka : Adjamé Agban → Yopougon gare Gesco,5.3673,-4.1023,5.3646,-4.0963
+647763a6-7517-4b5b-b87c-48e11e628c93,woro woro : Akouedo basket → Faya,5.3678,-3.9379,5.3484,-3.941
+52cdbc1a-efae-4397-bd25-2fd64386e19a,woro woro : Faya → Akouedo basket,5.3678,-3.9379,5.3484,-3.941
+711ecd43-bbd1-48db-8dab-8d1ec98fbcdd,woro woro : Cité Sir→ Nouveau goudron Abatta,5.3899,-3.9298,5.3746,-3.9291
+6932e172-3747-4bf5-a5de-5083dddb0eb7,woro woro : Nouveau goudron Abatta → Cité Sir,5.3742,-3.929,5.3899,-3.9298
+fcdd12b4-8e45-4586-a169-d1f8e1a6fc2d,woro woro : Cité prestige → Nouveau goudron Abatta,5.3862,-3.9206,5.3742,-3.929
+92276d5e-199a-4781-a063-95917dc58513,woro woro : Nouveau goudron Abatta → Cité prestige,5.3742,-3.929,5.3862,-3.9206
+069eccd3-b0c8-4bcb-9dec-debe3f8bc05a,woro woro : Nouveau CHU → Nouveau goudron Abatta,5.3994,-3.9534,5.3746,-3.9291
+013a6782-344e-47bf-bcb6-9e8cdd839692,woro woro : Nouveau goudron Abatta → Nouveau CHU,5.3742,-3.929,5.3995,-3.9539
+a5afbfe5-07a0-4655-a0d2-8547dab9e1c0,woro woro : Angre fin goudron → Nouveau goudron Abatta,5.4156,-3.9768,5.3744,-3.9289
+c4f3d42a-30bf-403f-967d-0354d37519cf,woro woro : Nouveau goudron Abatta → Angre fin goudron,5.3744,-3.9289,5.4156,-3.9768
+5a081472-a43a-413b-9719-bea586d045d2,woro woro : DC10 → Riviera 2 Station,5.3291,-3.9518,5.3513,-3.9762
+8a328f1a-cd2a-4e0a-b0b3-6c599d5fc21b,woro woro : Riviera 2 Station → DC10,5.3514,-3.9763,5.3309,-3.9572
+07fdc386-8719-43a0-975f-dbc2b9c67046,woro woro : STL → Riviera 2 Station,5.3251,-3.9601,5.3513,-3.9762
+5f956d11-e0d8-4d19-a591-2777a5ff7e86,woro woro : Riviera 2 Station → STL,5.3251,-3.9601,5.3514,-3.9763
+9efc24ed-58eb-453d-884c-680f6524e24f,woro woro : M'Pouto → 9 kilo,5.3247,-3.9549,5.3573,-3.9639
+6137b60b-603f-48c4-af8c-426d44e9f8a6,gbaka : Gare Kobenan Agban → Yopougon marché Bagnon,5.3403,-4.1097,5.3649,-4.0957
+5f231056-bae2-49b5-b729-f18b6aa0da9f,woro woro : 9 kilo → M'Pouto,5.3247,-3.9549,5.3575,-3.964
+edd64bfa-e7a5-464a-a689-ef3418dfd75d,woro woro banalisé : Plateau Super U → Mairie d'Adjamé,5.3207,-4.0196,5.3418,-4.0262
+7cc3defb-b331-4bbb-b4c8-b2f8601e862c,gbaka : Yopougon IGES → Yopougon Siporex,5.3191,-4.0803,5.3553,-4.074
+3b545396-ce35-44eb-9208-83198719edae,gbaka : Yopougon Lokoa → Adjame Nouvelle Gare,5.3193,-4.0997,5.3595,-4.0288
+45f917b6-64fa-42cb-8460-1fa6b86853e3,woro woro : Ecole libanaise → 9 kilo,5.3289,-3.9508,5.3573,-3.9639
+6056f4be-8185-4dd1-ac3e-422ee569adbb,woro woro : Belle Ville → Gare d'Abobo,5.4336,-3.9886,5.4195,-4.0154
+7fd40abe-8df7-4c2c-928c-eb11205e8939,gbaka : Sable → Koweit,5.3553,-4.0656,5.3355,-4.0623
+235928b4-ca1b-4bab-aed3-b50d6a0f356e,gbaka : Gare Kobenan Agban → Yopougon koweit,5.3345,-4.0623,5.3222,-4.0547
+db392c2c-c09d-4c30-b0f7-6344557bd309,woro woro : 9 kilo → Ecole libanaise,5.3284,-3.9451,5.3575,-3.964
+4003ee22-1735-4f5a-adff-472aeac58148,woro woro : Angré Château → Angré Petro Ivoire,5.4153,-3.9774,5.4044,-3.9908
+2a6b4cce-938e-4bf9-ba98-9717093fcf5c,woro woro : Angré Petro Ivoire → Angré Château,5.4049,-3.9906,5.4152,-3.9773
+99018e5b-81b0-4d70-a1d8-d3641b141549,woro woro : CHU Angré → Angré Petro Ivoire,5.3999,-3.9564,5.4044,-3.9905
+a3cb67c2-7ae6-41f3-bd50-ed8028498693,woro woro : Angré Petro Ivoire → CHU Angré,5.3997,-3.9565,5.4044,-3.9901
+049d7b5d-0c7c-437c-b43d-53b8a4475eb3,woro woro : Angré Petro Ivoire → Mahou,5.4042,-3.9908,5.3996,-3.9974
+ce54c480-62f3-437a-9c1e-8dd171a280e9,woro woro : Mahou → Angré Petro Ivoire,5.4042,-3.9907,5.3996,-3.9974
+52ff45ad-98e0-4bae-9670-29e8c47af7bf,woro woro : Hôtel Ivoire → Angré Château,5.3283,-4.0049,5.4152,-3.9773
+560cb558-19a2-4d9e-b09f-c747f7130cc7,gbaka : Yopougon Lokoa → Yopougon Siporex,5.3553,-4.074,5.3193,-4.0997
+aff88dd8-bfde-43d1-92b7-d99bcc4f5d07,woro woro : Angré Château → Hôtel Ivoire,5.4153,-3.9774,5.3281,-4.0052
+6bb52d98-7783-4354-97ab-df3622ef5efa,gbaka : Yopougon Siporex → Yopougon IGES,5.3533,-4.0741,5.3191,-4.0803
+a72c0b20-c9b2-4b4a-8ef6-732900dda442,gbaka : Adjamé Agban → Yopougon Camp Militaire,5.3344,-4.055,5.3197,-4.0617
+14f530ef-2955-4203-a3c1-d52af36d5476,woro woro : Terminus 82 → Angré Château,5.4047,-3.9851,5.4152,-3.9773
+88650b0f-861e-45db-9dae-1012c6ae3463,woro woro : Angré Château → Terminus 82,5.4047,-3.9851,5.4152,-3.9773
+1e6bb3f9-c532-432e-a9c9-b1ef1cda139a,woro woro : Riviera 2 - Gare annexe → Terminus 81-82,5.3545,-3.9776,5.4033,-3.9853
+cf24ff02-a17f-4acd-aa88-fab4d85fff10,woro woro : Terminus 81-82 → Riviera 2 - Gare annexe,5.3545,-3.9776,5.4029,-3.9853
+58c90145-edbb-4b36-8e87-19610ac46cd1,woro woro : Angré 22ème → Riviera 2 - Gare annexe,5.3545,-3.9776,5.398,-3.9905
+32c45585-aa3a-4adc-92ca-5834e816b612,woro woro : Riviera 2 - Gare annexe → Angré 22ème,5.3545,-3.9776,5.398,-3.9905
+a31e29c6-ffb5-47d1-8b77-fc7c577c57f1,woro woro : Mary'se → Bonoumin,5.3789,-3.9718,5.3585,-3.9652
+9684e0b8-68a9-4949-a178-48adbdcfe810,gbaka : Beago Wolosso → Yopougon Palais,5.3098,-4.0761,5.3244,-4.0775
+39a1c1dc-5de8-4931-9a80-85d033ed0460,gbaka : Adjamé mosquée → Yopougon Carrefour Académie,5.3594,-4.0288,5.3244,-4.1064
+8234a8b0-09b9-4f7c-bacd-b063db4fae11,woro woro : Bonoumin → Mary'se,5.3789,-3.9718,5.3585,-3.9652
+847aa740-72c0-419b-81fa-7f3795120cc0,gbaka : Sable → Carrefour CHU,5.3557,-4.0741,5.3552,-4.0885
+7962520e-a5bd-4859-8cae-38ad56eeac3b,gbaka : Carrefour CHU → Sable,5.3557,-4.0741,5.3552,-4.0885
+1aac0613-53eb-4061-98a1-d7de50e00e46,gbaka : Yopougon Siporex → Yopougon Lokoa,5.3533,-4.0741,5.3193,-4.0997
+7c5ef9e8-b155-4473-9d99-3f8157fcc5c1,gbaka : Yopougon Palais → Beago Wolosso,5.3244,-4.0775,5.3098,-4.0761
+2b686678-b0b8-41fb-9d65-41e7df944875,woro woro : Camp Militaire → Terminus 40,5.3303,-4.0741,5.319,-4.0616
+30add4e4-1ba1-453a-9655-aa163f360035,woro woro banalisé : 9 kilo → Port Bouet,5.2663,-3.9619,5.2576,-3.9729
+1bd1a0a8-95cc-426b-ac3f-5fae94305605,gbaka : Siporex → Songon Agban,5.3557,-4.0756,5.3211,-4.2316
+4e54e702-ac44-412b-b43f-a9ae323ea697,gbaka : Yopougon Siporex → Yopougon Académie,5.3533,-4.0741,5.3244,-4.1064
+055285ed-2691-411a-8f81-5735bec92855,gbaka : Yopougon Gesco → Yopougon Siporex,5.3671,-4.1019,5.3646,-4.0963
+cbb0ed07-83ab-4461-a62d-8d59fb12f3a1,gbaka : Yopougon Siporex → Yopougon Gesco,5.3673,-4.1023,5.3668,-4.0972
+534135b1-d666-44ad-9ba1-957fed6be645,gbaka : Yopougon Diop → Yopougon Acamedie,5.3239,-4.1069,5.3134,-4.1115
+06be3b4c-ac79-48fb-b160-523dfd207d29,gbaka : Yopougon Acamedie → Yopougon Diop,5.3239,-4.1069,5.3134,-4.1115
+1681fdeb-e315-42c1-9fef-c01f1409c16d,woro woro : Terminus 40 → Camp Militaire,5.3303,-4.0741,5.319,-4.0616
+15ec0167-d255-4c14-a265-2acdc714f536,woro woro : Abobo Azur Mobil → Belle Côte- Palmeraie,5.3664,-3.9606,5.4,-4.0062
+d2a3f521-79fd-4d99-baf7-5465957a507e,woro woro : La vie → Carrefour Angre,5.3492,-4.0023,5.4141,-3.9954
+df866b94-71d9-4e22-a696-7b92f17a9834,woro woro : Gare d'Abobo → Belle Ville,5.4336,-3.9886,5.4195,-4.0154
+ead319c6-962a-4a1e-9593-36ebf191a4cd,gbaka : Yopougon Carrefour zone → Abobo Agripac,5.3557,-4.0849,5.4411,-4.0689
+d239145b-b157-4466-ae1a-b7df1707bf23,gbaka : Yopougon Koweit → Zone Industrielle,5.3625,-4.0806,5.3691,-4.0789
+d2b5435e-ee5a-4074-aac7-5893d87a779b,gbaka : Zone Industrielle → Yopougon Koweit,5.3355,-4.0623,5.3692,-4.0789
+eb4903f6-e25a-45dd-a0b8-d56a084225b9,gbaka : Gesco → Zone Industrielle,5.3673,-4.1023,5.3688,-4.079
+3e1d245d-3a05-4f86-bf1a-d04a78ff373e,gbaka : Zone Industrielle → Gesco,5.3673,-4.1023,5.3668,-4.0972
+4ed3b9a1-1f3c-4324-add1-6fa2c6b02760,gbaka : Yopougon Micao → Yopougon Siporex,5.3832,-4.0944,5.3565,-4.0734
+7f74cd26-1892-461d-a74e-5b6e199a38f1,woro woro : Abobo Azur Mobil → St Marc- Palmeraie,5.3664,-3.9606,5.4,-4.0062
+e424f730-df86-4c2f-bd29-f094d5bfa193,woro woro : Sicogi → Anoumabo sans fil,5.3069,-3.964,5.2882,-3.9655
+ad3c9e60-1ab6-4873-8897-d9486c3ebb07,gbaka : Gesco Rond Point → Sable,5.3585,-4.0994,5.3551,-4.0907
+d376752f-17e3-419b-a693-3122d1c10037,gbaka : Adjamé Texaco → Yopougon Lubafrique,5.3541,-4.0178,5.3304,-4.1039
+f6b6060e-df72-48b8-8a64-0a36d7fd8d8b,gbaka : Yopougon Siporex → Yopougon Micao,5.3565,-4.0734,5.3832,-4.0944
+05562180-4041-4a68-9916-c270e6df69bb,woro woro : Cocovico → Abobo Azur Mobil,5.4006,-3.9797,5.4,-4.0062
+1249bec5-e4e8-46da-950e-6f818f46a60e,divers Abobo Azur Mobil - Cocovico,5.4006,-3.9797,5.4,-4.0062
+6d415c31-4606-4d7d-bf4f-d65f2dd111a7,woro woro : Enica → Warren/commissariat,5.3604,-3.9618,5.366,-3.9604
+1bd8c4d1-25b6-435c-a708-00829f97f4a4,woro woro : Warren/commissariat → Enica,5.3609,-3.962,5.366,-3.9606
+05379247-92fc-4dfb-a031-726c3296d615,woro woro : St Viateur → Warren/commissariat,5.3604,-3.9618,5.366,-3.9604
+0b643975-6afc-4321-be3a-9475b96eaf72,woro woro : Warren/commissariat → St Viateur,5.3609,-3.962,5.366,-3.9604
+1e52f73b-0288-47e0-a67a-4780f52ffa65,woro woro : Angré Château → St Marc- Palmeraie,5.3663,-3.9605,5.4152,-3.9773
+5ae75e34-e52c-476c-9bbb-13c9614cb2e1,woro woro : St Marc- Palmeraie → Angré Château,5.3664,-3.9606,5.4152,-3.9773
+0ee0d744-266e-49b0-8fe3-7f7b15c0ad99,woro woro : Mary'se - Palmeraie → Angré Château,5.3628,-3.9597,5.4152,-3.9773
+024b09f8-f6b0-4136-8737-bb460628b3fa,gbaka : Yopougon Mênêkré → Yopougon Siporex,5.3803,-4.1048,5.3565,-4.0734
+d0fadfff-0419-4746-a7a0-3e3dc3410420,gbaka : Adjamé Texaco → Yopougon Micao,5.3545,-4.0182,5.3666,-4.0972
+6c1ec789-cc04-44e8-aba2-3d0f1ac90d31,gbaka : Yopougon Siporex → Yopougon Mênêkré,5.3565,-4.0734,5.3803,-4.1048
+97b21f14-9bce-4b23-a3c9-2946b7e237d8,woro woro : Angré Château → Mary'se - Palmeraie,5.4152,-3.9773,5.3664,-3.9606
+2bad790a-d673-440c-b702-4a2f0eca5309,gbaka : Sable → Gesco Rond Point,5.3557,-4.0741,5.3585,-4.0994
+fa08b56a-1271-46e4-b456-0e662b20fc84,woro woro : Toit rouge Jean-Paul 2 → Terminus 40,5.3306,-4.0474,5.3303,-4.0741
+5781cc21-750b-40ca-b82d-38e6455f5e47,woro woro : Palmeraie par le CHU Angré → Angré Petro Ivoire,5.3663,-3.9605,5.4044,-3.9905
+1bbb891e-877a-4962-b6ae-80da0d8a432d,gbaka : Azito → Terminus 27,5.3041,-4.0814,5.3159,-4.0897
+28c92ff6-ae5c-4b36-8624-2f44db04da08,gbaka : Terminus 27 → Azito,5.3041,-4.0814,5.3159,-4.0897
+6dc50111-29da-4410-a3d4-13b6cbdc17be,woro woro : Angré Petro Ivoire → Palmeraie par le CHU Angré,5.4044,-3.9901,5.3784,-3.9592
+ca191d78-c115-4984-977d-96d1cac551de,woro woro : Palmeraie Warren/commissariat par la CNPS → Angré Petro Ivoire,5.3604,-3.9618,5.4044,-3.9905
+0951cf4d-234a-4c45-86f8-6b3ea3c0631b,woro woro : Angré Petro Ivoire → Palmeraie Warren/commissariat par la CNPS,5.3663,-3.9605,5.4044,-3.9901
+719e73aa-f6e6-485d-810b-c6bac52c86ad,woro woro banalisé : Plateau Longchamp → Port Bouet,5.3242,-4.0217,5.3244,-4.022
+01991932-6fd6-4caa-b9b5-cede186d0c30,gbaka : Sable → Gesco Gendarmerie,5.3563,-4.0663,5.3673,-4.1015
+db4e80b0-56ef-4ac1-9ead-7ef8f1293bd4,woro woro : St Jean → Carrefour Angré,5.3373,-4.0038,5.4141,-3.9954
+0acecc76-6520-4432-bb04-01b62848225c,gbaka : Koweit → Yopougon Siporex,5.356,-4.067,5.3355,-4.0623
+6dc3b61e-7566-42fa-866d-0149d6c38cf8,gbaka : Yopougon Siporex → Koweit,5.356,-4.0741,5.3355,-4.0623
+9917d7ca-7b29-465f-8af4-11767a3df900,gbaka : Gesco Gendarmerie → Sable,5.3672,-4.1016,5.3558,-4.074
+d90f2811-8076-47d2-959c-f2831909f9b1,gbaka : Boissy → Attécoubé Garage,5.3344,-4.055,5.3284,-4.0496
+52fd2903-f83d-47b4-89e3-7aeee24e8834,woro woro : Carrefour Angré → Deux plateaux Mobile,5.4141,-3.9954,5.3682,-3.9983
+444509e2-7d32-4a89-ad83-d687d4862f2c,gbaka : Gesco Rond Point → Attécoubé Garage,5.3557,-4.0741,5.3585,-4.0994
+cf297d49-42af-4772-bd18-57299ef06277,woro woro : Shell Petro Ivoire → En bas,5.4044,-3.9905,5.4055,-3.9967
+18c6ee9d-741d-4a60-8557-10ab6ed8090a,woro woro : Adjamé Liberté → Williamsville Macaci,5.354,-4.0166,5.3766,-4.0255
+2964c024-8e8a-4760-b1b5-cefc5b2ebe85,gbaka: Gare Abobo Kennedy → Kennedy Mosquée Ado,5.4223,-4.0164,5.4236,-3.9978
+ae72e32d-d47a-4322-b610-38bac864cfc3,gbaka : Camp Militaire → Attécoubé Garage,5.3344,-4.055,5.3197,-4.0617
+60c1c160-924f-49cd-9707-1ce1e007aa5d,gbaka : Koweit → Attécoubé Garage,5.3344,-4.055,5.3223,-4.055
+7ca4b238-d4a8-404c-8fb1-05932af09b34,gbaka: Abobo Gare d'Akeïkoi → Akeïkoi Village,5.4229,-4.0161,5.4607,-4.011
+a22bb47b-af31-4cba-a323-0d3f111e6155,woro woro banalisé : Plateau Sorbonne → 2 Plateaux Mobil,5.3242,-4.0217,5.3245,-4.0221
+70c2ca64-63e8-4a53-9972-ddf35cf78535,woro woro banalisé : 2 Plateaux Mobil → Mosquée du Plateau,5.3242,-4.0217,5.3242,-4.0196
+1b7a7175-aed5-48e4-9e45-806d730833e7,woro woro : Terminus 40 → Toit rouge Jean-Paul 2,5.3306,-4.0474,5.3303,-4.0741
+350b897b-6f51-4bc1-b8b5-bae15de46eda,gbaka : Koweit → Adjamé Agban,5.3222,-4.0547,5.3344,-4.055
+35557763-0a13-4f8f-a96c-c588926dcdb8,gbaka : Adjamé Agban → Koweit,5.3344,-4.055,5.3223,-4.055
+428aa76c-9d9b-4ae2-a57e-b7f39c0ffd4c,gbaka: Akeïkoi Village → Abobo Gare d'Akeïkoi,5.4227,-4.0161,5.4607,-4.011
+dc7c51ad-0c08-443a-9f3a-5126c63ac586,woro woro : Abobo Doumé → Terminus 40,5.3113,-4.0359,5.3303,-4.0741
+fc634719-e7f9-470e-bf0e-dfa65ed20f57,gbaka : Palais → Bracodi,5.3271,-4.0769,5.3574,-4.0276
+08ad5e34-9ab1-4a6a-a18e-b3c2429b0a1a,woro woro : Zone industrielle → Marché 23è,5.3618,-4.072,5.3695,-4.0802
+958d5994-eefe-4213-a885-114aacec19c2,woro woro : Marché 23è → Zone industrielle,5.3618,-4.072,5.3692,-4.0802
+818d6a42-e96f-4357-a753-5e0ccfb7d0a2,woro woro : Cité Verte → Lubafrique,5.33,-4.1044,5.3321,-4.1124
+d35f9e98-f17b-44a4-9a49-d9517c350c40,woro woro : Lubafrique → Cité Verte,5.33,-4.1044,5.3321,-4.1124
+72a8f5ea-6661-44dc-ab9d-bf018a7fcbe4,gbaka : Texaco → Mossikro,5.3545,-4.018,5.3414,-4.0462
+b6da0acd-93c8-49f2-ac92-f4ef63838ab0,gbaka : Bracodi → Palais,5.3605,-4.0277,5.3271,-4.0769
+3ed3d902-c008-4714-a7d6-5244796f8702,woro woro : Marché Bagnon → Lubafrique,5.3371,-4.1111,5.33,-4.1044
+8e282887-7665-43ac-84d5-b175d917b6d5,woro woro : Lubafrique → Marché Bagnon,5.3371,-4.1111,5.33,-4.1044
+51f91144-3e82-4389-bb0d-b2cc652a7775,gbaka : Terminus 27 → Siporex,5.3164,-4.0892,5.3533,-4.0741
+3fe2db0e-a9b7-4e3c-a0f0-fa73f7713b08,gbaka : Bracodi → Terminus 27,5.3605,-4.0277,5.3161,-4.0901
+caa44e1c-966f-4154-84e5-79002b5001d9,gbaka : Siporex → Terminus 27,5.3533,-4.0741,5.3161,-4.0901
+65c3c90a-b735-440e-badb-05295081e612,gbaka : Bracodi → Académie,5.3605,-4.0277,5.3242,-4.1065
+8a5ca0df-125d-4083-82f7-eb031a8d2bf3,woro woro banalisé : Port Bouet → Cocody La vie,5.3037,-3.9946,5.3484,-4.0033
+72df95c7-41ed-488a-b9c9-4e0817a92178,gbaka: Kennedy Marché→Gare Abobo Kennedy,5.4219,-4.0166,5.4237,-4.0015
+198a6548-32d2-4f8b-8dbe-5e9f735646a5,woro woro banalisé : Port Bouet → Palmeraie,5.2576,-3.9729,5.2661,-3.9616
+ed37f439-2276-451f-9214-4b283ca3d299,gbaka : Adjamé Liberté → Abobo Gare Mairie (par l'autoroute),5.3544,-4.0164,5.42,-4.0175
+b6889ee9-1dff-491b-a383-8818ff29dd30,gbaka: Abobo Gare Mairie → Abobo PK 18,5.4218,-4.0182,5.4499,-4.0524
+dc31bc16-b962-4055-a754-b37f5058ee16,gbaka : N'dotre → Château,5.464,-4.0825,5.4606,-4.0735
+f4449c15-fd3e-405d-a929-68b0d09ffa82,woro woro banalisé : Port-Bouët → Abobo St Joseph,5.2576,-3.9729,5.4174,-4.0168
+4055aa52-7519-4cfd-baa8-9ab445f07e3c,gbaka : Ndotre → Abobo Gare,5.4433,-4.0694,5.4434,-4.0692
+6ad9600f-97f3-4336-9f3e-6701ed8020ec,woro woro banalisé : Inades → Adjamé Renault,5.3493,-4.0181,5.3547,-4.021
+13d76bdc-aa1b-46f4-a340-5c841c8ba999,woro woro banalisé : Adjamé INHP → Inades,5.3404,-4.0263,5.3405,-4.0156
+857fa98c-fdd5-45ff-8af3-a68b0d3fb422,woro woro banalisé : Inades → Adjamé INHP,5.3396,-4.001,5.3404,-4.0263
+c3963dc7-e6e9-4296-b21b-a0487258f4ff,woro woro banalisé : 2 Plateaux Mobil → Treichville Gare de Bassam,5.3677,-3.9996,5.2982,-4.0031
+49ea1151-96bb-4cf8-8080-bbf33d0d9c38,gbaka : Belle ville → Abobo Gare,5.4336,-3.9886,5.4196,-4.0153
+87f6a47a-f3e5-4b50-b546-835f7609a745,gbaka : Abobo Gare → Belle ville,5.4336,-3.9886,5.4197,-4.0157
+f32b2608-28fb-4088-b66a-34a75b4dcf14,woro woro banalisé : Plateau Telecel → 2 Plateaux Mobil,5.3209,-4.0196,5.3219,-4.016
+81e5ddbd-325c-4524-98c1-d85e14debabc,woro woro banalisé : 2 Plateaux Mobil → Plateau Telecel,5.3189,-4.0163,5.32,-4.0188
+5199ab71-caf2-4ffc-b0b8-e2869b730e84,gbaka : Paillet → Lycée Moderne d'Abobo,5.3721,-4.0119,5.4196,-4.0153
+1665fd10-66e4-4e43-8517-e1c29bbaa150,gbaka : Abobo Gare → Angré Petro Ivoire,5.4214,-4.0155,5.405,-3.9907
+d0cfbc8c-5a75-47be-82a3-6034abaed2fb,gbaka : Gare Anokoi → Anokoi Sodeci,5.4377,-4.0449,5.4239,-4.05
+6f83f2da-adde-4355-b140-7ce3a0dfb527,gbaka : Lycée Moderne Abobo → Adjamé Liberté,5.4261,-4.0147,5.3546,-4.0164
+5d9b75cd-013b-4c6b-9cfc-49ad968258d5,gbaka : Biabou → Abobo Samaké,5.4456,-3.9781,5.4155,-4.0059
+bfe93e3a-d229-4f09-a2e5-d9e3af413791,gbaka : Abobo Samaké → Biabou,5.4456,-3.9781,5.4151,-4.0063
+46f1a3f4-c8fb-48b6-9380-7aaddfec1b1a,woro woro : Houphouet-Boigny → Lycée Moderne d'Abobo,5.4278,-4.0146,5.4429,-4.0088
+8ff81f98-c8b6-4f53-ae42-e8b050d15dc3,woro woro : Lycée Moderne d'Abobo → Houphouet-Boigny,5.443,-4.0088,5.4278,-4.0146
+8a79232c-26cd-4186-9560-ff7e55c18bda,gbaka : Abobo Agripac → Yopougon Carrefour zone,5.4411,-4.0691,5.3557,-4.0849
+b0f953bd-be92-4a3b-a121-2092e1aeec7c,gbaka : Biabou → Abobo Marché,5.4456,-3.9781,5.4198,-4.0158
+c33a6b3a-e936-4113-b709-fb8f8c5e658c,gbaka : Abobo Marché → Biabou,5.4456,-3.9781,5.4237,-4.0156
+c1204d53-5f2f-4da5-948b-e6d8acdb8a4d,Gbaka : Belle Cité en Bas → Belle Cité,5.4461,-4.0207,5.4541,-4.0264
+8129ff96-cf94-4f26-ae2c-71458494b0f7,Gbaka : Belle Cité → Belle Cité en Bas,5.4461,-4.0207,5.4541,-4.0264
+ed9aa19d-7ed9-4ccb-8720-b186cfd74679,gbaka : Adjamé Texaco → Pk Direct,5.3549,-4.0186,5.4614,-4.0538
+45892f58-8d86-45c7-91a7-a093d4db8d92,woro woro banalisé : Abobo St Joseph → Port-Bouët,5.4165,-4.0166,5.2676,-3.9616
+640f5422-8593-413f-9181-d1dff94d7cd3,gbaka : Lycée Moderne d'Abobo → Paillet,5.4271,-4.0146,5.3716,-4.0121
+cc742d13-fe78-45f9-bf9e-ec0af9624ab8,woro-woro : Toit rouge Jean-Paul 2 - Siporex,5.3355,-4.055,5.3557,-4.0746
+2cac22ec-61e8-4474-822a-7e188047a7f0,gbaka : Angré Pétro Ivoire → Belle Ville,5.4316,-3.9889,5.4053,-3.9902
+9a77e7f6-dbd7-44ae-bf8e-f2eb4779f86d,gbaka : Château → N'dotre,5.464,-4.0825,5.4477,-4.0705
+2a5c4d1c-a1d7-4157-a0f8-47316a152364,woro woro : BC Carrefour Niamkey → Abobo Gendarmerie,5.4438,-4.0266,5.4259,-4.0206
+4e62e767-69da-483a-a5e4-02073b9b4eff,woro woro : Mossikro → Gabriel Gare,5.3563,-4.0718,5.3409,-4.0467
+3ced530a-da4d-4cd2-b787-ffa225073acb,woro woro : BHCI → Lama Fofana,5.3378,-4.055,5.3408,-4.073
+70403f5f-9df0-4a06-af74-3491000c8034,woro woro : Abobo Doumé → Camp Militaire,5.3113,-4.0359,5.319,-4.0616
+48cebfcd-d3ac-457b-94ad-e497264dcfda,gbaka : Abobo Gare → Adjamé Texaco,5.4174,-4.0169,5.3549,-4.0186
+7987946e-a676-4a0e-8b22-19b19d73028e,gbaka : Adjamé Texaco → Abobo Gare,5.3549,-4.0186,5.4174,-4.0168
+4db8ff32-c92b-4026-81aa-4ab534d4ad42,woro woro : Mossikro → Sable nouveau goudron,5.3409,-4.0467,5.3567,-4.0664
+8a05cd38-440b-47b6-ad55-d2c5bb691e90,woro woro : Millionnaire Antenne → Sable nouveau goudron,5.3482,-4.0505,5.3567,-4.0664
+131b3b50-4df1-439a-ac55-800fdc76b646,woro woro : Abobo Gendarmerie → BC Carrefour Niamkey,5.426,-4.0198,5.4438,-4.0266
+6e5c7a9c-d9b5-4ef7-ae13-b67fb7b32ead,woro woro : BC → Abobo Gendarmerie,5.4461,-4.0207,5.4281,-4.0201
+bca22a31-2140-4716-8805-c30d453190d0,woro woro banalisé : Koumassi Grand Carrefour → Palmeraie,5.2884,-3.9705,5.3608,-3.9581
+46e6dcdc-cfc5-4a64-82f5-035c7acd07b9,woro woro : Abobo Doumé Marine → Palais,5.3254,-4.0769,5.3145,-4.0353
+c6bce887-96d8-4229-9ba6-d085c2c201bc,gbaka : Anokoi Sodeci → Gare Anokoi,5.4377,-4.0449,5.4239,-4.05
+7fb84a71-1635-4ade-888a-4436c2b0b4ea,woro woro : Abobo Gendarmerie → BC,5.4461,-4.0207,5.4279,-4.0201
+daef867c-a931-4a75-83fd-90066d7efa06,gbaka : Agripac → Adjamé,5.4423,-4.0478,5.3641,-4.0294
+88be35e8-adc2-4f24-8c1d-7345d1232fef,woro woro : Palais → Abobo Doumé Marine,5.3252,-4.0771,5.3146,-4.0352
+33b4f49d-c2e5-4db4-a1f3-a35bb17dc3c7,woro woro : Mossikro → Bel air,5.3466,-4.063,5.3409,-4.0467
+dbbf2a56-0eb1-40f1-9d2a-147a2e6fdb40,gbaka : Celeste Carrefour Garage → Adjamé Sous le Pont,5.4125,-4.0163,5.3637,-4.0293
+d6dcffd7-6572-4af3-a4ec-e7591fc4ab33,woro woro : Colonel → Bel air,5.3466,-4.063,5.3442,-4.0484
+1e0fc91f-39cf-4780-a7d8-da88b55748eb,woro woro : Bel air → Colonel,5.3466,-4.0628,5.3442,-4.0484
+3e2a19f1-8ffe-40e5-bdbb-f658640eff3b,woro woro : Toit rouge Jean-Paul 2 → Abobo Doumé,5.3306,-4.0474,5.3146,-4.0352
+515d26f7-8fac-4c95-bfe9-927d9e137c78,woro woro : Habitat grace → Abobo Marche,5.4239,-4.0153,5.4355,-4.0027
+a794dde7-c3cb-4cd2-81cb-028c8d615f57,gbaka : Mairie → Dokui Azur,5.4197,-4.0157,5.3999,-4.0065
+78ba7c8b-e296-4885-afe1-8960a02413ad,gbaka : Adjamé Sous le Pont → Celeste Carrefour Garage,5.3599,-4.029,5.4151,-4.0333
+b6ee62fd-a0ff-4e0c-bc37-fc57795c67cc,woro woro : Marché Bagnon → Palais,5.3371,-4.1111,5.3253,-4.0775
+cc211d49-a727-4f19-9d9a-c7e3435e3072,woro woro : Abobo Marche → Habitat grace,5.4261,-4.0147,5.4355,-4.0027
+47062927-0a38-4ff9-a1f6-ada8ad361f8c,gbaka : Biabou Paris Village → Centre Culturel,5.4565,-3.9729,5.4209,-4.0147
+7a8c0e5b-c80c-46bf-8e77-bc19e3d27fb1,gbaka : Bocabo Carrefour Marché → Adjamé Sous le Pont,5.4278,-4.0315,5.3599,-4.0286
+fc654c48-f577-45c6-9b3b-e3ebf3995a29,gbaka : Centre Culturel → Biabou Paris Village,5.4209,-4.0147,5.4565,-3.9729
+60988fb1-9e07-4b45-aac6-b0c26d2152b5,gbaka : Angré Château → Centre Culturel,5.4209,-4.0144,5.4152,-3.9773
+cb540340-32cc-4c6d-afc5-ccb07e5045dd,gbaka : Agbékoi → CIE Abobo Centre,5.4227,-4.0161,5.4277,-4.0069
+cc153978-56f3-421b-8261-84ed5ac0f20b,gbaka : CIE Abobo Centre → Agbékoi,5.4227,-4.0161,5.4277,-4.0069
+d2eb52a5-0fed-45fb-b72b-7c8ca9b230fd,gbaka : Dokui Azur → Mairie,5.4196,-4.0153,5.3999,-4.0065
+c1a06777-eaf6-47c5-a441-e250dc7adc77,woro woro : Koweit → Abobo Doumé,5.3222,-4.0541,5.3113,-4.0359
+52753021-aa21-4665-b756-187ba25a5feb,woro woro : Palais → Marché Bagnon,5.3253,-4.0775,5.3371,-4.1111
+4c7d66e5-d100-4c2f-abbd-2cea2f042a99,woro woro banalisé : Palmeraie → Marcory,5.3623,-3.9593,5.2997,-3.9772
+2f267ca8-945d-47ff-a54d-3658bae20a6b,woro woro : Abobo Doumé Santé → Mossikro,5.3096,-4.044,5.3409,-4.0464
+75bcc8ba-5163-48bc-a835-dbd3e695a972,woro woro : Abobo Baoulé → Abobo Marché,5.4239,-4.0153,5.4249,-3.9902
+2e7ca798-b3c2-4c3b-9d9e-e7eee720d461,woro woro : Mossikro → Abobo Doumé Santé,5.3096,-4.044,5.3409,-4.0464
+f883562d-bec1-4a7a-a827-7a8709bfb3aa,woro woro : Terminus 40 → Abobo Doumé,5.3303,-4.0741,5.3113,-4.0359
+3a64c64b-4fdd-4a9c-a27a-19bfeb7f6070,woro woro banalisé : Plateau St Paul → Carrefour Angré,5.3307,-4.0228,5.3318,-4.0228
+216299e4-8056-4c3c-9596-2c07ad8c296c,woro woro banalisé : 2 Plateaux Mobil → Yopougon 2è Pont,5.369,-4,5.3435,-4.0723
+f15f6e67-1fca-4cea-a4ba-6323268bceb0,gbaka : Samake → Liberté,5.415,-4.0064,5.3553,-4.0161
+fb8410fa-c482-46e1-85d3-2310bbb99f32,woro woro : Abobo Azur Mobil → Saint Jean,5.4,-4.0062,5.3329,-4.0044
+15f607ec-85f7-4928-8646-99888cabadab,woro woro banalisé : Yopougon Lavage → Koumassi Bacongo,5.3435,-4.0723,5.2965,-3.955
+8df4e8b6-d7e5-471b-986f-d211edbfd1bf,gbaka : Belle Ville → Ancienne Gendarmerie,5.4723,-4.0324,5.4616,-4.0537
+7aa9e9fa-fdb7-434c-b24b-4ed6c08a6cd7,gbaka : Ancienne Gendarmerie → Belle Ville,5.4723,-4.0324,5.4615,-4.0525
+47cebc9e-5b43-473a-acb9-f2569e2aa999,woro woro : BC → Abobo Gare,5.4459,-4.0207,5.4218,-4.0183
+cf315e9d-9bee-4b17-93ab-7755f0cd5808,gkaka : Gare Djibi → Gare d'Abobo,5.4566,-3.9729,5.4209,-4.0144
+afb4636f-9d18-44df-a204-539eefc0c67d,gkaka : Gare d'Abobo → Gare Djibi,5.4566,-3.9729,5.4209,-4.0145
+3272a2ed-b49f-46e7-ab33-5c587d17a300,woro woro : Abobo Gare → BC,5.4218,-4.0182,5.4461,-4.0207
+aa3b614f-c3c9-4424-b1f0-16a2af7baec9,gbaka : Samake → Pk 18 ancien marché,5.4154,-4.006,5.4499,-4.0524
+df6772b7-332d-41ee-ae69-d5d00f376634,gbaka : Bracodi → Abobo Gare,5.3605,-4.0277,5.4174,-4.0168
+493ea8a7-9c3f-4577-a544-79dbca6be80d,gbaka : Samake → Carrefour N'dotré,5.4477,-4.0705,5.4606,-4.0733
+1e950aff-331d-41a9-8eae-a2d547e9dab2,gbaka : Gendarmerie → Gare Anyama,5.4271,-4.0212,5.4807,-4.053
+1d270040-9728-460a-8fda-d7ff0b7e8b08,woro woro : Ndotre → Abobo Gendarmerie,5.4434,-4.069,5.4269,-4.0212
+ef227b4f-8f11-4ebf-acc5-870d09e76355,gbaka : Treichville Gare Bassam → Grand Carrefour Koumassi,5.2985,-4.0016,5.2888,-3.971
+9fedac2d-8f84-4b35-b6cc-bbc5ac2658f7,gbaka : Agripac → Bracodi,5.4441,-4.0488,5.4257,-4.0206
+34fc40ee-0d8e-4faf-aefa-5323b0dee3d2,woro woro : Angré Petro Ivoire → Abobo Gare,5.4214,-4.0154,5.4046,-3.9923
+6043eb99-c810-4ba3-8661-b4ca3b2fd3e7,woro woro : Abobo Marché → Abobo Baoulé,5.4212,-3.9905,5.4202,-4.0166
+31bc3dd8-aaf6-4cb3-a47f-4586ba5e48d9,gbaka : Abobo Gare → Bracodi,5.4174,-4.0169,5.364,-4.0292
+9d3fcb29-160c-4bb4-9fe8-ca5835e81ecc,woro woro banalisé : Plateau Mosquée → 9 kilo,5.32,-4.0155,5.3196,-4.0153
+b4874cb4-b79d-420b-a9d1-5f974acf7cb0,gbaka : Abobo Gare Mairie → Adjamé Marché Gouro,5.3488,-4.0206,5.3491,-4.0212
+ccff53d7-f54b-4a25-a95f-754d50fa607e,gbaka : Treichville Rue 12 → Anoumabo sans fil,5.3016,-4.0105,5.3071,-3.964
+1f182a10-4426-43d4-9eb3-12a661cf4a7c,gbaka : Abobo Gare Mairie → Adjamé Liberté,5.4192,-4.0148,5.3546,-4.0164
+b5b2764c-d5eb-4c5d-a862-ce2a42fcf4ef,gbaka : Adjamé gare en haut→ Cocody Riviera M'badon,5.3412,-4.0194,5.3503,-4.0226
+9c4f8ca5-f2ab-48a7-835a-030ee4e51811,gbaka : Éléphant → Gonzagueville Corridor,5.2396,-3.8965,5.2555,-3.8928
+1b8ddeb0-306c-485f-8349-2bc5fb3b34d7,gbaka : Gonzagueville Corridor → Éléphant,5.2396,-3.8965,5.2555,-3.8928
+0ddd2996-45c5-4f5a-ad6b-5f5c0c6e22f0,gbaka : Cocody Riviera M'badon→ Adjamé gare en haut,5.3578,-3.9645,5.3503,-4.0225
+5e553e15-49e9-41ba-bc53-e0061e67a0ed,gbaka : Cocody Attoban Camp→ Adjamé gare en haut,5.3706,-3.9762,5.3503,-4.0225
+080af71d-251d-484b-b4fb-1fe03367a5bb,gbaka : Abraham → Gonzagueville Corridor,5.2396,-3.8965,5.2528,-3.8883
+fc5bd196-3850-4213-a374-bf733897bb7c,woro woro : Houphouet-Boigny → Abobo Gendarmerie,5.443,-4.0088,5.4281,-4.0201
+7f0c5e21-426b-4785-b48e-31ac7f98f4b5,gbaka : Cocody Anono → Adjamé Gare en Haut,5.3509,-4.0256,5.3502,-4.023
+70e9fbee-f28a-4a2d-a4ba-2af31f71e210,gbaka : Adjamé Gare en Haut → Cocody Anono,5.3501,-4.0238,5.3446,-3.9724
+bf1dfc6d-aba4-4bba-948d-5b54278ae2fd,woro woro : Abobo Gendarmerie → Houphouet-Boigny,5.443,-4.0088,5.4281,-4.0201
+315ed451-6caf-4622-9bf1-e9eb12149626,woro woro banalisé : Marcory → Riviera 2,5.3,-3.9775,5.3532,-3.9782
+c3516e3a-8bb5-4e86-81eb-726c47c0a6aa,woro woro banalisé : Plateau Pyramide/Mosquée → Riviera 2,5.32,-4.0155,5.3532,-3.9782
+9d556e7f-b2ab-4717-96c4-24fb90cce9d1,woro woro : Abobo Baoulé → Abobo Samaké,5.4212,-3.9905,5.4155,-4.0059
+7ffaab0d-4e4e-48e3-aa4c-13110e8a68f0,gbaka : Adjamé gare en haut → Cocody Riviera M'pouto,5.3503,-4.0226,5.3272,-3.9543
+e0952c30-41bf-43a5-91a7-7c334fe2c01c,woro woro banalisé : Plateau Telecel/Mosquée → Riviera 2,5.32,-4.0155,5.3196,-4.0153
+d8dabe54-88c3-45df-8701-826c4a81f992,gbaka : Gonzagueville Corridor → Abraham,5.2396,-3.8965,5.2528,-3.8883
+ebca3acb-1b5e-414f-995b-5c142105f099,gbaka : Adjamé gare en haut → Cocody Akouédo,5.3412,-4.0194,5.3506,-4.023
+d3024a5d-0cc6-42e2-9cb0-c8db2a9b57c4,woro woro : Abobo Samaké → Abobo Baoulé,5.4212,-3.9905,5.4154,-4.006
+1e056e54-8c2a-4303-8760-f88b4930df11,woro woro : Mosquée Ado → Carrefour Kennedy,5.4187,-4.0059,5.4236,-3.9978
+52de2bb7-9772-4310-82ee-2c46611f3b70,woro woro banalisé : Plateau Telecel/Mosquée → Cocody La vie,5.3198,-4.0156,5.3484,-4.0033
+b38de2cf-ac38-4bae-84c1-262391fd56f2,gbaka : Adjamé Liberté → Yopougon Niangon Terminus 27,5.3535,-4.0146,5.3161,-4.0901
+024f577e-9098-47b1-b0e9-cbd45f65636c,woro woro : Carrefour Kennedy → Mosquée Ado,5.4187,-4.0059,5.4236,-3.9978
+4e9a18ba-eee1-45a4-8738-efe3829fef3f,gbaka : Yopougon Carrefour Académie → Adjamé Texaco,5.3244,-4.1064,5.3511,-4.1039
+6eb0761d-1168-4596-b2fd-a961e28ef5f1,woro woro banalisé : Plateau Longchamp → Cocody Patisserie,5.3307,-4.0228,5.3318,-4.0228
+165d7fba-d5b2-44da-a58f-34c082edfeb8,gbaka : Abobo Gare Mairie → Adjamé Renault,5.4174,-4.0169,5.3566,-4.0244
+010f7921-da88-4d63-997d-9b7396e2cb3d,gbaka : Adjamé Renault → Abobo Gare Mairie,5.3567,-4.0244,5.4174,-4.0168
+901ebf7f-dffe-4a96-ace2-48b3925ddb12,gbaka : Adjamé Nouvelle Gare → Carrefour JAUG,5.3599,-4.029,5.4349,-4.0124
+dd64cdc5-c9f0-4e18-826d-9ef1f55469d6,woro woro banalisé : Plateau Telecel/Mosquée → Cocody Patisserie,5.3198,-4.0156,5.3367,-4.0003
+ce158427-975d-43c3-a1a5-7bc1b7b572bb,woro woro banalisé : Cocody Patisserie → Plateau Telecel/Mosquée,5.3187,-4.0197,5.3198,-4.0156
+a79d7e43-5316-4428-83b0-bf52c51d26e4,gbaka : Adjamé mosquée → Yopougon Niangon Terminus 27,5.3591,-4.029,5.3161,-4.0901
+7bbe0c88-3f92-449a-a5fe-3184673c1864,woro woro banalisé : Plateau Pyramide/Mosquée → Cocody Patisserie,5.32,-4.0155,5.3405,-4.0156
+c72106be-bf0e-4998-a3ab-12c64cc61f51,gbaka : Adjamé Nouvelle Gare → BC,5.3602,-4.0288,5.4421,-4.0207
+d75e9356-242b-44d5-ad8f-de7aff08dabe,gbaka : BC → Adjamé Nouvelle Gare,5.4423,-4.0205,5.3599,-4.0286
+68d9ff6c-7e21-4d31-abaa-fc4dc8c2ba47,gbaka : Carrefour JAUG → Adjamé Nouvelle Gare,5.4185,-4.0173,5.3595,-4.0288
+1bc8d417-0593-4747-9c8e-c8dc7d24923d,woro woro banalisé : Cocody Patisserie → Plateau Pyramide/Mosquée,5.3242,-4.0196,5.32,-4.0155
+789864f3-79dc-47ff-a16f-69fdc708dd39,gbaka : Usine → Gonzagueville Corridor,5.2396,-3.8965,5.2499,-3.8935
+6264e82b-4b60-4ec1-8112-048cacd43e5d,gbaka : Gonzagueville Corridor → Usine,5.2396,-3.8965,5.2495,-3.8917
+e30f9b02-2ec9-4916-a596-66a46c0af1e1,woro woro : Terminus Derrière Rail → Abobo Gare,5.4117,-4.0206,5.415,-4.0333
+9f22f034-b390-419f-844d-87845a30bbc7,woro woro : Abobo Azur Mobil → Palmeraie,5.3663,-3.9605,5.4,-4.0062
+b47b5cae-3110-4f1c-91e9-73d32f48edef,woro woro banalisé : 9 kilo → Plateau St Paul,5.3577,-3.9654,5.3244,-4.022
+64036c39-dd7a-40b5-906d-d0c573765c90,woro woro banalisé : Koumassi Bacongo→Yopougon Lavage,5.3003,-3.9967,5.3435,-4.0723
+33650825-7819-4505-8514-17c287aa2fa4,woro woro : Belle côte - Warren/commissariat → Petro Ivoire,5.3604,-3.9618,5.4044,-3.9905
+18ff27bd-71f2-48ff-a73f-bd61411b5f0e,woro woro : Petro Ivoire → Belle côte - Warren/commissariat,5.3664,-3.9606,5.4045,-3.9904
+084b979f-2413-406b-8048-9f44a0ab2a15,woro woro : Abobo Gare → Terminus Derrière Rail,5.4117,-4.0206,5.4151,-4.0333
+eff23dff-f0aa-4fb6-9ed6-3bef176f14ce,woro woro : Terminus 51-52 - Abobo Gendarmerie,5.4258,-4.0211,5.415,-4.0333
+5205ea5e-d5b9-47e6-93f8-ae106d3eb187,woro woro : Abobo Gendarmerie → Terminus 51-52,5.4258,-4.0211,5.4151,-4.0333
+84a3b837-03e1-454c-8f82-f41d1bc7d20b,gbaka : Yopougon Carrefour Académie → Adjamé mosquée,5.3238,-4.1067,5.3599,-4.0286
+71302a29-c8c4-46bd-8c13-11a77bcd1285,woro woro : Abobo Marché → Kennedy,5.424,-4.0155,5.4236,-3.9978
+51d679cb-9fde-4204-82e5-850763210cdb,gbaka : Adjamé Liberté → Lycée Moderne Abobo,5.3544,-4.0164,5.4198,-4.0158
+8af98141-ef13-451a-87b9-d13f47b90839,woro woro banalisé : Riviera 2 → Treichville Gare Bassam,5.3003,-3.9967,5.2986,-4.0045
+4bfb3a26-5e0f-4eea-892d-6e4eff09a385,woro woro : Kennedy → Abobo Marché,5.4238,-4.0151,5.4236,-3.9978
+e56bbb30-543b-429d-9e66-db843a046fa2,gbaka : Attecoubé Garage → Yopougon Locodjro Marine,5.3145,-4.0353,5.3535,-4.0326
+746f26be-1ae5-4c30-8262-4227e2e757ce,woro woro : Avocatier Carrefour Niamkey → Lycée Moderne d'Abobo,5.4278,-4.0146,5.4438,-4.0266
+7dbe8285-bf91-4523-9eb7-8f16e27d633e,woro woro banalisé : Cocody La vie → Plateau Longchamp,5.3484,-4.0039,5.3242,-4.0217
+e1b622fe-7f8a-4b9b-acba-e1c5f037595b,woro woro banalisé : Cocody La vie → Plateau Pyramide/Mosquée,5.3242,-4.0196,5.32,-4.0155
+f4bd54f6-4358-4b77-9f9a-cdd055eea630,woro woro banalisé : Plateau Pyramide/Mosquée → Cocody La vie,5.3198,-4.0156,5.3484,-4.0033
+0ff7087b-5927-4b9a-a704-51c09bf46118,gbaka : Adjame mosquée en bas du pont → Yopougon IGES,5.3559,-4.0716,5.3191,-4.0803
+09a64a7b-9db9-4037-8400-94d34b6fe000,woro woro banalisé : Port Bouet → Yopougon,5.3037,-3.9946,5.3435,-4.0723
+4a4fbb09-fe54-4d1e-8729-d8268550015a,woro woro : Lycée Moderne d'Abobo → Avocatier Carrefour Niamkey,5.4274,-4.0153,5.4438,-4.0266
+111aa938-5ddd-41d0-aa43-09be7c6bc324,woro woro : Belle Cité → Lycée Moderne d'Abobo,5.4461,-4.0207,5.4259,-4.0206
+455bdd3b-7f3e-4965-a5e0-5323a42cd949,gbaka : Adjamé Texaco → Marché Bagnon,5.3403,-4.1097,5.3649,-4.0957
+bd2b7fc7-cc6b-4468-818d-bac4cb5db7ff,gbaka : CIE → Liberté,5.4219,-4.0166,5.3542,-4.0165
+7e1d5017-4906-4372-9276-81b644a7d9f2,woro woro banalisé : Treichville Gare Bassam → Cocody La vie,5.2988,-4.005,5.3484,-4.0033
+f5108253-cee5-4e3d-83e6-da6bed882e05,woro woro : Lycée Moderne d'Abobo → Belle Cité,5.4461,-4.0207,5.4278,-4.0146
+7a06847e-a533-4668-bc24-6a669748a932,gbaka : Yopougon Micao → Adjamé Texaco,5.3803,-4.0943,5.3541,-4.0178
+c85817ad-9574-41b9-a736-ee5389dd2c9f,woro woro banalisé : Plateau Telecel/Mosquée → 9kilo,5.3198,-4.0156,5.3575,-3.9653
+e2d3ba9c-f2b8-4534-b383-b6be1eab0a72,gbaka : Adjamé Sous le Pont → Bocabo Carrefour Marché,5.3602,-4.0288,5.4278,-4.0315
+03cad3fb-80b2-4ef2-9e87-6b448de5ffd8,woro woro : Dokui → Abobo Marché,5.4237,-4.0156,5.3958,-4.001
+c76029e4-2f75-4821-abfe-d85849e61e92,gbaka : Adjamé Sous le Pont → Ancien Marché Pk18,5.364,-4.0292,5.4499,-4.0524
+0107e777-bf54-40c2-948a-dd58891168e5,woro woro banalisé : Rivera 2 → Yopougon,5.3537,-3.9784,5.3435,-4.0723
+afa57940-0055-4901-9d54-12086caee3d9,woro woro : Carrefour Angré → Gare d'Abobo,5.4148,-3.9957,5.4204,-4.0171
+d30a8a26-3b16-47c1-9143-ac10f2d48cc7,woro woro banalisé : Yopougon 1er pont → 2 Plateaux Mobil,5.3435,-4.0723,5.3684,-3.9984
+ffaa68e1-5aa8-44e5-bd7b-0dc7d0c2fb15,woro woro : Abobo Marché → Dokui,5.4237,-4.0156,5.3958,-4.001
+1f90b13d-29c5-41d8-82b3-ac6b571d2b29,woro woro : Petro Ivoire → 2 Plateaux Mobil,5.4042,-3.9908,5.3691,-3.9984
+8121cf1b-7696-49e1-a78d-6f87a8f92d2b,gbaka : Yopougon Siporex → Samake,5.3565,-4.0734,5.4174,-4.0168
+4afbe20f-f49a-4c9e-b61f-6c895d2f0dab,woro woro : 2 Plateaux Mobil → Petro Ivoire,5.369,-3.998,5.4042,-3.9907
+b1de46b3-60fe-42f8-96ac-3334278adb85,gbaka : Zoo → Lycée Moderne d'Abobo,5.3786,-4.0069,5.4198,-4.0158
+a602ba87-7f66-4f19-8020-9edf57cb603a,gbaka : Liberté → Ecole de Police,5.3534,-4.015,5.35,-3.989
+e5f1f556-8fd8-44a0-ac19-f50ab280e27a,gbaka : Yopougon Palais → Adjamé Mosquée,5.3271,-4.0769,5.3571,-4.0261
+8fca3e4d-bb0c-4cc8-a436-d51717e8a661,woro woro banalisé : 9 kilo → Yopougon 1er Pont,5.3577,-3.9654,5.3436,-4.0723
+52f2d394-8296-4010-9674-46674491f6b7,gbaka : Djeni Kobenan → 9 Kilo,5.362,-4.0173,5.3575,-3.9653
+ccac2673-b721-4610-a4ab-398eab6607e1,woro woro : Houphouet-Boigny → Abobo marché,5.4238,-4.0151,5.4436,-4.0088
+64b7ee76-2363-489c-b15c-da60fc0ca103,gbaka : Attécoubé Garage → Koweit,5.3345,-4.0623,5.3223,-4.055
+221eea67-322c-40b4-bfb1-ebd7badf7be8,woro woro banalisé : Yopougon → Port Bouet,5.3435,-4.0723,5.2576,-3.9729
+a23e2170-7ae3-48cf-84bc-a1f52a0c87cd,gbaka : Attécoubé Garage → Mossikro,5.3415,-4.0463,5.3537,-4.0332
+f12276a1-ba64-49eb-9b45-4cf68625eae8,woro woro banalisé : Plateau par Pyramide/Mosquée → Palmeraie,5.32,-4.0155,5.3196,-4.0153
+27be5a66-92af-4124-a7a4-3e68eed26c5d,woro woro : Abobo marché → Houphouet-Boigny,5.424,-4.0155,5.4436,-4.0088
+799befad-7392-4b25-9dd8-02e00202a2ec,gbaka : Abatta → Adjamé en Haut,5.3608,-3.9581,5.3504,-4.0229
+bb5fea2c-de88-478f-b822-c90222bbceef,woro woro : Académie → Palais,5.3238,-4.1067,5.3253,-4.0775
+cbc961ef-ce0a-4de2-b20c-717dd6d405f0,gbaka : Djeni Kobenan → Maroc Antenne,5.3618,-4.0175,5.3414,-4.1004
+466a035c-4871-490f-9290-bf1f74448dfb,woro woro : Carrefour kennedy → Abobo Marche,5.4239,-4.0153,5.4187,-4.0059
+0a6ccf6e-93cf-469a-acf2-8b7bf7f3d5ba,woro woro : Palais → Académie,5.3253,-4.0775,5.3238,-4.1067
+df02cdc2-44a6-415f-af07-bf4bdd70d354,gbaka : Mossikro → Texaco,5.3415,-4.0463,5.3544,-4.0178
+5781054b-8963-45ea-9833-3dbec3aea23b,woro woro : Abobo Marche → Carrefour kennedy,5.4238,-4.0151,5.4187,-4.0059
+49accbae-1849-4396-9a2c-ab802c3a3d00,woro woro : Petro Ivoire → Keneya,5.3511,-4.1038,5.3467,-4.0737
+04e18f58-af7f-4d2d-9a29-88e8a57ae4f3,woro woro: Gare d'Abobo → Carrefour Angré,5.4202,-4.0166,5.4148,-3.9957
+c9c47d16-040a-4f68-a4c1-2f1eea8f97b4,gbaka : Palmeraie → Liberté,5.361,-3.9597,5.3527,-4.0144
+19e23968-4b5a-47a0-a79f-518cc9591c39,gbaka : Académie → Bracodi,5.3238,-4.1067,5.3574,-4.0276
+2152772b-658e-4b85-b230-0f37f21d0ac6,woro woro banalisé : Yopougon 2è Pont → 9 kilo,5.3435,-4.0723,5.3575,-3.9653
+ee18a729-27a1-4ff3-b73c-6fca963fbeab,gbaka : Bracodi → Agripac,5.4218,-4.0182,5.4444,-4.0486
+fc586b45-0efc-415a-8acd-4a72c9931aae,wowro-woro: Maison Blanche → Carrefour Lycée,5.3034,-3.9761,5.3117,-3.9608
+6bb53fc3-2619-4b41-beb2-e484af6c94de,woro woro banalisé : Plateau Telecel/Mosquée → Palmeraie,5.3198,-4.0156,5.3608,-3.9581
+a34ac7af-b882-4e6c-a44d-dab05d583a18,woro woro banalisé : 9 kilo → Yopougon 2è Pont,5.3577,-3.9654,5.3437,-4.0733
+b60d9637-3e63-4443-ba30-0a2368c8d3b9,gbaka : Adjamé Liberté → Treichville Gare de Bassam,5.3533,-4.0145,5.2996,-4.0024
+e3c759b5-7650-4eab-8fb0-c260562762da,woro woro banalisé : Yopougon 1er Pont → 9 kilo,5.3436,-4.0723,5.3575,-3.9653
+d2e67c1e-ac6d-4b3c-83ad-10311ba3098f,woro-woro: Carrefour Lycée → Maison Blanche,5.3032,-3.976,5.3117,-3.9608
+80493f5a-d4eb-4399-832d-678545a00e6e,woro woro banalisé : Yopougon → Treichville,5.3558,-4.074,5.2982,-4.0031
+7facd454-8118-4894-be4b-a65be833283d,gbaka : Port-Bouët Vridi → Adjamé Agban,5.27,-4.0055,5.3587,-4.0298
+7d12c588-770c-43cf-ac02-660cd2f76236,woro woro : Keneya → Petro Ivoire,5.3511,-4.1038,5.3467,-4.0738
+eb74a92f-00bf-4bbe-854f-bd181d04b717,woro woro : Sable → Jean-Paul 2,5.3553,-4.0656,5.3355,-4.055
+ca650833-6335-4deb-a2e9-bb1789adfe61,gbaka : Koumassi → Adjamé Liberté,5.3037,-3.9946,5.3534,-4.0155
+97a6796d-163c-44a0-9e96-ea93aa3cd28d,woro woro : Jean-Paul 2 → Sable,5.3553,-4.0656,5.3355,-4.055
+8ab389c8-f376-49f5-ab3a-8468a463661e,woro woro : Abobo Doumé → Gabriel Gare,5.3355,-4.055,5.3558,-4.074
+97e88342-6e15-42dc-aa99-58ddb5096ac3,woro woro banalisé : Palmeraie → Port Bouet,5.2663,-3.9619,5.2576,-3.9729
+4b79dcf2-6514-4f9e-be93-db08a7e69c75,woro woro banalisé : Palmeraie → Yopougon,5.3623,-3.9593,5.3435,-4.0723
+493686d5-059c-4314-8701-ccfdb7b67b70,woro woro banalisé : Abobo St Joseph → Cocody Pâtisserie,5.4166,-4.0168,5.3367,-4.0003
+a8e92e30-40c4-45fa-9758-cfae55bb3ace,woro woro : Gabriel Gare → Abobo Doumé,5.3557,-4.0716,5.3355,-4.055
+aeb6d153-5d38-4e49-94ad-db3035ae17da,woro woro banalisé : Yopougon → Rivera 2,5.3435,-4.0723,5.3532,-3.9782
+307e5957-ae7a-4417-99f1-bc1645770410,woro woro : Mossikro → Locodjro,5.3146,-4.0352,5.3409,-4.0464
+db706179-f754-4cfb-b55e-b27c17baaa99,woro woro : Beago Village → Palais,5.3244,-4.0775,5.3074,-4.0699
+75476541-dfc9-4c86-8bae-63bf6c24975d,woro woro : Palais → Beago Village,5.3244,-4.0775,5.3074,-4.0699
+85b90149-c571-48c2-8742-66214a833129,woro woro : Locodjro → Mossikro,5.3146,-4.0352,5.3409,-4.0464
+7d1686d5-3ab1-4ffd-ab67-1a1194b26d0d,woro woro : Marché Bagnon → Lokoua,5.3371,-4.1111,5.3193,-4.0997
+19ca3353-3c95-4513-8b2e-20013df76ee7,gbaka : Adjame Agban → Yopougon Boissy,5.3284,-4.0496,5.3344,-4.055
+a2333b8a-98c2-4acc-b292-98ef9dde9ab0,gbaka : Yopougon Camp Militaire → Adjamé Agban,5.3344,-4.055,5.3197,-4.0617
+3e4ad06e-be91-40b4-925c-1661b508479d,woro woro banalisé : Marcory → Yopougon Lavage,5.3037,-3.9946,5.3434,-4.0733
+06a9e6d5-9afc-4e89-bf72-49fc096e5568,woro woro : Terminus 27 → Marché Bagnon,5.3161,-4.0901,5.3371,-4.1111
+de9491f2-1a92-48e1-a2f0-c32b2b8dcf5b,woro woro banalisé : Yopougon Lavage → Marcory,5.3435,-4.0723,5.3001,-3.9887
+a2c900ce-e729-49a3-8d0f-cf0f9de2bc42,woro woro : Mary'se - Rond point ADO → Bonoumin,5.3789,-3.9718,5.3585,-3.9652
+f4bae98b-9ea5-4901-a3fe-b64f5987b793,woro woro : Bonoumin → Mary'se - Rond point ADO,5.3585,-3.9652,5.3789,-3.9718
+57eec113-467c-451f-8ca9-85d77692141a,woro woro : Gare Nord en Haut → Boribana,5.3591,-4.029,5.3413,-4.0315
+1b1c4ab5-ab05-490e-b842-ccb0797a8e21,woro woro : CHU Angré → Palmeraie Station,5.3661,-3.9605,5.3661,-3.9605
+1424e94f-8b20-46a7-ab3a-5116c97b6910,gbaka : Yopougon Kowët → Adjamé Texaco,5.3345,-4.0623,5.3222,-4.0543
+0ad9a7f4-230a-4cd3-ad64-866e4ec73c37,gbaka : Adjamé Texaco → Yopougon Kowët,5.3345,-4.0623,5.3223,-4.055
+10538cb1-af80-4db5-b14b-ab64c2d290ab,gbaka : Yopougon Palais → Adjamé Renault,5.3271,-4.0769,5.3566,-4.0244
+e8349213-b2fd-4887-b5ef-6f4a1041c8d7,gbaka : Adjamé Renault → Yopougon Palais,5.3567,-4.0244,5.3271,-4.0769
+f37c5dad-26d0-462d-94c8-164878b93501,gbaka : Locodjro → Attécoubé Garage,5.3146,-4.0352,5.3535,-4.0332
+07628549-4593-423b-ae67-20aacccf2b0f,gbaka : Adjamé Liberté → Koumassi,5.3534,-4.0151,5.2918,-3.974
+d8d5c8fa-0e94-4e68-a61a-9b142c2b865a,woro woro : Palmeraie Station → CHU Angré,5.3664,-3.9606,5.3662,-3.9606
+2caff157-a042-4edf-afb3-21723bc495fe,gbaka : Grand Carrefour Koumassi → Treichville Grand Carrefour,5.3003,-3.9967,5.2987,-4.0015
+24ae5c87-3b1d-4901-af92-3bdc104dcce4,woro woro : Marché Bagnon → Terminus 27,5.3371,-4.1111,5.316,-4.0903
+de4c835a-7f7d-4a59-8d06-cb752d9dd414,woro woro : Santai → Nouveau Marché,5.3687,-3.8959,5.3532,-3.8785
+c881f911-150a-4526-ba60-bffe58215e5b,gbaka : Mairie d'Abobo → Adjamé Agban,5.4219,-4.0166,5.3588,-4.0309
+6c2fa0bf-80d8-4407-8040-eac4d607fbce,gbaka : Adjamé Agban → Mairie d'Abobo,5.3587,-4.0305,5.4219,-4.0166
+9133f35e-61ab-4f5c-b4db-5f70d1b3cc34,woro woro : Nouveau Marché → Santai,5.3687,-3.8959,5.3532,-3.8785
+26ab9e54-b222-4b2c-8133-11c3b16d5dc8,gbaka : Djeni Kobenan → Palais,5.3618,-4.0175,5.3262,-4.0772
+93a163e4-2561-48ac-8b65-a21aa24fd583,gbaka : Terminus 27 → Bracodi,5.316,-4.0903,5.3574,-4.0276
+f9914d7c-da23-43a7-af02-910ad3a12947,woro woro : Adjin → Nouveau Marché,5.3939,-3.8548,5.3532,-3.8785
+04b082aa-84ce-441e-b9d6-b544aeb63eb1,woro woro : Nouveau Marché → Adjin,5.3939,-3.8548,5.3532,-3.8785
+7a768776-ba0f-4a60-97d1-158905c31603,woro woro banalisé : Mairie d'Adjamé → Cocody 2 Plateaux,5.3405,-4.0263,5.3684,-4.0013
+39a099c3-f6ce-4dd2-afa9-2f6d4ae65056,woro woro banalisé : Cocody Pâtisserie → Mairie d'Adjamé,5.3409,-4.0167,5.3418,-4.0262
+a7efb1e2-5895-486f-9ede-b1c52fbba954,woro woro : S3i → Nouveau Marché,5.3801,-3.8849,5.3522,-3.8776
+881351f0-5d23-48b5-8c5c-21f60bf4e7ce,woro woro : Nouveau Marché → S3i,5.3801,-3.8849,5.3532,-3.8785
+a0597e4e-456f-4587-bc6a-1ec864326f89,woro woro : École Régionale d’Agriculture → Nouveau Marché,5.3599,-3.8903,5.3532,-3.8785
+a1bbc473-819a-4c6f-b97c-4dbc9fc0935f,woro woro banalisé : Plateau Super U → Djeni Kobenan,5.3209,-4.0196,5.3219,-4.016
+d5853a78-9960-48fc-88bd-a2501b3d4008,woro woro : Nouveau Marché → École Régionale d’Agriculture,5.3599,-3.8903,5.3532,-3.8785
+15b5087d-8b44-4927-a401-25b781963a77,woro woro : Delacelle → Nouveau Marché,5.3699,-3.8897,5.3532,-3.8785
+c1874245-4e1d-4907-aa66-1af681c7d4fc,gbaka : Yopougon Niangon Terminus 27 → Adjamé Liberté,5.3164,-4.0892,5.3535,-4.0146
+abaec94e-fa49-496d-9183-d7c5a66e1c67,woro woro : Nouveau Marché → Delacelle,5.3699,-3.8897,5.3532,-3.8785
+62034c5b-3dfa-4d04-b346-a370b3d15a9c,woro woro : Korhogobougou → Bangui,5.3489,-3.8852,5.3362,-3.8924
+d5bb3665-9ac3-4305-9a22-80a94413ce4f,woro woro : Bangui → Korhogobougou,5.3362,-3.8924,5.3489,-3.8852
+e7cc686c-08fd-4178-96de-a43881a7e558,woro woro : Berlin → Bangui en Bas,5.3489,-3.8851,5.3426,-3.8848
+4af10e5c-4378-443e-9710-4203ee753573,gbaka : Anoumabo sans fil → Treichville Rue 12,5.3003,-3.9967,5.3016,-4.0105
+a49fb480-9e01-437d-999b-e490c1b6ed32,woro woro : Bangui en Bas → Berlin,5.3489,-3.8851,5.3426,-3.8848
+07061d64-2d61-4c2c-b7df-31cfbc8aace2,woro woro : S3i → Gare Coopec,5.3801,-3.8849,5.3585,-3.8836
+7764777f-5c5a-463f-82d6-8064d7cc4b38,woro woro : Gare Coopec → S3i,5.3801,-3.8849,5.3585,-3.8836
+e4c4aba5-a454-4193-ba02-2988dcf71124,woro woro: Station - Akandjé,5.3608,-3.8942,5.4134,-3.8979
+d19fdf08-da74-4238-9f00-ad4bcb1c4d71,gbaka : Yopougon Palais → Adjamé Liberté,5.3271,-4.0769,5.3535,-4.0146
+f9d98ddf-87b7-4b9d-ac2f-98e4cf8ad8f4,woro woro : Abobo Baoule → Gare d'Abobo,5.4212,-3.9905,5.4195,-4.0154
+c17ce73b-7b63-4080-b77d-d685cb4c214f,woro woro: Akandjé - Station,5.3608,-3.8942,5.4134,-3.8979
+60396eea-06d0-48a0-bb0b-461170817620,woro woro : Berlin → Nouveau Marché,5.3489,-3.8851,5.3426,-3.8848
+5529b403-ef44-4bd8-aa0e-7b93ca5a9e96,gbaka : Anan → Escalier,5.3267,-3.8786,5.3558,-3.8819
+cbae151a-c479-4f4e-a203-baa1e85b775a,woro woro : Nouveau Marché → Berlin,5.3489,-3.8851,5.3426,-3.8848
+2ee557b3-9b81-480d-aed9-984a3fc67107,woro woro : Promogim → Feh Kessé,5.384,-3.9045,5.3744,-3.9115
+7f69c3aa-a7e7-41ea-a655-20fb3095d7b6,woro woro : Feh Kessé → Promogim,5.384,-3.9045,5.3744,-3.9115
+8c508d66-f8d1-4152-9a1a-840cc3d9a486,woro woro : Oribat → Feh Kessé,5.3942,-3.9059,5.3744,-3.9115
+badb6322-e612-42a7-bc3e-94e471821b79,woro woro : Abobo Azur Mobil → 2 Plateaux Mobile,5.4,-4.0059,5.3691,-3.9984
+4b79cded-9159-4967-8d9b-a20c04d1f343,woro woro banalisé : Treichville Gare Bassam → Renault,5.2998,-4.0016,5.3555,-4.02
+d5117a0d-bb9d-4246-84ba-efdecab60f42,woro woro : Feh Kessé → Oribat,5.3936,-3.906,5.3743,-3.9113
+ee5a7f20-1dcb-47ff-9dda-9540fa84e9f9,woro woro : Gbagba → Station,5.3497,-3.8875,5.3608,-3.8942
+56b47c7f-5a91-41cf-b8b8-a90e00f66dec,woro woro : Station → Gbagba,5.3497,-3.8875,5.3608,-3.8942
+2979be08-4dd7-493f-b0ef-4597d03484b9,woro woro : Houphouet Boigny → Grand Marché,5.4274,-4.0151,5.4436,-4.0088
+3a46e12a-eccf-4564-a2ab-1674d5beacad,woro woro banalisé : Renault → Cocody Pâtisserie,5.3565,-4.0205,5.3493,-4.0195
+d727887e-d448-48f5-a718-6fa60d0cb60c,woro woro : École Régionale d’Agriculture → Bangui en Haut,5.3599,-3.8903,5.3585,-3.8836
+981a2d79-41e5-46fc-8e73-4a2dcdc6f66f,woro woro : Bangui en Haut → École Régionale d’Agriculture,5.3599,-3.8903,5.3585,-3.8836
+150b3306-b14c-45f3-ad60-ed1e58d148f7,gbaka : Port-Bouët Gonzagueville → Treichville Gare de Bassam,5.3003,-3.9967,5.2983,-4.0039
+9b741a41-23de-4c17-bb26-593f123b8c9c,gbaka : Adjamé Liberté → Yopougon Palais,5.3535,-4.0146,5.3261,-4.0772
+cb0677a9-f2b5-44c4-8b91-0e9b8af27380,gbaka : Treichville Gare de Bassam → Port-Bouët Gonzagueville,5.2995,-4.0027,5.2393,-3.8966
+1c24b2dd-1c98-4ae2-b3ac-abf9291082eb,gbaka : Belleville → Casier,5.2427,-3.9159,5.2583,-3.9157
+10236b3a-87a0-4f8a-8edd-09ab408f963e,gbaka : Casier → Belleville,5.2429,-3.9159,5.2583,-3.9157
+a199caa0-d45f-4a2a-863e-40b024e01a56,gbaka : Terminus Mobiobi → Mobiobi,5.2545,-3.9076,5.2423,-3.91
+9ce30806-b25f-42e4-8660-0ce645186d3b,gbaka : Mobiobi → Terminus Mobiobi,5.2545,-3.9076,5.2423,-3.91
+f47b079a-014e-4063-8c6c-ecb74a00da9f,woro woro : Adjamé Bingerville → Nouveau Marché,5.3421,-3.8737,5.3532,-3.8785
+f3bf9327-01ae-4b4e-bd60-72dd5119c28c,woro woro : Nouveau Marché → Adjamé Bingerville,5.3421,-3.8736,5.3532,-3.8785
+7a2e3e2c-c46a-464e-93be-0e0cdee6e5aa,woro woro : Abatta village → Nouveau goudron,5.3283,-3.9167,5.3717,-3.9289
+139cb62d-4384-458b-9dea-8035def75351,woro woro banalisé : Renault → CHU de Cocody,5.3565,-4.0205,5.3549,-4.0189
+57cd4b5a-e4a5-4ac2-a710-a3ecfaeddef6,woro woro banalisé : 2 Plateaux Mobile → Renault,5.3578,-4.0239,5.3562,-4.0174
+befe8b59-d127-409c-a438-509b3e705e1a,woro-woro : Palmeraie après barrage -> Terminus 81,5.3664,-3.9606,5.4038,-3.9852
+d72e7435-fedb-455c-a7c7-5ab303f3e167,woro-woro : Terminus 81 -> Palmeraie après barrage,5.4036,-3.984,5.3664,-3.9606
+3670ed2e-b8ee-4aac-84f3-68dc807defb0,woro woro : Micao → Gabriel gare,5.3826,-4.0947,5.3558,-4.074
+722dcad1-86e1-4398-a332-434555cef269,woro woro : Gabriel gare → Micao,5.3558,-4.074,5.3826,-4.0947
+e6920ed0-a8ec-42a2-9f77-7a0595e0778c,gbaka : Treichville Port de Pêche → Gendarmerie,5.2562,-3.9971,5.426,-4.0198
+a7ae6e30-832b-4a3a-83bc-0a300e62ec79,gbaka : Escalier → Anan,5.3266,-3.8784,5.3558,-3.8819
+2283ba30-d4bd-4a68-94ed-37a75dc66e72,gbaka : Gendarmerie → Treichville Port de Pêche,5.4257,-4.0205,5.2562,-3.9971
+04832c59-9d28-4d31-aad8-3cb3ee4945b6,gbaka : Marchoux → Escalier,5.3558,-3.8819,5.3325,-3.8894
+e19414f8-f090-4311-a8ad-01d397d40736,gbaka : Escalier → Marchoux,5.3558,-3.8819,5.3325,-3.8894
+f88e9733-a7c9-45e5-b3d7-050553c59956,gbaka : Treichville Gare de Bassam → Anani,5.2985,-4.0016,5.2371,-3.8738
+26bd33a3-9ab5-4a81-aaed-2ed9c85db2f2,gbaka : 2 Panneaux → Escalier,5.3558,-3.8819,5.3461,-3.8356
+8e3ccdfe-c70d-42ef-807b-067bd828b32b,gbaka : Anani → Treichville Gare de Bassam,5.3003,-3.9967,5.2983,-4.0039
+19f40331-7d16-4a4b-abf2-a11e6b2ba103,gbaka : Yopougon gare Gesco → Adjamé Agban,5.3671,-4.1019,5.3646,-4.0963
+04342edc-82d7-404e-ac91-53c8fd075fd8,gbaka : Grand-Bassam → Treichville Gare de Bassam,5.2066,-3.735,5.2987,-4.0015
+8ad73c90-abf5-4ded-a89c-d962591e82da,woro woro : Grand Marché → Houphouet Boigny,5.4274,-4.0153,5.4436,-4.0088
+b7548242-e0bc-49af-a7e2-e71b75c2fc90,gbaka : Treichville Gare de Bassam → Grand-Bassam,5.2985,-4.0016,5.2066,-3.735
+2dead928-c6ba-4343-9101-40a6ff629f25,woro woro : Carrefour Power → Carrefour Kennedy,5.4187,-4.0059,5.4249,-3.9902
+04a95bc5-dbf9-4dbd-bb97-dca0df6bea60,gbaka : Adjamé Texaco → Yopougon Camp Militaire,5.3344,-4.055,5.3197,-4.0617
+f6495bd7-d935-4849-9789-c37a97cbe620,gbaka : Yopougon Camp Militaire → Adjamé Texaco,5.3345,-4.0623,5.3197,-4.0617
+f150a156-15bb-4b6d-b18e-8f7976a347bf,woro woro : Carrefour Kennedy → Carrefour Power,5.4187,-4.0059,5.4249,-3.9902
+21bb1f37-cf51-4a66-b7ef-1097abfe8e13,gbaka : Adjamé Texaco → Yopougon Carrefour Académie,5.3541,-4.0178,5.3242,-4.1065
+e49e0526-ff1c-4793-8b30-daa9291df6b4,gbaka : Carrefour Lokoa → Adjamé Liberté,5.3193,-4.0997,5.3535,-4.0146
+5ae8e284-5505-4039-8e68-4d20f67baad7,woro woro : Cité policère → Gendarmerie,5.435,-4.0176,5.4278,-4.0202
+e6a2ede9-1349-4e2e-9699-92ef79b3d8ac,gbaka : Yopougon Sideci IGES → Adjamé Liberté,5.3191,-4.0803,5.3535,-4.0146
+16b9f511-d3b2-4e08-84a8-48c8b71e402a,woro woro : Carrefour Power → Pharmacie Santé,5.4239,-4.0153,5.4249,-3.9902
+c7b6c630-1196-4187-bfcd-64030638615d,woro-woro : Siporex - Toit rouge Jean-Paul 2,5.3557,-4.0746,5.3355,-4.055
+683c1c9f-c1d6-4c0e-a0b4-8a33c0847c8e,woro-woro : Yopougon Koweit - Siporex,5.3557,-4.0746,5.3355,-4.0623
+e86b041f-d70b-45d5-a3a1-2e82089b6bc1,gbaka : Adjamé Liberté → Yopougon Sideci IGES,5.3535,-4.0146,5.3191,-4.0803
+91bc7bbf-fb5c-4e77-aec1-6095c7b635b8,woro-woro : Siporex - Yopougon Koweit,5.3557,-4.0746,5.3355,-4.0623
+b03072d1-fb2c-4191-b626-d49ab9f5ed60,woro woro : Andokoi - Carrefour Zone → Siporex,5.3563,-4.0663,5.3692,-4.0802
+0671b840-bf88-4ea9-b9ac-5286a35ec31e,gbaka : Yopougon Niangon Terminus 27 → Adjamé mosquée,5.3161,-4.0901,5.3594,-4.0288
+a1a1fa3d-23e4-4c0a-a77f-56519dee5a97,gbaka : Yopougon marché Bagnon → Gare Kobenan Agban,5.3403,-4.1097,5.3618,-4.0175
+663038a7-2b24-451d-a884-6b4f38b4b3f8,gbaka : Escalier → 2 Panneaux,5.3558,-3.8819,5.3461,-3.8356
+cde79e3c-2678-4929-a330-a84d34a2d8c9,gbaka : Adjame Brigade → Yopougon Lokoa,5.3559,-4.0716,5.3193,-4.0997
+a903b52d-76cc-466e-b066-3e5a47cebe5c,gbaka : Yopougon Kowëit → Gare Kobenan Agban,5.3345,-4.0623,5.3222,-4.0547
+65b2d39f-4cee-497d-9e31-886105140786,woro woro : Siporex → Andokoi - Carrefour Zone,5.3564,-4.0739,5.3692,-4.0802
+2536c059-85e9-47bc-aa32-4dce59cb9948,gbaka : Yopougon Lubafrique → Gare kobenan Agban,5.3301,-4.1041,5.3511,-4.1039
+488b2df9-d22c-459d-b79f-78c653d0c82b,gbaka : Gare kobenan Agban → Yopougon Lubafrique,5.3512,-4.104,5.3649,-4.0957
+726b8144-22bd-40c0-b25e-72efaefdcb71,gbaka : Gare Kobenan Agban → Yopougon Niangon Terminus 27,5.3618,-4.0175,5.316,-4.0903
+cb3371ba-e636-42ea-bbe6-d99063ccb166,gbaka : Yopougon Niangon Terminus 27 → Gare Kobenan Agban,5.3161,-4.0901,5.3618,-4.0175
+fbb11fa8-a98b-437e-bfeb-a8115b72bc36,woro woro : Camp Militaire → Sapeur Pompier,5.3283,-4.0612,5.319,-4.0616
+4942600b-5b22-4e72-9a97-acaa7eb88cfd,gbaka : Yopougon Carrefour Académie → Gare Kobenan Agban,5.3244,-4.1064,5.3511,-4.1039
+03994842-ef09-4fd6-a34e-f0892ebcfc8e,gbaka : Gare Kobenan Agban → Yopougon Carrefour Académie,5.3551,-4.0892,5.3244,-4.1064
+cedea0e2-d7d6-4aa7-a577-a3a6fd79ee2e,woro woro : Sapeur Pompier → Camp Militaire,5.3283,-4.0612,5.319,-4.0616
+52c410be-bc8f-4064-bc34-979803ea9f25,gbaka : Adjamé Agban → Port-Bouët Vridi,5.3588,-4.0296,5.27,-4.0055
+f21036d7-a30f-417f-9686-d67d946d5fd5,woro woro : Terminus 40 → Sapeur Pompier,5.3283,-4.0612,5.3303,-4.0741
+96f64239-182b-460c-b45e-85cf95caf646,woro woro : Sapeur Pompier → Terminus 40,5.3283,-4.0612,5.3303,-4.0741
+cf8cabe7-5042-4648-aab0-b01e9edee8d2,Woro woro : Prison Civil → Gabriel Gare,5.3923,-4.0836,5.3563,-4.0663
+a26ca7f0-5671-4242-b2ed-e5fb1a809244,Woro woro : Gabriel Gare→ Prison Civil,5.3923,-4.0836,5.3869,-4.0772
+c0f53133-3aca-4f71-af62-aa67cf1c8791,gbaka : Yopougon IGES → Adjame mosquée en bas du pont,5.3191,-4.0803,5.3574,-4.0276
+a247feab-21fa-4101-b4f0-bc2e85cfcb2f,woro woro : Camp Militaire - Siporex,5.3558,-4.074,5.3557,-4.0746
+64656499-ef12-41eb-8c8f-e5e600f7627a,woro woro : Siporex → Camp Militaire,5.3555,-4.0746,5.319,-4.0616
+4874d3b6-1f9b-4d84-8349-a0a6b1c4f34f,woro woro : Koweit → Complexe,5.3345,-4.0623,5.3222,-4.0543
+07b20eb1-5f94-4f31-8ecb-7ae05d07b309,woro woro : Complexe → Koweit,5.3345,-4.0623,5.3222,-4.0541
+09bee742-a9f5-4d4e-80e3-9a20acfae310,woro woro : Gabriel Gare → Mossikro,5.3563,-4.0718,5.3409,-4.0467
+33388c95-d5df-4ab3-9d6b-5eb828cfeab3,woro woro : Toit rouge Jean-Paul 2 → BHCI,5.3355,-4.055,5.3408,-4.073
+2b942823-8c28-4189-9c40-e0e3c6b1264f,woro woro : BHCI → Toit rouge Jean-Paul 2,5.3355,-4.0623,5.3408,-4.073
+88ccbf97-60c4-4610-ad2a-e0a56503a53c,gbaka : Yopougon Locodjro Marine → Attecoubé Garage,5.3146,-4.0352,5.3534,-4.0331
+bbb4cdc6-9dad-4d7f-9938-f731d9dd6559,woro woro : Sapeur Pompier → BHCI,5.3355,-4.0623,5.3408,-4.073
+2b7e8e76-4fd7-45a9-aa3b-890629b1393c,woro woro : Lama Fofana → BHCI,5.3378,-4.055,5.3408,-4.073
+1873f8ef-d586-4fc5-8fe6-e93cad05c776,gbaka : Yopougon Lubafrique → Adjamé Texaco,5.3301,-4.1041,5.3511,-4.1039
+c4b307eb-5a52-4ac8-804d-3526f1b9c749,gbaka : Marché Bagnon → Adjamé Texaco,5.3377,-4.1125,5.3541,-4.0178
+f827a6a4-35fd-4b08-b3d5-e0df1fee3fea,woro woro : BHCI → Sapeur Pompier,5.3355,-4.0623,5.3408,-4.073
+f4152e04-b037-4fe9-8a48-e4b765c83778,woro woro : Toit rouge Jean-Paul 2 → Palais,5.3306,-4.0474,5.3254,-4.0769
+e4794c7d-1dec-4cf6-a6ec-2e455aac36e2,gbaka : Adjamé Texaco → Yopougon Boissy,5.3284,-4.0496,5.3344,-4.055
+1ef357bd-73c3-4b65-9792-ad32183ab0d4,woro woro : Palais → Toit rouge Jean-Paul 2,5.3252,-4.0771,5.3306,-4.0474
+38ef731a-5d64-4e32-83d5-031ffca4f365,woro woro : Saguidiba → Camp Militaire,5.3322,-4.0731,5.319,-4.0616
+37dafae5-7f00-4db1-b8e3-31eec72d83ee,woro woro : Camp Militaire → Saguidiba,5.3322,-4.0731,5.319,-4.0616
+70127c4b-47db-4f3c-b9b4-21e6b6d0438c,gbaka : Yopougon Boissy→ Adjamé Texaco,5.3344,-4.055,5.3284,-4.0496
+72757150-3f14-4dd6-96aa-04839cb5afbf,woro woro : Camp Militaire → Abobo Doumé,5.319,-4.0616,5.3113,-4.0359
+1ef8dae3-215e-4679-b286-6d64ea809a08,woro woro : Saguidiba → Sapeur Pompier,5.3322,-4.0731,5.3283,-4.0612
+350ecb2e-31b6-458b-881a-0da64cb5593a,woro woro : Sapeur Pompier → Saguidiba,5.3322,-4.0731,5.3283,-4.0612
+1b9c805d-df90-477b-b2f4-a271f68d0755,woro woro : Sable nouveau goudron → Mossikro,5.3565,-4.0665,5.3409,-4.0467
+54d54586-361b-4aaa-8362-76dd9c1a1f2a,woro woro : Sable nouveau goudron → Millionnaire Antenne,5.3482,-4.0505,5.3565,-4.0665
+bf01aacc-4319-4b2d-950e-13675eab67bf,gbaka : Terminus 27/Carrefour Lokoa → Adjamé Texaco,5.3512,-4.104,5.3541,-4.0178
+083c8b4f-d44d-44fa-8a77-93eb21b5c649,gbaka : Adjamé Texaco → Terminus 27/Carrefour Lokoa,5.3541,-4.0178,5.316,-4.0903
+1c47bcaf-c853-4289-ab96-a233f9b63972,gbaka : Samake → Yopougon Siporex,5.356,-4.0733,5.3565,-4.0734
+c6f0a761-418d-4bc1-a224-e46a7de9f70a,gbaka : Adjamé Mosquée → Yopougon Palais,5.3571,-4.0261,5.3262,-4.0772
+7f604106-c5f1-4d93-8209-c6fc52d571bd,gbaka : Adjamé Agban → Mossikro,5.3415,-4.0463,5.3587,-4.0315
+5bd7b633-aef0-4131-aa44-af89ad68b175,woro woro : Camp Militaire → Palais,5.3254,-4.0769,5.319,-4.0616
+64052f03-cff2-4ded-b5d1-aea17724177a,woro woro : Palais → Camp Militaire,5.3252,-4.0771,5.319,-4.0616
+e680a894-c308-4c46-af58-7f9d6e980936,woro woro : Toit rouge Jean-Paul 2 → Koweit,5.3222,-4.0541,5.3306,-4.0474
+6be7ca5b-4d93-4420-ade7-04f1acbcd35d,woro woro : Koweit → Toit rouge Jean-Paul 2,5.3222,-4.0541,5.3306,-4.0474
+cd09857a-2009-4d81-9198-dbf8676bc947,woro woro : Koweit → Camp Militaire,5.3222,-4.0541,5.319,-4.0616
+56c75d34-8302-40c5-9aac-93d1a6c998ba,woro woro : Camp Militaire → Koweit,5.319,-4.0616,5.3222,-4.0541
+2ebb7652-e22b-4643-88a6-3854a11cb001,woro woro : Sapeur Pompier → Palais,5.3283,-4.0612,5.3254,-4.0769
+ca96c7e1-8651-4722-be4d-dbc9d7f185f2,woro woro : Palais → Sapeur Pompier,5.3283,-4.0612,5.3252,-4.0771
+8e28fa80-5d7f-4b26-b3a6-2c1a02429252,gbaka : Mossikro → Adjamé Agban,5.3414,-4.0462,5.3587,-4.0315
+bdbae56a-735a-4657-875c-7d584cbc31c9,woro woro : Complexe → BHCI,5.3408,-4.0625,5.3408,-4.073
+dfab8755-9b82-44d4-b84e-3926cb7f638e,woro woro : BHCI → Complexe,5.3408,-4.0625,5.3408,-4.073
+862c164f-0e03-41b3-9521-bdbb0e9da012,woro woro : Nouveau Goudron → Keneya,5.3553,-4.0793,5.3467,-4.0737
+d8c9d07d-7332-42a6-96b7-0202831a103a,woro woro : Keneya → Nouveau Goudron,5.3553,-4.0793,5.3467,-4.0738
+bda73bf8-155d-46c3-8b07-74790b4640c4,woro woro : Sable nouveau goudron → Zone industrielle,5.3563,-4.0663,5.3692,-4.0802
+e0ee652a-5357-4e08-99db-4e6834496146,woro woro : Gendarmerie → Cité policère,5.435,-4.0176,5.4281,-4.0201
+be6c23a9-7d8a-44b2-a4ac-456535d22dc0,gbaka : Attécoubé Garage → Camp Militaire,5.3344,-4.055,5.3197,-4.0617
+8b3ba78f-3b21-48d7-a97d-afb5aeeb237e,gbaka : Attécoubé Garage → Boissy,5.3284,-4.0496,5.3344,-4.055
+b22edcae-d04b-4a7e-aafc-a10aee21b8d3,gbaka : Mossikro → Attécoubé Garage,5.3414,-4.0462,5.3535,-4.0332
+b06709b1-e22c-41b5-85e6-3bf2a803d9a1,gbaka : Attécoubé Garage → Locodjro,5.3145,-4.0353,5.3537,-4.0332
+2dc976ca-de01-4560-8eae-e4a183925176,gbaka : Attécoubé Garage → Gesco Rond Point,5.3537,-4.0332,5.3585,-4.0994
+2e20fd68-83f9-4924-a1ed-f31e866c5094,woro woro : Zone industrielle → Sable nouveau goudron,5.3563,-4.0663,5.3692,-4.0802
+c2b9598d-31de-40ef-b3f6-3e1a86706715,gbaka : Maroc Antenne → Djeni Kobenan,5.3512,-4.104,5.3531,-4.0171
+e80e2304-1c5f-4fbd-9bf0-5d20fa0d8e9b,gbaka : Palais → Djeni Kobenan,5.3263,-4.0771,5.3618,-4.0175
+47421f3c-f3a8-4bec-9a1b-7c6d47e9ac58,woro woro : Zone industrielle → Carrefour Zone,5.369,-4.0806,5.3557,-4.0849
+2d1c39bc-b711-4a33-9359-5fc8318be6fa,woro woro : Carrefour Zone → Zone industrielle,5.3557,-4.0849,5.3695,-4.0802
+4a98fbd6-9ce1-4929-8a97-7442b5807965,gbaka : Koweit → Texaco,5.3345,-4.0623,5.3222,-4.0543
+83103c4f-17c1-4dab-8c2b-6167d3322369,gbaka : Texaco → Koweit,5.3345,-4.0623,5.3223,-4.055
+c7039922-4aea-4da5-aa18-5442371d6e19,woro woro : Micao → Carrefour Zone,5.3778,-4.0963,5.3557,-4.0849
+a7d5fb58-b88b-405b-9282-cfe544e317a5,gbaka : Bingerville → Adjamé gare en haut,5.3534,-3.877,5.3503,-4.0225
+1a9ec9f6-23f6-4dfa-8313-7954632ca94e,gbaka : Bingerville Agban → Escallier,5.3106,-3.8546,5.3558,-3.8819
+38cfa9d9-4507-4c1e-9e2f-f56fa85c7296,gbaka : Adjamé gare en haut → Bingerville,5.3503,-4.0225,5.3531,-3.8767
+6b0220f1-e02b-46f1-afab-d620e7b5c051,gbaka : Escallier → Bingerville Agban,5.3106,-3.8546,5.3558,-3.8819
+ace22cfe-2f7e-4b72-b546-d070de74b142,gbaka : Bingerville Nouvelle Gare → Adjamé Liberté KFC,5.3531,-3.8776,5.3533,-4.012
+94733f47-6ca4-4938-ab02-9b253832729b,gbaka : Brégbo → Escallier,5.3053,-3.8265,5.3558,-3.8819
+4973df55-8bf1-4e5c-b123-45848d74820a,gbaka : Adjamé Liberté KFC → Bingerville Nouvelle Gare,5.3537,-4.0119,5.353,-3.8775
+19413a25-a5f6-489d-b18a-55e84eedf9a7,gbaka : Escallier → Brégbo,5.3053,-3.8265,5.3558,-3.8819
+4c215bd4-0871-410c-a1a8-2efad02c6a42,woro woro : Pharmacie Santé → Carrefour Power,5.4238,-4.0151,5.4249,-3.9902
+95bde97f-a18e-46cd-a45f-b2404674dc76,gbaka : Adjamé gare en haut → Akouedo Attié,5.3502,-4.023,5.3506,-4.023
+9244536a-3d1b-49ab-afea-39dd58ce2384,gbaka : Abobo Gare → Ndotre,5.4433,-4.0694,5.4434,-4.0692
+fd6fa74d-f52d-4786-9e2e-fed7811312cc,gbaka : Bingerville → Gare Kobenan Agban,5.353,-3.8775,5.3607,-4.018
+523ef31e-a016-4172-9c65-557fe4080cfb,gbaka : Ndotre → Yopougon Carrefour zone,5.4411,-4.0691,5.3557,-4.0849
+cb1a8eba-7f38-443e-bb65-fe1d5c9d85c8,gbaka : Gare Kobenan Agban → Bingerville,5.362,-4.0173,5.353,-3.8775
+c49fffa6-0746-47b3-a113-c1a762e9b17b,gbaka : Yopougon Carrefour zone → Ndotre,5.3557,-4.0849,5.4411,-4.0689
+7eb9524b-5f5e-4c96-b0c8-6d55c8bb2aaf,gbaka : Bingerville → Adjame Agban,5.3534,-3.877,5.3588,-4.0309
+e4617488-6bf1-4a01-9be5-966808997506,woro woro : Carrefour Zone → Micao,5.3557,-4.0849,5.3778,-4.0963
+adbd702f-7535-46ac-b3e2-93449d6bf396,gbaka : Adjame Agban → Bingerville,5.3588,-4.0309,5.3534,-3.877
+6ac03f6e-a20d-4280-81a8-a162adf81f3a,woro woro : Carrefour CHU → Keneya,5.355,-4.0892,5.3467,-4.0737
+6b241483-e09a-4e93-88bc-234b07a307ce,gbaka : Bingerville → Sable,5.3524,-3.8767,5.3565,-4.0665
+a0a0e456-8489-4b80-9db0-fc5eadb90f74,woro woro : Keneya → Carrefour CHU,5.355,-4.0892,5.3467,-4.0738
+6007b42f-ffee-4704-be3c-ce306fdc3c2c,woro woro : Gabriel Gare → Mairie,5.3439,-4.0678,5.3557,-4.0716
+126f81fa-d8cf-4dd6-8970-e5520c18a989,gbaka : Sable → Bingerville,5.3562,-4.0668,5.3563,-4.0669
+549d2f5d-53a3-4741-b1d5-731d3e35a58f,woro woro : Mairie → Gabriel Gare,5.3439,-4.0678,5.3557,-4.0716
+d63fd6df-dfe6-4be2-9f85-0dcc8aed4465,woro woro : Gabriel Gare → Bel air,5.3466,-4.0639,5.3557,-4.0716
+0d40a4b4-2a30-4651-a4d9-25281c99539d,woro woro : Bel air → Gabriel Gare,5.3466,-4.064,5.3557,-4.0716
+0aa93c01-b4cf-42bb-a35e-49bfa62e88f9,woro woro : Coopec ananeraie → Carrefour Oasis,5.3549,-4.0953,5.3473,-4.0953
+40928084-92b1-4f4d-937b-bac6e8b2b5f3,gbaka : Bingerville Nouvelle Gare → Renault,5.3524,-3.8767,5.3549,-4.0186
+dde68991-272d-4be3-8ed7-514e17a3a8ff,woro woro : Carrefour Oasis → Coopec ananeraie,5.3549,-4.0953,5.3473,-4.0953
+7ac823f4-06b5-4f42-afce-1c17f85e1808,woro woro : Coopec ananeraie → Keneya,5.347,-4.0953,5.3467,-4.0737
+243a1684-ab2d-43fa-a69f-494feedf7ba3,woro woro : Keneya → Coopec ananeraie,5.347,-4.0953,5.3467,-4.0738
+7a174e58-65f7-40ca-9aef-24fa1f7b636a,gbaka : Renault → Bingerville Nouvelle Gare,5.3553,-4.0195,5.3524,-3.8767
+260a9a12-0a27-4a24-ade9-83f9931f418f,gbaka: Abobo PK 18 → Abobo Gare Mairie,5.4501,-4.0526,5.4218,-4.0183
+fd7bbd8d-05fb-478f-8a57-48236e413798,woro woro : Keneya → Bel air,5.3466,-4.0639,5.3467,-4.0729
+2359a993-c34a-454d-a4a5-1c4226cf03da,woro woro : Bel air → Keneya,5.3466,-4.064,5.3467,-4.0729
+e05dab1a-0eab-42bd-9dfb-5b1f9142fae8,gbaka : Yopougon Carrefour Zone → Abobo Gendarmerie,5.3698,-4.0801,5.4411,-4.0689
+9c29ba6c-08bf-4db7-a4cd-d3c3a0458664,woro woro : Koweit → Palais,5.3222,-4.0508,5.3254,-4.0769
+41e4b01e-9a69-40e5-aee9-ef733cf9dde3,woro woro : Palais → Koweit,5.3252,-4.0771,5.3222,-4.0508
+14f96c60-37ca-402e-a3bb-01da0566ac32,gbaka : Abobo Gendarmerie → Yopougon Carrefour Zone,5.4325,-4.0686,5.3698,-4.0801
+26a1958a-2f50-4b1a-aaa8-595753c9f5cb,gbaka : Gare d'Anyama → Abobo Gare,5.4807,-4.0533,5.4218,-4.0183
+a7ad67f3-3714-44d7-bf53-020f97cdcef4,gbaka : Abobo Gare → Gare d'Anyama,5.4218,-4.0182,5.4809,-4.0529
+642464b5-ed9f-4d33-a57f-e78d58c4aa87,gbaka : Pk Direct → Adjamé Texaco,5.4614,-4.0539,5.3541,-4.0178
+e5c9d368-731b-440e-86f4-d024e4dc9ca8,gbaka : N'dotre → Yopougon Siporex,5.387,-4.0771,5.4411,-4.0689
+d82868d0-673f-49cb-97b9-4d015aea747a,gbaka : N'dotre → Adjamé Texaco,5.387,-4.0771,5.4411,-4.0689
+d7f549ee-8120-4d7e-a8c5-5f00025037e1,gbaka : Pk 18 ancien marché → Samake,5.4499,-4.0524,5.4155,-4.0063
+80016afd-7da6-46d5-b4d0-78bb9237ab92,gbaka : Adjamé Texaco → N'dotre,5.4411,-4.0691,5.3869,-4.0772
+c61798bf-86ac-40c7-886e-73e19d70755b,gbaka : Yopougon Siporex → N'dotre,5.4411,-4.0691,5.3869,-4.0772
+4752fbd4-953c-4c45-b339-8041088590f2,gbaka : Adjamé → Agripac,5.364,-4.0292,5.4444,-4.0486
+e24c522b-28d3-4c4c-9130-1f4bb914df55,gbaka : Adjamé Mirador → Anyama,5.3571,-4.0261,5.5067,-4.0536
+621456d0-d51a-4357-9cf9-5306d7df24bf,woro woro : Bel air → Mossikro,5.3466,-4.0628,5.3409,-4.0467
+35f79420-8249-4f39-b2e8-42a80cab73c3,gbaka : Anyama → Adjamé Mirador,5.4807,-4.053,5.3572,-4.0266
+22b1c9bc-bf90-470c-9067-d5c87b81972e,gbaka : Ancien Marché Pk18 → Adjamé Sous le Pont,5.4501,-4.0526,5.364,-4.0292
+c2cd1d2e-2568-442f-ac0f-34a92f95e714,gbaka : Treichville → Agripac,5.256,-3.9968,5.4436,-4.0484
+693cd573-de56-4d8c-9695-6d7d1f837a0c,gbaka : Agripac → Treichville,5.4445,-4.0484,5.2557,-3.997
+984b64a5-160c-47b7-8f8c-d2e59f2358df,woro woro : Nouveau goudron → Abatta village,5.3704,-3.9287,5.3283,-3.9167
+cfc67cf0-49f3-410b-b929-853f5df188b7,woro woro : CHU Angré → Abobo Azur Mobil,5.4075,-3.9886,5.4,-4.0059
+e43b15bd-6fd2-4188-a453-c14b4f3d3aab,woro woro : Achokoi → Coopec,5.3581,-3.8838,5.3761,-3.8351
+1dcf6029-3945-4da3-a342-817d618f2767,woro woro : Coopec → Achokoi,5.3581,-3.8838,5.3761,-3.8351
+0403ecd4-3de8-43b8-896f-6301cb0f0b1f,woro woro : Abobo Azur Mobil → CHU Angré,5.3999,-3.9564,5.4,-4.0059
+5a94a1a7-e693-458c-8ffe-548551e15c0d,woro woro : Adjin → Coopec,5.3581,-3.8836,5.394,-3.8547
+278395f2-22d0-4376-a3a7-8de5375aec9a,woro woro : Coopec → Adjin,5.3581,-3.8836,5.394,-3.8547
+87822a2a-2c98-454e-891d-8e923d48b165,woro woro : Abobo Azur Mobil → 8e Tranche CNPS en haut,5.3789,-3.9718,5.4,-4.0064
+d3c8090c-3eee-41be-a377-afa503c17c55,woro woro : Brégbo → Nouvelle gare,5.3053,-3.8265,5.3534,-3.877
+eacdccfd-c005-4f41-979d-2f100378270c,woro woro banalisé : Yopougon → Palmeraie,5.3435,-4.0723,5.3623,-3.9593
+bfe52939-c2c2-4884-8cf5-c88460c9358f,woro woro : Angré Château → Abobo Azur Mobil,5.4153,-3.9774,5.4,-4.0062
+e62322fc-f6cb-4809-b639-cf7e082c9e05,woro woro : Carrefour Lycée → CTAO,5.3032,-3.976,5.3083,-3.9566
+54d9e21a-86a6-4d31-a978-43f941f5a6b1,woro woro :CTAO → Gare Sotra Marcory,5.3083,-3.9836,5.3083,-3.9566
+6a2c79aa-7813-4e90-8789-667b21dd9c80,woro woro : Gare Sotra Marcory → CTAO,5.3083,-3.9836,5.3083,-3.9566
+9bb4efa1-e44f-4901-830c-9c467644b642,woro-woro : Mairie de Marcory - Hibiscus,5.2995,-3.9797,5.2908,-3.9902
+139e1275-77ad-4b3c-8db6-b46b4b01ad98,woro woro : Nouvelle gare → Brégbo,5.3053,-3.8265,5.3531,-3.8767
+ca122512-7125-4e57-890b-96a1a423911e,woro woro : Fin Goudron → Marché Bagnon,5.3229,-4.1109,5.3371,-4.1111
+13bb7a2b-6cc3-43fe-be84-ed700b3b360b,woro woro : Marché Bagnon → Fin Goudron,5.3229,-4.1109,5.3371,-4.1111
+0be31a0e-b4ab-4e4a-acc7-9e1242cdf204,woro woro : Lokoua → Marché Bagnon,5.3371,-4.1111,5.3193,-4.0997
+c3400116-3d7f-491c-9457-722adb1b6200,woro woro : Sodepalme → Nouvelle gare,5.3163,-3.8008,5.3531,-3.8767
+ab87c641-ff13-407f-aa20-2c22ff17c9b6,woro woro banalisé : Yopougon Lavage → Plateau Super U,5.3436,-4.0723,5.3296,-4.0217
+a76c2d17-13dd-4212-92c3-eb052c6dcd14,woro woro : Azito → Terminus 27,5.3041,-4.0814,5.3159,-4.0897
+ad5303cc-f268-468e-9dff-ddd6fc6f217d,woro woro : Terminus 27 → Azito,5.3041,-4.0814,5.3159,-4.0897
+3e71e09d-0483-4f02-88fb-6492e0df4bc5,woro woro : Biabou → Abobo Gare,5.4566,-3.9729,5.4195,-4.0154
+586ad4da-ea92-4e95-9993-efc8bb06eae7,woro woro : Agripac → Gendarmerie,5.4441,-4.0493,5.4259,-4.0206
+dfd4baa9-2455-4d84-99e4-d6876fd6482f,woro woro : Abobo Gare → Biabou,5.4565,-3.9729,5.4195,-4.0154
+9b0e1dbb-95b2-4178-9413-29d6677c1397,woro woro : Houphouet-Boigny → Abobo Gare,5.4243,-4.0192,5.4244,-4.0191
+97ff5c4d-f2ec-4c39-afaf-29ed6ac32d17,woro woro : Abobo Gare → Houphouet-Boigny,5.4214,-4.0176,5.4244,-4.0191
+47a533e7-018b-4418-a837-ba18edd15206,woro woro : Centre Culturel → 4 Croix,5.4209,-4.0144,5.4798,-3.983
+273c496a-220e-4b0f-8373-028bcdcb30fc,woro woro : N'dotré → Agripac,5.4433,-4.0694,5.4434,-4.0692
+f3a706e2-9242-4c44-9c06-51a12ad85df1,woro woro : Gare d'Abobo → Abobo Baoule,5.4195,-4.0154,5.4212,-3.9905
+a48daa44-7c10-43fb-bcaa-c315e3396760,woro woro : Belle Côte- Palmeraie → Abobo Azur Mobil,5.3664,-3.9606,5.4,-4.0062
+e1c4b661-f7fe-4470-a1fe-10e56dcb5c4c,woro woro : Marché Avocatier → Gendarmerie,5.4406,-4.0261,5.4278,-4.0202
+67466e53-2db6-430f-91e7-b8a7964b5815,woro woro : Gendarmerie → Marché Avocatier,5.4406,-4.0261,5.4265,-4.02
+1d3a1cc8-5690-4575-a1f1-13268b05e354,woro woro : Bocabo → Après les Rails,5.4255,-4.0342,5.4255,-4.0219
+b78f6d55-86b7-49b6-a34c-fbb4439ecc1a,woro woro : Après les Rails → Bocabo,5.4255,-4.0342,5.4258,-4.0222
+56811098-9201-4fef-a0d0-321c9c39444f,woro woro : Carrefour Angre → La vie,5.4141,-3.9954,5.3492,-4.0024
+ac333b19-21e2-4085-bb46-451db25a11c0,woro woro : St Marc- Palmeraie → Abobo Azur Mobil,5.3664,-3.9606,5.4,-4.0062
+b1e6264e-7a69-4b46-a9f1-cece6da995a8,woro woro : Mary'se - Palmeraie → Abobo Azur Mobil,5.3783,-3.9592,5.4,-4.0062
+f003efd7-980d-4d58-a3ea-50669e6fd285,woro woro : Abobo Azur Mobil → Mary'se - Palmeraie,5.4,-4.0062,5.3664,-3.9606
+a3982a78-0a61-4fb3-8284-f296850ecf4d,woro woro : Carrefour Angre → Marché Cocovico,5.4141,-3.9954,5.4086,-3.987
+3bdf67ef-ff2b-4fd1-8ee5-48ab5936286b,woro woro : Marché Cocovico → Carrefour Angre,5.401,-3.9782,5.4141,-3.9954
+f5daa62e-5ca3-4acb-975f-cc9151f4002d,woro woro : CHU Angre → Carrefour Angre,5.3999,-3.9564,5.4141,-3.9954
+1fb5d0cb-85f6-47ac-85ac-f40132d92b40,woro woro : Carrefour Angre → CHU Angre,5.4141,-3.9954,5.4086,-3.987
+a9306a39-765c-40b9-b364-90deca538347,woro woro : Carrefour Angré → St Jean,5.4141,-3.9954,5.3365,-4.004
+d7162de8-51a8-4d63-bc5a-c14deb284851,woro woro : Deux plateaux Mobile → Carrefour Angré,5.369,-3.998,5.4141,-3.9954
+0f4a9e0e-6a8b-448f-a0ac-6d9e9fb424a6,woro woro : En bas → Shell Petro Ivoire,5.4044,-3.9905,5.4055,-3.9967
+cfd61b04-2070-40fd-b165-68ee8642f409,woro woro : Palmeraie Station → Carrefour Angré,5.3663,-3.9605,5.4141,-3.9954
+66957f14-958c-4d98-86e4-ec2bd8c758b8,woro woro : Carrefour Angré → Palmeraie Station,5.4141,-3.9954,5.3628,-3.9597
+a570735d-e700-4221-9bea-92ef6ecba525,woro-woro : Hibiscus - Mairie de Marcory,5.2995,-3.9797,5.2908,-3.9902
+b8d3ca14-a59e-4002-b02e-ad48a4656483,woro woro : Nouvelle gare → Sodepalme,5.3163,-3.8008,5.3531,-3.8767
+46793f3e-c787-42bf-8c72-268b5e935954,woro woro : Delacelle → Nouvelle gare,5.3699,-3.8897,5.3534,-3.877
+c790e1a6-f24d-422c-98c3-5fe6afc13035,woro woro : Nouvelle gare → Delacelle,5.3699,-3.8897,5.3534,-3.877
+63955e5d-347a-4acf-b8b1-bfd66ee1074c,woro-woro : Eloka → Nouvelle gare,5.3139,-3.8071,5.3531,-3.8767
+fd07cd85-c183-42eb-badd-db8f4b0bd6e8,woro-woro : Nouvelle gare → Eloka,5.3139,-3.8071,5.3534,-3.877
+21f8c3f8-8dab-4f6a-afb3-a441284649c1,woro woro banalisé : Plateau St Paul → Abobo St Joseph,5.3209,-4.0196,5.3219,-4.016
+435bae59-9a95-4738-8c98-35eac61cbede,woro woro : M'batto Bouaké → Nouvelle gare,5.3509,-3.794,5.3531,-3.8767
+141a1317-6b45-48ce-b192-96947f69e5bc,woro woro : Nouvelle gare → M'batto Bouaké,5.3509,-3.794,5.3534,-3.877
+e5287557-0c04-4d6f-a859-6e61bd36feab,woro woro banalisé : Treichville Gare Bassam → Abobo St Joseph,5.2988,-4.005,5.4171,-4.0167
+74d3381f-0a3d-48ac-ba23-7d3211db5a56,woro woro : Abobo Gendarmerie → Ndotre,5.4267,-4.0208,5.4434,-4.069
+32fc93eb-7355-447f-9690-1e9dbec19df7,woro woro : Saint Michel → Adjamé Liberté,5.3466,-4.0227,5.3455,-4.0191
+c1b3dacf-f0c1-41ad-88c2-0da36f994c89,woro woro : Adjamé Liberté → Saint Michel,5.3466,-4.0227,5.3455,-4.0191
+54b2be02-04d4-4690-a77f-74b959b5149b,woro woro : Grand Carrefour → Ancienne Gendarmerie,5.5126,-4.0596,5.4619,-4.0539
+58ff4d6d-624d-45b5-afc9-f8a6e048cdce,woro woro : Ancienne Gendarmerie → Grand Carrefour,5.4619,-4.0538,5.5126,-4.0596
+ac01e269-e109-4698-a4c2-2c46ea655c8e,woro woro : Williamsville Macaci → Saint Michel,5.3628,-4.0171,5.3766,-4.0255
+54cd4310-e8ed-4a34-bab3-38e943aaf8c1,woro woro : Mairie d'Anyama → Gare d'Anyama,5.4809,-4.0529,5.5072,-4.0538
+69e3b5c0-bbb3-4a73-a78c-affa0940866b,woro woro : Gare d'Anyama → Mairie d'Anyama,5.4807,-4.053,5.5067,-4.0536
+d6dc7270-fc19-403f-956f-67127924ec41,woro woro : Gendarmerie → Agripac,5.4265,-4.0206,5.4444,-4.0486
+69de677b-31c0-48d3-aebc-06705afdf975,woro woro : Saint Michel → Williamsville Macaci,5.3465,-4.0227,5.3766,-4.0255
+2e0ca437-bdbf-4a0f-a5a6-21ff082f6fc9,woro woro banalisé : Mairie d'Adjamé → Plateau Super U,5.3418,-4.0262,5.3219,-4.016
+b6b5d897-1c84-48c7-866c-bdf1fa3f38fb,woro woro : 4 Croix → Centre Culturel,5.4798,-3.983,5.4209,-4.0144
+89580fe7-c154-4818-8f2e-d7e50788671f,woro woro : Williamsville Macaci → Adjamé Liberté,5.3628,-4.0171,5.3766,-4.0255
+72f80c98-4c6e-4ae5-805d-924a32984eb5,woro woro : Agripac → N'dotré,5.444,-4.0493,5.4434,-4.069
+01f0a562-74a3-4c6e-aca0-b623abab31ba,woro woro : N'dotré → La Pompe,5.4433,-4.0694,5.4434,-4.0692
+452e9c04-464b-4a63-9071-aecc4b47081f,woro woro : La Pompe → N'dotré,5.4376,-4.0339,5.4434,-4.069
+6c6cc6df-7a4a-4529-9138-fb27f9c423cc,woro woro banalisé : Plateau Longchamp → Riviera 2,5.3307,-4.0228,5.3318,-4.0228
+4c8fee20-52b5-4ae8-9bdb-aadfa3313529,woro woro : Hopital → Gare Routière,5.4998,-4.0464,5.4808,-4.0531
+eb53dc52-2ed9-4bf3-89a8-4b7b77caa7ab,woro woro : Gare Routière → Hopital,5.4807,-4.053,5.4998,-4.0464
+45cea255-ed20-4f0c-8ed4-23866892b7a7,woro woro banalisé : Yopougon 2è Pont → 2 Plateaux Mobil,5.3558,-4.074,5.369,-4
+9e13ad5b-858f-4184-be69-4f7e2db66651,woro woro : Séminaire → Gare Routière,5.4979,-4.0661,5.4809,-4.0529
+a14c95f5-9db5-4567-a040-842f4133415c,woro woro : Gare Routière → Séminaire,5.4809,-4.0529,5.4979,-4.0661
+ff6dea2f-2e81-4f0d-a09e-57bc7dc172d3,woro woro : Adjamé Mairie Dallas → Adjamé Liberté,5.3392,-4.0257,5.3414,-4.0257
+e48c15b2-e72e-47f8-a8fc-b540ec7b69eb,woro woro : Adjamé Liberté → Adjamé Mairie Dallas,5.3415,-4.0262,5.3414,-4.0252
+6a285185-e7e1-4fe1-8e56-03f58beba368,woro woro : Grand Carrefour → Gare Routière,5.4809,-4.0529,5.5126,-4.0596
+747ada45-5c4d-4694-94f4-35c00da76ee7,woro woro : Gare Routière → Grand Carrefour,5.4807,-4.053,5.5126,-4.0596
+5f54afeb-e8d8-4ff1-bb2a-4df834a8f879,woro woro banalisé : Mosquée du Plateau → 2 Plateaux Mobil,5.3198,-4.0156,5.3677,-3.9996
+f5c073ce-b5f8-492b-9074-38f5fdfd39b3,woro woro banalisé : 2 Plateaux Mobil → Plateau Sorbonne,5.3677,-3.9996,5.3242,-4.0217
+907b2ff0-8039-48b6-b258-e82933cf41f1,woro woro banalisé : Cocody Pâtisserie → Yopougon Lavage,5.3367,-4,5.3431,-4.0733
+fff95607-be9f-48b0-9d1b-9fe3033bba0a,woro woro banalisé : Yopougon Lavage → Cocody Pâtisserie,5.3435,-4.0723,5.3367,-4
+c4f8055f-ff25-4b67-9dcd-98f4a3ca0dd9,woro woro banalisé : Riviera 2 → Plateau Longchamp,5.3537,-3.9784,5.3244,-4.022
+c4cc5991-1a4e-494a-b1cd-493ce3f8cf43,woro woro banalisé : Adjamé Renault → Inades,5.3565,-4.0205,5.3396,-4.001
+a8e76692-34ca-48f3-9a82-19a2a051e475,woro woro banalisé : Carrefour Angré → Plateau St Paul,5.4141,-3.9954,5.3242,-4.0217
+058f9ae4-a961-4677-aa78-4070ec434049,woro woro banalisé : Plateau Gare Sud → Mairie d'Adjamé,5.3418,-4.0262,5.3318,-4.0228
+a0320776-91d4-46e6-b8be-304e50038e97,woro woro banalisé : 9 kilo → Plateau Mosquée,5.3242,-4.0196,5.32,-4.0155
+8a340a8d-331a-4869-98a4-6768a7dbf624,woro woro banalisé : Cocody Patisserie → Plateau Longchamp,5.3367,-4.0003,5.3244,-4.022
+2cce0300-68c7-4b22-868d-d7e5af74e6da,woro woro banalisé : Riviera 2 → Plateau Pyramide/Mosquée,5.3242,-4.0196,5.32,-4.0155
+2695f9df-dd5c-401b-bd17-20d227cfe6cd,woro woro banalisé : Riviera 2 → Plateau Telecel/Mosquée,5.3187,-4.0197,5.3198,-4.0156
+3833068d-e315-4de9-b96f-01f6234c1886,woro woro banalisé : Cocody La vie → Plateau Telecel/Mosquée,5.3187,-4.0197,5.3198,-4.0156
+86539a0b-fb48-4e1c-81ac-d50af58a7e7d,woro woro banalisé : Plateau St Paul → 9 kilo,5.3307,-4.0228,5.3318,-4.0228
+8e986fdc-0dc4-4462-84c9-5f3a983db07d,woro woro banalisé : Mairie d'Adjamé → Plateau Gare Sud,5.3418,-4.0262,5.3242,-4.0196
+5975d80a-7277-4fc9-be6e-7dd5d671679b,woro woro banalisé : Plateau Longchamp → Cocody La vie,5.3307,-4.0228,5.3318,-4.0228
+6fd517f2-103e-4732-8895-30fea16be784,woro woro banalisé : Cocody La vie → Koumassi Bacongo,5.3484,-4.0039,5.2888,-3.971
+43fff325-0650-4364-a583-7fd80fad2b6c,woro woro : Gare Attécoubé → Gare Nord en Haut,5.3453,-4.0372,5.349,-4.0345
+5857c8aa-3c1e-47d0-9799-bb281ab3baff,woro woro banalisé : 9kilo → Plateau Telecel/Mosquée,5.3187,-4.0197,5.3198,-4.0156
+a430ac5e-369e-4b52-b72c-2528ab8e51cd,woro woro : Gare Nord en Haut → Gare Attécoubé,5.3453,-4.0372,5.349,-4.0345
+a26172a4-4aa3-4e4a-bd8a-84f093f10a03,woro woro banalisé : 2 Plateaux Mobil → Yopougon 1er pont,5.369,-4,5.3435,-4.0723
+b574565d-a567-4566-b000-78bdc228a0a7,woro woro banalisé : Plateau par Longchamp → Palmeraie,5.3307,-4.0228,5.3318,-4.0228
+f397e1a8-7085-4663-b48a-5ec5f9272ac4,woro woro banalisé : Palmeraie → Plateau par Pyramide/Mosquée,5.3242,-4.0196,5.32,-4.0155
+53902a83-8076-4c66-8721-33d23344a918,woro woro banalisé : Palmeraie → Plateau par Longchamp,5.3623,-3.9593,5.3244,-4.022
+6db56ff8-66de-4218-bbc0-d85e280a7824,woro woro banalisé : Palmeraie → Plateau Telecel/Mosquée,5.3187,-4.0197,5.3198,-4.0156
+e55f2edd-496d-4848-a22a-f00e4dd078fc,woro woro : Treichville Gare de Bassam → Bolloré,5.2983,-4.0039,5.309,-4.0169
+4c0fc8fd-fea8-4b65-8fd4-a299abef08da,woro woro banalisé : Abobo St Joseph → Plateau St Paul,5.4166,-4.0168,5.3242,-4.0217
+a205d026-25ea-4a0e-a2f5-a9e48cd79d7d,woro woro banalisé : Cocody Pâtisserie → Abobo St Joseph,5.3367,-4.0003,5.4174,-4.0168
+1de6a413-7cef-431f-bb6d-138b0dc9ba40,woro woro : Marché de Belleville → Marché de Treichville,5.3058,-3.9981,5.3096,-4.0132
+1b3c707b-0bcd-46d6-be51-e482ee321cc0,woro woro : Marché de Treichville → Marché de Belleville,5.3096,-4.0132,5.3058,-3.9981
+f479eadd-17e6-4b47-8b07-7dc0cbb95432,woro woro banalisé : Cocody 2 Plateaux → Mairie d'Adjamé,5.3686,-4.0014,5.3418,-4.0262
+2854cdd1-43ab-4d27-9953-87249da65224,woro woro : Gare Marcory → Marché de Belleville,5.3037,-3.9872,5.3058,-3.9981
+91386bc3-b79f-4057-812a-235d885f79be,woro woro banalisé : Plateau Super U → Yopougon Lavage,5.3209,-4.0196,5.3437,-4.0733
+0d0322d0-0974-41b0-be44-ef909de97c4c,woro woro banalisé : Blockhauss → Mairie d'Adjamé,5.3251,-4.0015,5.3404,-4.0263
+797db8b0-9d5f-48fd-88fe-f8a498bd0659,woro woro banalisé : Mairie d'Adjamé → Blockhauss,5.3404,-4.0263,5.3405,-4.0156
+e28a79e8-2688-4d5d-b277-41d3aa975109,woro woro : Adjamé Mosquée → Mairie d'Adjamé,5.3541,-4.0265,5.3424,-4.026
+9b7000f4-a1cc-47fc-a2bd-78a814df0872,woro woro : Mairie d'Adjamé → Adjamé Mosquée,5.3424,-4.026,5.3541,-4.0265
+65f9d867-b936-4348-9012-eaa6644e7a50,woro woro banalisé : Plateau Mosquée → Mairie d'Adjamé,5.3418,-4.0262,5.3318,-4.0228
+9f962db2-f5f8-411c-8171-ef14b2f3180c,woro woro banalisé : Mairie d'Adjamé → Marcory Marché,5.3415,-4.0262,5.3414,-4.0252
+04a95cd5-fcf9-4d3d-addd-ec25cf3c6454,woro woro banalisé : Mairie d'Adjamé → Cocody Pâtisserie,5.3404,-4.0263,5.3405,-4.0156
+38cf2dd3-ea96-4d4f-949e-a7d05cc21a68,woro woro : Boribana → Gare Nord en Haut,5.3413,-4.0315,5.3591,-4.029
+0e62c3b4-f0fd-4519-9423-33a7c4b21888,woro woro : Carrefour Garage → Gare Mosquée,5.3534,-4.0331,5.354,-4.0282
+9d862404-faae-4c62-80b1-6e9071ba1880,woro woro : Gare Mosquée → Carrefour Garage,5.354,-4.0282,5.3536,-4.0329
+a978425b-5a75-4631-965c-674fecd49432,woro woro : Gare Attécoubé → Gare Mosquée,5.3453,-4.0372,5.349,-4.0345
+49969e9d-cf52-46ba-a7cc-908676fd7e56,woro woro : Gare Mosquée → Gare Attécoubé,5.3453,-4.0372,5.349,-4.0345
+f95cad12-b02a-4537-8880-b586fd4ce099,woro woro : Station Total → Marché de Treichville,5.3016,-4.0102,5.3096,-4.0132
+4895e499-e17f-4b16-b089-ce65e3ec8e7f,woro woro banalisé : Djeni Kobenan → Treichville Gare Bassam,5.362,-4.0173,5.2983,-4.003
+9152c5f4-6190-4d42-a139-0f8fd7f8c4d4,woro woro : Marché de Belleville → Gare Marcory,5.3058,-3.9981,5.3037,-3.9872
+57bd8e04-f429-4c70-90e7-3a15fd7cdb1a,woro woro banalisé : Djeni Kobenan → Plateau Super U,5.362,-4.0173,5.3231,-4.0218
+725f980b-277a-4b61-afab-1697ab435d9d,woro woro banalisé : Djeni Kobenan → Marcory Marché,5.362,-4.0173,5.3015,-3.9772
+b8e8e285-01e9-48b1-a324-609f08cf81c8,woro woro : Marché de Treichville → Station Total,5.3096,-4.0132,5.3016,-4.0102
+87d54798-9fd2-4722-9359-f96f22870b03,woro woro : STL → Treichville Gare Bassam,5.3129,-4.0101,5.2982,-4.0031
+eb2db056-0415-4f14-a82c-59ffacc7a618,woro woro : Treichville Gare Bassam → STL,5.2983,-4.0039,5.3129,-4.0101
+f0b23535-18cf-42a8-a4f7-ecc7d68b21f6,woro woro banalisé : Koumassi Bacongo → Renault,5.3037,-3.9946,5.3555,-4.02
+e83b4a15-4ca2-4f06-a603-6d21a41161c9,woro woro : CTAO → Carrefour Lycée,5.3033,-3.9761,5.3083,-3.9566
+9565d9a9-2d21-425d-8bd7-bdf98fc78480,woro woro banalisé : Marcory Marché → Renault,5.3015,-3.9772,5.3555,-4.02
+6b5b7a75-e4a8-461c-8152-7c6fe992dc19,woro woro banalisé : Plateau Super U → Renault,5.3236,-4.0167,5.3569,-4.0204
+b04a3c10-3ef0-4e64-bc7e-6a0aee786f82,woro woro banalisé : Renault → Plateau Super U,5.3219,-4.016,5.3569,-4.0204
+5aaf60fa-166b-48cb-b3cf-aa94bee80894,woro woro : Anoumabo Sans fil → Gelti,5.2881,-3.9654,5.2881,-3.9655
+e644ffec-c543-44b7-ad7e-134f984e852c,woro woro banalisé : Cocody Pâtisserie → Renault,5.3528,-4.0215,5.3525,-4.017
+20a9a38e-8db9-460e-8a96-2af8f955f27d,woro woro banalisé : CHU de Cocody → Renault,5.3528,-4.0215,5.3525,-4.017
+dcf6bc55-07f7-44ea-b7b7-f38c5e9f1f88,woro woro banalisé : Renault → 2 Plateaux Mobile,5.3569,-4.0204,5.3684,-3.9999
+7640578b-1886-478e-bbd1-4278fabc66b9,woro woro : Bolloré → Treichville Gare de Bassam,5.309,-4.0169,5.2982,-4.0031
+bcf3f0a8-615b-488e-8d0c-ef92bf94abb0,woro woro : Mairie de Treichville → Treichville Gare Bassam,5.2982,-4.0031,5.3104,-4.013
+07641030-858b-4cd8-9660-7c71d57b49fb,woro woro : Treichville Gare Bassam → Mairie de Treichville,5.2983,-4.0039,5.3104,-4.013
+2bce9b63-edb1-4d83-90ef-aea7b6f85314,woro woro : Marché de Port-Bouët → Port de Pêche,5.2567,-3.9652,5.2871,-4.0084
+35c90443-3ffb-4531-8f82-05ac5044e26d,woro woro banalisé : Anono → CHU de Treichville,5.3003,-3.9967,5.2952,-4.0029
+08b07e42-055c-46b0-96f9-54e4db30dbf1,woro woro banalisé : Treichville Gare Bassam → Plateau Longchamp,5.2986,-4.0045,5.3244,-4.022
+a9105d5d-fff8-45d0-91ce-3a1186ec5b33,woro woro : Gelti → Anoumabo Sans fil,5.2881,-3.9654,5.2881,-3.9655
+008c248a-9f78-4861-80d9-a6df481e0980,woro woro banalisé : Plateau Longchamp → Treichville Gare Bassam,5.3242,-4.0217,5.3244,-4.022
+2898c383-3ee7-4ae8-84d4-1a262d67cd89,woro woro banalisé : Treichville Gare de Bassam → 2 Plateaux Mobil,5.2988,-4.0043,5.3677,-3.9996
+aa8ffe61-b57c-4092-83fd-4f96bc592a9c,woro woro banalisé : Treichville Gare Bassam → Mairie d'Adjamé,5.2986,-4.0045,5.3418,-4.0262
+14f54752-f367-4cb6-ab79-2b6ce6de0a0f,woro woro banalisé : Palmeraie → Treichville,5.3003,-3.9967,5.2988,-4.005
+f579dca9-b831-4fe7-875a-64a3dc3742be,woro woro : Terminus 32 → Sicogi,5.3122,-3.9529,5.2882,-3.9655
+844ab5e5-816e-433d-b1fa-3afa84294b50,woro woro banalisé : Treichville → Yopougon,5.2986,-4.0045,5.3436,-4.0723
+7086136a-0687-4be2-abd9-8955721d0ae8,woro woro banalisé : Mairie d'Adjamé → Treichville Gare Bassam,5.3418,-4.0262,5.3209,-4.0196
+4c49a268-4d48-46bd-b885-ea94011f60e1,woro woro banalisé : Cocody La vie → Marcory Station,5.3484,-4.0039,5.3026,-3.9881
+5a0e9020-9575-4f60-bff9-ac6e134379e6,woro woro banalisé : Cocody La vie → Treichville Gare Bassam,5.3484,-4.0039,5.2994,-4.0024
+7bd66951-43f5-428e-85dd-141ac757e784,woro woro : Maison Blanche → Gare Sotra Marcory,5.3083,-3.9836,5.3117,-3.9608
+c18db1be-06c2-4e81-9244-31d1815bf45c,woro woro banalisé : Treichville → Carrefour Angre,5.2988,-4.0043,5.4042,-3.9907
+72996d6f-9725-416c-a903-df944636bf81,woro woro banalisé : Treichville Gare Bassam → Djeni Kobenan,5.2995,-4.0027,5.3617,-4.0175
+c6fa03c3-58c0-4bbe-bdae-7b396b34db1f,woro woro banalisé : Carrefour Angre → Treichville,5.3208,-4.0197,5.2983,-4.003
+9b31a2a8-2a41-44a8-b2b8-a604a981a47f,woro woro : Gare Sotra Marcory → Maison Blanche,5.3085,-3.9839,5.3117,-3.9608
+d879f537-e420-4c44-9a76-a004e50482e4,woro woro banalisé : Abobo St Joseph → Treichville Gare Bassam,5.4165,-4.0166,5.2994,-4.0024
+1e1aaaab-e52c-4288-a25e-f5f48bae1266,woro woro banalisé : Liberté → Marcory Konankro,5.3529,-4.0143,5.3064,-3.9862
+667f8687-5d9b-4791-afbd-0bac28a90ba7,woro woro banalisé : Renault → Marcory Marché,5.3555,-4.02,5.3015,-3.9772
+814c401d-fcce-4815-a475-516d2d73bf4b,woro woro banalisé : Renault → Treichville Gare Bassam,5.3555,-4.02,5.2998,-4.0016
+72ddd716-5294-4362-91e1-6e9ce1f4d03b,woro woro : Koumassi grand marché → Ancien Koumassi,5.2877,-3.9672,5.2755,-3.9658
+ddad1348-e690-4a11-bcd6-806e54da6e2c,woro woro : Koumassi grand marché → Anoumabo sans fil,5.3069,-3.964,5.2939,-3.9597
+cf1d208f-532b-4ed0-8857-571cd22ddd5f,woro woro : Anoumabo sans fil → Koumassi grand marché,5.3069,-3.964,5.2937,-3.9596
+e4c6db64-fb49-409a-92ff-32ff4546d1a9,woro woro banalisé : Koumassi Bacongo → Mairie d'Adjamé,5.3382,-4.0253,5.341,-4.0252
+86cc087e-6eb4-47a6-9148-5780bfcf99cc,woro woro banalisé : Marcory Konankro → Liberté,5.3064,-3.9862,5.3534,-4.0161
+9c781d0c-279d-4dee-ad2a-63ddc9affe31,woro woro : Koumassi Hôpital général → Anoumabo sans fil,5.2869,-3.9688,5.2881,-3.9655
+2065bbed-a087-4e4b-9014-a54cd4033358,woro woro banalisé : Liberté → Marcory Marché,5.3529,-4.0143,5.3015,-3.9772
+5a6ee5dd-f0e2-44a1-a624-aa8ae32439d7,woro woro : Gelti → Marché de Port-Bouët,5.2882,-3.9655,5.2676,-3.9616
+f3c8ad22-e180-4cc7-a973-0bb4bdd4e019,woro woro banalisé : CHU de Treichville → Anono,5.2951,-4.0029,5.3466,-3.9751
+863e98b2-1cc4-4f8f-a39a-d3ac69c9e9e5,woro woro banalisé : Koumassi → Anono,5.2904,-3.9715,5.3466,-3.9751
+92822995-1355-4785-ba03-b8ffc6ee34aa,woro woro banalisé : Anono → Koumassi,5.3466,-3.9751,5.2888,-3.971
+78407f8a-7c5a-483e-bcc3-b36a0850a6a3,woro woro : Anoumabo sans fil → Sicogi,5.2881,-3.9654,5.2881,-3.9655
+03ddcc70-d082-41b0-b297-30c1543b8846,woro woro : Soweto → Sicogi,5.2861,-3.9528,5.2881,-3.9654
+100be805-9217-4829-be70-8feb8c5dbf78,woro woro banalisé : Riviera 2 → Marcory,5.3537,-3.9784,5.3,-3.9775
+16417ee4-26af-418c-87fd-1af7ee3ab62c,woro woro : Sicogi → Soweto,5.2861,-3.9528,5.2881,-3.9654
+2f7872e4-9be0-413a-b498-e72cf7285fdd,woro woro banalisé : Palmeraie → Koumassi Grand Carrefour,5.3623,-3.9593,5.2888,-3.971
+4e4955f1-832b-4742-9c7b-ca51a4a99130,woro woro banalisé : Treichville → Palmeraie,5.2988,-4.005,5.3608,-3.9581
+f5a1b692-948d-45a0-b4da-c99a0c670f04,woro woro : Marché de Port-Bouët → Premoto,5.2576,-3.9648,5.2698,-4.0052
+910d7983-8dc5-4b66-80e8-666e1ad64702,woro woro banalisé : Marcory → Palmeraie,5.2997,-3.9772,5.3608,-3.9581
+fe1a7e3a-c58d-4e66-90b9-5b8841644c41,woro woro banalisé : Port Bouet → Plateau Longchamp,5.3037,-3.9946,5.3244,-4.022
+8f201957-cc56-4454-84e7-2a72e7ba2a2b,woro woro banalisé : Riviera 2 → Port Bouet,5.3537,-3.9784,5.2676,-3.9616
+6831489f-c97c-4730-87bd-88f680f47909,woro woro banalisé : Port Bouet → Riviera 2,5.2661,-3.9614,5.353,-3.9789
+ce1b77e0-0f90-4439-9275-0ea0d6a51cf1,woro woro banalisé : Treichville Gare Bassam → Riviera 2,5.2988,-4.005,5.3532,-3.9782
+fd240bf2-9495-45f8-9d7d-8f6dcacfb290,woro woro : Abattoir → Gelti,5.2591,-3.9697,5.2661,-3.9616
+074b278c-7b5f-4125-9115-edb56a0777e1,woro woro banalisé : Marcory Station → Cocody La vie,5.3026,-3.9881,5.3481,-4.0025
+6fcac967-d618-40b7-adf6-5a34bf2f986d,woro woro : Gelti → Abattoir,5.2882,-3.9655,5.2595,-3.9692
+9b9a8bbf-29be-4c42-96e6-7f6ba535e740,woro woro banalisé : Cocody La vie → Port Bouet,5.3484,-4.0039,5.2676,-3.9616
+2597e732-3983-4b53-b72c-2b3411f45c63,woro woro banalisé : Koumassi Grand Carrefour → Carrefour Angre,5.288,-3.9714,5.4042,-3.9907
+e46a945c-c1a3-4720-beff-6dd0486c322d,woro woro banalisé : Carrefour Angre → Koumassi Grand Carrefour,5.4141,-3.9954,5.29,-3.9714
+b590abbd-72a4-4ab5-b3be-fcd1f0526fd5,woro woro : Marché de Port-Bouët → Gelti,5.2569,-3.9648,5.2882,-3.9655
+923bcc5a-b6bf-4be4-8211-08797578b534,woro woro banalisé : Marcory Marché → Djeni Kobenan,5.3015,-3.9772,5.3534,-4.0149
+c580ef6e-d998-41b0-b895-66054b292001,woro woro : Terminus 05 → Koumassi grand marché,5.313,-3.9439,5.2932,-3.9592
+4b18e828-7efa-436f-9715-ad18cc2286c6,woro woro : Gelti → Soweto,5.286,-3.9514,5.2881,-3.9654
+5586c10f-7eea-4a88-a571-b0989a6ea7a8,woro woro : Koumassi grand marché → Terminus 05,5.313,-3.9439,5.2936,-3.9576
+a7c40651-2b33-4593-aa99-563bef72bc9a,woro woro : Ancien Koumassi → Koumassi grand marché,5.2765,-3.9665,5.2933,-3.9578
+d27218fb-563a-49fb-afe3-25cafc53fdc3,woro woro : Koumassi campement → Koumassi grand marché,5.2936,-3.9576,5.3105,-3.9362
+6f1e1be6-752a-4c00-a72e-986fee33426b,woro woro : Koumassi grand marché → Koumassi campement,5.2936,-3.9576,5.3105,-3.9362
+37c9d8f6-d7b4-42df-b789-58dd8a658f1a,woro woro : Soweto → Koumassi grand marché,5.2938,-3.9567,5.286,-3.9514
+c74eab3b-0d6c-45b7-8e73-e0e830ab1780,woro woro : Koumassi grand marché → Soweto,5.286,-3.9514,5.2938,-3.9567
+8b367493-feb5-4604-b0e8-14b63cf2b738,woro woro banalisé : Abobo St Joseph → Koumassi Grand Carrefour,5.4165,-4.0166,5.2888,-3.971
+8815ba83-6731-4404-bb0d-b46daca3c4a0,woro woro : Anoumabo sans fil → Koumassi Hôpital général,5.3069,-3.964,5.2869,-3.9688
+899b363f-ad66-46df-8956-3cb7dd9a29dd,woro woro : Soweto → Gare communale,5.286,-3.9514,5.2965,-3.9547
+73e6e5b5-2ee2-4550-b1dc-35c0a2c5c79e,woro woro : Gare communale → Soweto,5.286,-3.9514,5.2965,-3.9547
+8dfaeffe-29b0-4ee1-a49e-827b4d969080,woro woro : Sicogi → Gare communale,5.2881,-3.9654,5.2969,-3.9551
+2882bf02-84c6-4f04-9d42-647893a52663,woro woro : Gare communale → Sicogi,5.2965,-3.9547,5.2882,-3.9655
+4c0b52ab-8030-49bf-8ad0-99a4e52d2b9e,woro woro : Sicogi → Terminus 32,5.2889,-3.9656,5.3122,-3.9529
+3c14ce5b-44c8-4d55-8c94-a045bcdeed7a,woro woro banalisé : Marcory Marché → Mairie d'Adjamé,5.3014,-3.977,5.3415,-4.0262
+78147953-1557-4f01-bc8d-ead35086ba18,woro woro : Soweto → Gelti,5.286,-3.9514,5.2881,-3.9654
+19dc9dc9-1367-484a-8a39-d416b2ae738e,woro woro banalisé : Djeni Kobenan → Koumassi,5.362,-4.0173,5.2888,-3.971
+18c539c9-f006-447b-a360-80dcdbdc0da2,woro woro : Bacongo → Soweto,5.286,-3.9514,5.2965,-3.9547
+9141d972-0a01-4baf-84e0-55746ddbea20,woro woro : Soweto → Bacongo,5.286,-3.9514,5.2965,-3.9547
+547c8d6f-5d4a-4d0c-9502-4bbaa4c5f360,woro woro banalisé : Marcory Marché → Liberté,5.3015,-3.9772,5.3534,-4.0149
+e60bf785-e533-48cc-adf0-328b64696622,woro woro banalisé : Rivera 2 → Koumassi Bacongo,5.3537,-3.9784,5.2965,-3.955
+67cc9e16-cf34-4f25-8263-55f1d60f66fd,woro woro : Vridi Canal → Marché de Port-Bouët,5.2576,-3.9648,5.2631,-4.0154
+cc397800-318a-49d9-a22f-1ca0bb817d3c,woro woro banalisé : Koumassi Bacongo → 2 Plateaux Mobil,5.2965,-3.955,5.3677,-3.9996
+2bca1eee-eb63-4aed-aeea-ba41be29cc0b,woro woro banalisé : 2 Plateaux Mobil → Koumassi Bacongo,5.3677,-3.9996,5.2965,-3.955
+e153e25f-8620-40bf-904c-e7b2ea78a085,woro woro : Marché de Port-Bouët → Vridi Canal,5.2576,-3.9648,5.2631,-4.0154
+8dda9de8-b4c6-4676-b306-37a446cb7a31,woro woro : Remblais → Soweto,5.286,-3.9514,5.296,-3.9673
+6798387a-6eb8-4560-abf5-254818e4e08a,woro woro : Soweto → Remblais,5.286,-3.9514,5.3029,-3.9584
+797ddc8c-ee92-4446-8861-f1d2aceba72c,woro woro banalisé : Bacongo → Carrefour Angré,5.2963,-3.9552,5.4042,-3.9907
+2f608c24-9cde-49bb-87ac-a15a42c3cbd7,woro woro : Marché de Port-Bouët → Anani,5.2576,-3.9648,5.2367,-3.8737
+b7ca69a1-d5a1-459a-9a03-8981fd828063,woro woro banalisé : Carrefour Angré → Bacongo,5.4141,-3.9954,5.2965,-3.955
+3c9c9643-ecaf-4181-a014-5bfa2e5559e4,woro woro banalisé : Koumassi Bacongo → Rivera 2,5.2966,-3.9553,5.3532,-3.9782
+774db517-dc30-4e5d-9952-b1357bd6002e,woro woro banalisé : Koumassi Bacongo → Cocody La vie,5.2963,-3.9552,5.3487,-4.0018
+504bbf17-db1f-40a8-9d17-159802a2e52b,woro woro : Carrefour Aéroport → Aéroport,5.2475,-3.9438,5.2582,-3.9322
+1f26b0ac-8633-4e0c-b9f8-7664c9e47853,woro woro banalisé : Koumassi Bacongo → Abobo St Joseph,5.2963,-3.9552,5.4174,-4.0168
+0741c198-536d-472a-85f5-b20a03b340ea,woro woro : Carrefour deux poteaux → Terre Rouge,5.2401,-3.8996,5.2635,-3.8998
+54b415de-d99c-4f71-8889-6ceb012a967e,woro woro : Terre Rouge → Carrefour deux poteaux,5.2401,-3.8996,5.2635,-3.8998
+0f85b297-8f80-4760-80d7-2c2de4616c7a,woro woro banalisé : Abobo St Joseph → Koumassi Bacongo,5.4166,-4.0168,5.2881,-3.9655
+404596a3-03c1-457f-aaec-9df186929443,woro woro : Benogosso → Terre Rouge,5.2401,-3.8996,5.2755,-3.8908
+9bd7c2fa-d88d-4fe5-9cc0-882a9c3c9d6c,woro woro : Terre Rouge → Benogosso,5.2401,-3.8996,5.2755,-3.8908
+5609e3d4-55e6-4f83-936d-4140403420b8,woro woro : Premoto → Marché de Port-Bouët,5.2698,-4.0052,5.2576,-3.9648
+29c6c432-26f6-4599-a9ab-b4a95734824b,woro woro banalisé :Koumassi Grand Carrefour → Abobo St Joseph,5.3037,-3.9946,5.4174,-4.0168
+b8db45ca-ccb1-4ad0-acfd-1ef56ddf79a9,woro woro banalisé : Mairie d'Adjamé → Koumassi Bacongo,5.3242,-4.0217,5.3414,-4.0252
+8fe473ee-9b0c-415b-be25-1b067b065e58,woro woro banalisé : Koumassi → Djeni Kobenan,5.3037,-3.9946,5.3607,-4.018
+4a808fd6-327a-4685-837b-08a5d0a5549c,woro woro banalisé : Koumassi → Liberté,5.288,-3.9718,5.3527,-4.0144
+0d1e21b8-133b-441a-a1bf-751af3ad4c44,woro woro banalisé : Liberté → Koumassi,5.3529,-4.0143,5.2882,-3.97
+2db08a64-7d48-4dd4-811b-7d5b09af5350,woro woro : Vridi Cité - Marché de Port-Bouët,5.2667,-3.9884,5.2567,-3.9652
+6cd31801-dd75-4f81-82dc-d7a42f624b41,woro woro : Marché de Port-Bouët → Vridi Cité,5.2576,-3.9648,5.2667,-3.9884
+73043ffb-b13a-451c-9675-20c94d07d384,woro woro : Anani → Marché de Port-Bouët,5.2374,-3.8734,5.2567,-3.9652
+496837fa-5961-4bb4-a021-f9d2e9389efe,woro woro : Port de Pêche → Marché de Port-Bouët,5.2871,-4.0085,5.2569,-3.9648
+04ec2216-ad57-4753-82fe-8f8c46125069,woro woro : Aéroport → Carrefour Aéroport,5.2475,-3.9438,5.2582,-3.9322
